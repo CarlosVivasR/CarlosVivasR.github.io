@@ -216,11 +216,11 @@ nav ul a.active { color: var(--navy); font-weight: 600; }
 .btn-ghost:hover { background: var(--bg-alt); color: var(--navy); }
 
 /* ─── Sections ───────────────────────────────────────────────────── */
-section { padding: 3.5rem 0; }
+section { padding: 2.5rem 0; }
 .section-alt { background: var(--bg-alt); }
 
 @media (max-width: 680px) {
-  section { padding: 2.5rem 0; }
+  section { padding: 2rem 0; }
 }
 
 .section-intro {
