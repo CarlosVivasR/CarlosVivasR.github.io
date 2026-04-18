@@ -1,0 +1,540 @@
+{
+  "id": 3825725,
+  "label": "Getafe 1-0 Real Betis (2016-01-09)",
+  "home": "Getafe",
+  "away": "Real Betis",
+  "score": "1-0",
+  "date": "2016-01-09",
+  "season": "2015/16",
+  "passing_network": {
+    "team": "Getafe",
+    "sub_minute": 73,
+    "nodes": [
+      {
+        "name": "Damián Suárez",
+        "full_name": "Damián Nicolás Suárez Suárez",
+        "x": 53.9,
+        "y": 70.4,
+        "passes": 36,
+        "received": 31
+      },
+      {
+        "name": "Juan Rodríguez",
+        "full_name": "Juan Antonio Rodríguez Villamuela",
+        "x": 59.1,
+        "y": 49.1,
+        "passes": 30,
+        "received": 24
+      },
+      {
+        "name": "Juan Cala",
+        "full_name": "Juan Torres Ruiz",
+        "x": 38.1,
+        "y": 28.3,
+        "passes": 24,
+        "received": 15
+      },
+      {
+        "name": "Lacen",
+        "full_name": "Mehdi Lacen",
+        "x": 64.4,
+        "y": 22.4,
+        "passes": 39,
+        "received": 29
+      },
+      {
+        "name": "Pablo Sarabia",
+        "full_name": "Pablo Sarabia García",
+        "x": 78.2,
+        "y": 45.9,
+        "passes": 27,
+        "received": 44
+      },
+      {
+        "name": "Pedro León",
+        "full_name": "Pedro León Sánchez Gil",
+        "x": 84.6,
+        "y": 41.7,
+        "passes": 16,
+        "received": 30
+      },
+      {
+        "name": "Roberto Lago",
+        "full_name": "Roberto Lago Soto",
+        "x": 62.4,
+        "y": 7.0,
+        "passes": 36,
+        "received": 28
+      },
+      {
+        "name": "Vergini",
+        "full_name": "Santiago Vergini",
+        "x": 47.7,
+        "y": 56.3,
+        "passes": 18,
+        "received": 12
+      },
+      {
+        "name": "Vicente Guaita",
+        "full_name": "Vicente Guaita Panadero",
+        "x": 14.1,
+        "y": 45.5,
+        "passes": 10,
+        "received": 8
+      },
+      {
+        "name": "Víctor Rodríguez",
+        "full_name": "Víctor Rodríguez Romero",
+        "x": 80.9,
+        "y": 36.6,
+        "passes": 21,
+        "received": 25
+      },
+      {
+        "name": "Álvaro Vázquez",
+        "full_name": "Álvaro Vázquez García",
+        "x": 69.5,
+        "y": 40.2,
+        "passes": 11,
+        "received": 22
+      }
+    ],
+    "edges": [
+      {
+        "source": 0,
+        "target": 1,
+        "count": 10
+      },
+      {
+        "source": 0,
+        "target": 3,
+        "count": 4
+      },
+      {
+        "source": 0,
+        "target": 4,
+        "count": 21
+      },
+      {
+        "source": 0,
+        "target": 5,
+        "count": 11
+      },
+      {
+        "source": 0,
+        "target": 7,
+        "count": 14
+      },
+      {
+        "source": 0,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 2,
+        "count": 4
+      },
+      {
+        "source": 1,
+        "target": 3,
+        "count": 7
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "count": 10
+      },
+      {
+        "source": 1,
+        "target": 5,
+        "count": 5
+      },
+      {
+        "source": 1,
+        "target": 6,
+        "count": 4
+      },
+      {
+        "source": 1,
+        "target": 7,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 9,
+        "count": 5
+      },
+      {
+        "source": 1,
+        "target": 10,
+        "count": 4
+      },
+      {
+        "source": 2,
+        "target": 3,
+        "count": 10
+      },
+      {
+        "source": 2,
+        "target": 6,
+        "count": 7
+      },
+      {
+        "source": 2,
+        "target": 7,
+        "count": 7
+      },
+      {
+        "source": 2,
+        "target": 8,
+        "count": 5
+      },
+      {
+        "source": 2,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 4,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 6,
+        "count": 22
+      },
+      {
+        "source": 3,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 9,
+        "count": 13
+      },
+      {
+        "source": 4,
+        "target": 5,
+        "count": 8
+      },
+      {
+        "source": 4,
+        "target": 6,
+        "count": 7
+      },
+      {
+        "source": 4,
+        "target": 9,
+        "count": 14
+      },
+      {
+        "source": 4,
+        "target": 10,
+        "count": 4
+      },
+      {
+        "source": 5,
+        "target": 6,
+        "count": 9
+      },
+      {
+        "source": 5,
+        "target": 9,
+        "count": 4
+      },
+      {
+        "source": 5,
+        "target": 10,
+        "count": 4
+      },
+      {
+        "source": 6,
+        "target": 9,
+        "count": 4
+      },
+      {
+        "source": 6,
+        "target": 10,
+        "count": 8
+      },
+      {
+        "source": 9,
+        "target": 10,
+        "count": 4
+      }
+    ]
+  },
+  "shots": [
+    {
+      "player": "Rubén Castro Martín",
+      "team": "Real Betis",
+      "x": 110.2,
+      "y": 36.7,
+      "xg": 0.085,
+      "outcome": "Wayward",
+      "minute": 3,
+      "body_part": "Head"
+    },
+    {
+      "player": "Rubén Castro Martín",
+      "team": "Real Betis",
+      "x": 101.4,
+      "y": 46.4,
+      "xg": 0.078,
+      "outcome": "Blocked",
+      "minute": 14,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Cristiano Piccini",
+      "team": "Real Betis",
+      "x": 95.6,
+      "y": 60.0,
+      "xg": 0.008,
+      "outcome": "Off T",
+      "minute": 15,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Álvaro Vázquez García",
+      "team": "Getafe",
+      "x": 101.1,
+      "y": 61.5,
+      "xg": 0.011,
+      "outcome": "Wayward",
+      "minute": 16,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Castro Martín",
+      "team": "Real Betis",
+      "x": 94.6,
+      "y": 33.9,
+      "xg": 0.065,
+      "outcome": "Blocked",
+      "minute": 27,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Víctor Rodríguez Romero",
+      "team": "Getafe",
+      "x": 113.9,
+      "y": 30.6,
+      "xg": 0.25,
+      "outcome": "Saved",
+      "minute": 33,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Jorge Molina Vidal",
+      "team": "Real Betis",
+      "x": 98.7,
+      "y": 41.7,
+      "xg": 0.093,
+      "outcome": "Off T",
+      "minute": 38,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Germán Alejandro Pezzella",
+      "team": "Real Betis",
+      "x": 108.8,
+      "y": 43.1,
+      "xg": 0.036,
+      "outcome": "Saved",
+      "minute": 43,
+      "body_part": "Head"
+    },
+    {
+      "player": "Pablo Sarabia García",
+      "team": "Getafe",
+      "x": 90.1,
+      "y": 34.7,
+      "xg": 0.015,
+      "outcome": "Saved",
+      "minute": 45,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Alfred John Momar N''Diaye",
+      "team": "Real Betis",
+      "x": 109.7,
+      "y": 33.3,
+      "xg": 0.13,
+      "outcome": "Off T",
+      "minute": 51,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Álvaro Vázquez García",
+      "team": "Getafe",
+      "x": 114.6,
+      "y": 46.5,
+      "xg": 0.166,
+      "outcome": "Goal",
+      "minute": 56,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Alfred John Momar N''Diaye",
+      "team": "Real Betis",
+      "x": 106.3,
+      "y": 28.7,
+      "xg": 0.086,
+      "outcome": "Blocked",
+      "minute": 57,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Germán Alejandro Pezzella",
+      "team": "Real Betis",
+      "x": 106.2,
+      "y": 42.3,
+      "xg": 0.026,
+      "outcome": "Saved",
+      "minute": 58,
+      "body_part": "Head"
+    },
+    {
+      "player": "Juan Torres Ruiz",
+      "team": "Getafe",
+      "x": 112.7,
+      "y": 39.0,
+      "xg": 0.079,
+      "outcome": "Off T",
+      "minute": 66,
+      "body_part": "Head"
+    },
+    {
+      "player": "Víctor Rodríguez Romero",
+      "team": "Getafe",
+      "x": 103.5,
+      "y": 28.5,
+      "xg": 0.051,
+      "outcome": "Blocked",
+      "minute": 68,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Álvaro Vázquez García",
+      "team": "Getafe",
+      "x": 116.0,
+      "y": 34.5,
+      "xg": 0.128,
+      "outcome": "Blocked",
+      "minute": 68,
+      "body_part": "Head"
+    },
+    {
+      "player": "Mehdi Lacen",
+      "team": "Getafe",
+      "x": 95.1,
+      "y": 49.2,
+      "xg": 0.029,
+      "outcome": "Off T",
+      "minute": 70,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Bernard Mensah",
+      "team": "Getafe",
+      "x": 86.7,
+      "y": 28.2,
+      "xg": 0.007,
+      "outcome": "Off T",
+      "minute": 86,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Francisco Portillo Soler",
+      "team": "Real Betis",
+      "x": 97.1,
+      "y": 38.8,
+      "xg": 0.042,
+      "outcome": "Off T",
+      "minute": 87,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Germán Alejandro Pezzella",
+      "team": "Real Betis",
+      "x": 106.2,
+      "y": 49.8,
+      "xg": 0.019,
+      "outcome": "Off T",
+      "minute": 93,
+      "body_part": "Head"
+    }
+  ],
+  "timeline": {
+    "home_events": [
+      {
+        "minute": 56,
+        "type": "Goal",
+        "player": "Álvaro Vázquez García",
+        "xg": 0.166
+      },
+      {
+        "minute": 73,
+        "type": "Substitution",
+        "player": "Álvaro Vázquez García",
+        "replacement": "Stefan Šćepović"
+      },
+      {
+        "minute": 78,
+        "type": "Substitution",
+        "player": "Víctor Rodríguez Romero",
+        "replacement": "Moisés Gómez Bordonado"
+      },
+      {
+        "minute": 85,
+        "type": "Substitution",
+        "player": "Pedro León Sánchez Gil",
+        "replacement": "Bernard Mensah"
+      },
+      {
+        "minute": 88,
+        "type": "Yellow Card",
+        "player": "Vicente Guaita Panadero"
+      }
+    ],
+    "away_events": [
+      {
+        "minute": 53,
+        "type": "Yellow Card",
+        "player": "Cristiano Piccini"
+      },
+      {
+        "minute": 61,
+        "type": "Yellow Card",
+        "player": "Juan Manuel Vargas Risco"
+      },
+      {
+        "minute": 69,
+        "type": "Substitution",
+        "player": "Jorge Molina Vidal",
+        "replacement": "Ricky van Wolfswinkel"
+      },
+      {
+        "minute": 74,
+        "type": "Substitution",
+        "player": "Petros Matheus dos Santos Araújo",
+        "replacement": "Joaquín Sánchez Rodríguez"
+      },
+      {
+        "minute": 80,
+        "type": "Substitution",
+        "player": "Daniel Ceballos Fernández",
+        "replacement": "Rafael van der Vaart"
+      },
+      {
+        "minute": 91,
+        "type": "Yellow Card",
+        "player": "Germán Alejandro Pezzella"
+      }
+    ]
+  }
+}

@@ -501,6 +501,52 @@ section { padding: 2rem 0; }
 .interest-card h3 { font-size: 1rem; margin-bottom: 0.6rem; }
 .interest-card p  { font-size: 0.9rem; }
 
+/* ─── Interest Icons (SVG) ────────────────────────────────────────── */
+.interest-icon svg {
+  display: block;
+}
+
+/* ─── Project Inline Link (inside interest card) ──────────────────── */
+.project-inline-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.project-inline-link:hover {
+  border-color: var(--accent);
+  background: var(--white);
+  transform: translateX(2px);
+}
+.project-inline-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.project-inline-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.project-inline-text strong {
+  color: var(--navy);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.project-inline-sub {
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+.project-inline-link:hover .project-inline-sub {
+  color: var(--accent2);
+}
+
 /* ─── Contact ────────────────────────────────────────────────────── */
 .contact-container { text-align: center; }
 .contact-container h2 { margin-bottom: 0.75rem; }

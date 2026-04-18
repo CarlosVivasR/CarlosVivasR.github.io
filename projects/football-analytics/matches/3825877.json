@@ -1,0 +1,271 @@
+{
+  "id": 3825877,
+  "label": "Athletic Club 1-1 Granada (2016-04-03)",
+  "home": "Athletic Club",
+  "away": "Granada",
+  "score": "1-1",
+  "date": "2016-04-03",
+  "season": "2015/16",
+  "passing_network": null,
+  "shots": [
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 110.8,
+      "y": 36.0,
+      "xg": 0.102,
+      "outcome": "Off T",
+      "minute": 9,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Juan Isaac Cuenca López",
+      "team": "Granada",
+      "x": 106.2,
+      "y": 25.8,
+      "xg": 0.049,
+      "outcome": "Blocked",
+      "minute": 14,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Íñigo Lekue Martínez",
+      "team": "Athletic Club",
+      "x": 105.0,
+      "y": 47.3,
+      "xg": 0.135,
+      "outcome": "Goal",
+      "minute": 27,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Aritz Aduriz Zubeldia",
+      "team": "Athletic Club",
+      "x": 108.6,
+      "y": 43.8,
+      "xg": 0.252,
+      "outcome": "Blocked",
+      "minute": 30,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Aritz Aduriz Zubeldia",
+      "team": "Athletic Club",
+      "x": 108.1,
+      "y": 56.0,
+      "xg": 0.036,
+      "outcome": "Post",
+      "minute": 30,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Íñigo Lekue Martínez",
+      "team": "Athletic Club",
+      "x": 106.3,
+      "y": 31.2,
+      "xg": 0.083,
+      "outcome": "Off T",
+      "minute": 35,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Aritz Aduriz Zubeldia",
+      "team": "Athletic Club",
+      "x": 108.0,
+      "y": 40.0,
+      "xg": 0.783,
+      "outcome": "Post",
+      "minute": 44,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 109.5,
+      "y": 46.2,
+      "xg": 0.058,
+      "outcome": "Off T",
+      "minute": 45,
+      "body_part": "Head"
+    },
+    {
+      "player": "Mikel San José Domínguez",
+      "team": "Athletic Club",
+      "x": 110.6,
+      "y": 39.8,
+      "xg": 0.064,
+      "outcome": "Off T",
+      "minute": 46,
+      "body_part": "Head"
+    },
+    {
+      "player": "Dimitri Foulquier",
+      "team": "Granada",
+      "x": 108.9,
+      "y": 54.2,
+      "xg": 0.045,
+      "outcome": "Blocked",
+      "minute": 56,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Íñigo Lekue Martínez",
+      "team": "Athletic Club",
+      "x": 101.3,
+      "y": 27.5,
+      "xg": 0.053,
+      "outcome": "Blocked",
+      "minute": 61,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Robert Ibáñez Castro",
+      "team": "Granada",
+      "x": 110.2,
+      "y": 52.6,
+      "xg": 0.06,
+      "outcome": "Off T",
+      "minute": 66,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Abdoulaye Doucouré",
+      "team": "Granada",
+      "x": 102.0,
+      "y": 42.4,
+      "xg": 0.023,
+      "outcome": "Saved Off Target",
+      "minute": 71,
+      "body_part": "Head"
+    },
+    {
+      "player": "Adalberto Peñaranda Maestre",
+      "team": "Granada",
+      "x": 107.3,
+      "y": 28.6,
+      "xg": 0.085,
+      "outcome": "Goal",
+      "minute": 76,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Iñaki Williams Arthuer",
+      "team": "Athletic Club",
+      "x": 116.4,
+      "y": 46.5,
+      "xg": 0.321,
+      "outcome": "Post",
+      "minute": 82,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "David Barral Torres",
+      "team": "Granada",
+      "x": 90.8,
+      "y": 55.0,
+      "xg": 0.013,
+      "outcome": "Blocked",
+      "minute": 87,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 107.5,
+      "y": 47.3,
+      "xg": 0.131,
+      "outcome": "Saved",
+      "minute": 91,
+      "body_part": "Right Foot"
+    }
+  ],
+  "timeline": {
+    "home_events": [
+      {
+        "minute": 4,
+        "type": "Substitution",
+        "player": "Sabin Merino Zuloaga",
+        "replacement": "Íñigo Lekue Martínez"
+      },
+      {
+        "minute": 16,
+        "type": "Yellow Card",
+        "player": "Aritz Aduriz Zubeldia"
+      },
+      {
+        "minute": 27,
+        "type": "Goal",
+        "player": "Íñigo Lekue Martínez",
+        "xg": 0.135
+      },
+      {
+        "minute": 47,
+        "type": "Yellow Card",
+        "player": "Carlos Gurpegi Nausia"
+      },
+      {
+        "minute": 69,
+        "type": "Substitution",
+        "player": "Markel Susaeta Laskurain",
+        "replacement": "Mikel Rico Moreno"
+      },
+      {
+        "minute": 78,
+        "type": "Substitution",
+        "player": "Carlos Gurpegi Nausia",
+        "replacement": "Iñaki Williams Arthuer"
+      }
+    ],
+    "away_events": [
+      {
+        "minute": 25,
+        "type": "Yellow Card",
+        "player": "Dimitri Foulquier"
+      },
+      {
+        "minute": 40,
+        "type": "Yellow Card",
+        "player": "Rubén Salvador Pérez Del Mármol"
+      },
+      {
+        "minute": 42,
+        "type": "Yellow Card",
+        "player": "David Rodríguez Lombán"
+      },
+      {
+        "minute": 45,
+        "type": "Yellow Card",
+        "player": "Adalberto Peñaranda Maestre"
+      },
+      {
+        "minute": 55,
+        "type": "Substitution",
+        "player": "Javier Márquez Moreno",
+        "replacement": "Robert Ibáñez Castro"
+      },
+      {
+        "minute": 67,
+        "type": "Substitution",
+        "player": "Rubén Salvador Pérez Del Mármol",
+        "replacement": "Francisco Manuel Rico Castro"
+      },
+      {
+        "minute": 76,
+        "type": "Goal",
+        "player": "Adalberto Peñaranda Maestre",
+        "xg": 0.085
+      },
+      {
+        "minute": 84,
+        "type": "Substitution",
+        "player": "Adalberto Peñaranda Maestre",
+        "replacement": "David Barral Torres"
+      },
+      {
+        "minute": 85,
+        "type": "Yellow Card",
+        "player": "Francisco Manuel Rico Castro"
+      }
+    ]
+  }
+}

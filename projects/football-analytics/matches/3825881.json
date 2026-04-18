@@ -1,0 +1,543 @@
+{
+  "id": 3825881,
+  "label": "Granada 1-1 Espanyol (2016-03-14)",
+  "home": "Granada",
+  "away": "Espanyol",
+  "score": "1-1",
+  "date": "2016-03-14",
+  "season": "2015/16",
+  "passing_network": {
+    "team": "Granada",
+    "sub_minute": 74,
+    "nodes": [
+      {
+        "name": "Doucouré",
+        "full_name": "Abdoulaye Doucouré",
+        "x": 53.6,
+        "y": 30.9,
+        "passes": 21,
+        "received": 14
+      },
+      {
+        "name": "Andrés Fernández",
+        "full_name": "Andrés Eduardo Fernández Moreno",
+        "x": 13.3,
+        "y": 40.7,
+        "passes": 18,
+        "received": 4
+      },
+      {
+        "name": "Biraghi",
+        "full_name": "Cristiano Biraghi",
+        "x": 53.5,
+        "y": 5.8,
+        "passes": 31,
+        "received": 24
+      },
+      {
+        "name": "David Barral",
+        "full_name": "David Barral Torres",
+        "x": 68.9,
+        "y": 35.5,
+        "passes": 9,
+        "received": 13
+      },
+      {
+        "name": "David Lombán",
+        "full_name": "David Rodríguez Lombán",
+        "x": 36.6,
+        "y": 59.3,
+        "passes": 24,
+        "received": 22
+      },
+      {
+        "name": "Miguel Lopes",
+        "full_name": "Hugo Miguel Almeida Costa Lopes",
+        "x": 65.6,
+        "y": 71.8,
+        "passes": 20,
+        "received": 9
+      },
+      {
+        "name": "Isaac Success",
+        "full_name": "Isaac Ajayi Success",
+        "x": 64.0,
+        "y": 15.5,
+        "passes": 14,
+        "received": 35
+      },
+      {
+        "name": "Ricardo Costa",
+        "full_name": "Ricardo Miguel Moreira da Costa",
+        "x": 37.1,
+        "y": 25.0,
+        "passes": 27,
+        "received": 25
+      },
+      {
+        "name": "Rubén Rochina",
+        "full_name": "Rubén Rochina Naixes",
+        "x": 76.4,
+        "y": 45.4,
+        "passes": 16,
+        "received": 24
+      },
+      {
+        "name": "Rubén Pérez",
+        "full_name": "Rubén Salvador Pérez Del Mármol",
+        "x": 57.8,
+        "y": 41.1,
+        "passes": 24,
+        "received": 25
+      },
+      {
+        "name": "El-Arabi",
+        "full_name": "Youssef El-Arabi",
+        "x": 68.9,
+        "y": 36.7,
+        "passes": 11,
+        "received": 20
+      }
+    ],
+    "edges": [
+      {
+        "source": 0,
+        "target": 2,
+        "count": 9
+      },
+      {
+        "source": 0,
+        "target": 4,
+        "count": 4
+      },
+      {
+        "source": 0,
+        "target": 6,
+        "count": 6
+      },
+      {
+        "source": 0,
+        "target": 7,
+        "count": 3
+      },
+      {
+        "source": 0,
+        "target": 8,
+        "count": 4
+      },
+      {
+        "source": 0,
+        "target": 9,
+        "count": 6
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "count": 8
+      },
+      {
+        "source": 1,
+        "target": 6,
+        "count": 4
+      },
+      {
+        "source": 1,
+        "target": 10,
+        "count": 4
+      },
+      {
+        "source": 2,
+        "target": 3,
+        "count": 5
+      },
+      {
+        "source": 2,
+        "target": 6,
+        "count": 15
+      },
+      {
+        "source": 2,
+        "target": 7,
+        "count": 15
+      },
+      {
+        "source": 2,
+        "target": 9,
+        "count": 7
+      },
+      {
+        "source": 3,
+        "target": 5,
+        "count": 4
+      },
+      {
+        "source": 3,
+        "target": 6,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 9,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 4,
+        "target": 5,
+        "count": 3
+      },
+      {
+        "source": 4,
+        "target": 7,
+        "count": 12
+      },
+      {
+        "source": 4,
+        "target": 8,
+        "count": 4
+      },
+      {
+        "source": 4,
+        "target": 9,
+        "count": 9
+      },
+      {
+        "source": 4,
+        "target": 10,
+        "count": 4
+      },
+      {
+        "source": 5,
+        "target": 7,
+        "count": 3
+      },
+      {
+        "source": 5,
+        "target": 8,
+        "count": 7
+      },
+      {
+        "source": 5,
+        "target": 9,
+        "count": 5
+      },
+      {
+        "source": 5,
+        "target": 10,
+        "count": 4
+      },
+      {
+        "source": 6,
+        "target": 7,
+        "count": 4
+      },
+      {
+        "source": 6,
+        "target": 8,
+        "count": 6
+      },
+      {
+        "source": 6,
+        "target": 9,
+        "count": 3
+      },
+      {
+        "source": 6,
+        "target": 10,
+        "count": 6
+      },
+      {
+        "source": 7,
+        "target": 8,
+        "count": 4
+      },
+      {
+        "source": 7,
+        "target": 9,
+        "count": 9
+      },
+      {
+        "source": 8,
+        "target": 9,
+        "count": 6
+      },
+      {
+        "source": 8,
+        "target": 10,
+        "count": 6
+      }
+    ]
+  },
+  "shots": [
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 101.7,
+      "y": 22.2,
+      "xg": 0.015,
+      "outcome": "Blocked",
+      "minute": 1,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 104.4,
+      "y": 25.9,
+      "xg": 0.073,
+      "outcome": "Off T",
+      "minute": 15,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Gerard Moreno Balaguero",
+      "team": "Espanyol",
+      "x": 108.2,
+      "y": 55.5,
+      "xg": 0.046,
+      "outcome": "Off T",
+      "minute": 25,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Óscar Esau Duarte Gaitán",
+      "team": "Espanyol",
+      "x": 110.8,
+      "y": 41.6,
+      "xg": 0.096,
+      "outcome": "Saved",
+      "minute": 31,
+      "body_part": "Head"
+    },
+    {
+      "player": "Rubén Salvador Pérez Del Mármol",
+      "team": "Granada",
+      "x": 98.2,
+      "y": 45.6,
+      "xg": 0.03,
+      "outcome": "Wayward",
+      "minute": 38,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Ricardo Miguel Moreira da Costa",
+      "team": "Granada",
+      "x": 106.0,
+      "y": 37.1,
+      "xg": 0.037,
+      "outcome": "Off T",
+      "minute": 38,
+      "body_part": "Head"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 115.5,
+      "y": 31.0,
+      "xg": 0.145,
+      "outcome": "Goal",
+      "minute": 39,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 104.2,
+      "y": 55.3,
+      "xg": 0.02,
+      "outcome": "Blocked",
+      "minute": 53,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 104.3,
+      "y": 28.5,
+      "xg": 0.048,
+      "outcome": "Blocked",
+      "minute": 59,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Jorge Franco Alviz",
+      "team": "Espanyol",
+      "x": 102.7,
+      "y": 29.4,
+      "xg": 0.037,
+      "outcome": "Blocked",
+      "minute": 59,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Álvaro González Soberón",
+      "team": "Espanyol",
+      "x": 112.4,
+      "y": 39.5,
+      "xg": 0.117,
+      "outcome": "Off T",
+      "minute": 60,
+      "body_part": "Head"
+    },
+    {
+      "player": "Jorge Franco Alviz",
+      "team": "Espanyol",
+      "x": 100.0,
+      "y": 23.6,
+      "xg": 0.038,
+      "outcome": "Wayward",
+      "minute": 65,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Duarte Sánchez",
+      "team": "Espanyol",
+      "x": 97.0,
+      "y": 39.2,
+      "xg": 0.027,
+      "outcome": "Blocked",
+      "minute": 67,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Gerard Moreno Balaguero",
+      "team": "Espanyol",
+      "x": 110.6,
+      "y": 38.9,
+      "xg": 0.106,
+      "outcome": "Off T",
+      "minute": 75,
+      "body_part": "Head"
+    },
+    {
+      "player": "Mamadou Sylla Diallo",
+      "team": "Espanyol",
+      "x": 110.3,
+      "y": 41.0,
+      "xg": 0.067,
+      "outcome": "Saved",
+      "minute": 80,
+      "body_part": "Head"
+    },
+    {
+      "player": "Álvaro González Soberón",
+      "team": "Espanyol",
+      "x": 113.1,
+      "y": 37.7,
+      "xg": 0.096,
+      "outcome": "Off T",
+      "minute": 80,
+      "body_part": "Head"
+    },
+    {
+      "player": "Gerard Moreno Balaguero",
+      "team": "Espanyol",
+      "x": 96.5,
+      "y": 45.1,
+      "xg": 0.031,
+      "outcome": "Blocked",
+      "minute": 83,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 95.8,
+      "y": 35.2,
+      "xg": 0.035,
+      "outcome": "Blocked",
+      "minute": 90,
+      "body_part": "Left Foot"
+    }
+  ],
+  "timeline": {
+    "home_events": [
+      {
+        "minute": 4,
+        "type": "Yellow Card",
+        "player": "David Barral Torres"
+      },
+      {
+        "minute": 26,
+        "type": "Second Yellow",
+        "player": "David Barral Torres"
+      },
+      {
+        "minute": 39,
+        "type": "Goal",
+        "player": "Rubén Rochina Naixes",
+        "xg": 0.145
+      },
+      {
+        "minute": 44,
+        "type": "Yellow Card",
+        "player": "Cristiano Biraghi"
+      },
+      {
+        "minute": 53,
+        "type": "Yellow Card",
+        "player": "David Rodríguez Lombán"
+      },
+      {
+        "minute": 74,
+        "type": "Substitution",
+        "player": "Isaac Ajayi Success",
+        "replacement": "Edgar Antonio Méndez Ortega"
+      },
+      {
+        "minute": 78,
+        "type": "Yellow Card",
+        "player": "Rubén Rochina Naixes"
+      },
+      {
+        "minute": 79,
+        "type": "Yellow Card",
+        "player": "Andrés Eduardo Fernández Moreno"
+      },
+      {
+        "minute": 88,
+        "type": "Yellow Card",
+        "player": "Rubén Salvador Pérez Del Mármol"
+      },
+      {
+        "minute": 91,
+        "type": "Substitution",
+        "player": "Rubén Rochina Naixes",
+        "replacement": "Rene Krhin"
+      }
+    ],
+    "away_events": [
+      {
+        "minute": 49,
+        "type": "Yellow Card",
+        "player": "Óscar Esau Duarte Gaitán"
+      },
+      {
+        "minute": 57,
+        "type": "Yellow Card",
+        "player": "Rubén Duarte Sánchez"
+      },
+      {
+        "minute": 67,
+        "type": "Yellow Card",
+        "player": "Hernán Arsenio Pérez González"
+      },
+      {
+        "minute": 69,
+        "type": "Substitution",
+        "player": "Jorge Franco Alviz",
+        "replacement": "Mamadou Sylla Diallo"
+      },
+      {
+        "minute": 85,
+        "type": "Substitution",
+        "player": "Marco Asensio Willemsen",
+        "replacement": "Salvador Sevilla López"
+      }
+    ]
+  }
+}
