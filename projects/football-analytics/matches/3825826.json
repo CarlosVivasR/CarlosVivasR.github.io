@@ -1,0 +1,503 @@
+{
+  "id": 3825826,
+  "label": "Granada 0-0 Málaga (2016-04-08)",
+  "home": "Granada",
+  "away": "Málaga",
+  "score": "0-0",
+  "date": "2016-04-08",
+  "season": "2015/16",
+  "passing_network": {
+    "team": "Granada",
+    "sub_minute": 64,
+    "nodes": [
+      {
+        "name": "Doucouré",
+        "full_name": "Abdoulaye Doucouré",
+        "x": 63.6,
+        "y": 37.0,
+        "passes": 22,
+        "received": 24
+      },
+      {
+        "name": "Andrés Fernández",
+        "full_name": "Andrés Eduardo Fernández Moreno",
+        "x": 15.4,
+        "y": 42.3,
+        "passes": 14,
+        "received": 10
+      },
+      {
+        "name": "Biraghi",
+        "full_name": "Cristiano Biraghi",
+        "x": 53.7,
+        "y": 10.8,
+        "passes": 28,
+        "received": 18
+      },
+      {
+        "name": "Miguel Lopes",
+        "full_name": "Hugo Miguel Almeida Costa Lopes",
+        "x": 58.9,
+        "y": 69.8,
+        "passes": 25,
+        "received": 22
+      },
+      {
+        "name": "Isaac Success",
+        "full_name": "Isaac Ajayi Success",
+        "x": 77.7,
+        "y": 68.9,
+        "passes": 16,
+        "received": 33
+      },
+      {
+        "name": "Jean-Sylvain Babin",
+        "full_name": "Jean-Sylvain Claude Babin",
+        "x": 39.4,
+        "y": 56.8,
+        "passes": 24,
+        "received": 24
+      },
+      {
+        "name": "Isaac Cuenca",
+        "full_name": "Juan Isaac Cuenca López",
+        "x": 71.1,
+        "y": 15.2,
+        "passes": 11,
+        "received": 12
+      },
+      {
+        "name": "Ricardo Costa",
+        "full_name": "Ricardo Miguel Moreira da Costa",
+        "x": 42.2,
+        "y": 30.4,
+        "passes": 23,
+        "received": 16
+      },
+      {
+        "name": "Rubén Rochina",
+        "full_name": "Rubén Rochina Naixes",
+        "x": 68.2,
+        "y": 41.9,
+        "passes": 17,
+        "received": 20
+      },
+      {
+        "name": "Rubén Pérez",
+        "full_name": "Rubén Salvador Pérez Del Mármol",
+        "x": 58.2,
+        "y": 50.9,
+        "passes": 27,
+        "received": 22
+      },
+      {
+        "name": "El-Arabi",
+        "full_name": "Youssef El-Arabi",
+        "x": 76.5,
+        "y": 43.1,
+        "passes": 13,
+        "received": 19
+      }
+    ],
+    "edges": [
+      {
+        "source": 0,
+        "target": 2,
+        "count": 7
+      },
+      {
+        "source": 0,
+        "target": 3,
+        "count": 6
+      },
+      {
+        "source": 0,
+        "target": 4,
+        "count": 5
+      },
+      {
+        "source": 0,
+        "target": 5,
+        "count": 5
+      },
+      {
+        "source": 0,
+        "target": 6,
+        "count": 7
+      },
+      {
+        "source": 0,
+        "target": 7,
+        "count": 4
+      },
+      {
+        "source": 0,
+        "target": 8,
+        "count": 7
+      },
+      {
+        "source": 0,
+        "target": 9,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 2,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "count": 4
+      },
+      {
+        "source": 1,
+        "target": 5,
+        "count": 6
+      },
+      {
+        "source": 1,
+        "target": 7,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 10,
+        "count": 6
+      },
+      {
+        "source": 2,
+        "target": 6,
+        "count": 6
+      },
+      {
+        "source": 2,
+        "target": 7,
+        "count": 13
+      },
+      {
+        "source": 2,
+        "target": 9,
+        "count": 7
+      },
+      {
+        "source": 2,
+        "target": 10,
+        "count": 6
+      },
+      {
+        "source": 3,
+        "target": 4,
+        "count": 15
+      },
+      {
+        "source": 3,
+        "target": 5,
+        "count": 10
+      },
+      {
+        "source": 3,
+        "target": 7,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 9,
+        "count": 7
+      },
+      {
+        "source": 4,
+        "target": 5,
+        "count": 5
+      },
+      {
+        "source": 4,
+        "target": 8,
+        "count": 5
+      },
+      {
+        "source": 4,
+        "target": 9,
+        "count": 7
+      },
+      {
+        "source": 4,
+        "target": 10,
+        "count": 6
+      },
+      {
+        "source": 5,
+        "target": 7,
+        "count": 8
+      },
+      {
+        "source": 5,
+        "target": 9,
+        "count": 11
+      },
+      {
+        "source": 6,
+        "target": 8,
+        "count": 7
+      },
+      {
+        "source": 7,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 7,
+        "target": 9,
+        "count": 4
+      },
+      {
+        "source": 8,
+        "target": 9,
+        "count": 6
+      },
+      {
+        "source": 8,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 9,
+        "target": 10,
+        "count": 4
+      }
+    ]
+  },
+  "shots": [
+    {
+      "player": "Ignacio Camacho Barnola",
+      "team": "Málaga",
+      "x": 109.7,
+      "y": 40.1,
+      "xg": 0.059,
+      "outcome": "Saved",
+      "minute": 1,
+      "body_part": "Head"
+    },
+    {
+      "player": "Duje Čop",
+      "team": "Málaga",
+      "x": 112.2,
+      "y": 35.3,
+      "xg": 0.105,
+      "outcome": "Saved",
+      "minute": 2,
+      "body_part": "Head"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 97.9,
+      "y": 50.8,
+      "xg": 0.034,
+      "outcome": "Off T",
+      "minute": 8,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Rubén Salvador Pérez Del Mármol",
+      "team": "Granada",
+      "x": 88.5,
+      "y": 45.6,
+      "xg": 0.021,
+      "outcome": "Blocked",
+      "minute": 18,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 91.2,
+      "y": 24.5,
+      "xg": 0.008,
+      "outcome": "Blocked",
+      "minute": 20,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Duje Čop",
+      "team": "Málaga",
+      "x": 113.2,
+      "y": 35.3,
+      "xg": 0.468,
+      "outcome": "Wayward",
+      "minute": 22,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Abdoulaye Doucouré",
+      "team": "Granada",
+      "x": 103.2,
+      "y": 51.0,
+      "xg": 0.048,
+      "outcome": "Blocked",
+      "minute": 29,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 103.0,
+      "y": 46.0,
+      "xg": 0.434,
+      "outcome": "Off T",
+      "minute": 32,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Juan Pablo Añor Acosta",
+      "team": "Málaga",
+      "x": 97.5,
+      "y": 41.0,
+      "xg": 0.082,
+      "outcome": "Off T",
+      "minute": 37,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 114.1,
+      "y": 62.1,
+      "xg": 0.009,
+      "outcome": "Blocked",
+      "minute": 49,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Christian Atsu Twasam",
+      "team": "Málaga",
+      "x": 105.3,
+      "y": 22.4,
+      "xg": 0.034,
+      "outcome": "Saved",
+      "minute": 67,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "José Luis García del Pozo",
+      "team": "Málaga",
+      "x": 115.8,
+      "y": 54.7,
+      "xg": 0.012,
+      "outcome": "Off T",
+      "minute": 68,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "David Barral Torres",
+      "team": "Granada",
+      "x": 111.0,
+      "y": 29.3,
+      "xg": 0.04,
+      "outcome": "Saved",
+      "minute": 78,
+      "body_part": "Head"
+    },
+    {
+      "player": "Gonzalo Castro Irizábal",
+      "team": "Málaga",
+      "x": 103.9,
+      "y": 33.6,
+      "xg": 0.07,
+      "outcome": "Off T",
+      "minute": 79,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "José Luis García del Pozo",
+      "team": "Málaga",
+      "x": 97.2,
+      "y": 25.9,
+      "xg": 0.016,
+      "outcome": "Off T",
+      "minute": 83,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Ignacio Camacho Barnola",
+      "team": "Málaga",
+      "x": 110.4,
+      "y": 39.2,
+      "xg": 0.054,
+      "outcome": "Off T",
+      "minute": 84,
+      "body_part": "Head"
+    },
+    {
+      "player": "Ricardo Miguel Moreira da Costa",
+      "team": "Granada",
+      "x": 108.1,
+      "y": 39.7,
+      "xg": 0.179,
+      "outcome": "Off T",
+      "minute": 84,
+      "body_part": "Right Foot"
+    }
+  ],
+  "timeline": {
+    "home_events": [
+      {
+        "minute": 64,
+        "type": "Substitution",
+        "player": "Juan Isaac Cuenca López",
+        "replacement": "David Barral Torres"
+      },
+      {
+        "minute": 78,
+        "type": "Substitution",
+        "player": "Rubén Rochina Naixes",
+        "replacement": "Robert Ibáñez Castro"
+      },
+      {
+        "minute": 88,
+        "type": "Yellow Card",
+        "player": "Isaac Ajayi Success"
+      }
+    ],
+    "away_events": [
+      {
+        "minute": 17,
+        "type": "Yellow Card",
+        "player": "Raúl Albentosa Redal"
+      },
+      {
+        "minute": 48,
+        "type": "Yellow Card",
+        "player": "Federico Ricca Rostagnol"
+      },
+      {
+        "minute": 55,
+        "type": "Substitution",
+        "player": "Federico Ricca Rostagnol",
+        "replacement": "Miguel Torres Gómez"
+      },
+      {
+        "minute": 67,
+        "type": "Substitution",
+        "player": "Duje Čop",
+        "replacement": "Christian Atsu Twasam"
+      },
+      {
+        "minute": 81,
+        "type": "Substitution",
+        "player": "Juan Pablo Añor Acosta",
+        "replacement": "Pablo Fornals Malla"
+      },
+      {
+        "minute": 91,
+        "type": "Yellow Card",
+        "player": "Roberto José Rosales Altuve"
+      }
+    ]
+  }
+}

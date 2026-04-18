@@ -1,0 +1,516 @@
+{
+  "id": 3825809,
+  "label": "Real Betis 2-0 Granada (2016-03-06)",
+  "home": "Real Betis",
+  "away": "Granada",
+  "score": "2-0",
+  "date": "2016-03-06",
+  "season": "2015/16",
+  "passing_network": {
+    "team": "Real Betis",
+    "sub_minute": 30,
+    "nodes": [
+      {
+        "name": "Alfred N'Diaye",
+        "full_name": "Alfred John Momar N''Diaye",
+        "x": 50.2,
+        "y": 32.5,
+        "passes": 9,
+        "received": 10
+      },
+      {
+        "name": "Antonio Adán",
+        "full_name": "Antonio Adán Garrido",
+        "x": 10.7,
+        "y": 40.2,
+        "passes": 12,
+        "received": 5
+      },
+      {
+        "name": "Bruno González",
+        "full_name": "Bruno González Cabrera",
+        "x": 29.3,
+        "y": 20.9,
+        "passes": 18,
+        "received": 16
+      },
+      {
+        "name": "Charly Musonda",
+        "full_name": "Charly Musonda Junior",
+        "x": 78.5,
+        "y": 57.2,
+        "passes": 4,
+        "received": 7
+      },
+      {
+        "name": "Dani Ceballos",
+        "full_name": "Daniel Ceballos Fernández",
+        "x": 50.6,
+        "y": 30.0,
+        "passes": 14,
+        "received": 18
+      },
+      {
+        "name": "Fabián Ruiz",
+        "full_name": "Fabián Ruiz Peña",
+        "x": 61.6,
+        "y": 26.9,
+        "passes": 3,
+        "received": 6
+      },
+      {
+        "name": "Germán Pezzella",
+        "full_name": "Germán Alejandro Pezzella",
+        "x": 32.4,
+        "y": 55.5,
+        "passes": 20,
+        "received": 17
+      },
+      {
+        "name": "Juan Manuel Vargas",
+        "full_name": "Juan Manuel Vargas Risco",
+        "x": 56.5,
+        "y": 7.3,
+        "passes": 11,
+        "received": 7
+      },
+      {
+        "name": "Martín Montoya",
+        "full_name": "Martín Montoya Torralbo",
+        "x": 59.3,
+        "y": 73.6,
+        "passes": 22,
+        "received": 17
+      },
+      {
+        "name": "Rubén Castro",
+        "full_name": "Rubén Castro Martín",
+        "x": 71.9,
+        "y": 37.4,
+        "passes": 3,
+        "received": 8
+      },
+      {
+        "name": "Álvaro Cejudo",
+        "full_name": "Álvaro Cejudo Carmona",
+        "x": 71.3,
+        "y": 27.1,
+        "passes": 7,
+        "received": 12
+      }
+    ],
+    "edges": [
+      {
+        "source": 0,
+        "target": 2,
+        "count": 3
+      },
+      {
+        "source": 0,
+        "target": 5,
+        "count": 3
+      },
+      {
+        "source": 0,
+        "target": 6,
+        "count": 4
+      },
+      {
+        "source": 0,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 2,
+        "count": 5
+      },
+      {
+        "source": 1,
+        "target": 6,
+        "count": 4
+      },
+      {
+        "source": 2,
+        "target": 4,
+        "count": 8
+      },
+      {
+        "source": 2,
+        "target": 6,
+        "count": 10
+      },
+      {
+        "source": 2,
+        "target": 7,
+        "count": 5
+      },
+      {
+        "source": 3,
+        "target": 8,
+        "count": 4
+      },
+      {
+        "source": 3,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 4,
+        "target": 5,
+        "count": 3
+      },
+      {
+        "source": 4,
+        "target": 8,
+        "count": 9
+      },
+      {
+        "source": 4,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 6,
+        "target": 8,
+        "count": 16
+      },
+      {
+        "source": 7,
+        "target": 10,
+        "count": 5
+      }
+    ]
+  },
+  "shots": [
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 98.7,
+      "y": 22.1,
+      "xg": 0.015,
+      "outcome": "Saved",
+      "minute": 1,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Alfred John Momar N''Diaye",
+      "team": "Real Betis",
+      "x": 110.9,
+      "y": 48.4,
+      "xg": 0.055,
+      "outcome": "Off T",
+      "minute": 5,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Jean-Sylvain Claude Babin",
+      "team": "Granada",
+      "x": 112.5,
+      "y": 48.9,
+      "xg": 0.046,
+      "outcome": "Wayward",
+      "minute": 18,
+      "body_part": "Head"
+    },
+    {
+      "player": "Álvaro Cejudo Carmona",
+      "team": "Real Betis",
+      "x": 97.5,
+      "y": 54.4,
+      "xg": 0.025,
+      "outcome": "Blocked",
+      "minute": 28,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Charly Musonda Junior",
+      "team": "Real Betis",
+      "x": 99.8,
+      "y": 35.0,
+      "xg": 0.061,
+      "outcome": "Saved",
+      "minute": 30,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Daniel Ceballos Fernández",
+      "team": "Real Betis",
+      "x": 95.1,
+      "y": 40.9,
+      "xg": 0.024,
+      "outcome": "Off T",
+      "minute": 35,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Cristiano Biraghi",
+      "team": "Granada",
+      "x": 92.7,
+      "y": 28.8,
+      "xg": 0.027,
+      "outcome": "Saved",
+      "minute": 37,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 89.6,
+      "y": 50.0,
+      "xg": 0.022,
+      "outcome": "Off T",
+      "minute": 44,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Jorge Molina Vidal",
+      "team": "Real Betis",
+      "x": 108.1,
+      "y": 45.4,
+      "xg": 0.063,
+      "outcome": "Saved",
+      "minute": 46,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Bruno González Cabrera",
+      "team": "Real Betis",
+      "x": 112.6,
+      "y": 39.1,
+      "xg": 0.092,
+      "outcome": "Wayward",
+      "minute": 49,
+      "body_part": "Head"
+    },
+    {
+      "player": "Juan Manuel Vargas Risco",
+      "team": "Real Betis",
+      "x": 96.4,
+      "y": 23.8,
+      "xg": 0.02,
+      "outcome": "Blocked",
+      "minute": 51,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Fabián Ruiz Peña",
+      "team": "Real Betis",
+      "x": 84.6,
+      "y": 37.7,
+      "xg": 0.011,
+      "outcome": "Off T",
+      "minute": 51,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Rubén Salvador Pérez Del Mármol",
+      "team": "Granada",
+      "x": 92.6,
+      "y": 55.7,
+      "xg": 0.012,
+      "outcome": "Off T",
+      "minute": 54,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "David Barral Torres",
+      "team": "Granada",
+      "x": 113.3,
+      "y": 44.2,
+      "xg": 0.11,
+      "outcome": "Saved",
+      "minute": 58,
+      "body_part": "Head"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 90.4,
+      "y": 36.8,
+      "xg": 0.024,
+      "outcome": "Off T",
+      "minute": 66,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "David Barral Torres",
+      "team": "Granada",
+      "x": 112.2,
+      "y": 50.6,
+      "xg": 0.09,
+      "outcome": "Blocked",
+      "minute": 68,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 102.4,
+      "y": 41.1,
+      "xg": 0.074,
+      "outcome": "Saved",
+      "minute": 72,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 108.3,
+      "y": 22.0,
+      "xg": 0.013,
+      "outcome": "Off T",
+      "minute": 80,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Alfred John Momar N''Diaye",
+      "team": "Real Betis",
+      "x": 113.0,
+      "y": 42.9,
+      "xg": 0.097,
+      "outcome": "Goal",
+      "minute": 84,
+      "body_part": "Head"
+    },
+    {
+      "player": "Joaquín Sánchez Rodríguez",
+      "team": "Real Betis",
+      "x": 107.7,
+      "y": 51.4,
+      "xg": 0.131,
+      "outcome": "Off T",
+      "minute": 89,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Castro Martín",
+      "team": "Real Betis",
+      "x": 100.0,
+      "y": 32.4,
+      "xg": 0.083,
+      "outcome": "Goal",
+      "minute": 94,
+      "body_part": "Right Foot"
+    }
+  ],
+  "timeline": {
+    "home_events": [
+      {
+        "minute": 11,
+        "type": "Yellow Card",
+        "player": "Germán Alejandro Pezzella"
+      },
+      {
+        "minute": 30,
+        "type": "Substitution",
+        "player": "Álvaro Cejudo Carmona",
+        "replacement": "Jorge Molina Vidal"
+      },
+      {
+        "minute": 40,
+        "type": "Yellow Card",
+        "player": "Juan Manuel Vargas Risco"
+      },
+      {
+        "minute": 51,
+        "type": "Substitution",
+        "player": "Fabián Ruiz Peña",
+        "replacement": "Joaquín Sánchez Rodríguez"
+      },
+      {
+        "minute": 52,
+        "type": "Second Yellow",
+        "player": "Juan Manuel Vargas Risco"
+      },
+      {
+        "minute": 55,
+        "type": "Substitution",
+        "player": "Daniel Ceballos Fernández",
+        "replacement": "Petros Matheus dos Santos Araújo"
+      },
+      {
+        "minute": 70,
+        "type": "Yellow Card",
+        "player": "Bruno González Cabrera"
+      },
+      {
+        "minute": 78,
+        "type": "Yellow Card",
+        "player": "Jorge Molina Vidal"
+      },
+      {
+        "minute": 84,
+        "type": "Goal",
+        "player": "Alfred John Momar N''Diaye",
+        "xg": 0.097
+      },
+      {
+        "minute": 94,
+        "type": "Goal",
+        "player": "Rubén Castro Martín",
+        "xg": 0.083
+      }
+    ],
+    "away_events": [
+      {
+        "minute": 19,
+        "type": "Yellow Card",
+        "player": "Adalberto Peñaranda Maestre"
+      },
+      {
+        "minute": 39,
+        "type": "Yellow Card",
+        "player": "Rubén Salvador Pérez Del Mármol"
+      },
+      {
+        "minute": 46,
+        "type": "Yellow Card",
+        "player": "Isaac Ajayi Success"
+      },
+      {
+        "minute": 54,
+        "type": "Substitution",
+        "player": "Adalberto Peñaranda Maestre",
+        "replacement": "David Barral Torres"
+      },
+      {
+        "minute": 60,
+        "type": "Yellow Card",
+        "player": "Hugo Miguel Almeida Costa Lopes"
+      },
+      {
+        "minute": 67,
+        "type": "Substitution",
+        "player": "Hugo Miguel Almeida Costa Lopes",
+        "replacement": "Dimitri Foulquier"
+      },
+      {
+        "minute": 68,
+        "type": "Yellow Card",
+        "player": "David Barral Torres"
+      },
+      {
+        "minute": 75,
+        "type": "Yellow Card",
+        "player": "Ricardo Miguel Moreira da Costa"
+      },
+      {
+        "minute": 78,
+        "type": "Substitution",
+        "player": "Rubén Salvador Pérez Del Mármol",
+        "replacement": "Francisco Manuel Rico Castro"
+      },
+      {
+        "minute": 86,
+        "type": "Yellow Card",
+        "player": "Rubén Rochina Naixes"
+      },
+      {
+        "minute": 92,
+        "type": "Red Card",
+        "player": "Andrés Eduardo Fernández Moreno"
+      }
+    ]
+  }
+}

@@ -1,0 +1,614 @@
+{
+  "id": 3825859,
+  "label": "Granada 3-2 Las Palmas (2016-04-30)",
+  "home": "Granada",
+  "away": "Las Palmas",
+  "score": "3-2",
+  "date": "2016-04-30",
+  "season": "2015/16",
+  "passing_network": {
+    "team": "Granada",
+    "sub_minute": 62,
+    "nodes": [
+      {
+        "name": "Doucouré",
+        "full_name": "Abdoulaye Doucouré",
+        "x": 65.9,
+        "y": 38.0,
+        "passes": 31,
+        "received": 28
+      },
+      {
+        "name": "Adalberto Peñaranda",
+        "full_name": "Adalberto Peñaranda Maestre",
+        "x": 81.8,
+        "y": 53.7,
+        "passes": 8,
+        "received": 18
+      },
+      {
+        "name": "Andrés Fernández",
+        "full_name": "Andrés Eduardo Fernández Moreno",
+        "x": 10.8,
+        "y": 40.0,
+        "passes": 9,
+        "received": 8
+      },
+      {
+        "name": "Biraghi",
+        "full_name": "Cristiano Biraghi",
+        "x": 53.6,
+        "y": 9.0,
+        "passes": 19,
+        "received": 17
+      },
+      {
+        "name": "David Lombán",
+        "full_name": "David Rodríguez Lombán",
+        "x": 38.3,
+        "y": 59.5,
+        "passes": 16,
+        "received": 8
+      },
+      {
+        "name": "Miguel Lopes",
+        "full_name": "Hugo Miguel Almeida Costa Lopes",
+        "x": 56.1,
+        "y": 74.2,
+        "passes": 25,
+        "received": 15
+      },
+      {
+        "name": "Isaac Cuenca",
+        "full_name": "Juan Isaac Cuenca López",
+        "x": 75.5,
+        "y": 26.6,
+        "passes": 18,
+        "received": 16
+      },
+      {
+        "name": "Ricardo Costa",
+        "full_name": "Ricardo Miguel Moreira da Costa",
+        "x": 40.3,
+        "y": 29.5,
+        "passes": 25,
+        "received": 22
+      },
+      {
+        "name": "Rubén Rochina",
+        "full_name": "Rubén Rochina Naixes",
+        "x": 74.4,
+        "y": 56.6,
+        "passes": 25,
+        "received": 33
+      },
+      {
+        "name": "Rubén Pérez",
+        "full_name": "Rubén Salvador Pérez Del Mármol",
+        "x": 61.0,
+        "y": 36.2,
+        "passes": 22,
+        "received": 22
+      },
+      {
+        "name": "El-Arabi",
+        "full_name": "Youssef El-Arabi",
+        "x": 75.6,
+        "y": 23.8,
+        "passes": 13,
+        "received": 24
+      }
+    ],
+    "edges": [
+      {
+        "source": 0,
+        "target": 1,
+        "count": 4
+      },
+      {
+        "source": 0,
+        "target": 3,
+        "count": 5
+      },
+      {
+        "source": 0,
+        "target": 4,
+        "count": 4
+      },
+      {
+        "source": 0,
+        "target": 6,
+        "count": 7
+      },
+      {
+        "source": 0,
+        "target": 7,
+        "count": 10
+      },
+      {
+        "source": 0,
+        "target": 8,
+        "count": 11
+      },
+      {
+        "source": 0,
+        "target": 9,
+        "count": 9
+      },
+      {
+        "source": 0,
+        "target": 10,
+        "count": 6
+      },
+      {
+        "source": 1,
+        "target": 5,
+        "count": 4
+      },
+      {
+        "source": 1,
+        "target": 6,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 8,
+        "count": 7
+      },
+      {
+        "source": 2,
+        "target": 4,
+        "count": 4
+      },
+      {
+        "source": 2,
+        "target": 7,
+        "count": 5
+      },
+      {
+        "source": 2,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 6,
+        "count": 4
+      },
+      {
+        "source": 3,
+        "target": 7,
+        "count": 6
+      },
+      {
+        "source": 3,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 9,
+        "count": 7
+      },
+      {
+        "source": 3,
+        "target": 10,
+        "count": 10
+      },
+      {
+        "source": 4,
+        "target": 5,
+        "count": 7
+      },
+      {
+        "source": 4,
+        "target": 7,
+        "count": 4
+      },
+      {
+        "source": 5,
+        "target": 7,
+        "count": 5
+      },
+      {
+        "source": 5,
+        "target": 8,
+        "count": 10
+      },
+      {
+        "source": 5,
+        "target": 9,
+        "count": 8
+      },
+      {
+        "source": 6,
+        "target": 7,
+        "count": 5
+      },
+      {
+        "source": 6,
+        "target": 8,
+        "count": 4
+      },
+      {
+        "source": 6,
+        "target": 9,
+        "count": 3
+      },
+      {
+        "source": 6,
+        "target": 10,
+        "count": 6
+      },
+      {
+        "source": 7,
+        "target": 8,
+        "count": 5
+      },
+      {
+        "source": 7,
+        "target": 9,
+        "count": 5
+      },
+      {
+        "source": 8,
+        "target": 9,
+        "count": 7
+      },
+      {
+        "source": 8,
+        "target": 10,
+        "count": 7
+      }
+    ]
+  },
+  "shots": [
+    {
+      "player": "Jonathan Viera Ramos",
+      "team": "Las Palmas",
+      "x": 100.8,
+      "y": 25.6,
+      "xg": 0.038,
+      "outcome": "Goal",
+      "minute": 2,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 96.6,
+      "y": 39.6,
+      "xg": 0.085,
+      "outcome": "Off T",
+      "minute": 5,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Jonathan Viera Ramos",
+      "team": "Las Palmas",
+      "x": 113.2,
+      "y": 32.2,
+      "xg": 0.212,
+      "outcome": "Goal",
+      "minute": 11,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 102.7,
+      "y": 28.9,
+      "xg": 0.072,
+      "outcome": "Goal",
+      "minute": 12,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Pedro Taunausú Domínguez Placeres",
+      "team": "Las Palmas",
+      "x": 108.9,
+      "y": 49.5,
+      "xg": 0.094,
+      "outcome": "Saved",
+      "minute": 18,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Sergio Ezequiel Araújo",
+      "team": "Las Palmas",
+      "x": 112.9,
+      "y": 42.5,
+      "xg": 0.211,
+      "outcome": "Post",
+      "minute": 18,
+      "body_part": "Head"
+    },
+    {
+      "player": "David Rodríguez Lombán",
+      "team": "Granada",
+      "x": 93.7,
+      "y": 38.6,
+      "xg": 0.021,
+      "outcome": "Blocked",
+      "minute": 20,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 115.3,
+      "y": 41.4,
+      "xg": 0.216,
+      "outcome": "Goal",
+      "minute": 21,
+      "body_part": "Head"
+    },
+    {
+      "player": "Sergio Ezequiel Araújo",
+      "team": "Las Palmas",
+      "x": 97.7,
+      "y": 37.4,
+      "xg": 0.123,
+      "outcome": "Off T",
+      "minute": 22,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 99.8,
+      "y": 53.9,
+      "xg": 0.034,
+      "outcome": "Blocked",
+      "minute": 26,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Adalberto Peñaranda Maestre",
+      "team": "Granada",
+      "x": 99.2,
+      "y": 59.5,
+      "xg": 0.007,
+      "outcome": "Blocked",
+      "minute": 29,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 93.4,
+      "y": 52.2,
+      "xg": 0.021,
+      "outcome": "Saved",
+      "minute": 29,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Abdoulaye Doucouré",
+      "team": "Granada",
+      "x": 96.2,
+      "y": 39.0,
+      "xg": 0.029,
+      "outcome": "Off T",
+      "minute": 35,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 96.1,
+      "y": 44.3,
+      "xg": 0.057,
+      "outcome": "Saved",
+      "minute": 43,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Sergio Ezequiel Araújo",
+      "team": "Las Palmas",
+      "x": 104.1,
+      "y": 24.4,
+      "xg": 0.044,
+      "outcome": "Blocked",
+      "minute": 44,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Hugo Miguel Almeida Costa Lopes",
+      "team": "Granada",
+      "x": 103.0,
+      "y": 56.1,
+      "xg": 0.027,
+      "outcome": "Blocked",
+      "minute": 47,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Sergio Ezequiel Araújo",
+      "team": "Las Palmas",
+      "x": 105.7,
+      "y": 48.9,
+      "xg": 0.393,
+      "outcome": "Saved",
+      "minute": 52,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 112.5,
+      "y": 41.4,
+      "xg": 0.222,
+      "outcome": "Post",
+      "minute": 55,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 98.4,
+      "y": 57.8,
+      "xg": 0.016,
+      "outcome": "Off T",
+      "minute": 57,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Jonathan Viera Ramos",
+      "team": "Las Palmas",
+      "x": 106.0,
+      "y": 36.9,
+      "xg": 0.073,
+      "outcome": "Saved",
+      "minute": 60,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Mubarak Wakaso",
+      "team": "Las Palmas",
+      "x": 104.1,
+      "y": 24.5,
+      "xg": 0.03,
+      "outcome": "Wayward",
+      "minute": 68,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Ricardo Miguel Moreira da Costa",
+      "team": "Granada",
+      "x": 113.3,
+      "y": 40.6,
+      "xg": 0.11,
+      "outcome": "Goal",
+      "minute": 70,
+      "body_part": "Head"
+    },
+    {
+      "player": "Jonathan Viera Ramos",
+      "team": "Las Palmas",
+      "x": 94.5,
+      "y": 42.9,
+      "xg": 0.059,
+      "outcome": "Blocked",
+      "minute": 76,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Abdoulaye Doucouré",
+      "team": "Granada",
+      "x": 111.7,
+      "y": 38.6,
+      "xg": 0.482,
+      "outcome": "Off T",
+      "minute": 79,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Sergio Ezequiel Araújo",
+      "team": "Las Palmas",
+      "x": 111.0,
+      "y": 25.7,
+      "xg": 0.032,
+      "outcome": "Off T",
+      "minute": 90,
+      "body_part": "Left Foot"
+    }
+  ],
+  "timeline": {
+    "home_events": [
+      {
+        "minute": 12,
+        "type": "Goal",
+        "player": "Rubén Rochina Naixes",
+        "xg": 0.072
+      },
+      {
+        "minute": 21,
+        "type": "Goal",
+        "player": "Youssef El-Arabi",
+        "xg": 0.216
+      },
+      {
+        "minute": 51,
+        "type": "Yellow Card",
+        "player": "Adalberto Peñaranda Maestre"
+      },
+      {
+        "minute": 62,
+        "type": "Substitution",
+        "player": "Adalberto Peñaranda Maestre",
+        "replacement": "David Barral Torres"
+      },
+      {
+        "minute": 70,
+        "type": "Goal",
+        "player": "Ricardo Miguel Moreira da Costa",
+        "xg": 0.11
+      },
+      {
+        "minute": 70,
+        "type": "Yellow Card",
+        "player": "Ricardo Miguel Moreira da Costa"
+      },
+      {
+        "minute": 73,
+        "type": "Substitution",
+        "player": "Rubén Rochina Naixes",
+        "replacement": "Francisco Manuel Rico Castro"
+      },
+      {
+        "minute": 74,
+        "type": "Yellow Card",
+        "player": "Rubén Salvador Pérez Del Mármol"
+      },
+      {
+        "minute": 89,
+        "type": "Substitution",
+        "player": "Rubén Salvador Pérez Del Mármol",
+        "replacement": "Rene Krhin"
+      }
+    ],
+    "away_events": [
+      {
+        "minute": 2,
+        "type": "Goal",
+        "player": "Jonathan Viera Ramos",
+        "xg": 0.038
+      },
+      {
+        "minute": 11,
+        "type": "Goal",
+        "player": "Jonathan Viera Ramos",
+        "xg": 0.212
+      },
+      {
+        "minute": 19,
+        "type": "Yellow Card",
+        "player": "Mubarak Wakaso"
+      },
+      {
+        "minute": 68,
+        "type": "Substitution",
+        "player": "Ángel Montoro Sánchez",
+        "replacement": "Hernán Daniel Santana Trujillo"
+      },
+      {
+        "minute": 76,
+        "type": "Substitution",
+        "player": "Mubarak Wakaso",
+        "replacement": "Jerónimo Figueroa Cabrera"
+      },
+      {
+        "minute": 82,
+        "type": "Substitution",
+        "player": "Roque Mesa Quevedo",
+        "replacement": "Ángel Domingo López Ruano"
+      },
+      {
+        "minute": 84,
+        "type": "Yellow Card",
+        "player": "Pedro Taunausú Domínguez Placeres"
+      }
+    ]
+  }
+}

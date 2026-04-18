@@ -1,0 +1,596 @@
+{
+  "id": 3825704,
+  "label": "Granada 0-2 Celta Vigo (2015-12-20)",
+  "home": "Granada",
+  "away": "Celta Vigo",
+  "score": "0-2",
+  "date": "2015-12-20",
+  "season": "2015/16",
+  "passing_network": {
+    "team": "Celta Vigo",
+    "sub_minute": 80,
+    "nodes": [
+      {
+        "name": "Augusto Fernández",
+        "full_name": "Augusto Matías Fernández",
+        "x": 54.9,
+        "y": 44.0,
+        "passes": 36,
+        "received": 28
+      },
+      {
+        "name": "Carles Planas",
+        "full_name": "Carles Planas Antolínez",
+        "x": 52.8,
+        "y": 6.0,
+        "passes": 27,
+        "received": 21
+      },
+      {
+        "name": "Wass",
+        "full_name": "Daniel Wass",
+        "x": 61.9,
+        "y": 37.4,
+        "passes": 30,
+        "received": 23
+      },
+      {
+        "name": "Fabián Orellana",
+        "full_name": "Fabián Ariel Orellana Valenzuela",
+        "x": 73.2,
+        "y": 42.5,
+        "passes": 29,
+        "received": 42
+      },
+      {
+        "name": "Gustavo Cabral",
+        "full_name": "Gustavo Daniel Cabral Cáceres",
+        "x": 40.0,
+        "y": 24.7,
+        "passes": 39,
+        "received": 35
+      },
+      {
+        "name": "Hugo Mallo",
+        "full_name": "Hugo Mallo Novegil",
+        "x": 41.1,
+        "y": 54.1,
+        "passes": 34,
+        "received": 33
+      },
+      {
+        "name": "Iago Aspas",
+        "full_name": "Iago Aspas Juncal",
+        "x": 72.5,
+        "y": 45.6,
+        "passes": 18,
+        "received": 33
+      },
+      {
+        "name": "Jonny Castro",
+        "full_name": "Jonathan Castro Otto",
+        "x": 62.7,
+        "y": 67.6,
+        "passes": 27,
+        "received": 20
+      },
+      {
+        "name": "Josep Señé",
+        "full_name": "Josep Señé Escudero",
+        "x": 81.7,
+        "y": 59.3,
+        "passes": 12,
+        "received": 19
+      },
+      {
+        "name": "Rubén Blanco",
+        "full_name": "Rubén Blanco Veiga",
+        "x": 12.3,
+        "y": 37.0,
+        "passes": 16,
+        "received": 8
+      },
+      {
+        "name": "Théo Bongonda Mbul'Ofeko Batombo",
+        "full_name": "Théo Bongonda Mbul''Ofeko Batombo",
+        "x": 65.5,
+        "y": 12.3,
+        "passes": 19,
+        "received": 25
+      }
+    ],
+    "edges": [
+      {
+        "source": 0,
+        "target": 1,
+        "count": 6
+      },
+      {
+        "source": 0,
+        "target": 2,
+        "count": 9
+      },
+      {
+        "source": 0,
+        "target": 3,
+        "count": 7
+      },
+      {
+        "source": 0,
+        "target": 4,
+        "count": 13
+      },
+      {
+        "source": 0,
+        "target": 5,
+        "count": 13
+      },
+      {
+        "source": 0,
+        "target": 7,
+        "count": 7
+      },
+      {
+        "source": 0,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 0,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 2,
+        "count": 8
+      },
+      {
+        "source": 1,
+        "target": 3,
+        "count": 7
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "count": 16
+      },
+      {
+        "source": 1,
+        "target": 6,
+        "count": 5
+      },
+      {
+        "source": 1,
+        "target": 10,
+        "count": 6
+      },
+      {
+        "source": 2,
+        "target": 3,
+        "count": 8
+      },
+      {
+        "source": 2,
+        "target": 4,
+        "count": 3
+      },
+      {
+        "source": 2,
+        "target": 5,
+        "count": 4
+      },
+      {
+        "source": 2,
+        "target": 6,
+        "count": 5
+      },
+      {
+        "source": 2,
+        "target": 7,
+        "count": 4
+      },
+      {
+        "source": 2,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 2,
+        "target": 10,
+        "count": 9
+      },
+      {
+        "source": 3,
+        "target": 4,
+        "count": 9
+      },
+      {
+        "source": 3,
+        "target": 5,
+        "count": 6
+      },
+      {
+        "source": 3,
+        "target": 6,
+        "count": 8
+      },
+      {
+        "source": 3,
+        "target": 7,
+        "count": 10
+      },
+      {
+        "source": 3,
+        "target": 8,
+        "count": 8
+      },
+      {
+        "source": 3,
+        "target": 10,
+        "count": 8
+      },
+      {
+        "source": 4,
+        "target": 5,
+        "count": 15
+      },
+      {
+        "source": 4,
+        "target": 6,
+        "count": 3
+      },
+      {
+        "source": 4,
+        "target": 9,
+        "count": 9
+      },
+      {
+        "source": 4,
+        "target": 10,
+        "count": 4
+      },
+      {
+        "source": 5,
+        "target": 6,
+        "count": 5
+      },
+      {
+        "source": 5,
+        "target": 7,
+        "count": 11
+      },
+      {
+        "source": 5,
+        "target": 9,
+        "count": 9
+      },
+      {
+        "source": 5,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 6,
+        "target": 7,
+        "count": 9
+      },
+      {
+        "source": 6,
+        "target": 8,
+        "count": 7
+      },
+      {
+        "source": 6,
+        "target": 10,
+        "count": 7
+      },
+      {
+        "source": 7,
+        "target": 8,
+        "count": 5
+      },
+      {
+        "source": 9,
+        "target": 10,
+        "count": 3
+      }
+    ]
+  },
+  "shots": [
+    {
+      "player": "Fabián Ariel Orellana Valenzuela",
+      "team": "Celta Vigo",
+      "x": 95.1,
+      "y": 45.7,
+      "xg": 0.03,
+      "outcome": "Off T",
+      "minute": 8,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Adalberto Peñaranda Maestre",
+      "team": "Granada",
+      "x": 105.1,
+      "y": 38.0,
+      "xg": 0.045,
+      "outcome": "Saved",
+      "minute": 15,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Cristiano Biraghi",
+      "team": "Granada",
+      "x": 92.1,
+      "y": 20.2,
+      "xg": 0.006,
+      "outcome": "Wayward",
+      "minute": 16,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 97.7,
+      "y": 25.6,
+      "xg": 0.024,
+      "outcome": "Blocked",
+      "minute": 19,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Fabián Ariel Orellana Valenzuela",
+      "team": "Celta Vigo",
+      "x": 114.4,
+      "y": 39.3,
+      "xg": 0.94,
+      "outcome": "Goal",
+      "minute": 20,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Fabián Ariel Orellana Valenzuela",
+      "team": "Celta Vigo",
+      "x": 93.2,
+      "y": 24.2,
+      "xg": 0.013,
+      "outcome": "Off T",
+      "minute": 22,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Daniel Wass",
+      "team": "Celta Vigo",
+      "x": 90.9,
+      "y": 36.9,
+      "xg": 0.047,
+      "outcome": "Blocked",
+      "minute": 24,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Théo Bongonda Mbul''Ofeko Batombo",
+      "team": "Celta Vigo",
+      "x": 104.1,
+      "y": 28.6,
+      "xg": 0.042,
+      "outcome": "Blocked",
+      "minute": 27,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Théo Bongonda Mbul''Ofeko Batombo",
+      "team": "Celta Vigo",
+      "x": 116.5,
+      "y": 35.8,
+      "xg": 0.334,
+      "outcome": "Blocked",
+      "minute": 29,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 97.0,
+      "y": 25.2,
+      "xg": 0.019,
+      "outcome": "Off T",
+      "minute": 40,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Iago Aspas Juncal",
+      "team": "Celta Vigo",
+      "x": 115.5,
+      "y": 43.8,
+      "xg": 0.567,
+      "outcome": "Goal",
+      "minute": 44,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Cristiano Biraghi",
+      "team": "Granada",
+      "x": 88.3,
+      "y": 54.3,
+      "xg": 0.009,
+      "outcome": "Off T",
+      "minute": 48,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Iago Aspas Juncal",
+      "team": "Celta Vigo",
+      "x": 96.3,
+      "y": 37.5,
+      "xg": 0.035,
+      "outcome": "Off T",
+      "minute": 64,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Rubén Salvador Pérez Del Mármol",
+      "team": "Granada",
+      "x": 95.6,
+      "y": 36.1,
+      "xg": 0.026,
+      "outcome": "Blocked",
+      "minute": 67,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "David Rodríguez Lombán",
+      "team": "Granada",
+      "x": 114.3,
+      "y": 44.8,
+      "xg": 0.109,
+      "outcome": "Off T",
+      "minute": 68,
+      "body_part": "Head"
+    },
+    {
+      "player": "Javier Márquez Moreno",
+      "team": "Granada",
+      "x": 107.2,
+      "y": 60.0,
+      "xg": 0.009,
+      "outcome": "Blocked",
+      "minute": 69,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 107.6,
+      "y": 31.9,
+      "xg": 0.038,
+      "outcome": "Off T",
+      "minute": 79,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Josep Señé Escudero",
+      "team": "Celta Vigo",
+      "x": 103.9,
+      "y": 53.8,
+      "xg": 0.085,
+      "outcome": "Saved",
+      "minute": 83,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Robert Ibáñez Castro",
+      "team": "Granada",
+      "x": 100.2,
+      "y": 40.1,
+      "xg": 0.045,
+      "outcome": "Off T",
+      "minute": 85,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Fabián Ariel Orellana Valenzuela",
+      "team": "Celta Vigo",
+      "x": 100.4,
+      "y": 36.1,
+      "xg": 0.046,
+      "outcome": "Blocked",
+      "minute": 86,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 88.4,
+      "y": 25.7,
+      "xg": 0.006,
+      "outcome": "Off T",
+      "minute": 89,
+      "body_part": "Right Foot"
+    }
+  ],
+  "timeline": {
+    "home_events": [
+      {
+        "minute": 43,
+        "type": "Yellow Card",
+        "player": "Rubén Rochina Naixes"
+      },
+      {
+        "minute": 45,
+        "type": "Substitution",
+        "player": "Francisco Manuel Rico Castro",
+        "replacement": "Youssef El-Arabi"
+      },
+      {
+        "minute": 53,
+        "type": "Yellow Card",
+        "player": "Isaac Ajayi Success"
+      },
+      {
+        "minute": 55,
+        "type": "Yellow Card",
+        "player": "Rubén Salvador Pérez Del Mármol"
+      },
+      {
+        "minute": 66,
+        "type": "Substitution",
+        "player": "Rubén Rochina Naixes",
+        "replacement": "Uche Henry Agbo"
+      },
+      {
+        "minute": 74,
+        "type": "Substitution",
+        "player": "Javier Márquez Moreno",
+        "replacement": "Robert Ibáñez Castro"
+      },
+      {
+        "minute": 90,
+        "type": "Yellow Card",
+        "player": "Uche Henry Agbo"
+      }
+    ],
+    "away_events": [
+      {
+        "minute": 17,
+        "type": "Yellow Card",
+        "player": "Iago Aspas Juncal"
+      },
+      {
+        "minute": 20,
+        "type": "Goal",
+        "player": "Fabián Ariel Orellana Valenzuela",
+        "xg": 0.94
+      },
+      {
+        "minute": 44,
+        "type": "Goal",
+        "player": "Iago Aspas Juncal",
+        "xg": 0.567
+      },
+      {
+        "minute": 53,
+        "type": "Yellow Card",
+        "player": "Carles Planas Antolínez"
+      },
+      {
+        "minute": 80,
+        "type": "Substitution",
+        "player": "Iago Aspas Juncal",
+        "replacement": "John Guidetti"
+      },
+      {
+        "minute": 88,
+        "type": "Substitution",
+        "player": "Fabián Ariel Orellana Valenzuela",
+        "replacement": "Sergi Gómez Solà"
+      },
+      {
+        "minute": 92,
+        "type": "Substitution",
+        "player": "Josep Señé Escudero",
+        "replacement": "Pape Cheikh Diop Gueye"
+      }
+    ]
+  }
+}

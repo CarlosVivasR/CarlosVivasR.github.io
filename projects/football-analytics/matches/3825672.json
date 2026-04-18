@@ -1,0 +1,568 @@
+{
+  "id": 3825672,
+  "label": "Málaga 2-2 Granada (2015-11-28)",
+  "home": "Málaga",
+  "away": "Granada",
+  "score": "2-2",
+  "date": "2015-11-28",
+  "season": "2015/16",
+  "passing_network": {
+    "team": "Málaga",
+    "sub_minute": 54,
+    "nodes": [
+      {
+        "name": "Charles",
+        "full_name": "Charles Días Barbosa de Oliveira",
+        "x": 82.2,
+        "y": 51.6,
+        "passes": 7,
+        "received": 17
+      },
+      {
+        "name": "Fernando Tissone",
+        "full_name": "Fernando Damián Tissone",
+        "x": 53.4,
+        "y": 52.2,
+        "passes": 18,
+        "received": 16
+      },
+      {
+        "name": "Carlos Kameni",
+        "full_name": "Idriss Carlos Kameni",
+        "x": 13.5,
+        "y": 41.2,
+        "passes": 4,
+        "received": 2
+      },
+      {
+        "name": "Recio",
+        "full_name": "José Luis García del Pozo",
+        "x": 68.2,
+        "y": 28.2,
+        "passes": 17,
+        "received": 12
+      },
+      {
+        "name": "Juan Carlos",
+        "full_name": "Juan Carlos Pérez López",
+        "x": 78.4,
+        "y": 12.3,
+        "passes": 9,
+        "received": 14
+      },
+      {
+        "name": "Marcos Angeleri",
+        "full_name": "Marcos Alberto Angeleri",
+        "x": 46.4,
+        "y": 59.0,
+        "passes": 12,
+        "received": 7
+      },
+      {
+        "name": "Miguel Torres",
+        "full_name": "Miguel Torres Gómez",
+        "x": 59.2,
+        "y": 8.7,
+        "passes": 15,
+        "received": 8
+      },
+      {
+        "name": "Amrabat",
+        "full_name": "Nordin Amrabat",
+        "x": 85.0,
+        "y": 52.4,
+        "passes": 11,
+        "received": 21
+      },
+      {
+        "name": "Roberto Rosales",
+        "full_name": "Roberto José Rosales Altuve",
+        "x": 75.5,
+        "y": 73.8,
+        "passes": 17,
+        "received": 14
+      },
+      {
+        "name": "Duda",
+        "full_name": "Sérgio Paulo Barbosa Valente",
+        "x": 71.0,
+        "y": 62.4,
+        "passes": 19,
+        "received": 22
+      },
+      {
+        "name": "Weligton",
+        "full_name": "Weligton Róbson Pena de Oliveira",
+        "x": 36.7,
+        "y": 21.5,
+        "passes": 13,
+        "received": 9
+      }
+    ],
+    "edges": [
+      {
+        "source": 0,
+        "target": 1,
+        "count": 3
+      },
+      {
+        "source": 0,
+        "target": 7,
+        "count": 3
+      },
+      {
+        "source": 0,
+        "target": 8,
+        "count": 4
+      },
+      {
+        "source": 0,
+        "target": 9,
+        "count": 5
+      },
+      {
+        "source": 0,
+        "target": 10,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 3,
+        "count": 7
+      },
+      {
+        "source": 1,
+        "target": 5,
+        "count": 6
+      },
+      {
+        "source": 1,
+        "target": 7,
+        "count": 4
+      },
+      {
+        "source": 1,
+        "target": 8,
+        "count": 3
+      },
+      {
+        "source": 1,
+        "target": 9,
+        "count": 4
+      },
+      {
+        "source": 1,
+        "target": 10,
+        "count": 5
+      },
+      {
+        "source": 3,
+        "target": 4,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 6,
+        "count": 5
+      },
+      {
+        "source": 3,
+        "target": 7,
+        "count": 3
+      },
+      {
+        "source": 3,
+        "target": 9,
+        "count": 4
+      },
+      {
+        "source": 3,
+        "target": 10,
+        "count": 4
+      },
+      {
+        "source": 4,
+        "target": 6,
+        "count": 9
+      },
+      {
+        "source": 4,
+        "target": 7,
+        "count": 3
+      },
+      {
+        "source": 5,
+        "target": 10,
+        "count": 5
+      },
+      {
+        "source": 6,
+        "target": 7,
+        "count": 4
+      },
+      {
+        "source": 7,
+        "target": 8,
+        "count": 6
+      },
+      {
+        "source": 7,
+        "target": 9,
+        "count": 7
+      },
+      {
+        "source": 8,
+        "target": 9,
+        "count": 14
+      }
+    ]
+  },
+  "shots": [
+    {
+      "player": "Adalberto Peñaranda Maestre",
+      "team": "Granada",
+      "x": 113.6,
+      "y": 57.5,
+      "xg": 0.012,
+      "outcome": "Blocked",
+      "minute": 4,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Marcos Alberto Angeleri",
+      "team": "Málaga",
+      "x": 116.0,
+      "y": 33.6,
+      "xg": 0.203,
+      "outcome": "Off T",
+      "minute": 7,
+      "body_part": "Head"
+    },
+    {
+      "player": "Nordin Amrabat",
+      "team": "Málaga",
+      "x": 115.2,
+      "y": 49.3,
+      "xg": 0.066,
+      "outcome": "Blocked",
+      "minute": 10,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Charles Días Barbosa de Oliveira",
+      "team": "Málaga",
+      "x": 101.4,
+      "y": 45.0,
+      "xg": 0.178,
+      "outcome": "Saved",
+      "minute": 14,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Sérgio Paulo Barbosa Valente",
+      "team": "Málaga",
+      "x": 84.4,
+      "y": 40.8,
+      "xg": 0.016,
+      "outcome": "Blocked",
+      "minute": 17,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Javier Márquez Moreno",
+      "team": "Granada",
+      "x": 96.6,
+      "y": 55.7,
+      "xg": 0.039,
+      "outcome": "Blocked",
+      "minute": 24,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Charles Días Barbosa de Oliveira",
+      "team": "Málaga",
+      "x": 112.8,
+      "y": 43.5,
+      "xg": 0.096,
+      "outcome": "Saved",
+      "minute": 27,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Hugo Miguel Almeida Costa Lopes",
+      "team": "Granada",
+      "x": 104.2,
+      "y": 58.0,
+      "xg": 0.026,
+      "outcome": "Saved",
+      "minute": 38,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Charles Días Barbosa de Oliveira",
+      "team": "Málaga",
+      "x": 109.9,
+      "y": 33.6,
+      "xg": 0.081,
+      "outcome": "Goal",
+      "minute": 44,
+      "body_part": "Head"
+    },
+    {
+      "player": "Nordin Amrabat",
+      "team": "Málaga",
+      "x": 110.2,
+      "y": 50.3,
+      "xg": 0.08,
+      "outcome": "Saved",
+      "minute": 56,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Pablo Fornals Malla",
+      "team": "Málaga",
+      "x": 106.7,
+      "y": 44.7,
+      "xg": 0.064,
+      "outcome": "Goal",
+      "minute": 56,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Juan Carlos Pérez López",
+      "team": "Málaga",
+      "x": 112.0,
+      "y": 41.3,
+      "xg": 0.484,
+      "outcome": "Off T",
+      "minute": 59,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Charles Días Barbosa de Oliveira",
+      "team": "Málaga",
+      "x": 103.3,
+      "y": 34.2,
+      "xg": 0.327,
+      "outcome": "Saved",
+      "minute": 61,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Pablo Fornals Malla",
+      "team": "Málaga",
+      "x": 86.5,
+      "y": 40.4,
+      "xg": 0.028,
+      "outcome": "Off T",
+      "minute": 69,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Francisco Manuel Rico Castro",
+      "team": "Granada",
+      "x": 114.3,
+      "y": 30.4,
+      "xg": 0.05,
+      "outcome": "Off T",
+      "minute": 72,
+      "body_part": "Head"
+    },
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 111.4,
+      "y": 32.3,
+      "xg": 0.097,
+      "outcome": "Blocked",
+      "minute": 76,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Youssef El-Arabi",
+      "team": "Granada",
+      "x": 114.2,
+      "y": 35.0,
+      "xg": 0.128,
+      "outcome": "Goal",
+      "minute": 82,
+      "body_part": "Head"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 110.7,
+      "y": 34.1,
+      "xg": 0.067,
+      "outcome": "Goal",
+      "minute": 85,
+      "body_part": "Head"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 87.7,
+      "y": 58.8,
+      "xg": 0.009,
+      "outcome": "Off T",
+      "minute": 88,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "José Luis García del Pozo",
+      "team": "Málaga",
+      "x": 109.2,
+      "y": 46.4,
+      "xg": 0.124,
+      "outcome": "Saved",
+      "minute": 90,
+      "body_part": "Right Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 102.3,
+      "y": 55.9,
+      "xg": 0.015,
+      "outcome": "Blocked",
+      "minute": 90,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Rubén Rochina Naixes",
+      "team": "Granada",
+      "x": 96.0,
+      "y": 41.0,
+      "xg": 0.052,
+      "outcome": "Off T",
+      "minute": 93,
+      "body_part": "Left Foot"
+    },
+    {
+      "player": "Isaac Ajayi Success",
+      "team": "Granada",
+      "x": 98.4,
+      "y": 27.0,
+      "xg": 0.053,
+      "outcome": "Saved",
+      "minute": 93,
+      "body_part": "Right Foot"
+    }
+  ],
+  "timeline": {
+    "home_events": [
+      {
+        "minute": 36,
+        "type": "Yellow Card",
+        "player": "Fernando Damián Tissone"
+      },
+      {
+        "minute": 44,
+        "type": "Goal",
+        "player": "Charles Días Barbosa de Oliveira",
+        "xg": 0.081
+      },
+      {
+        "minute": 50,
+        "type": "Yellow Card",
+        "player": "Roberto José Rosales Altuve"
+      },
+      {
+        "minute": 51,
+        "type": "Second Yellow",
+        "player": "Fernando Damián Tissone"
+      },
+      {
+        "minute": 54,
+        "type": "Substitution",
+        "player": "Sérgio Paulo Barbosa Valente",
+        "replacement": "Pablo Fornals Malla"
+      },
+      {
+        "minute": 56,
+        "type": "Goal",
+        "player": "Pablo Fornals Malla",
+        "xg": 0.064
+      },
+      {
+        "minute": 64,
+        "type": "Yellow Card",
+        "player": "Miguel Torres Gómez"
+      },
+      {
+        "minute": 73,
+        "type": "Substitution",
+        "player": "Nordin Amrabat",
+        "replacement": "Juan Pablo Añor Acosta"
+      },
+      {
+        "minute": 84,
+        "type": "Substitution",
+        "player": "Charles Días Barbosa de Oliveira",
+        "replacement": "Roque Luis Santa Cruz Cantero"
+      }
+    ],
+    "away_events": [
+      {
+        "minute": 26,
+        "type": "Yellow Card",
+        "player": "David Rodríguez Lombán"
+      },
+      {
+        "minute": 53,
+        "type": "Substitution",
+        "player": "Uche Henry Agbo",
+        "replacement": "Rubén Rochina Naixes"
+      },
+      {
+        "minute": 55,
+        "type": "Yellow Card",
+        "player": "Hugo Miguel Almeida Costa Lopes"
+      },
+      {
+        "minute": 64,
+        "type": "Yellow Card",
+        "player": "Robert Ibáñez Castro"
+      },
+      {
+        "minute": 66,
+        "type": "Substitution",
+        "player": "Hugo Miguel Almeida Costa Lopes",
+        "replacement": "Dimitri Foulquier"
+      },
+      {
+        "minute": 68,
+        "type": "Substitution",
+        "player": "Robert Ibáñez Castro",
+        "replacement": "Youssef El-Arabi"
+      },
+      {
+        "minute": 74,
+        "type": "Yellow Card",
+        "player": "Javier Márquez Moreno"
+      },
+      {
+        "minute": 82,
+        "type": "Goal",
+        "player": "Youssef El-Arabi",
+        "xg": 0.128
+      },
+      {
+        "minute": 85,
+        "type": "Goal",
+        "player": "Rubén Rochina Naixes",
+        "xg": 0.067
+      },
+      {
+        "minute": 89,
+        "type": "Yellow Card",
+        "player": "Dimitri Foulquier"
+      },
+      {
+        "minute": 90,
+        "type": "Yellow Card",
+        "player": "Rubén Rochina Naixes"
+      }
+    ]
+  }
+}
