@@ -335,6 +335,32 @@
   .submitted-banner .summary .champ{display:inline-flex;align-items:center;gap:8px}
   .submitted-banner .summary .champ img{width:22px;height:16px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 
+  /* Invite friends */
+  .invite{margin:0 0 22px;border-radius:12px;background:linear-gradient(180deg,#f3e9fa,#fbf6ff);border:1px solid #c8a8e0;box-shadow:0 1px 2px rgba(0,0,0,.03);overflow:hidden}
+  .invite > summary{list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;user-select:none}
+  .invite > summary::-webkit-details-marker{display:none}
+  .invite > summary:hover{background:rgba(107,70,193,.06)}
+  .invite-head{display:flex;align-items:center;gap:12px;flex:1}
+  .invite-head .icon{width:32px;height:32px;border-radius:50%;background:#6b46c1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1em;flex-shrink:0}
+  .invite-head h3{font-size:.98em;font-weight:800;color:#3b2362;margin:0}
+  .invite-head p{color:#5b3e8e;font-size:.86em;margin-top:1px}
+  .invite .chevron{width:20px;height:20px;color:#6b46c1;transition:transform .2s ease;flex-shrink:0}
+  .invite[open] .chevron{transform:rotate(180deg)}
+  .invite-body{padding:0 18px 18px}
+  .invite-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .invite-url{flex:1;min-width:200px;padding:10px 14px;border-radius:8px;background:#fff;border:1px solid #d8c8ec;font-family:'SF Mono',Menlo,monospace;font-size:.84em;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .invite-btn{display:inline-flex;align-items:center;gap:6px;background:#6b46c1;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-family:inherit;font-weight:700;font-size:.88em;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap}
+  .invite-btn:hover{background:#553792}
+  .invite-btn.success{background:var(--primary)}
+  .invite-btn.whatsapp{background:#25D366;color:#fff}
+  .invite-btn.whatsapp:hover{background:#1eae54}
+  .invite-btn.email{background:#fff;color:#5b3e8e;border:1px solid #c8a8e0}
+  .invite-btn.email:hover{background:#f3e9fa}
+  .invite-share{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .invite-qr{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px;background:#fff;border:1px solid #d8c8ec;border-radius:10px}
+  .invite-qr img{display:block;width:180px;height:180px;background:#fff}
+  .invite-qr .caption{font-size:.78em;color:#5b3e8e;font-weight:600;letter-spacing:.04em}
+
   /* Leaderboard */
   .leaderboard{margin:0 0 22px;border-radius:12px;background:linear-gradient(180deg,#eef3fa,#f7faff);border:1px solid #b9c8e0;box-shadow:0 1px 2px rgba(0,0,0,.03);overflow:hidden}
   .leaderboard > summary{list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;user-select:none}
@@ -600,6 +626,33 @@
     <button class="btn" id="btn-clear">Clear all</button>
     <div class="submit-help" id="submit-help"></div>
   </div>
+
+  <details class="invite" id="invite">
+    <summary>
+      <div class="invite-head">
+        <div class="icon">📤</div>
+        <div>
+          <h3>Invite friends to the pool</h3>
+          <p>Share the link, scan the QR, or send via WhatsApp / email.</p>
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>
+    </summary>
+    <div class="invite-body">
+      <div class="invite-row">
+        <div class="invite-url" id="invite-url">—</div>
+        <button class="invite-btn" id="btn-copy">Copy link</button>
+      </div>
+      <div class="invite-share">
+        <a class="invite-btn whatsapp" id="share-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="invite-btn email" id="share-email" target="_blank" rel="noopener">Email</a>
+      </div>
+      <div class="invite-qr">
+        <img id="invite-qr-img" alt="QR code to open the pool">
+        <span class="caption">Scan to join</span>
+      </div>
+    </div>
+  </details>
 
   <details class="leaderboard" id="leaderboard">
     <summary>
@@ -992,23 +1045,37 @@ function refreshBracket(){
   const ready = allGroupsComplete() && state.starred.size === 8;
   const gate = document.getElementById("bracket-gate");
   const wrap = document.getElementById("bracket-wrap");
+  /* Bracket always visible — only the gate hint toggles */
+  wrap.style.display = "block";
   gate.style.display = ready ? "none" : "block";
-  wrap.style.display = ready ? "block" : "none";
   if (!ready){
-    /* Clear winners if state regresses (so bad picks don't linger) */
     document.getElementById("champion-banner").classList.remove("show");
-    return;
   }
 
-  const r32 = resolveR32();
-  if (!r32 || Object.values(r32).some(s=>!s.a||!s.b)){
-    /* Shouldn't happen if state is consistent */
-    return;
+  let r32, r16, qf, sf, fin;
+  if (ready) {
+    r32 = resolveR32();
+    if (!r32 || Object.values(r32).some(s=>!s.a||!s.b)) return;
+    r16 = buildNextRound(R16_PAIRS, r32, "R32", "R16");
+    qf  = buildNextRound(QF_PAIRS,  r16, "R16", "QF");
+    sf  = buildNextRound(SF_PAIRS,  qf,  "QF",  "SF");
+    fin = buildNextRound(F_PAIRS,   sf,  "SF",  "F");
+  } else {
+    /* Placeholder bracket: R32 slots show their FIFA-defined identifiers,
+       later rounds show generic "— Pending —" */
+    r32 = {}; r16 = {}; qf = {}; sf = {}; fin = {};
+    R32_SPEC.forEach(m => {
+      const labelOf = s => {
+        if (s.type === "pos") return `${s.pos===1?'1st':'2nd'} · Group ${s.group}`;
+        return `Best 3rd · {${s.allowed.join(",")}}`;
+      };
+      r32[m.id] = { a:{placeholder:labelOf(m.a)}, b:{placeholder:labelOf(m.b)} };
+    });
+    for (let i=1;i<=8;i++) r16[`R16-${i}`] = {a:null, b:null};
+    for (let i=1;i<=4;i++) qf[`QF-${i}`]  = {a:null, b:null};
+    for (let i=1;i<=2;i++) sf[`SF-${i}`]  = {a:null, b:null};
+    fin["F-1"] = {a:null, b:null};
   }
-  const r16 = buildNextRound(R16_PAIRS, r32, "R32", "R16");
-  const qf  = buildNextRound(QF_PAIRS,  r16, "R16", "QF");
-  const sf  = buildNextRound(SF_PAIRS,  qf,  "QF",  "SF");
-  const fin = buildNextRound(F_PAIRS,   sf,  "SF",  "F");
 
   const rounds = [
     {label:"Round of 32",   prefix:"R32", slots:r32, count:16},
@@ -1078,15 +1145,22 @@ function setTbTeam(elId, team){
 }
 
 function renderSlot(matchId, side, team, winnerSide){
-  const isWinner = winnerSide === side;
-  const isLoser  = winnerSide && winnerSide !== side;
-  const cls = "slot " + (team ? (isWinner ? "winner" : (isLoser ? "loser" : "")) : "empty");
-  const nameHtml = team
-    ? `<span class="team-name">${team.name}</span>`
-    : `<span class="team-name placeholder">— Pending —</span>`;
-  const flagHtml = team
-    ? `<img class="flag-sm" src="https://flagcdn.com/w40/${team.code}.png" alt="">`
-    : `<span class="flag-sm"></span>`;
+  const isPlaceholder = team && team.placeholder;
+  const hasRealTeam = team && team.name;
+  const isWinner = hasRealTeam && winnerSide === side;
+  const isLoser  = hasRealTeam && winnerSide && winnerSide !== side;
+  const cls = "slot " + (hasRealTeam ? (isWinner ? "winner" : (isLoser ? "loser" : "")) : "empty");
+  let nameHtml, flagHtml;
+  if (hasRealTeam){
+    nameHtml = `<span class="team-name">${team.name}</span>`;
+    flagHtml = `<img class="flag-sm" src="https://flagcdn.com/w40/${team.code}.png" alt="">`;
+  } else if (isPlaceholder){
+    nameHtml = `<span class="team-name placeholder">${team.placeholder}</span>`;
+    flagHtml = `<span class="flag-sm"></span>`;
+  } else {
+    nameHtml = `<span class="team-name placeholder">— Pending —</span>`;
+    flagHtml = `<span class="flag-sm"></span>`;
+  }
   return `<div class="${cls}" data-match="${matchId}" data-side="${side}">${flagHtml}${nameHtml}</div>`;
 }
 
@@ -1513,6 +1587,35 @@ document.getElementById("lb-refresh").addEventListener("click", loadLeaderboard)
 document.getElementById("leaderboard").addEventListener("toggle", function(){
   if (this.open) loadLeaderboard();
 });
+
+/* ============================================================
+   INVITE FRIENDS
+   ============================================================ */
+(function(){
+  const POOL_URL = window.location.origin + window.location.pathname.replace(/(admin\.html|index\.html)?(\?.*)?$/, "");
+  const SHARE_TEXT = "🏆 Join my World Cup 2026 prediction pool — fill out the bracket and compete with friends.";
+  document.getElementById("invite-url").textContent = POOL_URL;
+  document.getElementById("invite-qr-img").src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=8&data=${encodeURIComponent(POOL_URL)}`;
+  document.getElementById("share-whatsapp").href =
+    `https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + " " + POOL_URL)}`;
+  document.getElementById("share-email").href =
+    `mailto:?subject=${encodeURIComponent("World Cup 2026 Pool")}&body=${encodeURIComponent(SHARE_TEXT + "\n\n" + POOL_URL)}`;
+  document.getElementById("btn-copy").addEventListener("click", async (e)=>{
+    const btn = e.currentTarget;
+    try {
+      await navigator.clipboard.writeText(POOL_URL);
+      btn.textContent = "✓ Copied";
+      btn.classList.add("success");
+      setTimeout(()=>{ btn.textContent = "Copy link"; btn.classList.remove("success"); }, 1800);
+    } catch(err){
+      btn.textContent = "Press ⌘C";
+      const range = document.createRange();
+      range.selectNodeContents(document.getElementById("invite-url"));
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    }
+  });
+})();
 
 /* ============================================================
    DEADLINE
