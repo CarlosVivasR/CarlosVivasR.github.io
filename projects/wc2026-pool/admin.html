@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · WC 2026 Pool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --bg:#ffffff;--surface:#fafafa;--line:#e5e7eb;--line-strong:#d1d5db;
+    --ink:#0a0a0a;--ink-2:#374151;--muted:#6b7280;
+    --primary:#006341;--primary-soft:rgba(0,99,65,.08);--gold:#C9A227;--red:#c1272d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#f8f9fb;color:var(--ink);font-family:'Inter',sans-serif;line-height:1.55}
+  header{background:#0a0a0a;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  header h1{font-size:1.05em;font-weight:800;letter-spacing:.04em}
+  header h1 .tag{background:var(--red);color:#fff;padding:3px 10px;border-radius:4px;font-size:.7em;letter-spacing:.18em;margin-left:8px}
+  header a{color:#9ca3af;font-size:.86em;text-decoration:none}
+  header a:hover{color:#fff}
+  main{max-width:1100px;margin:0 auto;padding:32px 24px}
+
+  .gate{max-width:420px;margin:64px auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.06);text-align:center}
+  .gate h2{font-size:1.2em;margin-bottom:14px;color:var(--ink)}
+  .gate p{color:var(--muted);font-size:.92em;margin-bottom:18px}
+  .gate input{width:100%;height:42px;border:1px solid var(--line);border-radius:8px;padding:0 14px;font-family:inherit;font-size:.96em;outline:none;margin-bottom:10px}
+  .gate input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+  .gate button{width:100%;background:var(--primary);color:#fff;border:none;padding:11px;border-radius:8px;font-family:inherit;font-weight:700;font-size:.96em;cursor:pointer}
+  .gate button:hover{background:#004f33}
+  .gate .err{color:var(--red);font-size:.85em;margin-top:6px;display:none}
+  .gate .err.show{display:block}
+
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+  .toolbar h2{font-size:1.4em;font-weight:800}
+  .toolbar .actions{display:flex;gap:10px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-family:inherit;font-weight:600;font-size:.92em;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink);transition:all .15s}
+  .btn:hover{border-color:var(--ink)}
+  .btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .btn.primary:hover{background:#004f33}
+  .btn.danger{background:#fff;color:var(--red);border-color:#e5a3a6}
+  .save-status{font-size:.85em;color:var(--muted)}
+  .save-status.ok{color:var(--primary);font-weight:700}
+  .save-status.err{color:var(--red);font-weight:700}
+
+  .panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:20px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .panel h3{font-size:.78em;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+  .panel .help{color:var(--muted);font-size:.86em;margin-bottom:14px}
+
+  .groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .gcard{border:1px solid var(--line);border-radius:10px;padding:12px}
+  .gcard.starred{border-color:var(--gold);background:linear-gradient(180deg,#fffaf0,#fff)}
+  .gcard-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+  .gid{font-weight:900;font-size:.74em;letter-spacing:.16em;color:var(--primary);background:var(--primary-soft);padding:4px 8px;border-radius:5px}
+  .star-toggle{background:transparent;border:1px solid transparent;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#cbd5e1;font-size:18px;padding:0;display:flex;align-items:center;justify-content:center}
+  .star-toggle.on{color:var(--gold);background:rgba(201,162,39,.12);border-color:#e6c14a}
+  .grow{display:grid;grid-template-columns:22px 1fr 60px;align-items:center;gap:8px;padding:5px 4px}
+  .grow + .grow{border-top:1px solid #f3f4f6}
+  .grow .flag{width:22px;height:16px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+  .grow .name{font-size:.9em;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .grow select{width:100%;height:28px;border:1px solid var(--line);border-radius:5px;font-family:inherit;font-weight:700;text-align:center;background:#fff;outline:none;font-size:.85em;appearance:none;-webkit-appearance:none}
+  .grow select:focus{border-color:var(--primary)}
+
+  .ko-rounds{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:760px){ .ko-rounds{grid-template-columns:1fr} }
+  .ko-round h4{font-size:.7em;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .ko-match{display:grid;grid-template-columns:60px 1fr;align-items:center;gap:8px;padding:7px 6px;border-bottom:1px solid #f3f4f6;font-size:.86em}
+  .ko-match label{font-weight:700;color:var(--muted);font-size:.74em;letter-spacing:.08em}
+  .ko-match input{width:100%;height:30px;border:1px solid var(--line);border-radius:6px;padding:0 10px;font-family:inherit;font-size:.88em;outline:none}
+  .ko-match input:focus{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-soft)}
+
+  .tb-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+  .tb-row label{font-weight:600;color:var(--ink-2);min-width:160px;font-size:.92em}
+  .tb-row input{height:36px;border:1px solid var(--line);border-radius:7px;padding:0 12px;font-family:inherit;outline:none}
+  .tb-row input[type=number]{width:64px;text-align:center;font-weight:700}
+  .tb-row input[type=text]{flex:1;min-width:200px}
+
+  footer{text-align:center;color:var(--muted);font-size:.84em;padding:24px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>WC 2026 Pool <span class="tag">ADMIN</span></h1>
+  <a href="index.html">← Public pool</a>
+</header>
+
+<main>
+  <div class="gate" id="gate">
+    <h2>🔒 Admin access</h2>
+    <p>Enter the admin key to manage official results. The key is set in the URL or via the input below.</p>
+    <input type="password" id="key-input" placeholder="Admin key">
+    <button id="key-btn">Unlock</button>
+    <div class="err" id="key-err">Wrong key.</div>
+  </div>
+
+  <div id="admin-content" style="display:none">
+    <div class="toolbar">
+      <h2>Official results</h2>
+      <div class="actions">
+        <span class="save-status" id="save-status"></span>
+        <button class="btn primary" id="save-btn">Save results</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Group stage — final standings</h3>
+      <p class="help">For each group, assign the actual 1st/2nd/3rd/4th. Click ★ on groups whose third-placed team advanced (max 8).</p>
+      <div class="groups-grid" id="admin-groups"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Knockout — match winners</h3>
+      <p class="help">For each match, type the exact name of the winning team (case-sensitive, matches the names in the group cards: "Mexico", "South Korea", "Türkiye", "England", etc.).</p>
+      <div class="ko-rounds" id="admin-knockout"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Tiebreakers</h3>
+      <div class="tb-row">
+        <label>Final score</label>
+        <input type="number" id="adm-fg-a" min="0" placeholder="0">
+        <span>—</span>
+        <input type="number" id="adm-fg-b" min="0" placeholder="0">
+      </div>
+      <div class="tb-row">
+        <label>Golden Boot</label>
+        <input type="text" id="adm-gb" placeholder="e.g. Kylian Mbappé">
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>FootAnalytics · WC 2026 Pool · Admin</footer>
+
+<script>
+/* ============ Config ============ */
+const SUPABASE_URL = "https://mdiijmvjzjqnhvvjqqht.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kaWlqbXZqempxbmh2dmpxcWh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MTExNjgsImV4cCI6MjA5NDA4NzE2OH0.UmPVhth3Xr5sPUyJAib-ms2kWC30FBvWBMoKsyylP90";
+const ADMIN_KEY = "mundial2026-vivas";  /* Change me */
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const GROUPS = {
+  A:[["Mexico","mx"],["South Africa","za"],["South Korea","kr"],["Czechia","cz"]],
+  B:[["Canada","ca"],["Switzerland","ch"],["Qatar","qa"],["Bosnia & Herzegovina","ba"]],
+  C:[["Brazil","br"],["Morocco","ma"],["Haiti","ht"],["Scotland","gb-sct"]],
+  D:[["USA","us"],["Paraguay","py"],["Australia","au"],["Türkiye","tr"]],
+  E:[["Germany","de"],["Curaçao","cw"],["Ivory Coast","ci"],["Ecuador","ec"]],
+  F:[["Netherlands","nl"],["Japan","jp"],["Sweden","se"],["Tunisia","tn"]],
+  G:[["Belgium","be"],["Egypt","eg"],["Iran","ir"],["New Zealand","nz"]],
+  H:[["Spain","es"],["Cape Verde","cv"],["Saudi Arabia","sa"],["Uruguay","uy"]],
+  I:[["France","fr"],["Senegal","sn"],["Norway","no"],["Iraq","iq"]],
+  J:[["Argentina","ar"],["Algeria","dz"],["Austria","at"],["Jordan","jo"]],
+  K:[["Portugal","pt"],["DR Congo","cd"],["Uzbekistan","uz"],["Colombia","co"]],
+  L:[["England","gb-eng"],["Croatia","hr"],["Ghana","gh"],["Panama","pa"]],
+};
+
+const KO_ROUNDS = [
+  {prefix:"R32",label:"Round of 32",count:16},
+  {prefix:"R16",label:"Round of 16",count:8},
+  {prefix:"QF", label:"Quarter-finals",count:4},
+  {prefix:"SF", label:"Semi-finals",count:2},
+  {prefix:"F",  label:"Final",count:1},
+];
+
+/* ============ State ============ */
+const state = {
+  positions: {},   /* "A-Mexico" -> 1|2|3|4 */
+  starred: new Set(),
+  winners: {},     /* "R32-1" -> "Argentina" */
+  finalGoalsA: null,
+  finalGoalsB: null,
+  goldenBoot: "",
+};
+
+/* ============ Auth gate ============ */
+function checkKey(){
+  const url = new URL(window.location.href);
+  const fromUrl = url.searchParams.get("key");
+  const fromInput = document.getElementById("key-input").value.trim();
+  if (fromUrl === ADMIN_KEY || fromInput === ADMIN_KEY) return true;
+  return false;
+}
+function unlockUI(){
+  document.getElementById("gate").style.display = "none";
+  document.getElementById("admin-content").style.display = "block";
+  renderAll();
+  loadFromDb();
+}
+if (new URL(window.location.href).searchParams.get("key") === ADMIN_KEY){
+  unlockUI();
+}
+document.getElementById("key-btn").addEventListener("click",()=>{
+  if (checkKey()) unlockUI();
+  else document.getElementById("key-err").classList.add("show");
+});
+document.getElementById("key-input").addEventListener("keydown",(e)=>{
+  if (e.key === "Enter") document.getElementById("key-btn").click();
+});
+
+/* ============ Render ============ */
+function renderAll(){
+  renderGroups();
+  renderKnockout();
+}
+
+function renderGroups(){
+  const grid = document.getElementById("admin-groups");
+  grid.innerHTML = "";
+  Object.entries(GROUPS).forEach(([letter, teams])=>{
+    const card = document.createElement("div");
+    card.className = "gcard" + (state.starred.has(letter) ? " starred" : "");
+    card.dataset.group = letter;
+    card.innerHTML = `
+      <div class="gcard-head">
+        <span class="gid">Group ${letter}</span>
+        <button class="star-toggle ${state.starred.has(letter)?'on':''}" data-star="${letter}" title="Mark group whose third advanced">★</button>
+      </div>
+      ${teams.map(([name,code])=>{
+        const pos = state.positions[`${letter}-${name}`] || "";
+        return `
+          <div class="grow">
+            <img class="flag" src="https://flagcdn.com/w40/${code}.png" alt="">
+            <span class="name">${name}</span>
+            <select data-group="${letter}" data-team="${name}">
+              <option value="">—</option>
+              <option value="1"${pos===1?' selected':''}>1st</option>
+              <option value="2"${pos===2?' selected':''}>2nd</option>
+              <option value="3"${pos===3?' selected':''}>3rd</option>
+              <option value="4"${pos===4?' selected':''}>4th</option>
+            </select>
+          </div>
+        `;
+      }).join("")}
+    `;
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll("select").forEach(sel=>{
+    sel.addEventListener("change",()=>{
+      const g = sel.dataset.group, t = sel.dataset.team, v = sel.value;
+      const key = `${g}-${t}`;
+      if (v) state.positions[key] = parseInt(v,10);
+      else delete state.positions[key];
+    });
+  });
+  grid.querySelectorAll(".star-toggle").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const g = btn.dataset.star;
+      if (state.starred.has(g)) state.starred.delete(g);
+      else {
+        if (state.starred.size >= 8){ alert("Max 8 advancing thirds."); return; }
+        state.starred.add(g);
+      }
+      renderGroups();
+    });
+  });
+}
+
+function renderKnockout(){
+  const grid = document.getElementById("admin-knockout");
+  grid.innerHTML = "";
+  KO_ROUNDS.forEach(r=>{
+    const col = document.createElement("div");
+    col.className = "ko-round";
+    col.innerHTML = `<h4>${r.label}</h4>` + Array.from({length:r.count}).map((_,i)=>{
+      const id = `${r.prefix}-${i+1}`;
+      const val = state.winners[id] || "";
+      return `
+        <div class="ko-match">
+          <label>${id}</label>
+          <input type="text" data-match="${id}" value="${val.replace(/"/g,'&quot;')}" placeholder="Winning team">
+        </div>
+      `;
+    }).join("");
+    grid.appendChild(col);
+  });
+  grid.querySelectorAll("input").forEach(inp=>{
+    inp.addEventListener("input",()=>{
+      const id = inp.dataset.match;
+      const v = inp.value.trim();
+      if (v) state.winners[id] = v; else delete state.winners[id];
+    });
+  });
+}
+
+/* ============ Load + Save ============ */
+async function loadFromDb(){
+  const status = document.getElementById("save-status");
+  status.textContent = "Loading…";
+  status.className = "save-status";
+  try {
+    const { data, error } = await sb.from("official_results").select("*").eq("id",1).maybeSingle();
+    if (error) throw error;
+    if (data){
+      state.positions = data.positions || {};
+      state.starred = new Set(data.starred || []);
+      state.winners = data.winners || {};
+      state.finalGoalsA = data.final_goals_a;
+      state.finalGoalsB = data.final_goals_b;
+      state.goldenBoot = data.golden_boot || "";
+      document.getElementById("adm-fg-a").value = state.finalGoalsA ?? "";
+      document.getElementById("adm-fg-b").value = state.finalGoalsB ?? "";
+      document.getElementById("adm-gb").value = state.goldenBoot;
+      renderAll();
+      status.textContent = "Loaded existing results.";
+    } else {
+      status.textContent = "No results yet — fresh.";
+    }
+  } catch(err){
+    console.error(err);
+    status.textContent = "Couldn't load.";
+    status.className = "save-status err";
+  }
+}
+
+document.getElementById("adm-fg-a").addEventListener("input",e=>state.finalGoalsA = e.target.value===""?null:parseInt(e.target.value,10));
+document.getElementById("adm-fg-b").addEventListener("input",e=>state.finalGoalsB = e.target.value===""?null:parseInt(e.target.value,10));
+document.getElementById("adm-gb").addEventListener("input",e=>state.goldenBoot = e.target.value);
+
+document.getElementById("save-btn").addEventListener("click", async ()=>{
+  const status = document.getElementById("save-status");
+  const btn = document.getElementById("save-btn");
+  btn.disabled = true;
+  status.textContent = "Saving…";
+  status.className = "save-status";
+  try {
+    const payload = {
+      id: 1,
+      positions: state.positions,
+      starred: [...state.starred],
+      winners: state.winners,
+      final_goals_a: state.finalGoalsA,
+      final_goals_b: state.finalGoalsB,
+      golden_boot: state.goldenBoot,
+      updated_at: new Date().toISOString(),
+    };
+    const { error } = await sb.from("official_results").upsert(payload);
+    if (error) throw error;
+    status.textContent = "✓ Saved.";
+    status.className = "save-status ok";
+  } catch(err){
+    console.error(err);
+    status.textContent = "Failed: " + (err.message || err);
+    status.className = "save-status err";
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
