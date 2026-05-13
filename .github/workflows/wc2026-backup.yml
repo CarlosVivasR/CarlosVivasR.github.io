@@ -1,0 +1,87 @@
+name: WC 2026 Pool — daily backup
+
+# Runs every day at 03:00 UTC and on manual trigger. Downloads users + picks
+# + official_results from Supabase and commits a snapshot to a SEPARATE PRIVATE
+# repo (so participant emails are never in this public repo).
+#
+# Required setup (one time):
+#   1. Create a private repo named  carlosvivasr/wc2026-pool-backups
+#   2. Generate a fine-grained Personal Access Token (PAT) with:
+#        - Repository access: only "wc2026-pool-backups"
+#        - Permissions: Contents → Read and write
+#   3. In  carlosvivasr/CarlosVivasR.github.io  Settings → Secrets and variables → Actions:
+#        - SUPABASE_URL        = https://mdiijmvjzjqnhvvjqqht.supabase.co
+#        - SUPABASE_ANON_KEY   = (the anon JWT used in admin.html)
+#        - BACKUP_REPO_TOKEN   = (the PAT generated above)
+#
+# Note: anon key has SELECT on users/picks/official_results via RLS, which is
+# all the backup needs. No service role key required.
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # daily at 03:00 UTC
+  workflow_dispatch:        # also runnable manually
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install --quiet requests
+
+      - name: Fetch snapshot from Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          python <<'PY'
+          import os, json, datetime, requests
+          base = os.environ["SUPABASE_URL"].rstrip("/")
+          key  = os.environ["SUPABASE_ANON_KEY"]
+          h = {"apikey": key, "Authorization": f"Bearer {key}"}
+          out = {
+            "snapshot_at": datetime.datetime.utcnow().isoformat() + "Z",
+            "users":            requests.get(f"{base}/rest/v1/users?select=*",            headers=h, timeout=30).json(),
+            "picks":            requests.get(f"{base}/rest/v1/picks?select=*",            headers=h, timeout=30).json(),
+            "official_results": requests.get(f"{base}/rest/v1/official_results?select=*", headers=h, timeout=30).json(),
+          }
+          today = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+          os.makedirs("snapshot", exist_ok=True)
+          with open(f"snapshot/{today}.json", "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=2)
+          # Also write a moving "latest.json" pointer for convenience.
+          with open("snapshot/latest.json", "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=2)
+          print(f"Saved snapshot/{today}.json — users={len(out['users'])} picks={len(out['picks'])}")
+          PY
+
+      - name: Checkout private backup repo
+        uses: actions/checkout@v4
+        with:
+          repository: CarlosVivasR/wc2026-pool-backups
+          token: ${{ secrets.BACKUP_REPO_TOKEN }}
+          path: backups-repo
+
+      - name: Commit snapshot to private repo
+        run: |
+          set -e
+          mkdir -p backups-repo/snapshot
+          cp -f snapshot/*.json backups-repo/snapshot/
+          cd backups-repo
+          git config user.name  "wc2026-backup-bot"
+          git config user.email "wc2026-backup-bot@users.noreply.github.com"
+          git add snapshot
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Snapshot $(date -u +%Y-%m-%d)"
+            git push
+          fi

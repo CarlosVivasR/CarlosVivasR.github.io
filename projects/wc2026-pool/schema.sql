@@ -53,6 +53,52 @@ create table if not exists official_results (
   updated_at     timestamptz default now()
 );
 
+-- errors: client-side error log. Never store emails or personal data here,
+-- just technical context (browser, action, message). For Carlos to debug
+-- silent failures during the tournament.
+create table if not exists errors (
+  id          uuid        primary key default gen_random_uuid(),
+  created_at  timestamptz default now(),
+  context     text        not null,            -- which action failed (e.g. "submit_picks", "load_leaderboard")
+  message     text        not null,            -- error.message
+  user_agent  text,                            -- navigator.userAgent
+  meta        jsonb                            -- any extra non-PII context
+);
+
+
+-- ----------------------------------------------------------------
+-- 1b. CHECK CONSTRAINTS (data integrity)
+-- ----------------------------------------------------------------
+-- These prevent malformed payloads from reaching the table even via
+-- direct API calls. Wrap in DO blocks to make idempotent.
+
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'picks_positions_is_object') then
+    alter table picks add constraint picks_positions_is_object
+      check (jsonb_typeof(positions) = 'object');
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'picks_winners_is_object') then
+    alter table picks add constraint picks_winners_is_object
+      check (jsonb_typeof(winners) = 'object');
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'picks_starred_eight') then
+    alter table picks add constraint picks_starred_eight
+      check (array_length(starred, 1) = 8);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'picks_final_goals_a_range') then
+    alter table picks add constraint picks_final_goals_a_range
+      check (final_goals_a is null or (final_goals_a >= 0 and final_goals_a <= 30));
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'picks_final_goals_b_range') then
+    alter table picks add constraint picks_final_goals_b_range
+      check (final_goals_b is null or (final_goals_b >= 0 and final_goals_b <= 30));
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'picks_golden_boot_length') then
+    alter table picks add constraint picks_golden_boot_length
+      check (golden_boot is null or char_length(golden_boot) <= 80);
+  end if;
+end $$;
+
 
 -- ----------------------------------------------------------------
 -- 2. ROW LEVEL SECURITY
@@ -61,6 +107,7 @@ create table if not exists official_results (
 alter table users            enable row level security;
 alter table picks            enable row level security;
 alter table official_results enable row level security;
+alter table errors           enable row level security;
 
 
 -- ----------------------------------------------------------------
@@ -114,6 +161,25 @@ create policy "anyone can update results"
   on official_results for update
   using (true)
   with check (true);
+
+
+-- users delete: needed by admin's "delete participant" feature.
+-- Cascade on picks.user_id auto-removes the user's picks.
+drop policy if exists "anyone can delete user" on users;
+create policy "anyone can delete user"
+  on users for delete
+  using (true);
+
+-- errors: client can insert (write logs); admin can read.
+drop policy if exists "anyone can log errors" on errors;
+create policy "anyone can log errors"
+  on errors for insert
+  with check (true);
+
+drop policy if exists "public read errors" on errors;
+create policy "public read errors"
+  on errors for select
+  using (true);
 
 
 -- ============================================================
