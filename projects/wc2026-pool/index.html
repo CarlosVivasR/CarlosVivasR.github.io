@@ -64,6 +64,9 @@
   .hero-schedule-link:hover{background:rgba(0,99,65,.14);border-color:var(--primary-2);text-decoration:none}
   .hero-schedule-link span{transition:transform .15s}
   .hero-schedule-link:hover span{transform:translateX(2px)}
+  .past-champions{margin-top:18px;font-size:.82em;color:var(--muted);display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 12px}
+  .past-champions .pc-item{display:inline-flex;align-items:center;gap:5px;color:var(--ink-2);font-weight:600}
+  .past-champions .pc-item img{width:16px;height:12px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 
   /* Status pill in topbar */
   .status-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:.82em;font-weight:600;color:var(--ink-2)}
@@ -552,6 +555,17 @@
   .lb-detail-block.champion{background:linear-gradient(135deg,#fffaf0,#fff);border-radius:8px;padding:10px 12px;border:1px solid var(--gold-2)}
   .lb-detail-block.champion .team-name-big{font-size:1.1em;font-weight:900;color:#5a4500;display:flex;align-items:center;gap:8px}
   .lb-detail-block.champion .team-name-big img{width:24px;height:18px}
+  /* Comparison vs viewer */
+  .lb-compare-banner{
+    grid-column:1 / -1;margin:0 0 4px;padding:8px 12px;border-radius:8px;
+    background:var(--primary-soft);color:var(--primary);font-size:.84em;font-weight:700;
+    display:flex;align-items:center;gap:8px;
+  }
+  .lb-detail-block li.match-ok{background:rgba(0,99,65,.06);border-radius:4px;padding-left:4px}
+  .lb-detail-block li.match-ok::after{content:"✓";color:var(--primary);font-weight:900;margin-left:auto;font-size:.9em}
+  .lb-detail-block li{align-items:center}
+  .lb-detail-block li .mismatch-mine{margin-left:auto;font-size:.74em;color:var(--muted);font-style:italic}
+  .lb-detail-block li .mismatch-mine img{width:14px;height:10px;vertical-align:middle;margin:0 2px 0 4px}
   .lb-empty{text-align:center;padding:24px;color:#324867;font-size:.92em;background:#fff;border:1px dashed #b9c8e0;border-radius:8px}
   @media (max-width:680px){
     .lb-table th:nth-child(5),.lb-table td:nth-child(5){display:none}
@@ -642,6 +656,14 @@
       <span><b>16</b> <span data-i18n="hero.venues">venues</span> · <span class="host-flags" aria-label="Mexico, USA, Canada"><img src="https://flagcdn.com/w20/mx.png" alt=""><img src="https://flagcdn.com/w20/us.png" alt=""><img src="https://flagcdn.com/w20/ca.png" alt=""></span></span>
     </div>
     <a href="calendar.html" class="hero-schedule-link"><span data-i18n="hero.scheduleLink">📅 View full schedule (104 matches, your timezone)</span> <span>→</span></a>
+    <div class="past-champions">
+      <span data-i18n="hero.pastChamps">Last 5 champions:</span>
+      <span class="pc-item"><img src="https://flagcdn.com/w20/ar.png" alt=""> 2022</span>
+      <span class="pc-item"><img src="https://flagcdn.com/w20/fr.png" alt=""> 2018</span>
+      <span class="pc-item"><img src="https://flagcdn.com/w20/de.png" alt=""> 2014</span>
+      <span class="pc-item"><img src="https://flagcdn.com/w20/es.png" alt=""> 2010</span>
+      <span class="pc-item"><img src="https://flagcdn.com/w20/it.png" alt=""> 2006</span>
+    </div>
   </div>
 </header>
 
@@ -893,6 +915,7 @@ const I18N = {
     "hero.date2": "Final · MetLife Stadium",
     "hero.venues": "venues",
     "hero.scheduleLink": "📅 View full schedule (104 matches, your timezone)",
+    "hero.pastChamps": "Last 5 champions:",
     "groups.h2": "Group stage",
     "groups.sub": "Rank teams <b>1st, 2nd, 3rd, 4th</b> within each group (each position can only be used once per group). Star <span style=\"color:var(--gold)\">★</span> the <b>8 third-placed teams</b> you think will advance to the Round of 32.",
     "identity.label": "Pool participant",
@@ -1026,6 +1049,9 @@ const I18N = {
     "lb.detail.semis": "Semi-finalists",
     "lb.detail.finalists": "Finalists",
     "lb.detail.champion": "🏆 Champion",
+    "lb.compare.banner": "Coincidence with your bracket: {n}/{total}",
+    "lb.compare.self": "These are your own picks.",
+    "lb.compare.mine": "you:",
     "invite.title": "Invite friends",
     "invite.copy": "Copy",
     "invite.copied": "✓",
@@ -1051,6 +1077,7 @@ const I18N = {
     "hero.date2": "Final · MetLife Stadium",
     "hero.venues": "sedes",
     "hero.scheduleLink": "📅 Ver calendario completo (104 partidos, tu hora local)",
+    "hero.pastChamps": "Últimos 5 campeones:",
     "groups.h2": "Fase de grupos",
     "groups.sub": "Ordena los equipos <b>1º, 2º, 3º, 4º</b> dentro de cada grupo (cada posición solo se puede usar una vez por grupo). Marca con <span style=\"color:var(--gold)\">★</span> los <b>8 terceros</b> que crees que pasarán a Dieciseisavos.",
     "identity.label": "Participante",
@@ -1184,6 +1211,9 @@ const I18N = {
     "lb.detail.semis": "Semifinalistas",
     "lb.detail.finalists": "Finalistas",
     "lb.detail.champion": "🏆 Campeón",
+    "lb.compare.banner": "Coincide con tu bracket: {n}/{total}",
+    "lb.compare.self": "Estos son tus propios picks.",
+    "lb.compare.mine": "tú:",
     "invite.title": "Invitar a amigos",
     "invite.copy": "Copiar",
     "invite.copied": "✓",
@@ -2149,80 +2179,149 @@ function computeScore(picks, official){
    ============================================================ */
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-function renderUserPicksSummary(entry){
-  /* Build a clean public summary of one user's picks. Shows:
-     - Group winners (1st of each group)
-     - Starred advancing thirds
-     - Semi-finalists (4 teams)
-     - Finalists (2 teams)
-     - Champion */
-  const picks = entry.picks;
-  const winners = userMatchWinners(picks);
-
-  /* Group winners */
+function extractBracketSummary(picks){
   const gWinners = Object.keys(GROUPS).map(g => {
-    const t = withPicks(picks, () => teamByPos(g, 1));
-    return {g, team: t};
+    const team = withPicks(picks, () => teamByPos(g, 1));
+    return {g, team};
   });
-
-  /* Starred thirds */
-  const stars = (picks.starred || []).slice().sort().map(g => {
-    const t = withPicks(picks, () => teamByPos(g, 3));
-    return {g, team: t};
+  const starred = (picks.starred || []).slice().sort();
+  const stars = starred.map(g => {
+    const team = withPicks(picks, () => teamByPos(g, 3));
+    return {g, team};
   });
-
-  /* Semi-finalists: 4 teams in SF (a + b of SF-1 and SF-2) */
-  const sfTeams = [];
-  for (const id of ["SF-1","SF-2"]){
-    /* The teams in the SF match come from the QFs that feed it */
-    const sfSlot = withPicks(picks, () => {
-      const r32 = resolveR32();
-      const r16 = buildNextRound(R16_PAIRS, r32, "R32", "R16");
-      const qf  = buildNextRound(QF_PAIRS,  r16, "R16", "QF");
-      const sf  = buildNextRound(SF_PAIRS,  qf,  "QF",  "SF");
-      return sf[id];
-    });
-    if (sfSlot?.a) sfTeams.push(sfSlot.a);
-    if (sfSlot?.b) sfTeams.push(sfSlot.b);
-  }
-
-  /* Finalists: a + b of F-1 */
-  const finalSlot = withPicks(picks, () => {
+  const fullBr = withPicks(picks, () => {
     const r32 = resolveR32();
+    if (!r32 || Object.values(r32).some(s=>!s.a||!s.b)) return null;
     const r16 = buildNextRound(R16_PAIRS, r32, "R32", "R16");
     const qf  = buildNextRound(QF_PAIRS,  r16, "R16", "QF");
     const sf  = buildNextRound(SF_PAIRS,  qf,  "QF",  "SF");
     const fin = buildNextRound(F_PAIRS,   sf,  "SF",  "F");
-    return fin["F-1"];
+    return {sf, fin};
   });
+  const sfTeams = [];
+  if (fullBr){
+    ["SF-1","SF-2"].forEach(id => {
+      const slot = fullBr.sf[id];
+      if (slot?.a) sfTeams.push(slot.a);
+      if (slot?.b) sfTeams.push(slot.b);
+    });
+  }
   const finalists = [];
-  if (finalSlot?.a) finalists.push(finalSlot.a);
-  if (finalSlot?.b) finalists.push(finalSlot.b);
+  if (fullBr){
+    const slot = fullBr.fin["F-1"];
+    if (slot?.a) finalists.push(slot.a);
+    if (slot?.b) finalists.push(slot.b);
+  }
+  return {gWinners, starred, stars, sfTeams, finalists};
+}
 
+function renderUserPicksSummary(entry, myEntry){
+  const summary = extractBracketSummary(entry.picks);
   const champ = entry.champion;
+  const isSelf = !!(myEntry && myEntry.userId === entry.userId);
+
+  /* Build comparison maps */
+  let mySummary = null;
+  let myChamp = null;
+  if (myEntry && !isSelf){
+    mySummary = extractBracketSummary(myEntry.picks);
+    myChamp = myEntry.champion;
+  }
 
   const flagImg = (team) => team ? `<img src="https://flagcdn.com/w40/${team.code}.png" alt=""> <span>${escapeHtml(team.name)}</span>` : '<span style="color:#9ca3af">—</span>';
+  const miniFlag = (team) => team ? `<img src="https://flagcdn.com/w40/${team.code}.png" alt="">${escapeHtml(team.name)}` : '—';
+
+  /* Compute coincidence counts when comparing */
+  let coincidenceTotal = 0, coincidenceN = 0;
+  let gWinnersMatch = [], starsMatch = [], sfTeamsMatch = [], finalistsMatch = [], championMatch = false;
+
+  if (mySummary){
+    /* Group winners (12) */
+    coincidenceTotal += 12;
+    gWinnersMatch = summary.gWinners.map((row, i) => {
+      const mine = mySummary.gWinners[i];
+      const ok = row.team && mine.team && row.team.name === mine.team.name;
+      if (ok) coincidenceN++;
+      return {...row, ok, myPick: mine.team};
+    });
+    /* Starred thirds: count overlap of starred group letters */
+    coincidenceTotal += 8;
+    const myStarSet = new Set(mySummary.starred);
+    starsMatch = summary.stars.map(row => {
+      const ok = myStarSet.has(row.g);
+      if (ok) coincidenceN++;
+      return {...row, ok};
+    });
+    /* Semi-finalists: 4-team set intersection */
+    coincidenceTotal += 4;
+    const myNames = new Set(mySummary.sfTeams.map(t=>t.name));
+    sfTeamsMatch = summary.sfTeams.map(team => {
+      const ok = myNames.has(team.name);
+      if (ok) coincidenceN++;
+      return {team, ok};
+    });
+    /* Finalists: 2-team set intersection */
+    coincidenceTotal += 2;
+    const myFinNames = new Set(mySummary.finalists.map(t=>t.name));
+    finalistsMatch = summary.finalists.map(team => {
+      const ok = myFinNames.has(team.name);
+      if (ok) coincidenceN++;
+      return {team, ok};
+    });
+    /* Champion */
+    coincidenceTotal += 1;
+    championMatch = champ && myChamp && champ.name === myChamp.name;
+    if (championMatch) coincidenceN++;
+  }
+
+  const banner = mySummary ? `
+    <div class="lb-compare-banner">${t("lb.compare.banner", {n: coincidenceN, total: coincidenceTotal})}</div>
+  ` : (isSelf ? `<div class="lb-compare-banner" style="background:var(--gold-soft);color:#7a5e00">${t("lb.compare.self")}</div>` : "");
+
+  const renderItem = (label, team, ok, myPick) => `
+    <li class="${ok ? 'match-ok' : ''}">${label ? `<span class="gid">${label}</span>` : ''} ${flagImg(team)}${
+      !ok && myPick ? `<span class="mismatch-mine">${t("lb.compare.mine")} <img src="https://flagcdn.com/w40/${myPick.code}.png" alt="">${escapeHtml(myPick.name)}</span>` : ''
+    }</li>
+  `;
 
   return `
+    ${banner}
     <div class="lb-detail-block">
       <h5>${t("lb.detail.groupWinners")}</h5>
-      <ul>${gWinners.map(({g,team}) => `<li><span class="gid">${g}</span> ${flagImg(team)}</li>`).join("")}</ul>
+      <ul>${
+        mySummary
+          ? gWinnersMatch.map(r => renderItem(r.g, r.team, r.ok, r.ok ? null : r.myPick)).join("")
+          : summary.gWinners.map(r => `<li><span class="gid">${r.g}</span> ${flagImg(r.team)}</li>`).join("")
+      }</ul>
     </div>
     <div class="lb-detail-block">
       <h5>${t("lb.detail.thirds")}</h5>
-      <ul>${stars.map(({g,team}) => `<li><span class="gid">${g}</span> ${flagImg(team)}</li>`).join("")}</ul>
+      <ul>${
+        mySummary
+          ? starsMatch.map(r => `<li class="${r.ok ? 'match-ok' : ''}"><span class="gid">${r.g}</span> ${flagImg(r.team)}</li>`).join("")
+          : summary.stars.map(r => `<li><span class="gid">${r.g}</span> ${flagImg(r.team)}</li>`).join("")
+      }</ul>
     </div>
     <div class="lb-detail-block">
       <h5>${t("lb.detail.semis")}</h5>
-      <ul>${sfTeams.map(team => `<li>${flagImg(team)}</li>`).join("")}</ul>
+      <ul>${
+        mySummary
+          ? sfTeamsMatch.map(r => `<li class="${r.ok ? 'match-ok' : ''}">${flagImg(r.team)}</li>`).join("")
+          : summary.sfTeams.map(team => `<li>${flagImg(team)}</li>`).join("")
+      }</ul>
     </div>
     <div class="lb-detail-block">
       <h5>${t("lb.detail.finalists")}</h5>
-      <ul>${finalists.map(team => `<li>${flagImg(team)}</li>`).join("")}</ul>
+      <ul>${
+        mySummary
+          ? finalistsMatch.map(r => `<li class="${r.ok ? 'match-ok' : ''}">${flagImg(r.team)}</li>`).join("")
+          : summary.finalists.map(team => `<li>${flagImg(team)}</li>`).join("")
+      }</ul>
     </div>
-    <div class="lb-detail-block champion">
-      <h5>${t("lb.detail.champion")}</h5>
+    <div class="lb-detail-block champion ${mySummary && championMatch ? 'match-ok-block' : ''}">
+      <h5>${t("lb.detail.champion")} ${mySummary && championMatch ? '<span style="color:var(--primary);font-size:.9em;margin-left:6px">✓</span>' : ''}</h5>
       <div class="team-name-big">${flagImg(champ)}</div>
+      ${mySummary && !championMatch && myChamp ? `<div style="margin-top:6px;font-size:.78em;color:var(--muted);font-style:italic">${t("lb.compare.mine")} ${miniFlag(myChamp)}</div>` : ''}
     </div>
   `;
 }
@@ -2334,7 +2433,8 @@ async function loadLeaderboard(){
             row.classList.add("expanded");
             const target = detail.querySelector(".lb-detail");
             if (!target.dataset.rendered){
-              target.innerHTML = renderUserPicksSummary(ranked[idx]);
+              const myEntry = ranked.find(r => r.isMe) || null;
+              target.innerHTML = renderUserPicksSummary(ranked[idx], myEntry);
               target.dataset.rendered = "1";
             }
           }
