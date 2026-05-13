@@ -372,6 +372,12 @@
   .tiebreakers-section .tb-row label{
     font-size:.92em;font-weight:600;color:var(--ink-2);min-width:200px;
   }
+  .score-inputs.invalid input[type=number]{border-color:var(--red);box-shadow:0 0 0 3px rgba(193,39,45,.15)}
+  .tb-score-error{
+    grid-column:1 / -1;width:100%;display:none;margin-top:8px;padding:8px 12px;border-radius:8px;
+    background:var(--red-soft);color:var(--red);font-size:.85em;font-weight:600;line-height:1.4;
+  }
+  .tb-score-error.show{display:block}
   .score-inputs{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .tb-team{
     font-weight:700;color:var(--ink);font-size:.95em;
@@ -821,13 +827,14 @@
       <h3 data-i18n="tb.title">Tiebreakers</h3>
       <div class="tb-row">
         <label data-i18n="tb.finalScore">Final score prediction</label>
-        <div class="score-inputs">
+        <div class="score-inputs" id="score-inputs">
           <span class="tb-team placeholder" id="tb-team-a" data-i18n="tb.finalTeamA">— Final team A —</span>
           <input type="number" min="0" max="20" id="tb-goals-a" placeholder="0">
           <span class="vs" data-i18n="tb.vs">vs</span>
           <input type="number" min="0" max="20" id="tb-goals-b" placeholder="0">
           <span class="tb-team placeholder" id="tb-team-b" data-i18n="tb.finalTeamB">— Final team B —</span>
         </div>
+        <div class="tb-score-error" id="tb-score-error" data-i18n="tb.scoreError">The Final score doesn't match your bracket pick</div>
       </div>
       <div class="tb-row">
         <label data-i18n="tb.goldenBoot">Golden Boot (top scorer)</label>
@@ -1010,6 +1017,7 @@ const I18N = {
     "submit.req.stars": "Star 8 advancing thirds",
     "submit.req.bracket": "Decide all knockout matches",
     "submit.req.tiebreakers": "Fill tiebreakers (Final score + Golden Boot)",
+    "tb.scoreError": "The Final score doesn't match your bracket pick — the team you chose as winner must have more goals.",
     "submit.btn": "Submit my picks",
     "submit.btnSubmitting": "Submitting…",
     "submit.btnSaving": "Saving picks to the pool…",
@@ -1172,6 +1180,7 @@ const I18N = {
     "submit.req.stars": "Marca 8 terceros que pasan",
     "submit.req.bracket": "Decide todos los partidos de eliminatorias",
     "submit.req.tiebreakers": "Rellena desempates (marcador Final + Bota de Oro)",
+    "tb.scoreError": "El marcador de la Final no cuadra con tu pick — el equipo que has elegido como ganador tiene que tener más goles.",
     "submit.btn": "Enviar mis picks",
     "submit.btnSubmitting": "Enviando…",
     "submit.btnSaving": "Guardando picks…",
@@ -1932,10 +1941,39 @@ function validate(){
   const tbA = state.tiebreakers.goalsA != null ? 1 : 0;
   const tbB = state.tiebreakers.goalsB != null ? 1 : 0;
   const tbGB = (state.tiebreakers.goldenBoot||"").trim().length >= 2 ? 1 : 0;
-  const tbDone = tbA + tbB + tbGB;
-  reasons.push({ok: tbDone === 3, msg: t("submit.req.tiebreakers"), progress: `${tbDone}/3`});
+  const consistent = isFinalScoreConsistent();
+  const progressCount = tbA + tbB + tbGB;
+  const tbValid = !!tbA && !!tbB && !!tbGB && consistent;
+  reasons.push({ok: tbValid, msg: t("submit.req.tiebreakers"), progress: `${progressCount}/3`});
 
   return reasons;
+}
+
+/* Final score must match the bracket winner: if user picked side A as
+   Final winner, goalsA must be strictly greater than goalsB, and vice versa.
+   Returns true when consistent OR when not enough info yet (e.g. no winner
+   picked, or one of the goals blank). Ties are not consistent. */
+function isFinalScoreConsistent(){
+  const a = state.tiebreakers.goalsA;
+  const b = state.tiebreakers.goalsB;
+  const w = state.winners["F-1"];
+  if (a == null || b == null || !w) return true; /* not enough info to be inconsistent yet */
+  if (a === b) return false; /* knockout tie not allowed */
+  if (w === "a") return a > b;
+  if (w === "b") return b > a;
+  return true;
+}
+
+function refreshFinalScoreError(){
+  const a = state.tiebreakers.goalsA;
+  const b = state.tiebreakers.goalsB;
+  const w = state.winners["F-1"];
+  /* Only flag as visible error when user has typed BOTH goals + has a winner picked */
+  const shouldShow = (a != null && b != null && w) && !isFinalScoreConsistent();
+  const errEl = document.getElementById("tb-score-error");
+  const wrap = document.getElementById("score-inputs");
+  if (errEl) errEl.classList.toggle("show", shouldShow);
+  if (wrap) wrap.classList.toggle("invalid", shouldShow);
 }
 
 function refreshSubmitState(){
@@ -1943,6 +1981,7 @@ function refreshSubmitState(){
     applyLockedUI();
     return;
   }
+  refreshFinalScoreError();
   const reasons = validate();
   const done = reasons.filter(r=>r.ok).length;
   const total = reasons.length;
