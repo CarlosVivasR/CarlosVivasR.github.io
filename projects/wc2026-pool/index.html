@@ -42,10 +42,28 @@
   /* Top bar */
   .topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line)}
   .topbar-inner{max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink)}
-  .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--gold))}
+  /* Language toggle (replaces FootAnalytics branding in topbar) */
+  .lang-toggle{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--bg)}
+  .lang-toggle button{
+    background:transparent;border:none;padding:6px 14px;font-family:inherit;font-size:.82em;font-weight:700;
+    color:var(--muted);cursor:pointer;transition:all .15s;letter-spacing:.04em;
+  }
+  .lang-toggle button:hover{color:var(--ink)}
+  .lang-toggle button.active{background:var(--primary);color:#fff}
   .back-link{font-size:.92em;color:var(--muted);font-weight:500}
   .back-link:hover{color:var(--ink)}
+  .topbar-links{display:flex;align-items:center;gap:14px;font-size:.9em}
+  .topbar-links a{color:var(--muted);font-weight:500;text-decoration:none}
+  .topbar-links a.active{color:var(--primary);font-weight:700}
+  .topbar-links a:hover{color:var(--ink)}
+  .hero-schedule-link{
+    display:inline-flex;align-items:center;gap:6px;margin-top:18px;padding:8px 16px;
+    background:var(--primary-soft);color:var(--primary);font-weight:700;font-size:.88em;
+    border-radius:99px;text-decoration:none;border:1px solid transparent;transition:all .15s;
+  }
+  .hero-schedule-link:hover{background:rgba(0,99,65,.14);border-color:var(--primary-2);text-decoration:none}
+  .hero-schedule-link span{transition:transform .15s}
+  .hero-schedule-link:hover span{transform:translateX(2px)}
 
   /* Status pill in topbar */
   .status-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:.82em;font-weight:600;color:var(--ink-2)}
@@ -595,27 +613,35 @@
 
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="brand"><span class="dot"></span><span>FootAnalytics</span></div>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="es">ES</button>
+    </div>
     <span class="status-pill" id="status-pill">
-      Groups: <span class="count" id="groups-progress">0/12</span> ·
-      <span class="stars">★</span> Thirds: <span class="count" id="thirds-progress">0/8</span>
+      <span data-i18n="topbar.groups">Groups</span>: <span class="count" id="groups-progress">0/12</span> ·
+      <span class="stars">★</span> <span data-i18n="topbar.thirds">Thirds</span>: <span class="count" id="thirds-progress">0/8</span>
     </span>
-    <a class="back-link" href="../../index.html">← Back to carlosvivasr.github.io</a>
+    <div class="topbar-links">
+      <a href="index.html" class="active" data-i18n="topbar.tabPool">🏆 Pool</a>
+      <a href="calendar.html" data-i18n="topbar.tabSchedule">📅 Schedule</a>
+    </div>
+    <a class="back-link" href="../../index.html" data-i18n="topbar.back">← Back</a>
   </div>
 </div>
 
 <header class="hero">
   <div class="hero-inner">
-    <div class="kicker"><span class="pulse"></span> World Cup 2026 · Private pool</div>
-    <h1 class="hero-title">Fill out your World Cup bracket</h1>
-    <p class="hero-sub">Predict the final standing of all 12 groups, star your <b>8 best third-placed teams</b>, and the bracket fills in automatically. After that, just click who you think will win each match.</p>
+    <div class="kicker"><span class="pulse"></span> <span data-i18n="hero.kicker">World Cup 2026 · Private pool</span></div>
+    <h1 class="hero-title" data-i18n="hero.title">Fill out your World Cup bracket</h1>
+    <p class="hero-sub" data-i18n="hero.sub">Predict the final standing of all 12 groups, star your 8 best third-placed teams, and the bracket fills in automatically. After that, just click who you think will win each match.</p>
     <div class="hero-meta">
-      <span><b>Jun 11</b> · Mexico vs South Africa</span>
+      <span><b>Jun 11</b> · <span data-i18n="hero.date1">Mexico vs South Africa</span></span>
       <span class="sep">•</span>
-      <span><b>Jul 19</b> · Final · MetLife Stadium</span>
+      <span><b>Jul 19</b> · <span data-i18n="hero.date2">Final · MetLife Stadium</span></span>
       <span class="sep">•</span>
-      <span><b>16</b> venues · <span class="host-flags" aria-label="Mexico, USA, Canada"><img src="https://flagcdn.com/w20/mx.png" alt=""><img src="https://flagcdn.com/w20/us.png" alt=""><img src="https://flagcdn.com/w20/ca.png" alt=""></span></span>
+      <span><b>16</b> <span data-i18n="hero.venues">venues</span> · <span class="host-flags" aria-label="Mexico, USA, Canada"><img src="https://flagcdn.com/w20/mx.png" alt=""><img src="https://flagcdn.com/w20/us.png" alt=""><img src="https://flagcdn.com/w20/ca.png" alt=""></span></span>
     </div>
+    <a href="calendar.html" class="hero-schedule-link"><span data-i18n="hero.scheduleLink">📅 View full schedule (104 matches, your timezone)</span> <span>→</span></a>
   </div>
 </header>
 
@@ -623,33 +649,33 @@
   <div class="new-results" id="new-results">
     <div class="icon">↻</div>
     <div class="text" id="new-results-text">Loading…</div>
-    <button class="dismiss" id="new-results-dismiss">Got it</button>
+    <button class="dismiss" id="new-results-dismiss" data-i18n="newResults.dismiss">Got it</button>
   </div>
 
   <div class="pool-closed" id="pool-closed">
-    <div class="label">Pool closed</div>
-    <div class="msg">Submissions are no longer accepted.</div>
-    <div class="sub">Deadline was 11 Jun 2026, 16:00 UTC (kick-off Mexico vs South Africa).</div>
+    <div class="label" data-i18n="poolClosed.title">Pool closed</div>
+    <div class="msg" data-i18n="poolClosed.msg">Submissions are no longer accepted.</div>
+    <div class="sub" data-i18n="poolClosed.sub">Deadline was 11 Jun 2026, 16:00 UTC (kick-off Mexico vs South Africa).</div>
   </div>
 
   <div class="submitted-banner" id="submitted-banner">
-    <div class="label">Picks submitted — locked</div>
+    <div class="label" data-i18n="lockBanner.title">Picks submitted — locked</div>
     <div class="who" id="submitted-who">—</div>
     <div class="summary" id="submitted-summary"></div>
   </div>
 
   <div class="section-head">
     <div>
-      <h2>Group stage</h2>
-      <p>Rank teams <b>1st, 2nd, 3rd, 4th</b> within each group (each position can only be used once per group). Star <span style="color:var(--gold)">★</span> the <b>8 third-placed teams</b> you think will advance to the Round of 32.</p>
+      <h2 data-i18n="groups.h2">Group stage</h2>
+      <p data-i18n-html="groups.sub">Rank teams <b>1st, 2nd, 3rd, 4th</b> within each group (each position can only be used once per group). Star <span style="color:var(--gold)">★</span> the <b>8 third-placed teams</b> you think will advance to the Round of 32.</p>
     </div>
   </div>
 
   <div class="identity-card" id="identity-card">
-    <span class="identity-label">Pool participant</span>
-    <input type="text" id="input-name" placeholder="Your name" autocomplete="name" maxlength="60">
-    <input type="email" id="input-email" placeholder="your@email.com" autocomplete="email" maxlength="120">
-    <p class="identity-privacy">
+    <span class="identity-label" data-i18n="identity.label">Pool participant</span>
+    <input type="text" id="input-name" placeholder="Your name" data-i18n-ph="identity.namePh" autocomplete="name" maxlength="60">
+    <input type="email" id="input-email" placeholder="your@email.com" data-i18n-ph="identity.emailPh" autocomplete="email" maxlength="120">
+    <p class="identity-privacy" data-i18n-html="identity.privacy">
       <b>Privacy:</b> your email is used only to identify your entry in this pool. It is never shown publicly, never shared, never used for marketing, and you will not receive any automated message. It lives only in the pool's private database alongside your picks.
     </p>
   </div>
@@ -659,23 +685,23 @@
       <div class="explainer-head">
         <div class="icon">★</div>
         <div>
-          <h3>What decides whether a third-placed team advances?</h3>
-          <p>Tap to see the FIFA tiebreakers and how the bracket fills in.</p>
+          <h3 data-i18n="explainer.title">What decides whether a third-placed team advances?</h3>
+          <p data-i18n="explainer.sub">Tap to see the FIFA tiebreakers and how the bracket fills in.</p>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>
     </summary>
     <div class="explainer-body">
-      <p>The 2026 World Cup has <b>12 groups of 4 teams</b>. The <b>top 2</b> from each group qualify directly for the Round of 32 (24 teams). To complete the <b>32-team</b> knockout bracket, FIFA ranks all <b>12 third-placed teams</b> in a single table and keeps the <b>top 8</b>; the worst 4 are eliminated.</p>
-      <p><b>Tiebreakers</b> applied in this exact order (as soon as one separates two teams, it decides):</p>
+      <p data-i18n-html="explainer.p1">The 2026 World Cup has <b>12 groups of 4 teams</b>...</p>
+      <p data-i18n-html="explainer.p2"><b>Tiebreakers</b> applied in this exact order...</p>
       <ol>
-        <li><b>Points</b> earned in the group stage</li>
-        <li><b>Goal difference</b></li>
-        <li><b>Goals scored</b></li>
-        <li><b>Fair play</b> (yellow / red cards)</li>
-        <li><b>FIFA ranking</b> before the tournament</li>
+        <li data-i18n-html="explainer.tb1"><b>Points</b> earned in the group stage</li>
+        <li data-i18n-html="explainer.tb2"><b>Goal difference</b></li>
+        <li data-i18n-html="explainer.tb3"><b>Goals scored</b></li>
+        <li data-i18n-html="explainer.tb4"><b>Fair play</b> (yellow / red cards)</li>
+        <li data-i18n-html="explainer.tb5"><b>FIFA ranking</b> before the tournament</li>
       </ol>
-      <p style="margin-top:8px">That's why here you mark with <span style="color:var(--gold)">★</span> the <b>8 third-placed teams</b> you think will end up with the best balance of points and goals. The bracket is then populated following the FIFA rule: <b>each third-place slot can only receive teams from 5 specific groups</b> (Annex C of the regulations), and never a team from the same group as its opponent.</p>
+      <p style="margin-top:8px" data-i18n-html="explainer.p3">That's why here you mark...</p>
     </div>
   </details>
 
@@ -684,8 +710,8 @@
       <div class="scoring-head">
         <div class="icon">#</div>
         <div>
-          <h3>How scoring works</h3>
-          <p>Tap to see the points table and a worked example — max <b>201 points</b>.</p>
+          <h3 data-i18n="scoring.title">How scoring works</h3>
+          <p data-i18n-html="scoring.sub">Tap to see the points table and a worked example — max <b>201 points</b>.</p>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>
@@ -694,53 +720,53 @@
     <div class="scoring-cols">
       <table class="scoring-table">
         <thead>
-          <tr><th>Correct prediction</th><th class="num">Pts</th><th class="num">Max</th></tr>
+          <tr><th data-i18n="scoring.thPred">Correct prediction</th><th class="num" data-i18n="scoring.thPts">Pts</th><th class="num" data-i18n="scoring.thMax">Max</th></tr>
         </thead>
         <tbody>
-          <tr class="subheader"><td colspan="3">Group stage</td></tr>
-          <tr><td>1st place in group</td><td class="num">4</td><td class="num">48</td></tr>
-          <tr><td>2nd place in group</td><td class="num">3</td><td class="num">36</td></tr>
-          <tr><td>3rd place in group</td><td class="num">2</td><td class="num">24</td></tr>
-          <tr><td>4th place in group</td><td class="num">1</td><td class="num">12</td></tr>
-          <tr><td><span style="color:var(--gold)">★</span> Advancing third</td><td class="num">2</td><td class="num">16</td></tr>
-          <tr class="subheader"><td colspan="3">Knockout stage</td></tr>
-          <tr><td>R32 match winner</td><td class="num">1</td><td class="num">16</td></tr>
-          <tr><td>R16 match winner</td><td class="num">2</td><td class="num">16</td></tr>
-          <tr><td>QF match winner</td><td class="num">3</td><td class="num">12</td></tr>
-          <tr><td>SF match winner</td><td class="num">4</td><td class="num">8</td></tr>
-          <tr><td>Final winner / Champion</td><td class="num">13</td><td class="num">13</td></tr>
-          <tr class="total"><td>Maximum possible</td><td class="num">—</td><td class="num">201</td></tr>
+          <tr class="subheader"><td colspan="3" data-i18n="scoring.groupStage">Group stage</td></tr>
+          <tr><td data-i18n="scoring.row1">1st place in group</td><td class="num">4</td><td class="num">48</td></tr>
+          <tr><td data-i18n="scoring.row2">2nd place in group</td><td class="num">3</td><td class="num">36</td></tr>
+          <tr><td data-i18n="scoring.row3">3rd place in group</td><td class="num">2</td><td class="num">24</td></tr>
+          <tr><td data-i18n="scoring.row4">4th place in group</td><td class="num">1</td><td class="num">12</td></tr>
+          <tr><td><span style="color:var(--gold)">★</span> <span data-i18n="scoring.starRow">Advancing third</span></td><td class="num">2</td><td class="num">16</td></tr>
+          <tr class="subheader"><td colspan="3" data-i18n="scoring.knockout">Knockout stage</td></tr>
+          <tr><td data-i18n="scoring.r32">R32 match winner</td><td class="num">1</td><td class="num">16</td></tr>
+          <tr><td data-i18n="scoring.r16">R16 match winner</td><td class="num">2</td><td class="num">16</td></tr>
+          <tr><td data-i18n="scoring.qf">QF match winner</td><td class="num">3</td><td class="num">12</td></tr>
+          <tr><td data-i18n="scoring.sf">SF match winner</td><td class="num">4</td><td class="num">8</td></tr>
+          <tr><td data-i18n="scoring.final">Final winner / Champion</td><td class="num">13</td><td class="num">13</td></tr>
+          <tr class="total"><td data-i18n="scoring.maxRow">Maximum possible</td><td class="num">—</td><td class="num">201</td></tr>
         </tbody>
       </table>
 
       <div class="example-box">
-        <h4>Worked example — Maria's bracket</h4>
+        <h4 data-i18n="scoring.exampleTitle">Worked example — Maria's bracket</h4>
         <ul>
-          <li>8 / 12 group winners correct <span class="pts">32</span></li>
-          <li>5 / 12 second places correct <span class="pts">15</span></li>
-          <li>4 / 12 third places correct <span class="pts">8</span></li>
-          <li>7 / 12 fourth places correct <span class="pts">7</span></li>
-          <li>6 / 8 stars correct <span class="pts">12</span></li>
-          <li>10 / 16 R32 winners <span class="pts">10</span></li>
-          <li>5 / 8 R16 winners <span class="pts">10</span></li>
-          <li>2 / 4 QF winners <span class="pts">6</span></li>
-          <li>1 / 2 SF winners <span class="pts">4</span></li>
-          <li>Picked Brazil to win the Final — Brazil wins <span class="pts">13</span></li>
+          <li><span data-i18n="scoring.ex1">8 / 12 group winners correct</span> <span class="pts">32</span></li>
+          <li><span data-i18n="scoring.ex2">5 / 12 second places correct</span> <span class="pts">15</span></li>
+          <li><span data-i18n="scoring.ex3">4 / 12 third places correct</span> <span class="pts">8</span></li>
+          <li><span data-i18n="scoring.ex4">7 / 12 fourth places correct</span> <span class="pts">7</span></li>
+          <li><span data-i18n="scoring.ex5">6 / 8 stars correct</span> <span class="pts">12</span></li>
+          <li><span data-i18n="scoring.ex6">10 / 16 R32 winners</span> <span class="pts">10</span></li>
+          <li><span data-i18n="scoring.ex7">5 / 8 R16 winners</span> <span class="pts">10</span></li>
+          <li><span data-i18n="scoring.ex8">2 / 4 QF winners</span> <span class="pts">6</span></li>
+          <li><span data-i18n="scoring.ex9">1 / 2 SF winners</span> <span class="pts">4</span></li>
+          <li><span data-i18n="scoring.ex10">Picked Brazil to win the Final — Brazil wins</span> <span class="pts">13</span></li>
         </ul>
         <div class="example-total">
-          <span>Maria's total</span>
+          <span data-i18n="scoring.exTotal">Maria's total</span>
           <span class="big">117</span>
         </div>
       </div>
     </div>
 
     <div class="tiebreakers">
-      <b>Tiebreakers</b> (applied in order if two players end tied):
+      <b data-i18n="scoring.tbTitle">Tiebreakers</b><span data-i18n="scoring.tbIntro"> (applied in order if two players end tied):</span>
       <ol>
-        <li>Total goals scored in the Final — closest prediction wins</li>
-        <li>Exact Final score correct</li>
-        <li>Golden Boot (top scorer) correctly predicted</li>
-        <li>Earliest submission timestamp</li>
+        <li data-i18n="scoring.tb1">Total goals scored in the Final — closest prediction wins</li>
+        <li data-i18n="scoring.tb2">Exact Final score correct</li>
+        <li data-i18n="scoring.tb3">Golden Boot (top scorer) correctly predicted</li>
+        <li data-i18n="scoring.tb4">Earliest submission timestamp</li>
       </ol>
     </div>
     </div>
@@ -752,38 +778,38 @@
 <section id="bracket">
   <div class="section-head">
     <div>
-      <h2>Bracket — knockout stage</h2>
-      <p>Click the team you think will win each match. The winner advances automatically.</p>
+      <h2 data-i18n="bracket.h2">Bracket — knockout stage</h2>
+      <p data-i18n="bracket.sub">Click the team you think will win each match. The winner advances automatically.</p>
     </div>
   </div>
   <div id="bracket-container">
     <div class="bracket-gate" id="bracket-gate">
-      <p>The bracket unlocks once <b>all 12 groups</b> are fully ranked <b>and</b> you star <b>exactly 8 thirds</b>.</p>
-      <p style="margin-top:8px;font-size:.92em">Current progress: <span id="gate-progress">0/12 groups · 0/8 thirds</span></p>
+      <p data-i18n-html="bracket.gate.line1">The bracket unlocks once <b>all 12 groups</b> are fully ranked <b>and</b> you star <b>exactly 8 thirds</b>.</p>
+      <p style="margin-top:8px;font-size:.92em"><span data-i18n="bracket.gate.line2">Current progress: </span><span id="gate-progress">0/12 groups · 0/8 thirds</span></p>
     </div>
     <div class="bracket-wrap" id="bracket-wrap" style="display:none">
       <div class="bracket" id="bracket-grid"></div>
     </div>
     <div class="champion-banner" id="champion-banner">
-      <div class="label">🏆 Your world champion</div>
+      <div class="label" data-i18n="champion.label">🏆 Your world champion</div>
       <div class="team" id="champion-team"></div>
     </div>
 
     <div class="tiebreakers-section" id="tiebreakers-section" style="display:none">
-      <h3>Tiebreakers</h3>
+      <h3 data-i18n="tb.title">Tiebreakers</h3>
       <div class="tb-row">
-        <label>Final score prediction</label>
+        <label data-i18n="tb.finalScore">Final score prediction</label>
         <div class="score-inputs">
-          <span class="tb-team placeholder" id="tb-team-a">— Final team A —</span>
+          <span class="tb-team placeholder" id="tb-team-a" data-i18n="tb.finalTeamA">— Final team A —</span>
           <input type="number" min="0" max="20" id="tb-goals-a" placeholder="0">
-          <span class="vs">vs</span>
+          <span class="vs" data-i18n="tb.vs">vs</span>
           <input type="number" min="0" max="20" id="tb-goals-b" placeholder="0">
-          <span class="tb-team placeholder" id="tb-team-b">— Final team B —</span>
+          <span class="tb-team placeholder" id="tb-team-b" data-i18n="tb.finalTeamB">— Final team B —</span>
         </div>
       </div>
       <div class="tb-row">
-        <label>Golden Boot (top scorer)</label>
-        <input type="text" id="tb-golden-boot" placeholder="e.g. Kylian Mbappé" maxlength="60">
+        <label data-i18n="tb.goldenBoot">Golden Boot (top scorer)</label>
+        <input type="text" id="tb-golden-boot" placeholder="e.g. Kylian Mbappé" data-i18n-ph="tb.goldenBootPh" maxlength="60">
       </div>
     </div>
   </div>
@@ -791,27 +817,27 @@
   <div class="submit-section">
     <div class="submit-checklist" id="submit-checklist">
       <div class="checklist-head">
-        <span class="checklist-title">Submission requirements</span>
+        <span class="checklist-title" data-i18n="submit.checklistTitle">Submission requirements</span>
         <span class="checklist-counter" id="checklist-counter">0 of 6</span>
       </div>
       <div class="checklist-bar"><div class="checklist-bar-fill" id="checklist-bar-fill" style="width:0%"></div></div>
       <ul class="checklist-items" id="checklist-items"></ul>
     </div>
-    <button class="btn submit" id="btn-submit" disabled>Submit my picks</button>
-    <button class="btn" id="btn-clear">Clear all</button>
+    <button class="btn submit" id="btn-submit" data-i18n="submit.btn" disabled>Submit my picks</button>
+    <button class="btn" id="btn-clear" data-i18n="btn.clearAll">Clear all</button>
     <div class="submit-help" id="submit-help"></div>
   </div>
 
   <!-- Floating Share FAB + Popover -->
-  <button class="invite-fab" id="invite-fab" type="button" title="Invite friends" aria-label="Invite friends">
-    <span class="fab-label">Invite friends</span>
+  <button class="invite-fab" id="invite-fab" type="button" data-i18n-title="invite.fabTitle" aria-label="Invite friends">
+    <span class="fab-label" data-i18n="invite.fabLabel">Invite friends</span>
     <span aria-hidden="true">📤</span>
   </button>
-  <div class="invite-popover" id="invite-popover" role="dialog" aria-label="Invite friends">
-    <h4>Invite friends</h4>
+  <div class="invite-popover" id="invite-popover" role="dialog">
+    <h4 data-i18n="invite.title">Invite friends</h4>
     <div class="invite-row">
       <div class="invite-url" id="invite-url">—</div>
-      <button class="invite-btn" id="btn-copy">Copy</button>
+      <button class="invite-btn" id="btn-copy" data-i18n="invite.copy">Copy</button>
     </div>
     <div class="invite-share">
       <a class="invite-btn whatsapp" id="share-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
@@ -819,7 +845,7 @@
     </div>
     <div class="invite-qr">
       <img id="invite-qr-img" alt="QR code to open the pool">
-      <span class="caption">Scan to join</span>
+      <span class="caption" data-i18n="invite.scan">Scan to join</span>
     </div>
   </div>
 
@@ -828,16 +854,16 @@
       <div class="leaderboard-head">
         <div class="icon">🏆</div>
         <div>
-          <h3>Pool leaderboard <span class="count" id="lb-count">(0)</span></h3>
-          <p>Tap to see who has joined the pool and how everyone's doing.</p>
+          <h3><span data-i18n="lb.title">Pool leaderboard</span> <span class="count" id="lb-count">(0)</span></h3>
+          <p data-i18n="lb.sub">Tap to see who has joined the pool and how everyone's doing.</p>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>
     </summary>
     <div class="leaderboard-body">
       <div class="lb-actions">
-        <div class="lb-status" id="lb-status">Loading…</div>
-        <button class="lb-refresh" id="lb-refresh">↻ Refresh</button>
+        <div class="lb-status" id="lb-status" data-i18n="lb.loading">Loading…</div>
+        <button class="lb-refresh" id="lb-refresh" data-i18n="lb.refresh">↻ Refresh</button>
       </div>
       <div id="lb-content"></div>
     </div>
@@ -845,11 +871,375 @@
 </section>
 
 <footer>
-  <p><b>Carlos Vivas</b> · FootAnalytics · World Cup 2026 Pool</p>
-  <p style="margin-top:6px;font-size:.92em">Group data: FIFA Final Draw (5 Dec 2025). Third-place R32 placement uses the FIFA allowed-group sets.</p>
+  <p><b>Carlos Vivas</b> · FootAnalytics · <span data-i18n="footer.tag">World Cup 2026 Pool</span></p>
+  <p style="margin-top:6px;font-size:.92em" data-i18n="footer.dataNote">Group data: FIFA Final Draw (5 Dec 2025). Third-place R32 placement uses the FIFA allowed-group sets.</p>
 </footer>
 
 <script>
+/* ============================================================
+   I18N — translations + engine
+   ============================================================ */
+const I18N = {
+  en: {
+    "topbar.groups": "Groups",
+    "topbar.thirds": "Thirds",
+    "topbar.back": "← Back",
+    "topbar.tabPool": "🏆 Pool",
+    "topbar.tabSchedule": "📅 Schedule",
+    "hero.kicker": "World Cup 2026 · Private pool",
+    "hero.title": "Fill out your World Cup bracket",
+    "hero.sub": "Predict the final standing of all 12 groups, star your 8 best third-placed teams, and the bracket fills in automatically. After that, just click who you think will win each match.",
+    "hero.date1": "Mexico vs South Africa",
+    "hero.date2": "Final · MetLife Stadium",
+    "hero.venues": "venues",
+    "hero.scheduleLink": "📅 View full schedule (104 matches, your timezone)",
+    "groups.h2": "Group stage",
+    "groups.sub": "Rank teams <b>1st, 2nd, 3rd, 4th</b> within each group (each position can only be used once per group). Star <span style=\"color:var(--gold)\">★</span> the <b>8 third-placed teams</b> you think will advance to the Round of 32.",
+    "identity.label": "Pool participant",
+    "identity.namePh": "Your name",
+    "identity.emailPh": "your@email.com",
+    "identity.privacy": "<b>Privacy:</b> your email is used only to identify your entry in this pool. It is never shown publicly, never shared, never used for marketing, and you will not receive any automated message. It lives only in the pool's private database alongside your picks.",
+    "explainer.title": "What decides whether a third-placed team advances?",
+    "explainer.sub": "Tap to see the FIFA tiebreakers and how the bracket fills in.",
+    "explainer.p1": "The 2026 World Cup has <b>12 groups of 4 teams</b>. The <b>top 2</b> from each group qualify directly for the Round of 32 (24 teams). To complete the <b>32-team</b> knockout bracket, FIFA ranks all <b>12 third-placed teams</b> in a single table and keeps the <b>top 8</b>; the worst 4 are eliminated.",
+    "explainer.p2": "<b>Tiebreakers</b> applied in this exact order (as soon as one separates two teams, it decides):",
+    "explainer.tb1": "<b>Points</b> earned in the group stage",
+    "explainer.tb2": "<b>Goal difference</b>",
+    "explainer.tb3": "<b>Goals scored</b>",
+    "explainer.tb4": "<b>Fair play</b> (yellow / red cards)",
+    "explainer.tb5": "<b>FIFA ranking</b> before the tournament",
+    "explainer.p3": "That's why here you mark with <span style=\"color:var(--gold)\">★</span> the <b>8 third-placed teams</b> you think will end up with the best balance of points and goals. The bracket is then populated following the FIFA rule: <b>each third-place slot can only receive teams from 5 specific groups</b> (Annex C of the regulations), and never a team from the same group as its opponent.",
+    "scoring.title": "How scoring works",
+    "scoring.sub": "Tap to see the points table and a worked example — max <b>201 points</b>.",
+    "scoring.thPred": "Correct prediction",
+    "scoring.thPts": "Pts",
+    "scoring.thMax": "Max",
+    "scoring.groupStage": "Group stage",
+    "scoring.knockout": "Knockout stage",
+    "scoring.row1": "1st place in group",
+    "scoring.row2": "2nd place in group",
+    "scoring.row3": "3rd place in group",
+    "scoring.row4": "4th place in group",
+    "scoring.starRow": "Advancing third",
+    "scoring.r32": "R32 match winner",
+    "scoring.r16": "R16 match winner",
+    "scoring.qf": "QF match winner",
+    "scoring.sf": "SF match winner",
+    "scoring.final": "Final winner / Champion",
+    "scoring.maxRow": "Maximum possible",
+    "scoring.exampleTitle": "Worked example — Maria's bracket",
+    "scoring.ex1": "8 / 12 group winners correct",
+    "scoring.ex2": "5 / 12 second places correct",
+    "scoring.ex3": "4 / 12 third places correct",
+    "scoring.ex4": "7 / 12 fourth places correct",
+    "scoring.ex5": "6 / 8 stars correct",
+    "scoring.ex6": "10 / 16 R32 winners",
+    "scoring.ex7": "5 / 8 R16 winners",
+    "scoring.ex8": "2 / 4 QF winners",
+    "scoring.ex9": "1 / 2 SF winners",
+    "scoring.ex10": "Picked Brazil to win the Final — Brazil wins",
+    "scoring.exTotal": "Maria's total",
+    "scoring.tbTitle": "Tiebreakers",
+    "scoring.tbIntro": " (applied in order if two players end tied):",
+    "scoring.tb1": "Total goals scored in the Final — closest prediction wins",
+    "scoring.tb2": "Exact Final score correct",
+    "scoring.tb3": "Golden Boot (top scorer) correctly predicted",
+    "scoring.tb4": "Earliest submission timestamp",
+    "groupCard.gid": "Group",
+    "groupCard.hint": "Assign 1 · 2 · 3 · 4",
+    "groupCard.complete": "Complete",
+    "groupCard.rankedSuffix": "ranked",
+    "groupCard.starTitleNew": "Mark as advancing third-placed team",
+    "groupCard.starTitleYours": "Your best third (advances to R32)",
+    "groupCard.starTitleStar": "Star {team} as best third",
+    "pos.1": "1st",
+    "pos.2": "2nd",
+    "pos.3": "3rd",
+    "pos.4": "4th",
+    "alert.starMax": "You can only star 8 best third-placed teams. Unstar one before adding another.",
+    "bracket.h2": "Bracket — knockout stage",
+    "bracket.sub": "Click the team you think will win each match. The winner advances automatically.",
+    "bracket.gate.line1": "The bracket unlocks once <b>all 12 groups</b> are fully ranked <b>and</b> you star <b>exactly 8 thirds</b>.",
+    "bracket.gate.line2": "Current progress: ",
+    "round.r32": "Round of 32",
+    "round.r16": "Round of 16",
+    "round.qf": "Quarter-finals",
+    "round.sf": "Semi-finals",
+    "round.final": "Final",
+    "round.finalCaps": "FINAL",
+    "slot.pending": "— Pending —",
+    "slot.bestThird": "Best 3rd",
+    "slot.firstGroup": "1st · Group {g}",
+    "slot.secondGroup": "2nd · Group {g}",
+    "champion.label": "🏆 Your world champion",
+    "tb.title": "Tiebreakers",
+    "tb.finalScore": "Final score prediction",
+    "tb.finalTeamA": "— Final team A —",
+    "tb.finalTeamB": "— Final team B —",
+    "tb.vs": "vs",
+    "tb.goldenBoot": "Golden Boot (top scorer)",
+    "tb.goldenBootPh": "e.g. Kylian Mbappé",
+    "submit.checklistTitle": "Submission requirements",
+    "submit.counter": "{done} of {total}",
+    "submit.req.poolOpen": "Pool open until kick-off",
+    "submit.req.identity": "Name and email entered",
+    "submit.req.groups": "Rank all 12 groups",
+    "submit.req.stars": "Star 8 advancing thirds",
+    "submit.req.bracket": "Decide all knockout matches",
+    "submit.req.tiebreakers": "Fill tiebreakers (Final score + Golden Boot)",
+    "submit.btn": "Submit my picks",
+    "submit.btnSubmitting": "Submitting…",
+    "submit.btnSaving": "Saving picks to the pool…",
+    "submit.confirm": "Submit your picks now? After this you CAN'T edit them.",
+    "submit.helpReady": "Once you submit, your picks are locked and cannot be changed.",
+    "submit.errDup": "An entry from <b>{email}</b> already exists in the pool. Each email can only submit once.",
+    "submit.errNet": "Couldn't reach the pool server. Check your connection and try again.",
+    "btn.clearAll": "Clear all",
+    "btn.clearConfirm": "Clear all your picks? Your name and email stay.",
+    "lockBanner.title": "Picks submitted — locked",
+    "lockBanner.champion": "Champion:",
+    "lockBanner.score": "Final score:",
+    "lockBanner.gb": "Golden Boot:",
+    "lockBanner.submitted": "Submitted:",
+    "poolClosed.title": "Pool closed",
+    "poolClosed.msg": "Submissions are no longer accepted.",
+    "poolClosed.sub": "Deadline was 11 Jun 2026, 16:00 UTC (kick-off Mexico vs South Africa).",
+    "newResults.text": "<b>Results updated</b> on {when}. The leaderboard may have new rankings — scroll to the bottom to check.",
+    "newResults.dismiss": "Got it",
+    "lb.title": "Pool leaderboard",
+    "lb.sub": "Tap to see who has joined the pool and how everyone's doing.",
+    "lb.refresh": "↻ Refresh",
+    "lb.loading": "Loading…",
+    "lb.empty": "No one has submitted picks yet. Be the first.",
+    "lb.failed": "Couldn't load leaderboard.",
+    "lb.netErr": "Network error: ",
+    "lb.statusRanked": "{n} player{s} · ranked by points",
+    "lb.statusOrdered": "{n} player{s} · tournament hasn't started — sorted by submission order",
+    "lb.thRank": "#",
+    "lb.thPlayer": "Player",
+    "lb.thChampion": "Predicted champion",
+    "lb.thPts": "Pts",
+    "lb.thSubmitted": "Submitted",
+    "lb.you": " (you)",
+    "lb.detail.groupWinners": "Group winners (predicted)",
+    "lb.detail.thirds": "★ Advancing thirds",
+    "lb.detail.semis": "Semi-finalists",
+    "lb.detail.finalists": "Finalists",
+    "lb.detail.champion": "🏆 Champion",
+    "invite.title": "Invite friends",
+    "invite.copy": "Copy",
+    "invite.copied": "✓",
+    "invite.scan": "Scan to join",
+    "invite.shareText": "🏆 Join my World Cup 2026 prediction pool — fill out the bracket and compete with friends.",
+    "invite.emailSubject": "World Cup 2026 Pool",
+    "invite.fabTitle": "Invite friends",
+    "invite.fabLabel": "Invite friends",
+    "crossDev.confirm": "An entry from {email} already exists in the pool (submitted {when}).\n\nLoad those picks now (view-only — you cannot resubmit)?",
+    "footer.tag": "World Cup 2026 Pool",
+    "footer.dataNote": "Group data: FIFA Final Draw (5 Dec 2025). Third-place R32 placement uses the FIFA allowed-group sets.",
+  },
+  es: {
+    "topbar.groups": "Grupos",
+    "topbar.thirds": "Terceros",
+    "topbar.back": "← Volver",
+    "topbar.tabPool": "🏆 Quiniela",
+    "topbar.tabSchedule": "📅 Calendario",
+    "hero.kicker": "Mundial 2026 · Quiniela privada",
+    "hero.title": "Rellena tu cuadro del Mundial",
+    "hero.sub": "Predice el orden final de los 12 grupos, marca tus 8 mejores terceros y el bracket se rellena solo. Después, solo haz clic en quién crees que ganará cada partido.",
+    "hero.date1": "México vs Sudáfrica",
+    "hero.date2": "Final · MetLife Stadium",
+    "hero.venues": "sedes",
+    "hero.scheduleLink": "📅 Ver calendario completo (104 partidos, tu hora local)",
+    "groups.h2": "Fase de grupos",
+    "groups.sub": "Ordena los equipos <b>1º, 2º, 3º, 4º</b> dentro de cada grupo (cada posición solo se puede usar una vez por grupo). Marca con <span style=\"color:var(--gold)\">★</span> los <b>8 terceros</b> que crees que pasarán a Dieciseisavos.",
+    "identity.label": "Participante",
+    "identity.namePh": "Tu nombre",
+    "identity.emailPh": "tu@email.com",
+    "identity.privacy": "<b>Privacidad:</b> tu email solo se usa para identificar tu entrada en esta quiniela. No se muestra públicamente, no se comparte, no se usa para marketing y no recibirás ningún mensaje automático. Vive solo en la base de datos privada de la quiniela junto a tus picks.",
+    "explainer.title": "¿Qué decide si un tercero pasa o no?",
+    "explainer.sub": "Pulsa para ver los criterios de desempate FIFA y cómo se rellena el bracket.",
+    "explainer.p1": "El Mundial 2026 tiene <b>12 grupos de 4 equipos</b>. Los <b>2 primeros</b> de cada grupo pasan directos a Dieciseisavos (24 equipos). Para completar el bracket de <b>32 equipos</b>, FIFA mete a los <b>12 terceros</b> en una tabla única y se queda con los <b>8 mejores</b>; los 4 peores se van a casa.",
+    "explainer.p2": "<b>Criterios de desempate</b> aplicados en este orden exacto (en cuanto uno separa a dos equipos, decide):",
+    "explainer.tb1": "<b>Puntos</b> conseguidos en la fase de grupos",
+    "explainer.tb2": "<b>Diferencia de goles</b>",
+    "explainer.tb3": "<b>Goles a favor</b>",
+    "explainer.tb4": "<b>Fair play</b> (tarjetas amarillas / rojas)",
+    "explainer.tb5": "<b>Ranking FIFA</b> previo al torneo",
+    "explainer.p3": "Por eso aquí marcas con <span style=\"color:var(--gold)\">★</span> los <b>8 terceros</b> que crees que terminarán con el mejor balance de puntos y goles. El bracket se rellena después siguiendo la regla FIFA: <b>cada hueco de tercero solo puede recibir equipos de 5 grupos concretos</b> (Anexo C del reglamento), y nunca un equipo del mismo grupo que su rival.",
+    "scoring.title": "Cómo funciona la puntuación",
+    "scoring.sub": "Pulsa para ver la tabla de puntos y un ejemplo — máx <b>201 puntos</b>.",
+    "scoring.thPred": "Predicción acertada",
+    "scoring.thPts": "Pts",
+    "scoring.thMax": "Máx",
+    "scoring.groupStage": "Fase de grupos",
+    "scoring.knockout": "Eliminatorias",
+    "scoring.row1": "1º del grupo",
+    "scoring.row2": "2º del grupo",
+    "scoring.row3": "3º del grupo",
+    "scoring.row4": "4º del grupo",
+    "scoring.starRow": "Tercero que pasa",
+    "scoring.r32": "Ganador partido R32",
+    "scoring.r16": "Ganador partido R16",
+    "scoring.qf": "Ganador partido Cuartos",
+    "scoring.sf": "Ganador partido Semis",
+    "scoring.final": "Ganador Final / Campeón",
+    "scoring.maxRow": "Máximo posible",
+    "scoring.exampleTitle": "Ejemplo — bracket de María",
+    "scoring.ex1": "8 / 12 ganadores de grupo acertados",
+    "scoring.ex2": "5 / 12 segundos puestos acertados",
+    "scoring.ex3": "4 / 12 terceros puestos acertados",
+    "scoring.ex4": "7 / 12 cuartos puestos acertados",
+    "scoring.ex5": "6 / 8 estrellas acertadas",
+    "scoring.ex6": "10 / 16 ganadores R32",
+    "scoring.ex7": "5 / 8 ganadores R16",
+    "scoring.ex8": "2 / 4 ganadores Cuartos",
+    "scoring.ex9": "1 / 2 ganadores Semis",
+    "scoring.ex10": "Eligió a Brasil para ganar la Final — Brasil gana",
+    "scoring.exTotal": "Total de María",
+    "scoring.tbTitle": "Desempates",
+    "scoring.tbIntro": " (aplicados en orden si dos jugadores empatan):",
+    "scoring.tb1": "Total de goles en la Final — predicción más cercana gana",
+    "scoring.tb2": "Marcador exacto de la Final acertado",
+    "scoring.tb3": "Bota de Oro (máximo goleador) acertada",
+    "scoring.tb4": "Envío más temprano",
+    "groupCard.gid": "Grupo",
+    "groupCard.hint": "Asigna 1 · 2 · 3 · 4",
+    "groupCard.complete": "Completo",
+    "groupCard.rankedSuffix": "asignados",
+    "groupCard.starTitleNew": "Marcar como tercero que pasa",
+    "groupCard.starTitleYours": "Tu mejor tercero (pasa a R32)",
+    "groupCard.starTitleStar": "Marcar a {team} como mejor tercero",
+    "pos.1": "1º",
+    "pos.2": "2º",
+    "pos.3": "3º",
+    "pos.4": "4º",
+    "alert.starMax": "Solo puedes marcar 8 mejores terceros. Quita uno antes de añadir otro.",
+    "bracket.h2": "Bracket — eliminatorias",
+    "bracket.sub": "Haz clic en el equipo que crees que ganará cada partido. El ganador pasa automáticamente.",
+    "bracket.gate.line1": "El bracket se desbloquea cuando <b>los 12 grupos</b> estén completamente rellenados <b>y</b> marques <b>exactamente 8 terceros</b>.",
+    "bracket.gate.line2": "Progreso actual: ",
+    "round.r32": "Dieciseisavos",
+    "round.r16": "Octavos",
+    "round.qf": "Cuartos",
+    "round.sf": "Semifinales",
+    "round.final": "Final",
+    "round.finalCaps": "FINAL",
+    "slot.pending": "— Pendiente —",
+    "slot.bestThird": "Mejor 3º",
+    "slot.firstGroup": "1º · Grupo {g}",
+    "slot.secondGroup": "2º · Grupo {g}",
+    "champion.label": "🏆 Tu campeón del mundo",
+    "tb.title": "Desempates",
+    "tb.finalScore": "Predicción marcador de la Final",
+    "tb.finalTeamA": "— Equipo A finalista —",
+    "tb.finalTeamB": "— Equipo B finalista —",
+    "tb.vs": "vs",
+    "tb.goldenBoot": "Bota de Oro (máximo goleador)",
+    "tb.goldenBootPh": "p.ej. Kylian Mbappé",
+    "submit.checklistTitle": "Requisitos para enviar",
+    "submit.counter": "{done} de {total}",
+    "submit.req.poolOpen": "Quiniela abierta hasta el inicio",
+    "submit.req.identity": "Nombre y email introducidos",
+    "submit.req.groups": "Ordena los 12 grupos",
+    "submit.req.stars": "Marca 8 terceros que pasan",
+    "submit.req.bracket": "Decide todos los partidos de eliminatorias",
+    "submit.req.tiebreakers": "Rellena desempates (marcador Final + Bota de Oro)",
+    "submit.btn": "Enviar mis picks",
+    "submit.btnSubmitting": "Enviando…",
+    "submit.btnSaving": "Guardando picks…",
+    "submit.confirm": "¿Enviar tus picks ahora? Después NO podrás editarlos.",
+    "submit.helpReady": "Una vez enviados, los picks quedan bloqueados y no se pueden cambiar.",
+    "submit.errDup": "Ya existe una entrada de <b>{email}</b> en la quiniela. Cada email solo puede enviar una vez.",
+    "submit.errNet": "No se pudo contactar con el servidor. Comprueba tu conexión e inténtalo de nuevo.",
+    "btn.clearAll": "Limpiar todo",
+    "btn.clearConfirm": "¿Borrar todos tus picks? Tu nombre y email se mantienen.",
+    "lockBanner.title": "Picks enviados — bloqueados",
+    "lockBanner.champion": "Campeón:",
+    "lockBanner.score": "Marcador final:",
+    "lockBanner.gb": "Bota de Oro:",
+    "lockBanner.submitted": "Enviado:",
+    "poolClosed.title": "Quiniela cerrada",
+    "poolClosed.msg": "Ya no se aceptan envíos.",
+    "poolClosed.sub": "La fecha límite fue el 11 jun 2026, 16:00 UTC (inicio México vs Sudáfrica).",
+    "newResults.text": "<b>Resultados actualizados</b> el {when}. Es posible que el leaderboard tenga nuevas posiciones — baja al final para verlo.",
+    "newResults.dismiss": "Entendido",
+    "lb.title": "Clasificación",
+    "lb.sub": "Pulsa para ver quién se ha apuntado y cómo va cada uno.",
+    "lb.refresh": "↻ Actualizar",
+    "lb.loading": "Cargando…",
+    "lb.empty": "Aún no se ha apuntado nadie. Sé el primero.",
+    "lb.failed": "No se pudo cargar la clasificación.",
+    "lb.netErr": "Error de red: ",
+    "lb.statusRanked": "{n} jugador{s} · ordenado por puntos",
+    "lb.statusOrdered": "{n} jugador{s} · el torneo aún no ha empezado — ordenado por envío",
+    "lb.thRank": "#",
+    "lb.thPlayer": "Jugador",
+    "lb.thChampion": "Campeón predicho",
+    "lb.thPts": "Pts",
+    "lb.thSubmitted": "Enviado",
+    "lb.you": " (tú)",
+    "lb.detail.groupWinners": "Ganadores de grupo (predicción)",
+    "lb.detail.thirds": "★ Terceros que pasan",
+    "lb.detail.semis": "Semifinalistas",
+    "lb.detail.finalists": "Finalistas",
+    "lb.detail.champion": "🏆 Campeón",
+    "invite.title": "Invitar a amigos",
+    "invite.copy": "Copiar",
+    "invite.copied": "✓",
+    "invite.scan": "Escanea para unirte",
+    "invite.shareText": "🏆 Únete a mi quiniela del Mundial 2026 — rellena el bracket y compite con tus amigos.",
+    "invite.emailSubject": "Quiniela Mundial 2026",
+    "invite.fabTitle": "Invitar a amigos",
+    "invite.fabLabel": "Invitar a amigos",
+    "crossDev.confirm": "Ya existe una entrada de {email} en la quiniela (enviada el {when}).\n\n¿Cargar esos picks ahora (solo lectura — no puedes reenviar)?",
+    "footer.tag": "Quiniela Mundial 2026",
+    "footer.dataNote": "Datos de grupos: Sorteo Final FIFA (5 dic 2025). Asignación de terceros a R32 según los grupos permitidos por FIFA.",
+  }
+};
+
+let LANG = (function(){
+  const stored = localStorage.getItem("wc2026-lang");
+  if (stored === "en" || stored === "es") return stored;
+  return (navigator.language || "en").toLowerCase().startsWith("es") ? "es" : "en";
+})();
+function t(key, vars){
+  let s = (I18N[LANG] && I18N[LANG][key]) || (I18N.en[key]) || key;
+  if (vars) Object.entries(vars).forEach(([k,v]) => { s = s.replaceAll("{"+k+"}", v); });
+  return s;
+}
+function applyI18n(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+    el.placeholder = t(el.dataset.i18nPh);
+  });
+  document.querySelectorAll(".lang-toggle button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === LANG);
+  });
+}
+function setLanguage(lang){
+  if (lang !== "en" && lang !== "es") return;
+  LANG = lang;
+  localStorage.setItem("wc2026-lang", LANG);
+  applyI18n();
+  /* Re-render dynamic content */
+  if (typeof renderGroups === "function") renderGroups();
+  if (typeof refreshAllGroups === "function") refreshAllGroups();
+  if (typeof refreshBracket === "function") refreshBracket();
+  if (typeof refreshSubmitState === "function") refreshSubmitState();
+  if (typeof loadLeaderboard === "function") loadLeaderboard();
+  if (typeof window.refreshShareLinks === "function") window.refreshShareLinks();
+}
+document.querySelectorAll(".lang-toggle button").forEach(btn => {
+  btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+});
+
 /* ============================================================
    SUPABASE CLIENT
    ============================================================ */
@@ -1006,7 +1396,7 @@ function renderGroups(){
     card.dataset.group = letter;
     card.innerHTML = `
       <div class="group-head">
-        <span class="gid">Group ${letter}</span>
+        <span class="gid">${t("groupCard.gid")} ${letter}</span>
         <span class="group-status" data-status></span>
       </div>
       ${teams.map(([name,code])=>`
@@ -1015,12 +1405,12 @@ function renderGroups(){
           <span class="name" title="${name}">${name}</span>
           <select class="pos-select" data-group="${letter}" data-team="${name}">
             <option value="">—</option>
-            <option value="1">1st</option>
-            <option value="2">2nd</option>
-            <option value="3">3rd</option>
-            <option value="4">4th</option>
+            <option value="1">${t("pos.1")}</option>
+            <option value="2">${t("pos.2")}</option>
+            <option value="3">${t("pos.3")}</option>
+            <option value="4">${t("pos.4")}</option>
           </select>
-          <button class="star-btn hidden" data-star-group="${letter}" data-star-team="${name}" title="Mark as advancing third-placed team">★</button>
+          <button class="star-btn hidden" data-star-group="${letter}" data-star-team="${name}" title="${t("groupCard.starTitleNew")}">★</button>
         </div>
       `).join("")}
     `;
@@ -1079,7 +1469,7 @@ function onStarClick(e){
     state.starred.delete(g);
   } else {
     if (state.starred.size >= 8){
-      alert("You can only star 8 best third-placed teams. Unstar one before adding another.");
+      alert(t("alert.starMax"));
       return;
     }
     state.starred.add(g);
@@ -1120,7 +1510,7 @@ function refreshAllGroups(){
       btn.className = "star-btn " + (isThird ? "visible" : "hidden");
       if (isThird){
         if (state.starred.has(g)) btn.classList.add("starred");
-        btn.title = state.starred.has(g) ? "Your best third (advances to R32)" : `Star ${team} as best third`;
+        btn.title = state.starred.has(g) ? t("groupCard.starTitleYours") : t("groupCard.starTitleStar", {team});
         btn.disabled = false;
         /* If 8 already starred elsewhere and this one isn't starred → disable */
         if (!state.starred.has(g) && state.starred.size >= 8) btn.disabled = true;
@@ -1131,12 +1521,12 @@ function refreshAllGroups(){
     if (groupComplete(g)){
       card.classList.add("complete");
       status.className = "group-status ok";
-      status.innerHTML = `<span class="check">✓</span> Complete`;
+      status.innerHTML = `<span class="check">✓</span> ${t("groupCard.complete")}`;
     } else {
       card.classList.remove("complete");
       status.className = "group-status";
       const filled = Object.keys(state.positions).filter(k=>k.startsWith(g+"-")).length;
-      status.textContent = `${filled}/4 ranked`;
+      status.textContent = `${filled}/4 ${t("groupCard.rankedSuffix")}`;
     }
   });
   /* Top progress pill */
@@ -1149,7 +1539,7 @@ function refreshAllGroups(){
   tp.className = "count " + (state.starred.size===8 ? "ok" : (state.starred.size>8 ? "warn" : ""));
   /* Gate progress */
   const gate = document.getElementById("gate-progress");
-  if (gate) gate.textContent = `${done}/12 groups · ${state.starred.size}/8 thirds`;
+  if (gate) gate.textContent = `${done}/12 ${t("topbar.groups").toLowerCase()} · ${state.starred.size}/8 ${t("topbar.thirds").toLowerCase()}`;
 }
 
 /* ============================================================
@@ -1247,8 +1637,8 @@ function refreshBracket(){
     r32 = {}; r16 = {}; qf = {}; sf = {}; fin = {};
     R32_SPEC.forEach(m => {
       const labelOf = s => {
-        if (s.type === "pos") return `${s.pos===1?'1st':'2nd'} · Group ${s.group}`;
-        return `Best 3rd · {${s.allowed.join(",")}}`;
+        if (s.type === "pos") return t(s.pos===1?"slot.firstGroup":"slot.secondGroup", {g:s.group});
+        return `${t("slot.bestThird")} · {${s.allowed.join(",")}}`;
       };
       r32[m.id] = { a:{placeholder:labelOf(m.a)}, b:{placeholder:labelOf(m.b)} };
     });
@@ -1259,11 +1649,11 @@ function refreshBracket(){
   }
 
   const rounds = [
-    {label:"Round of 32",   prefix:"R32", slots:r32, count:16},
-    {label:"Round of 16",   prefix:"R16", slots:r16, count:8},
-    {label:"Quarter-finals",prefix:"QF",  slots:qf,  count:4},
-    {label:"Semi-finals",   prefix:"SF",  slots:sf,  count:2},
-    {label:"Final",         prefix:"F",   slots:fin, count:1},
+    {label:t("round.r32"),   prefix:"R32", slots:r32, count:16},
+    {label:t("round.r16"),   prefix:"R16", slots:r16, count:8},
+    {label:t("round.qf"),    prefix:"QF",  slots:qf,  count:4},
+    {label:t("round.sf"),    prefix:"SF",  slots:sf,  count:2},
+    {label:t("round.final"), prefix:"F",   slots:fin, count:1},
   ];
 
   const grid = document.getElementById("bracket-grid");
@@ -1281,7 +1671,7 @@ function refreshBracket(){
       const m = document.createElement("div");
       m.className = "match" + (r.prefix==="F" ? " final-match" : "");
       m.innerHTML = `
-        <div class="match-id">${r.prefix==="F" ? "FINAL" : id}</div>
+        <div class="match-id">${r.prefix==="F" ? t("round.finalCaps") : id}</div>
         ${renderSlot(id,"a",slot.a,w)}
         ${renderSlot(id,"b",slot.b,w)}
       `;
@@ -1342,7 +1732,7 @@ function renderSlot(matchId, side, team, winnerSide){
     nameHtml = `<span class="team-name placeholder">${team.placeholder}</span>`;
     flagHtml = `<span class="flag-sm"></span>`;
   } else {
-    nameHtml = `<span class="team-name placeholder">— Pending —</span>`;
+    nameHtml = `<span class="team-name placeholder">${t("slot.pending")}</span>`;
     flagHtml = `<span class="flag-sm"></span>`;
   }
   return `<div class="${cls}" data-match="${matchId}" data-side="${side}">${flagHtml}${nameHtml}</div>`;
@@ -1423,11 +1813,8 @@ function wireIdentity(){
       if (!existing) return;
       const { data: existingPicks } = await sb.from("picks").select("*").eq("user_id", existing.id).maybeSingle();
       if (!existingPicks) return;
-      const proceed = confirm(
-        `An entry from ${email} already exists in the pool (submitted ` +
-        new Date(existingPicks.submitted_at).toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"}) +
-        `).\n\nLoad those picks now (view-only — you cannot resubmit)?`
-      );
+      const when = new Date(existingPicks.submitted_at).toLocaleString(LANG === "es" ? "es-ES" : "en-GB",{dateStyle:"medium",timeStyle:"short"});
+      const proceed = confirm(t("crossDev.confirm", {email, when}));
       if (!proceed){ lastLookup = ""; return; }
       state.user = {id: existing.id, name: existing.name, email, joinedAt: new Date().toISOString()};
       state.positions = existingPicks.positions || {};
@@ -1494,14 +1881,14 @@ function bracketComplete(){
 
 function validate(){
   const reasons = [];
-  reasons.push({ok: poolIsOpen(), msg: "Pool open until kick-off"});
-  reasons.push({ok: !!state.user, msg: "Name and email entered"});
+  reasons.push({ok: poolIsOpen(), msg: t("submit.req.poolOpen")});
+  reasons.push({ok: !!state.user, msg: t("submit.req.identity")});
 
   const groupsDone = Object.keys(GROUPS).filter(groupComplete).length;
-  reasons.push({ok: groupsDone === 12, msg: "Rank all 12 groups", progress: `${groupsDone}/12`});
+  reasons.push({ok: groupsDone === 12, msg: t("submit.req.groups"), progress: `${groupsDone}/12`});
 
   const starsDone = state.starred.size;
-  reasons.push({ok: starsDone === 8, msg: "Star 8 advancing thirds", progress: `${starsDone}/8`});
+  reasons.push({ok: starsDone === 8, msg: t("submit.req.stars"), progress: `${starsDone}/8`});
 
   const matchIds = [];
   for (let i=1;i<=16;i++) matchIds.push(`R32-${i}`);
@@ -1510,13 +1897,13 @@ function validate(){
   for (let i=1;i<=2;i++) matchIds.push(`SF-${i}`);
   matchIds.push("F-1");
   const matchesDone = matchIds.filter(id => state.winners[id]).length;
-  reasons.push({ok: matchesDone === 31, msg: "Decide all knockout matches", progress: `${matchesDone}/31`});
+  reasons.push({ok: matchesDone === 31, msg: t("submit.req.bracket"), progress: `${matchesDone}/31`});
 
   const tbA = state.tiebreakers.goalsA != null ? 1 : 0;
   const tbB = state.tiebreakers.goalsB != null ? 1 : 0;
   const tbGB = (state.tiebreakers.goldenBoot||"").trim().length >= 2 ? 1 : 0;
   const tbDone = tbA + tbB + tbGB;
-  reasons.push({ok: tbDone === 3, msg: "Fill tiebreakers (Final score + Golden Boot)", progress: `${tbDone}/3`});
+  reasons.push({ok: tbDone === 3, msg: t("submit.req.tiebreakers"), progress: `${tbDone}/3`});
 
   return reasons;
 }
@@ -1538,7 +1925,7 @@ function refreshSubmitState(){
   /* Checklist card */
   const card = document.getElementById("submit-checklist");
   card.classList.toggle("complete", allOk);
-  document.getElementById("checklist-counter").textContent = `${done} of ${total}`;
+  document.getElementById("checklist-counter").textContent = t("submit.counter", {done, total});
   document.getElementById("checklist-bar-fill").style.width = `${Math.round(100*done/total)}%`;
   const itemsEl = document.getElementById("checklist-items");
   itemsEl.innerHTML = reasons.map(r => `
@@ -1553,7 +1940,7 @@ function refreshSubmitState(){
   const help = document.getElementById("submit-help");
   if (allOk){
     help.className = "submit-help";
-    help.textContent = "Once you submit, your picks are locked and cannot be changed.";
+    help.textContent = t("submit.helpReady");
   } else {
     help.className = "submit-help";
     help.textContent = "";
@@ -1578,24 +1965,24 @@ function applyLockedUI(){
   const ts = new Date(state.submittedAt);
   const tsStr = ts.toLocaleString("en-GB", {dateStyle:"medium", timeStyle:"short"});
   summary.innerHTML = `
-    ${champ ? `<span class="champ"><b>Champion:</b> <img src="https://flagcdn.com/w40/${champ.code}.png" alt=""> ${champ.name}</span>` : ""}
-    <span><b>Final score:</b> ${state.tiebreakers.goalsA}–${state.tiebreakers.goalsB}</span>
-    <span><b>Golden Boot:</b> ${state.tiebreakers.goldenBoot}</span>
-    <span><b>Submitted:</b> ${tsStr}</span>
+    ${champ ? `<span class="champ"><b>${t("lockBanner.champion")}</b> <img src="https://flagcdn.com/w40/${champ.code}.png" alt=""> ${champ.name}</span>` : ""}
+    <span><b>${t("lockBanner.score")}</b> ${state.tiebreakers.goalsA}–${state.tiebreakers.goalsB}</span>
+    <span><b>${t("lockBanner.gb")}</b> ${state.tiebreakers.goldenBoot}</span>
+    <span><b>${t("lockBanner.submitted")}</b> ${tsStr}</span>
   `;
 }
 
 document.getElementById("btn-submit").addEventListener("click", async ()=>{
   const reasons = validate();
   if (!reasons.every(r=>r.ok)) return;
-  if (!confirm("Submit your picks now? After this you CAN'T edit them.")) return;
+  if (!confirm(t("submit.confirm"))) return;
 
   const btn = document.getElementById("btn-submit");
   const help = document.getElementById("submit-help");
   btn.disabled = true;
-  btn.textContent = "Submitting…";
+  btn.textContent = t("submit.btnSubmitting");
   help.className = "submit-help";
-  help.textContent = "Saving picks to the pool…";
+  help.textContent = t("submit.btnSaving");
 
   try {
     /* 1. Try INSERT user. If email already exists (23505), SELECT existing row. */
@@ -1636,8 +2023,8 @@ document.getElementById("btn-submit").addEventListener("click", async ()=>{
       /* 23505 = unique_violation on the PK → this user already submitted */
       if (picksErr.code === "23505") {
         help.className = "submit-help error";
-        help.innerHTML = `An entry from <b>${state.user.email}</b> already exists in the pool. Each email can only submit once.`;
-        btn.textContent = "Submit my picks";
+        help.innerHTML = t("submit.errDup", {email: state.user.email});
+        btn.textContent = t("submit.btn");
         btn.disabled = false;
         return;
       }
@@ -1664,15 +2051,15 @@ document.getElementById("btn-submit").addEventListener("click", async ()=>{
     console.error("Supabase submit error:", err);
     logError("submit_picks", err);
     help.className = "submit-help error";
-    help.textContent = "Couldn't reach the pool server. Check your connection and try again. (" + (err.message || err) + ")";
-    btn.textContent = "Submit my picks";
+    help.textContent = t("submit.errNet") + " (" + (err.message || err) + ")";
+    btn.textContent = t("submit.btn");
     btn.disabled = false;
   }
 });
 
 document.getElementById("btn-clear").addEventListener("click",()=>{
   if (state.submittedAt) return;
-  if (!confirm("Clear all your picks? Your name and email stay.")) return;
+  if (!confirm(t("btn.clearConfirm"))) return;
   state.positions = {};
   state.starred = new Set();
   state.winners = {};
@@ -1818,23 +2205,23 @@ function renderUserPicksSummary(entry){
 
   return `
     <div class="lb-detail-block">
-      <h5>Group winners (predicted)</h5>
+      <h5>${t("lb.detail.groupWinners")}</h5>
       <ul>${gWinners.map(({g,team}) => `<li><span class="gid">${g}</span> ${flagImg(team)}</li>`).join("")}</ul>
     </div>
     <div class="lb-detail-block">
-      <h5>★ Advancing thirds</h5>
+      <h5>${t("lb.detail.thirds")}</h5>
       <ul>${stars.map(({g,team}) => `<li><span class="gid">${g}</span> ${flagImg(team)}</li>`).join("")}</ul>
     </div>
     <div class="lb-detail-block">
-      <h5>Semi-finalists</h5>
-      <ul>${sfTeams.map(t => `<li>${flagImg(t)}</li>`).join("")}</ul>
+      <h5>${t("lb.detail.semis")}</h5>
+      <ul>${sfTeams.map(team => `<li>${flagImg(team)}</li>`).join("")}</ul>
     </div>
     <div class="lb-detail-block">
-      <h5>Finalists</h5>
-      <ul>${finalists.map(t => `<li>${flagImg(t)}</li>`).join("")}</ul>
+      <h5>${t("lb.detail.finalists")}</h5>
+      <ul>${finalists.map(team => `<li>${flagImg(team)}</li>`).join("")}</ul>
     </div>
     <div class="lb-detail-block champion">
-      <h5>🏆 Champion</h5>
+      <h5>${t("lb.detail.champion")}</h5>
       <div class="team-name-big">${flagImg(champ)}</div>
     </div>
   `;
@@ -1845,7 +2232,7 @@ async function loadLeaderboard(){
   const contentEl = document.getElementById("lb-content");
   const btn = document.getElementById("lb-refresh");
   btn.classList.add("loading");
-  statusEl.textContent = "Loading…";
+  statusEl.textContent = t("lb.loading");
 
   try {
     const { data: rows, error } = await sb
@@ -1894,30 +2281,31 @@ async function loadLeaderboard(){
     document.getElementById("lb-count").textContent = `(${ranked.length})`;
 
     if (ranked.length === 0){
-      contentEl.innerHTML = `<div class="lb-empty">No one has submitted picks yet. Be the first.</div>`;
-      statusEl.textContent = "0 players";
+      contentEl.innerHTML = `<div class="lb-empty">${t("lb.empty")}</div>`;
+      statusEl.textContent = "";
     } else {
       const colCount = hasResults ? 5 : 4;
       contentEl.innerHTML = `
         <table class="lb-table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Player</th>
-              <th>Predicted champion</th>
-              ${hasResults ? '<th class="num">Pts</th>' : ''}
-              <th>Submitted</th>
+              <th>${t("lb.thRank")}</th>
+              <th>${t("lb.thPlayer")}</th>
+              <th>${t("lb.thChampion")}</th>
+              ${hasResults ? `<th class="num">${t("lb.thPts")}</th>` : ''}
+              <th>${t("lb.thSubmitted")}</th>
             </tr>
           </thead>
           <tbody>
             ${ranked.map((r,i) => {
               const rankClass = hasResults ? (i===0?"gold":i===1?"silver":i===2?"bronze":"") : "";
               const ts = new Date(r.submittedAt);
-              const tsStr = ts.toLocaleDateString("en-GB",{day:"2-digit",month:"short"}) + " " + ts.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+              const locale = LANG === "es" ? "es-ES" : "en-GB";
+              const tsStr = ts.toLocaleDateString(locale,{day:"2-digit",month:"short"}) + " " + ts.toLocaleTimeString(locale,{hour:"2-digit",minute:"2-digit"});
               return `
                 <tr class="lb-row ${r.isMe?'me':''}" data-idx="${i}">
                   <td class="rank ${rankClass}">${i+1}</td>
-                  <td class="name">${escapeHtml(r.name)}${r.isMe?" (you)":""}<span class="expand-icon">▸</span></td>
+                  <td class="name">${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}<span class="expand-icon">▸</span></td>
                   <td class="champ">${r.champion ? `<img src="https://flagcdn.com/w40/${r.champion.code}.png" alt=""><span>${escapeHtml(r.champion.name)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
                   ${hasResults ? `<td class="num">${r.score}</td>` : ''}
                   <td style="color:var(--muted);font-size:.86em">${tsStr}</td>
@@ -1952,15 +2340,15 @@ async function loadLeaderboard(){
           }
         });
       });
-      statusEl.textContent = hasResults
-        ? `${ranked.length} player${ranked.length===1?'':'s'} · ranked by points`
-        : `${ranked.length} player${ranked.length===1?'':'s'} · tournament hasn't started — sorted by submission order`;
+      statusEl.textContent = (hasResults ? t("lb.statusRanked") : t("lb.statusOrdered"))
+        .replace("{n}", ranked.length)
+        .replace("{s}", ranked.length===1?'':'s');
     }
   } catch (err){
     console.error("Leaderboard load error:", err);
     logError("load_leaderboard", err);
-    statusEl.textContent = "Couldn't load leaderboard.";
-    contentEl.innerHTML = `<div class="lb-empty">Network error: ${escapeHtml(err.message||String(err))}</div>`;
+    statusEl.textContent = t("lb.failed");
+    contentEl.innerHTML = `<div class="lb-empty">${t("lb.netErr")}${escapeHtml(err.message||String(err))}</div>`;
   } finally {
     btn.classList.remove("loading");
   }
@@ -1976,21 +2364,26 @@ document.getElementById("leaderboard").addEventListener("toggle", function(){
    ============================================================ */
 (function(){
   const POOL_URL = window.location.origin + window.location.pathname.replace(/(admin\.html|index\.html)?(\?.*)?$/, "");
-  const SHARE_TEXT = "🏆 Join my World Cup 2026 prediction pool — fill out the bracket and compete with friends.";
-  document.getElementById("invite-url").textContent = POOL_URL;
-  document.getElementById("invite-qr-img").src =
-    `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=8&data=${encodeURIComponent(POOL_URL)}`;
-  document.getElementById("share-whatsapp").href =
-    `https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + " " + POOL_URL)}`;
-  document.getElementById("share-email").href =
-    `mailto:?subject=${encodeURIComponent("World Cup 2026 Pool")}&body=${encodeURIComponent(SHARE_TEXT + "\n\n" + POOL_URL)}`;
+  function refreshShareLinks(){
+    const shareText = t("invite.shareText");
+    const emailSubject = t("invite.emailSubject");
+    document.getElementById("invite-url").textContent = POOL_URL;
+    document.getElementById("invite-qr-img").src =
+      `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=8&data=${encodeURIComponent(POOL_URL)}`;
+    document.getElementById("share-whatsapp").href =
+      `https://wa.me/?text=${encodeURIComponent(shareText + " " + POOL_URL)}`;
+    document.getElementById("share-email").href =
+      `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(shareText + "\n\n" + POOL_URL)}`;
+  }
+  refreshShareLinks();
+  window.refreshShareLinks = refreshShareLinks;
   document.getElementById("btn-copy").addEventListener("click", async (e)=>{
     const btn = e.currentTarget;
     try {
       await navigator.clipboard.writeText(POOL_URL);
-      btn.textContent = "✓";
+      btn.textContent = t("invite.copied");
       btn.classList.add("success");
-      setTimeout(()=>{ btn.textContent = "Copy"; btn.classList.remove("success"); }, 1500);
+      setTimeout(()=>{ btn.textContent = t("invite.copy"); btn.classList.remove("success"); }, 1500);
     } catch(err){
       btn.textContent = "⌘C";
       const range = document.createRange();
@@ -2047,8 +2440,8 @@ async function checkNewResults(){
     if (dbTs && dbTs > lastSeen){
       const banner = document.getElementById("new-results");
       const text = document.getElementById("new-results-text");
-      const when = new Date(dbTs).toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"});
-      text.innerHTML = `<b>Results updated</b> on ${when}. The leaderboard may have new rankings — scroll to the bottom to check.`;
+      const when = new Date(dbTs).toLocaleString(LANG === "es" ? "es-ES" : "en-GB",{dateStyle:"medium",timeStyle:"short"});
+      text.innerHTML = t("newResults.text", {when});
       banner.classList.add("show");
     }
   } catch(err){
@@ -2069,6 +2462,7 @@ document.getElementById("new-results-dismiss")?.addEventListener("click",()=>{
    INIT
    ============================================================ */
 hydrate();
+applyI18n();
 renderGroups();
 wireIdentity();
 wireTiebreakers();
