@@ -4,10 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>World Cup 2026 — Pool · FootAnalytics</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%86%3C/text%3E%3C/svg%3E">
+
+<!-- Social previews (WhatsApp, iMessage, Twitter, etc.) -->
+<meta name="description" content="Private World Cup 2026 prediction pool. Fill out your bracket, star your 8 best third-placed teams, predict the champion, and compete with friends.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://carlosvivasr.github.io/projects/wc2026-pool/">
+<meta property="og:title" content="World Cup 2026 Pool — Predict the bracket">
+<meta property="og:description" content="Fill out your bracket, star your 8 best third-placed teams, predict the champion. Friends-only prediction pool. Submissions close at kick-off, 11 Jun 2026.">
+<meta property="og:image" content="https://placehold.co/1200x630/006341/ffffff/png?text=World+Cup+2026+Pool%0APredict+the+bracket">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="World Cup 2026 Pool — Predict the bracket">
+<meta name="twitter:description" content="Fill out your bracket, star your 8 best third-placed teams, predict the champion. Friends-only prediction pool.">
+<meta name="twitter:image" content="https://placehold.co/1200x630/006341/ffffff/png?text=World+Cup+2026+Pool%0APredict+the+bracket">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <style>
   :root{
     --bg:#ffffff; --surface:#fafafa; --surface-2:#f3f4f6;
@@ -52,6 +68,8 @@
   .hero-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:14px 24px;margin-top:22px;color:var(--ink-2);font-size:.92em}
   .hero-meta b{color:var(--ink);font-weight:700}
   .hero-meta .sep{color:var(--line-strong)}
+  .host-flags{display:inline-flex;align-items:center;gap:3px;vertical-align:middle;margin-left:2px}
+  .host-flags img{width:18px;height:13px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 
   /* Sections */
   section{max-width:1280px;margin:0 auto;padding:48px 24px}
@@ -297,6 +315,11 @@
     display:grid;grid-template-columns:auto 1fr 1fr;gap:14px;align-items:center;
   }
   .identity-card.complete{border-color:var(--primary-2);background:linear-gradient(180deg,#f4faf7,#fff)}
+  .identity-privacy{
+    grid-column:1 / -1;font-size:.78em;color:var(--muted);line-height:1.5;
+    padding:6px 2px 0;border-top:1px dashed var(--line);margin-top:4px;
+  }
+  .identity-privacy b{color:var(--ink-2)}
   .identity-label{
     font-size:.72em;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
     color:var(--primary);background:var(--primary-soft);padding:6px 12px;border-radius:6px;
@@ -350,7 +373,7 @@
   .tb-row input[type=text]:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
 
   /* Submit section */
-  .submit-section{margin-top:24px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .submit-section{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:14px}
   .btn.submit{
     background:var(--primary);color:#fff;border-color:var(--primary);
     padding:14px 32px;font-size:1.02em;font-weight:800;
@@ -358,12 +381,44 @@
   }
   .btn.submit:hover:not(:disabled){background:#004f33;border-color:#004f33;transform:translateY(-1px)}
   .btn.submit:disabled{background:var(--line-strong);border-color:var(--line-strong);color:#fff;cursor:not-allowed;box-shadow:none;transform:none;opacity:.7}
-  .submit-help{font-size:.84em;color:var(--muted);text-align:center;max-width:520px}
+
+  /* Checklist card — above submit button */
+  .submit-checklist{
+    width:100%;max-width:560px;background:var(--bg);border:1px solid var(--line);
+    border-radius:12px;padding:14px 16px 12px;box-shadow:var(--shadow);
+  }
+  .submit-checklist.complete{border-color:var(--primary-2);background:linear-gradient(180deg,#f4faf7,#fff)}
+  .checklist-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .checklist-title{font-size:.74em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+  .submit-checklist.complete .checklist-title{color:var(--primary)}
+  .checklist-counter{font-size:.82em;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+  .submit-checklist.complete .checklist-counter{color:var(--primary)}
+  .checklist-bar{height:4px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-bottom:12px}
+  .checklist-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary-2),var(--primary));border-radius:99px;transition:width .3s ease}
+  .checklist-items{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+  .checklist-item{
+    display:grid;grid-template-columns:20px 1fr auto;align-items:center;gap:10px;
+    padding:5px 6px;border-radius:6px;font-size:.9em;
+  }
+  .checklist-item.ok{color:var(--muted)}
+  .checklist-item.ok .ci-label{text-decoration:line-through;text-decoration-color:rgba(0,99,65,.4)}
+  .checklist-item:not(.ok){color:var(--ink)}
+  .ci-icon{
+    width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    border:1.5px solid var(--line-strong);background:var(--bg);font-size:11px;font-weight:900;
+  }
+  .checklist-item.ok .ci-icon{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .checklist-item.ok .ci-icon::before{content:"✓"}
+  .ci-label{line-height:1.3}
+  .ci-progress{
+    font-size:.78em;font-weight:700;color:var(--primary);
+    background:var(--primary-soft);padding:2px 8px;border-radius:99px;font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  .checklist-item.ok .ci-progress{display:none}
+
+  .submit-help{font-size:.84em;color:var(--muted);text-align:center;max-width:520px;min-height:1.5em}
   .submit-help.error{color:var(--red)}
-  .submit-help ul{margin-top:6px;text-align:left;display:inline-block}
-  .submit-help li{list-style:none;padding-left:18px;position:relative;font-size:.95em}
-  .submit-help li::before{content:"✗";position:absolute;left:0;color:var(--red);font-weight:800}
-  .submit-help li.ok::before{content:"✓";color:var(--primary)}
 
   /* Submitted state */
   .submitted-banner{
@@ -380,31 +435,50 @@
   .submitted-banner .summary .champ{display:inline-flex;align-items:center;gap:8px}
   .submitted-banner .summary .champ img{width:22px;height:16px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 
-  /* Invite friends */
-  .invite{margin:0 0 22px;border-radius:12px;background:linear-gradient(180deg,#f3e9fa,#fbf6ff);border:1px solid #c8a8e0;box-shadow:0 1px 2px rgba(0,0,0,.03);overflow:hidden}
-  .invite > summary{list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;user-select:none}
-  .invite > summary::-webkit-details-marker{display:none}
-  .invite > summary:hover{background:rgba(107,70,193,.06)}
-  .invite-head{display:flex;align-items:center;gap:12px;flex:1}
-  .invite-head .icon{width:32px;height:32px;border-radius:50%;background:#6b46c1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1em;flex-shrink:0}
-  .invite-head h3{font-size:.98em;font-weight:800;color:#3b2362;margin:0}
-  .invite-head p{color:#5b3e8e;font-size:.86em;margin-top:1px}
-  .invite .chevron{width:20px;height:20px;color:#6b46c1;transition:transform .2s ease;flex-shrink:0}
-  .invite[open] .chevron{transform:rotate(180deg)}
-  .invite-body{padding:0 18px 18px}
-  .invite-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-  .invite-url{flex:1;min-width:200px;padding:10px 14px;border-radius:8px;background:#fff;border:1px solid #d8c8ec;font-family:'SF Mono',Menlo,monospace;font-size:.84em;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .invite-btn{display:inline-flex;align-items:center;gap:6px;background:#6b46c1;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-family:inherit;font-weight:700;font-size:.88em;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap}
+  /* Invite friends — floating action button (FAB) + popover */
+  .invite-fab{
+    position:fixed;bottom:22px;right:22px;z-index:80;
+    width:54px;height:54px;border-radius:50%;
+    background:#6b46c1;color:#fff;border:none;cursor:pointer;
+    box-shadow:0 6px 20px rgba(107,70,193,.40), 0 2px 6px rgba(0,0,0,.10);
+    display:flex;align-items:center;justify-content:center;font-size:22px;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .invite-fab:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(107,70,193,.50), 0 4px 8px rgba(0,0,0,.12)}
+  .invite-fab:focus{outline:3px solid #c8a8e0;outline-offset:3px}
+  .invite-fab .fab-label{position:absolute;right:64px;background:#0a0a0a;color:#fff;padding:6px 10px;border-radius:6px;font-size:.78em;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}
+  .invite-fab:hover .fab-label{opacity:1}
+
+  .invite-popover{
+    position:fixed;bottom:88px;right:22px;z-index:81;
+    width:320px;max-width:calc(100vw - 44px);
+    background:#fff;border:1px solid #d8c8ec;border-radius:14px;
+    padding:16px;box-shadow:0 12px 40px rgba(0,0,0,.18);
+    display:none;flex-direction:column;gap:10px;
+  }
+  .invite-popover.show{display:flex}
+  .invite-popover::after{
+    content:"";position:absolute;bottom:-7px;right:24px;
+    width:14px;height:14px;background:#fff;border-right:1px solid #d8c8ec;border-bottom:1px solid #d8c8ec;
+    transform:rotate(45deg);
+  }
+  .invite-popover h4{font-size:.78em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#3b2362;margin-bottom:2px}
+  .invite-row{display:flex;align-items:center;gap:8px}
+  .invite-url{flex:1;min-width:0;padding:8px 12px;border-radius:8px;background:#f7f3fb;border:1px solid #e3d4f0;font-family:'SF Mono',Menlo,monospace;font-size:.78em;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .invite-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#6b46c1;color:#fff;border:none;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:.84em;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap}
   .invite-btn:hover{background:#553792}
   .invite-btn.success{background:var(--primary)}
-  .invite-btn.whatsapp{background:#25D366;color:#fff}
+  .invite-btn.whatsapp{background:#25D366}
   .invite-btn.whatsapp:hover{background:#1eae54}
-  .invite-btn.email{background:#fff;color:#5b3e8e;border:1px solid #c8a8e0}
+  .invite-btn.email{background:#fff;color:#5b3e8e;border:1px solid #d8c8ec}
   .invite-btn.email:hover{background:#f3e9fa}
-  .invite-share{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-  .invite-qr{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px;background:#fff;border:1px solid #d8c8ec;border-radius:10px}
-  .invite-qr img{display:block;width:180px;height:180px;background:#fff}
-  .invite-qr .caption{font-size:.78em;color:#5b3e8e;font-weight:600;letter-spacing:.04em}
+  .invite-share{display:flex;gap:8px}
+  .invite-share .invite-btn{flex:1}
+  .invite-qr{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;background:#f7f3fb;border:1px solid #e3d4f0;border-radius:10px;margin-top:4px}
+  .invite-qr img{display:block;width:140px;height:140px;background:#fff;border-radius:6px}
+  .invite-qr .caption{font-size:.72em;color:#5b3e8e;font-weight:600;letter-spacing:.04em}
+
+  body.submitted .invite-fab{display:flex}  /* keep FAB visible after submit */
 
   /* Leaderboard */
   .leaderboard{margin:0 0 22px;border-radius:12px;background:linear-gradient(180deg,#eef3fa,#f7faff);border:1px solid #b9c8e0;box-shadow:0 1px 2px rgba(0,0,0,.03);overflow:hidden}
@@ -440,10 +514,49 @@
   .lb-table td.champ{display:flex;align-items:center;gap:8px;color:var(--ink-2)}
   .lb-table td.champ img{width:20px;height:14px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
   .lb-table tbody tr.me{background:rgba(0,99,65,.06)}
+  .lb-table tbody tr.lb-row{cursor:pointer;transition:background .12s}
+  .lb-table tbody tr.lb-row:hover{background:#eef3fa}
+  .lb-row .expand-icon{color:var(--muted);font-size:.7em;margin-left:6px;transition:transform .15s}
+  .lb-row.expanded .expand-icon{transform:rotate(90deg);color:var(--primary)}
+  .lb-detail-row{background:#fafbfd}
+  .lb-detail-row td{padding:0!important;border-bottom:none!important}
+  .lb-detail-row.hidden{display:none}
+  .lb-detail{
+    padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;
+    border-left:3px solid var(--primary);background:#fff;margin:6px 8px 10px;border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  .lb-detail-block h5{font-size:.66em;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .lb-detail-block ul{list-style:none;padding:0;margin:0;font-size:.84em}
+  .lb-detail-block li{display:flex;align-items:center;gap:6px;padding:3px 0}
+  .lb-detail-block li img{width:18px;height:13px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+  .lb-detail-block li .gid{font-size:.78em;font-weight:700;color:var(--muted);min-width:18px}
+  .lb-detail-block.champion{background:linear-gradient(135deg,#fffaf0,#fff);border-radius:8px;padding:10px 12px;border:1px solid var(--gold-2)}
+  .lb-detail-block.champion .team-name-big{font-size:1.1em;font-weight:900;color:#5a4500;display:flex;align-items:center;gap:8px}
+  .lb-detail-block.champion .team-name-big img{width:24px;height:18px}
   .lb-empty{text-align:center;padding:24px;color:#324867;font-size:.92em;background:#fff;border:1px dashed #b9c8e0;border-radius:8px}
   @media (max-width:680px){
     .lb-table th:nth-child(5),.lb-table td:nth-child(5){display:none}
   }
+
+  /* "New results" banner */
+  .new-results{
+    display:none;margin:0 auto 18px;max-width:760px;padding:14px 18px;border-radius:12px;
+    background:linear-gradient(135deg,#eff6ff,#f8fbff);border:1px solid #93c5fd;
+    box-shadow:0 4px 16px rgba(59,130,246,.10);
+  }
+  .new-results.show{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .new-results .icon{
+    width:32px;height:32px;border-radius:50%;background:#3b82f6;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1em;flex-shrink:0;
+  }
+  .new-results .text{flex:1;font-size:.92em;color:#1e3a8a}
+  .new-results .text b{color:#1e3a8a;font-weight:800}
+  .new-results .dismiss{
+    background:transparent;border:1px solid #93c5fd;color:#1e3a8a;
+    padding:6px 14px;border-radius:8px;font-family:inherit;font-weight:600;font-size:.84em;cursor:pointer;
+  }
+  .new-results .dismiss:hover{background:#dbeafe}
 
   /* Pool closed banner */
   .pool-closed{
@@ -501,12 +614,18 @@
       <span class="sep">•</span>
       <span><b>Jul 19</b> · Final · MetLife Stadium</span>
       <span class="sep">•</span>
-      <span><b>16</b> venues · USA / Mexico / Canada</span>
+      <span><b>16</b> venues · <span class="host-flags" aria-label="Mexico, USA, Canada"><img src="https://flagcdn.com/w20/mx.png" alt=""><img src="https://flagcdn.com/w20/us.png" alt=""><img src="https://flagcdn.com/w20/ca.png" alt=""></span></span>
     </div>
   </div>
 </header>
 
 <section id="groups">
+  <div class="new-results" id="new-results">
+    <div class="icon">↻</div>
+    <div class="text" id="new-results-text">Loading…</div>
+    <button class="dismiss" id="new-results-dismiss">Got it</button>
+  </div>
+
   <div class="pool-closed" id="pool-closed">
     <div class="label">Pool closed</div>
     <div class="msg">Submissions are no longer accepted.</div>
@@ -530,6 +649,9 @@
     <span class="identity-label">Pool participant</span>
     <input type="text" id="input-name" placeholder="Your name" autocomplete="name" maxlength="60">
     <input type="email" id="input-email" placeholder="your@email.com" autocomplete="email" maxlength="120">
+    <p class="identity-privacy">
+      <b>Privacy:</b> your email is used only to identify your entry in this pool. It is never shown publicly, never shared, never used for marketing, and you will not receive any automated message. It lives only in the pool's private database alongside your picks.
+    </p>
   </div>
 
   <details class="explainer">
@@ -667,37 +789,39 @@
   </div>
 
   <div class="submit-section">
+    <div class="submit-checklist" id="submit-checklist">
+      <div class="checklist-head">
+        <span class="checklist-title">Submission requirements</span>
+        <span class="checklist-counter" id="checklist-counter">0 of 6</span>
+      </div>
+      <div class="checklist-bar"><div class="checklist-bar-fill" id="checklist-bar-fill" style="width:0%"></div></div>
+      <ul class="checklist-items" id="checklist-items"></ul>
+    </div>
     <button class="btn submit" id="btn-submit" disabled>Submit my picks</button>
     <button class="btn" id="btn-clear">Clear all</button>
     <div class="submit-help" id="submit-help"></div>
   </div>
 
-  <details class="invite" id="invite">
-    <summary>
-      <div class="invite-head">
-        <div class="icon">📤</div>
-        <div>
-          <h3>Invite friends to the pool</h3>
-          <p>Share the link, scan the QR, or send via WhatsApp / email.</p>
-        </div>
-      </div>
-      <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>
-    </summary>
-    <div class="invite-body">
-      <div class="invite-row">
-        <div class="invite-url" id="invite-url">—</div>
-        <button class="invite-btn" id="btn-copy">Copy link</button>
-      </div>
-      <div class="invite-share">
-        <a class="invite-btn whatsapp" id="share-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
-        <a class="invite-btn email" id="share-email" target="_blank" rel="noopener">Email</a>
-      </div>
-      <div class="invite-qr">
-        <img id="invite-qr-img" alt="QR code to open the pool">
-        <span class="caption">Scan to join</span>
-      </div>
+  <!-- Floating Share FAB + Popover -->
+  <button class="invite-fab" id="invite-fab" type="button" title="Invite friends" aria-label="Invite friends">
+    <span class="fab-label">Invite friends</span>
+    <span aria-hidden="true">📤</span>
+  </button>
+  <div class="invite-popover" id="invite-popover" role="dialog" aria-label="Invite friends">
+    <h4>Invite friends</h4>
+    <div class="invite-row">
+      <div class="invite-url" id="invite-url">—</div>
+      <button class="invite-btn" id="btn-copy">Copy</button>
     </div>
-  </details>
+    <div class="invite-share">
+      <a class="invite-btn whatsapp" id="share-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="invite-btn email" id="share-email" target="_blank" rel="noopener">Email</a>
+    </div>
+    <div class="invite-qr">
+      <img id="invite-qr-img" alt="QR code to open the pool">
+      <span class="caption">Scan to join</span>
+    </div>
+  </div>
 
   <details class="leaderboard" id="leaderboard">
     <summary>
@@ -732,6 +856,18 @@
 const SUPABASE_URL = "https://mdiijmvjzjqnhvvjqqht.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kaWlqbXZqempxbmh2dmpxcWh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MTExNjgsImV4cCI6MjA5NDA4NzE2OH0.UmPVhth3Xr5sPUyJAib-ms2kWC30FBvWBMoKsyylP90";
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* Fire-and-forget error logger. Never throws. Stores no PII. */
+async function logError(context, err, meta){
+  try {
+    await sb.from("errors").insert({
+      context: String(context).slice(0,80),
+      message: String(err && err.message || err).slice(0,500),
+      user_agent: navigator.userAgent.slice(0,300),
+      meta: meta || null,
+    });
+  } catch(_){ /* swallow */ }
+}
 
 /* Deadline = WC 2026 kick-off (Mexico vs South Africa, Estadio Azteca) */
 const POOL_DEADLINE = new Date("2026-06-11T16:00:00Z");
@@ -1271,6 +1407,53 @@ function wireIdentity(){
   };
   nameEl.addEventListener("input", onChange);
   emailEl.addEventListener("input", onChange);
+
+  /* Cross-device pick recovery: when the user blurs the email field, look it
+     up in Supabase. If a previous submission exists, restore the locked state
+     so the participant can see what they submitted from any device. */
+  let lastLookup = "";
+  emailEl.addEventListener("blur", async ()=>{
+    const email = emailEl.value.trim().toLowerCase();
+    if (!email || email === lastLookup) return;
+    if (state.submittedAt) return; /* already locked locally */
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+    lastLookup = email;
+    try {
+      const { data: existing } = await sb.from("users").select("id, name").eq("email", email).maybeSingle();
+      if (!existing) return;
+      const { data: existingPicks } = await sb.from("picks").select("*").eq("user_id", existing.id).maybeSingle();
+      if (!existingPicks) return;
+      const proceed = confirm(
+        `An entry from ${email} already exists in the pool (submitted ` +
+        new Date(existingPicks.submitted_at).toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"}) +
+        `).\n\nLoad those picks now (view-only — you cannot resubmit)?`
+      );
+      if (!proceed){ lastLookup = ""; return; }
+      state.user = {id: existing.id, name: existing.name, email, joinedAt: new Date().toISOString()};
+      state.positions = existingPicks.positions || {};
+      state.starred = new Set(existingPicks.starred || []);
+      state.winners = existingPicks.winners || {};
+      state.tiebreakers = {
+        goalsA: existingPicks.final_goals_a,
+        goalsB: existingPicks.final_goals_b,
+        goldenBoot: existingPicks.golden_boot || "",
+      };
+      state.submittedAt = existingPicks.submitted_at;
+      nameEl.value = existing.name;
+      persist();
+      /* Restore UI from persisted state */
+      document.getElementById("tb-goals-a").value = state.tiebreakers.goalsA ?? "";
+      document.getElementById("tb-goals-b").value = state.tiebreakers.goalsB ?? "";
+      document.getElementById("tb-golden-boot").value = state.tiebreakers.goldenBoot;
+      refreshAllGroups();
+      refreshBracket();
+      refreshSubmitState();
+      applyLockedUI();
+    } catch(err){
+      console.error("Cross-device lookup failed:", err);
+      logError("load_picks_by_email", err);
+    }
+  });
 }
 
 /* ============================================================
@@ -1311,15 +1494,30 @@ function bracketComplete(){
 
 function validate(){
   const reasons = [];
-  reasons.push({ok: poolIsOpen(), msg: "Pool is open (closes 11 Jun 2026, 16:00 UTC at kick-off)"});
+  reasons.push({ok: poolIsOpen(), msg: "Pool open until kick-off"});
   reasons.push({ok: !!state.user, msg: "Name and email entered"});
-  reasons.push({ok: allGroupsComplete(), msg: "All 12 groups fully ranked"});
-  reasons.push({ok: state.starred.size === 8, msg: "Exactly 8 third-placed teams starred"});
-  reasons.push({ok: bracketComplete(), msg: "All knockout matches decided (up to the Final)"});
-  reasons.push({
-    ok: state.tiebreakers.goalsA != null && state.tiebreakers.goalsB != null && (state.tiebreakers.goldenBoot||"").trim().length >= 2,
-    msg: "Tiebreakers filled (Final score + Golden Boot)"
-  });
+
+  const groupsDone = Object.keys(GROUPS).filter(groupComplete).length;
+  reasons.push({ok: groupsDone === 12, msg: "Rank all 12 groups", progress: `${groupsDone}/12`});
+
+  const starsDone = state.starred.size;
+  reasons.push({ok: starsDone === 8, msg: "Star 8 advancing thirds", progress: `${starsDone}/8`});
+
+  const matchIds = [];
+  for (let i=1;i<=16;i++) matchIds.push(`R32-${i}`);
+  for (let i=1;i<=8;i++) matchIds.push(`R16-${i}`);
+  for (let i=1;i<=4;i++) matchIds.push(`QF-${i}`);
+  for (let i=1;i<=2;i++) matchIds.push(`SF-${i}`);
+  matchIds.push("F-1");
+  const matchesDone = matchIds.filter(id => state.winners[id]).length;
+  reasons.push({ok: matchesDone === 31, msg: "Decide all knockout matches", progress: `${matchesDone}/31`});
+
+  const tbA = state.tiebreakers.goalsA != null ? 1 : 0;
+  const tbB = state.tiebreakers.goalsB != null ? 1 : 0;
+  const tbGB = (state.tiebreakers.goldenBoot||"").trim().length >= 2 ? 1 : 0;
+  const tbDone = tbA + tbB + tbGB;
+  reasons.push({ok: tbDone === 3, msg: "Fill tiebreakers (Final score + Golden Boot)", progress: `${tbDone}/3`});
+
   return reasons;
 }
 
@@ -1329,16 +1527,36 @@ function refreshSubmitState(){
     return;
   }
   const reasons = validate();
-  const allOk = reasons.every(r=>r.ok);
+  const done = reasons.filter(r=>r.ok).length;
+  const total = reasons.length;
+  const allOk = done === total;
+
+  /* Submit button */
   const btn = document.getElementById("btn-submit");
   btn.disabled = !allOk;
+
+  /* Checklist card */
+  const card = document.getElementById("submit-checklist");
+  card.classList.toggle("complete", allOk);
+  document.getElementById("checklist-counter").textContent = `${done} of ${total}`;
+  document.getElementById("checklist-bar-fill").style.width = `${Math.round(100*done/total)}%`;
+  const itemsEl = document.getElementById("checklist-items");
+  itemsEl.innerHTML = reasons.map(r => `
+    <li class="checklist-item ${r.ok ? 'ok' : ''}">
+      <span class="ci-icon"></span>
+      <span class="ci-label">${r.msg}</span>
+      ${r.progress && !r.ok ? `<span class="ci-progress">${r.progress}</span>` : ''}
+    </li>
+  `).join("");
+
+  /* Help message below button */
   const help = document.getElementById("submit-help");
   if (allOk){
     help.className = "submit-help";
-    help.textContent = "Once you submit, your picks are locked and cannot be changed. Make sure everything looks right.";
+    help.textContent = "Once you submit, your picks are locked and cannot be changed.";
   } else {
-    help.className = "submit-help error";
-    help.innerHTML = "To unlock submit:<ul>" + reasons.map(r=>`<li class="${r.ok?'ok':''}">${r.msg}</li>`).join("") + "</ul>";
+    help.className = "submit-help";
+    help.textContent = "";
   }
 }
 
@@ -1426,14 +1644,25 @@ document.getElementById("btn-submit").addEventListener("click", async ()=>{
       throw picksErr;
     }
 
-    /* 3. Success → lock UI */
+    /* 3. Success → lock UI + celebrate */
     state.user.id = userId;
     state.submittedAt = new Date().toISOString();
     persist();
     applyLockedUI();
     window.scrollTo({top:0, behavior:"smooth"});
+    /* Confetti celebration (gracefully degrades if lib not loaded) */
+    if (window.confetti){
+      const fire = (opts) => window.confetti(Object.assign({
+        particleCount: 80, spread: 70, startVelocity: 45, ticks: 200,
+        colors: ['#006341','#C9A227','#ffffff','#00945f','#e6c14a'],
+      }, opts));
+      fire({ origin: { x: 0.2, y: 0.7 }, angle: 60 });
+      fire({ origin: { x: 0.8, y: 0.7 }, angle: 120 });
+      setTimeout(() => fire({ origin: { x: 0.5, y: 0.6 }, particleCount: 60 }), 250);
+    }
   } catch (err) {
     console.error("Supabase submit error:", err);
+    logError("submit_picks", err);
     help.className = "submit-help error";
     help.textContent = "Couldn't reach the pool server. Check your connection and try again. (" + (err.message || err) + ")";
     btn.textContent = "Submit my picks";
@@ -1533,6 +1762,84 @@ function computeScore(picks, official){
    ============================================================ */
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+function renderUserPicksSummary(entry){
+  /* Build a clean public summary of one user's picks. Shows:
+     - Group winners (1st of each group)
+     - Starred advancing thirds
+     - Semi-finalists (4 teams)
+     - Finalists (2 teams)
+     - Champion */
+  const picks = entry.picks;
+  const winners = userMatchWinners(picks);
+
+  /* Group winners */
+  const gWinners = Object.keys(GROUPS).map(g => {
+    const t = withPicks(picks, () => teamByPos(g, 1));
+    return {g, team: t};
+  });
+
+  /* Starred thirds */
+  const stars = (picks.starred || []).slice().sort().map(g => {
+    const t = withPicks(picks, () => teamByPos(g, 3));
+    return {g, team: t};
+  });
+
+  /* Semi-finalists: 4 teams in SF (a + b of SF-1 and SF-2) */
+  const sfTeams = [];
+  for (const id of ["SF-1","SF-2"]){
+    /* The teams in the SF match come from the QFs that feed it */
+    const sfSlot = withPicks(picks, () => {
+      const r32 = resolveR32();
+      const r16 = buildNextRound(R16_PAIRS, r32, "R32", "R16");
+      const qf  = buildNextRound(QF_PAIRS,  r16, "R16", "QF");
+      const sf  = buildNextRound(SF_PAIRS,  qf,  "QF",  "SF");
+      return sf[id];
+    });
+    if (sfSlot?.a) sfTeams.push(sfSlot.a);
+    if (sfSlot?.b) sfTeams.push(sfSlot.b);
+  }
+
+  /* Finalists: a + b of F-1 */
+  const finalSlot = withPicks(picks, () => {
+    const r32 = resolveR32();
+    const r16 = buildNextRound(R16_PAIRS, r32, "R32", "R16");
+    const qf  = buildNextRound(QF_PAIRS,  r16, "R16", "QF");
+    const sf  = buildNextRound(SF_PAIRS,  qf,  "QF",  "SF");
+    const fin = buildNextRound(F_PAIRS,   sf,  "SF",  "F");
+    return fin["F-1"];
+  });
+  const finalists = [];
+  if (finalSlot?.a) finalists.push(finalSlot.a);
+  if (finalSlot?.b) finalists.push(finalSlot.b);
+
+  const champ = entry.champion;
+
+  const flagImg = (team) => team ? `<img src="https://flagcdn.com/w40/${team.code}.png" alt=""> <span>${escapeHtml(team.name)}</span>` : '<span style="color:#9ca3af">—</span>';
+
+  return `
+    <div class="lb-detail-block">
+      <h5>Group winners (predicted)</h5>
+      <ul>${gWinners.map(({g,team}) => `<li><span class="gid">${g}</span> ${flagImg(team)}</li>`).join("")}</ul>
+    </div>
+    <div class="lb-detail-block">
+      <h5>★ Advancing thirds</h5>
+      <ul>${stars.map(({g,team}) => `<li><span class="gid">${g}</span> ${flagImg(team)}</li>`).join("")}</ul>
+    </div>
+    <div class="lb-detail-block">
+      <h5>Semi-finalists</h5>
+      <ul>${sfTeams.map(t => `<li>${flagImg(t)}</li>`).join("")}</ul>
+    </div>
+    <div class="lb-detail-block">
+      <h5>Finalists</h5>
+      <ul>${finalists.map(t => `<li>${flagImg(t)}</li>`).join("")}</ul>
+    </div>
+    <div class="lb-detail-block champion">
+      <h5>🏆 Champion</h5>
+      <div class="team-name-big">${flagImg(champ)}</div>
+    </div>
+  `;
+}
+
 async function loadLeaderboard(){
   const statusEl = document.getElementById("lb-status");
   const contentEl = document.getElementById("lb-content");
@@ -1570,6 +1877,7 @@ async function loadLeaderboard(){
         score,
         submittedAt: r.submitted_at,
         isMe: state.user && state.user.id === r.user_id,
+        picks,  /* keep for expand */
       };
     });
 
@@ -1589,6 +1897,7 @@ async function loadLeaderboard(){
       contentEl.innerHTML = `<div class="lb-empty">No one has submitted picks yet. Be the first.</div>`;
       statusEl.textContent = "0 players";
     } else {
+      const colCount = hasResults ? 5 : 4;
       contentEl.innerHTML = `
         <table class="lb-table">
           <thead>
@@ -1606,24 +1915,50 @@ async function loadLeaderboard(){
               const ts = new Date(r.submittedAt);
               const tsStr = ts.toLocaleDateString("en-GB",{day:"2-digit",month:"short"}) + " " + ts.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
               return `
-                <tr class="${r.isMe?'me':''}">
+                <tr class="lb-row ${r.isMe?'me':''}" data-idx="${i}">
                   <td class="rank ${rankClass}">${i+1}</td>
-                  <td class="name">${escapeHtml(r.name)}${r.isMe?" (you)":""}</td>
+                  <td class="name">${escapeHtml(r.name)}${r.isMe?" (you)":""}<span class="expand-icon">▸</span></td>
                   <td class="champ">${r.champion ? `<img src="https://flagcdn.com/w40/${r.champion.code}.png" alt=""><span>${escapeHtml(r.champion.name)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
                   ${hasResults ? `<td class="num">${r.score}</td>` : ''}
                   <td style="color:var(--muted);font-size:.86em">${tsStr}</td>
+                </tr>
+                <tr class="lb-detail-row hidden" data-detail="${i}">
+                  <td colspan="${colCount}">
+                    <div class="lb-detail"></div>
+                  </td>
                 </tr>
               `;
             }).join("")}
           </tbody>
         </table>
       `;
+      /* Wire expand handlers */
+      contentEl.querySelectorAll(".lb-row").forEach(row => {
+        row.addEventListener("click",()=>{
+          const idx = row.dataset.idx;
+          const detail = contentEl.querySelector(`tr[data-detail="${idx}"]`);
+          const isOpen = !detail.classList.contains("hidden");
+          /* Close any other open detail */
+          contentEl.querySelectorAll(".lb-detail-row").forEach(d => d.classList.add("hidden"));
+          contentEl.querySelectorAll(".lb-row").forEach(r => r.classList.remove("expanded"));
+          if (!isOpen){
+            detail.classList.remove("hidden");
+            row.classList.add("expanded");
+            const target = detail.querySelector(".lb-detail");
+            if (!target.dataset.rendered){
+              target.innerHTML = renderUserPicksSummary(ranked[idx]);
+              target.dataset.rendered = "1";
+            }
+          }
+        });
+      });
       statusEl.textContent = hasResults
         ? `${ranked.length} player${ranked.length===1?'':'s'} · ranked by points`
         : `${ranked.length} player${ranked.length===1?'':'s'} · tournament hasn't started — sorted by submission order`;
     }
   } catch (err){
     console.error("Leaderboard load error:", err);
+    logError("load_leaderboard", err);
     statusEl.textContent = "Couldn't load leaderboard.";
     contentEl.innerHTML = `<div class="lb-empty">Network error: ${escapeHtml(err.message||String(err))}</div>`;
   } finally {
@@ -1637,14 +1972,14 @@ document.getElementById("leaderboard").addEventListener("toggle", function(){
 });
 
 /* ============================================================
-   INVITE FRIENDS
+   INVITE FRIENDS (FAB + popover)
    ============================================================ */
 (function(){
   const POOL_URL = window.location.origin + window.location.pathname.replace(/(admin\.html|index\.html)?(\?.*)?$/, "");
   const SHARE_TEXT = "🏆 Join my World Cup 2026 prediction pool — fill out the bracket and compete with friends.";
   document.getElementById("invite-url").textContent = POOL_URL;
   document.getElementById("invite-qr-img").src =
-    `https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=8&data=${encodeURIComponent(POOL_URL)}`;
+    `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=8&data=${encodeURIComponent(POOL_URL)}`;
   document.getElementById("share-whatsapp").href =
     `https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + " " + POOL_URL)}`;
   document.getElementById("share-email").href =
@@ -1653,15 +1988,28 @@ document.getElementById("leaderboard").addEventListener("toggle", function(){
     const btn = e.currentTarget;
     try {
       await navigator.clipboard.writeText(POOL_URL);
-      btn.textContent = "✓ Copied";
+      btn.textContent = "✓";
       btn.classList.add("success");
-      setTimeout(()=>{ btn.textContent = "Copy link"; btn.classList.remove("success"); }, 1800);
+      setTimeout(()=>{ btn.textContent = "Copy"; btn.classList.remove("success"); }, 1500);
     } catch(err){
-      btn.textContent = "Press ⌘C";
+      btn.textContent = "⌘C";
       const range = document.createRange();
       range.selectNodeContents(document.getElementById("invite-url"));
       const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
     }
+  });
+  /* FAB toggle */
+  const fab = document.getElementById("invite-fab");
+  const pop = document.getElementById("invite-popover");
+  fab.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    pop.classList.toggle("show");
+  });
+  document.addEventListener("click",(e)=>{
+    if (!pop.contains(e.target) && !fab.contains(e.target)) pop.classList.remove("show");
+  });
+  document.addEventListener("keydown",(e)=>{
+    if (e.key === "Escape") pop.classList.remove("show");
   });
 })();
 
@@ -1677,6 +2025,47 @@ function refreshDeadlineState(){
 }
 
 /* ============================================================
+   NEW RESULTS BANNER (in-app notification when admin posts results)
+   ============================================================ */
+const NEW_RESULTS_KEY = "wc2026-last-seen-results";
+
+async function checkNewResults(){
+  try {
+    const { data, error } = await sb
+      .from("official_results")
+      .select("updated_at")
+      .eq("id", 1)
+      .maybeSingle();
+    if (error || !data) return;
+    const dbTs = data.updated_at;
+    const lastSeen = localStorage.getItem(NEW_RESULTS_KEY);
+    if (!lastSeen){
+      /* First visit ever for this browser → just record, don't notify */
+      localStorage.setItem(NEW_RESULTS_KEY, dbTs);
+      return;
+    }
+    if (dbTs && dbTs > lastSeen){
+      const banner = document.getElementById("new-results");
+      const text = document.getElementById("new-results-text");
+      const when = new Date(dbTs).toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"});
+      text.innerHTML = `<b>Results updated</b> on ${when}. The leaderboard may have new rankings — scroll to the bottom to check.`;
+      banner.classList.add("show");
+    }
+  } catch(err){
+    logError("check_new_results", err);
+  }
+}
+
+document.getElementById("new-results-dismiss")?.addEventListener("click",()=>{
+  document.getElementById("new-results").classList.remove("show");
+  /* Persist that we've seen the current state */
+  (async ()=>{
+    const { data } = await sb.from("official_results").select("updated_at").eq("id",1).maybeSingle();
+    if (data?.updated_at) localStorage.setItem(NEW_RESULTS_KEY, data.updated_at);
+  })();
+});
+
+/* ============================================================
    INIT
    ============================================================ */
 hydrate();
@@ -1687,6 +2076,7 @@ refreshBracket();
 refreshSubmitState();
 refreshDeadlineState();
 loadLeaderboard();
+checkNewResults();
 </script>
 </body>
 </html>

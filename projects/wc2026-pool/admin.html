@@ -77,6 +77,18 @@
   .tb-row input[type=number]{width:64px;text-align:center;font-weight:700}
   .tb-row input[type=text]{flex:1;min-width:200px}
 
+  /* Participants table */
+  .p-table{width:100%;border-collapse:collapse;font-size:.88em;background:#fff;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .p-table th,.p-table td{padding:9px 12px;text-align:left;border-bottom:1px solid #eef2f7}
+  .p-table tbody tr:last-child td{border-bottom:none}
+  .p-table th{font-weight:800;color:var(--ink);font-size:.74em;letter-spacing:.06em;text-transform:uppercase;background:#fafbfc}
+  .p-table td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;width:60px}
+  .p-table td.email{color:var(--muted);font-size:.86em;font-family:'SF Mono',Menlo,monospace}
+  .p-table td.actions{width:60px;text-align:center}
+  .p-del{background:transparent;border:1px solid #e5a3a6;color:var(--red);padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:.84em;font-weight:600}
+  .p-del:hover{background:#fdecec}
+  .p-empty{padding:18px;text-align:center;color:var(--muted);font-size:.92em;border:1px dashed var(--line-strong);border-radius:8px;background:#fafbfc}
+
   footer{text-align:center;color:var(--muted);font-size:.84em;padding:24px}
 </style>
 </head>
@@ -115,6 +127,12 @@
       <h3>Knockout — match winners</h3>
       <p class="help">For each match, type the exact name of the winning team (case-sensitive, matches the names in the group cards: "Mexico", "South Korea", "Türkiye", "England", etc.).</p>
       <div class="ko-rounds" id="admin-knockout"></div>
+    </div>
+
+    <div class="panel" id="participants-panel">
+      <h3>Participants</h3>
+      <p class="help">Everyone who has submitted picks. Use the trash button to remove duplicates / unwanted entries. Deletes are cascade (the user's picks go with them).</p>
+      <div id="participants-content">Loading…</div>
     </div>
 
     <div class="panel">
@@ -188,6 +206,7 @@ function unlockUI(){
   document.getElementById("admin-content").style.display = "block";
   renderAll();
   loadFromDb();
+  loadParticipants();
 }
 if (new URL(window.location.href).searchParams.get("key") === ADMIN_KEY){
   unlockUI();
@@ -261,6 +280,9 @@ function renderGroups(){
 function renderKnockout(){
   const grid = document.getElementById("admin-knockout");
   grid.innerHTML = "";
+  /* Build a single datalist of all 48 team names — typo-prevention */
+  const allTeams = Object.values(GROUPS).flat().map(t=>t[0]);
+  const datalistHtml = `<datalist id="team-options">${allTeams.map(n=>`<option value="${n.replace(/"/g,'&quot;')}">`).join("")}</datalist>`;
   KO_ROUNDS.forEach(r=>{
     const col = document.createElement("div");
     col.className = "ko-round";
@@ -270,12 +292,14 @@ function renderKnockout(){
       return `
         <div class="ko-match">
           <label>${id}</label>
-          <input type="text" data-match="${id}" value="${val.replace(/"/g,'&quot;')}" placeholder="Winning team">
+          <input type="text" list="team-options" data-match="${id}" value="${val.replace(/"/g,'&quot;')}" placeholder="Winning team">
         </div>
       `;
     }).join("");
     grid.appendChild(col);
   });
+  /* Append the datalist once at the end of the grid */
+  grid.insertAdjacentHTML("beforeend", datalistHtml);
   grid.querySelectorAll("input").forEach(inp=>{
     inp.addEventListener("input",()=>{
       const id = inp.dataset.match;
@@ -283,6 +307,78 @@ function renderKnockout(){
       if (v) state.winners[id] = v; else delete state.winners[id];
     });
   });
+}
+
+/* ============ Participants ============ */
+async function loadParticipants(){
+  const el = document.getElementById("participants-content");
+  el.textContent = "Loading…";
+  try {
+    const { data: rows, error } = await sb
+      .from("picks")
+      .select("user_id, winners, submitted_at, users(name, email)")
+      .order("submitted_at", {ascending:true});
+    if (error) throw error;
+    if (!rows || !rows.length){
+      el.innerHTML = `<div class="p-empty">No participants yet.</div>`;
+      return;
+    }
+    const champOf = (winners) => {
+      if (!winners || !winners["F-1"]) return "—";
+      /* We only have side 'a'/'b', the team name resolution lives in the public page.
+         For admin we show the winner letter only. */
+      return `F-1: side ${winners["F-1"].toUpperCase()}`;
+    };
+    el.innerHTML = `
+      <table class="p-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Submitted</th>
+            <th>Champion pick</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map((r,i)=>{
+            const ts = new Date(r.submitted_at);
+            const tsStr = ts.toLocaleDateString("en-GB",{day:"2-digit",month:"short"}) + " " + ts.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+            const name = (r.users?.name || "?").replace(/[<>&"]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+            const email = (r.users?.email || "?").replace(/[<>&"]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+            return `
+              <tr>
+                <td class="num">${i+1}</td>
+                <td><b>${name}</b></td>
+                <td class="email">${email}</td>
+                <td>${tsStr}</td>
+                <td>${champOf(r.winners)}</td>
+                <td class="actions"><button class="p-del" data-uid="${r.user_id}" data-name="${name}">🗑</button></td>
+              </tr>
+            `;
+          }).join("")}
+        </tbody>
+      </table>
+    `;
+    el.querySelectorAll(".p-del").forEach(btn=>{
+      btn.addEventListener("click", async ()=>{
+        const uid = btn.dataset.uid;
+        const name = btn.dataset.name;
+        if (!confirm(`Remove participant "${name}" and all their picks? This cannot be undone.`)) return;
+        try {
+          const { error } = await sb.from("users").delete().eq("id", uid);
+          if (error) throw error;
+          loadParticipants();
+        } catch(err){
+          alert("Delete failed: " + (err.message || err));
+        }
+      });
+    });
+  } catch(err){
+    console.error(err);
+    el.innerHTML = `<div class="p-empty">Couldn't load participants: ${(err.message||err)}</div>`;
+  }
 }
 
 /* ============ Load + Save ============ */
