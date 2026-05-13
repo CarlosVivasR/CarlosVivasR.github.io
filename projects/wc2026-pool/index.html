@@ -104,30 +104,46 @@
   /* Bracket */
   .bracket-wrap{overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
   .bracket{
-    display:flex;gap:14px;min-width:1100px;align-items:stretch;padding:6px 4px 4px;
+    display:flex;gap:18px;min-width:1100px;align-items:stretch;padding:6px 4px 4px;
+    --conn-color:#d1d5db;
   }
   .round{
     flex:1;min-width:180px;
     display:grid;
     grid-template-rows:auto repeat(16,1fr);
     gap:0;
-    row-gap:4px;
   }
   .round-label{
     font-size:.66em;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
     color:var(--muted);text-align:center;margin-bottom:4px;
     grid-row:1;
   }
-  /* Row-span per round = perfect midpoint alignment (R32:1, R16:2, QF:4, SF:8, F:16) */
-  .bracket .round:nth-child(1) .match { grid-row-end:span 1; }
-  .bracket .round:nth-child(2) .match { grid-row-end:span 2; }
-  .bracket .round:nth-child(3) .match { grid-row-end:span 4; }
-  .bracket .round:nth-child(4) .match { grid-row-end:span 8; }
-  .bracket .round:nth-child(5) .match { grid-row-end:span 16; }
+  .bracket .round:nth-child(1) .match-cell { grid-row-end:span 1; }
+  .bracket .round:nth-child(2) .match-cell { grid-row-end:span 2; }
+  .bracket .round:nth-child(3) .match-cell { grid-row-end:span 4; }
+  .bracket .round:nth-child(4) .match-cell { grid-row-end:span 8; }
+  .bracket .round:nth-child(5) .match-cell { grid-row-end:span 16; }
+
+  .match-cell{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:stretch;
+  }
+  .bracket .round:not(:nth-child(1)) .match-cell::before{
+    content:"";position:absolute;left:-9px;top:25%;height:50%;width:1px;background:var(--conn-color);
+  }
+  .bracket .round:not(:nth-child(1)) .match-cell::after{
+    content:"";position:absolute;left:-9px;top:50%;height:1px;width:9px;background:var(--conn-color);
+  }
+
   .match{
     background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:4px 5px;
     box-shadow:0 1px 2px rgba(0,0,0,.04);display:flex;flex-direction:column;gap:2px;
-    align-self:center;justify-self:stretch;
+    flex:1;position:relative;
+  }
+  .bracket .round:not(:nth-child(5)) .match::after{
+    content:"";position:absolute;right:-9px;top:50%;height:1px;width:9px;background:var(--conn-color);
   }
   .match-id{font-size:.56em;font-weight:700;color:var(--muted);letter-spacing:.1em;text-align:center;text-transform:uppercase;padding:1px 0 2px}
   .slot{
@@ -1124,6 +1140,8 @@ function refreshBracket(){
       const id = `${r.prefix}-${i+1}`;
       const slot = r.slots[id] || {a:null,b:null};
       const w = state.winners[id];
+      const cell = document.createElement("div");
+      cell.className = "match-cell";
       const m = document.createElement("div");
       m.className = "match" + (r.prefix==="F" ? " final-match" : "");
       m.innerHTML = `
@@ -1131,7 +1149,8 @@ function refreshBracket(){
         ${renderSlot(id,"a",slot.a,w)}
         ${renderSlot(id,"b",slot.b,w)}
       `;
-      col.appendChild(m);
+      cell.appendChild(m);
+      col.appendChild(cell);
     }
     grid.appendChild(col);
   });
