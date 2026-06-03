@@ -786,31 +786,18 @@
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="lang-toggle" role="group" aria-label="Language">
-      <button type="button" data-lang="en">EN</button>
-      <button type="button" data-lang="es">ES</button>
-      <button type="button" data-lang="tr">TR</button>
-    </div>
-    <span class="status-pill" id="status-pill">
-      <span data-i18n="topbar.groups">Groups</span>: <span class="count" id="groups-progress">0/12</span> ·
-      <span class="stars">★</span> <span data-i18n="topbar.thirds">Thirds</span>: <span class="count" id="thirds-progress">0/8</span>
-    </span>
-    <div class="topbar-links">
-      <a href="index.html" data-i18n="topbar.tabHome">🌍 Home</a>
-      <a href="teams.html" data-i18n="topbar.tabTeams">🏳️ Teams</a>
-      <a href="pool.html" class="active" data-i18n="topbar.tabPool">🏆 Pool</a>
-      <a href="calendar.html" data-i18n="topbar.tabSchedule">📅 Schedule</a>
-    </div>
-    <a class="back-link" href="../../index.html" data-i18n="topbar.back">← Back</a>
-  </div>
-</div>
+<div id="site-nav"></div>
 
 <header class="hero">
   <div class="hero-inner">
     <div class="kicker"><span class="pulse"></span> <span data-i18n="hero.kicker">World Cup 2026 · Private pool</span></div>
     <h1 class="hero-title" data-i18n="hero.title">Fill out your World Cup bracket</h1>
+    <div style="display:flex;justify-content:center;margin:6px 0 14px">
+      <span class="status-pill" id="status-pill">
+        <span data-i18n="topbar.groups">Groups</span>: <span class="count" id="groups-progress">0/12</span> ·
+        <span class="stars">★</span> <span data-i18n="topbar.thirds">Thirds</span>: <span class="count" id="thirds-progress">0/8</span>
+      </span>
+    </div>
     <a href="calendar.html" class="hero-schedule-link"><span data-i18n="hero.scheduleLink">📅 View full schedule (104 matches, your timezone)</span> <span>→</span></a>
   </div>
 </header>

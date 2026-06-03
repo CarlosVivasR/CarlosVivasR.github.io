@@ -34,6 +34,13 @@
     box-shadow:0 6px 20px rgba(0,0,0,.4)}
   .sn-fab:hover{border-color:#35e0d8}
 
+  /* language toggle — same spot on every page */
+  .sn-lang{position:fixed;top:66px;right:66px;z-index:80;display:inline-flex;border-radius:99px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.16);background:rgba(16,20,34,.7);backdrop-filter:blur(14px);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+  .sn-lang button{background:transparent;border:none;padding:5px 8px;font:700 .68em 'Inter',sans-serif;color:rgba(255,255,255,.55);cursor:pointer;letter-spacing:.03em}
+  .sn-lang button:hover{color:#fff}
+  .sn-lang button.on{background:#e8c247;color:#03040c}
+
   @media(max-width:720px){
     .sn-links{position:absolute;top:54px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;
       background:rgba(8,10,20,.98);backdrop-filter:blur(16px);padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.1);display:none}
@@ -79,6 +86,15 @@
 
   // floating search magnifier (binds via search.js which listens for #searchBtn clicks)
   document.body.insertAdjacentHTML('beforeend', `<button class="sn-fab" id="searchBtn" aria-label="Buscar">🔍</button>`);
+
+  // floating language toggle (writes both storage keys used across pages, then reloads)
+  const LKEYS=['wc2026-lang','wc26-lang'];
+  let lang='es';
+  for(const k of LKEYS){ const v=localStorage.getItem(k); if(v){ lang=v; break; } }
+  if(!['en','es','tr'].includes(lang)){ const n=(navigator.language||'es').toLowerCase(); lang=n.startsWith('en')?'en':n.startsWith('tr')?'tr':'es'; }
+  const langHTML=['EN','ES','TR'].map(L=>`<button data-l="${L.toLowerCase()}" class="${lang===L.toLowerCase()?'on':''}">${L}</button>`).join('');
+  document.body.insertAdjacentHTML('beforeend', `<div class="sn-lang" role="group" aria-label="Idioma">${langHTML}</div>`);
+  document.querySelector('.sn-lang').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; LKEYS.forEach(k=>localStorage.setItem(k,b.dataset.l)); location.reload(); });
 
   const burger=document.getElementById('snBurger'), links=document.getElementById('snLinks');
   burger&&burger.addEventListener('click',()=>links.classList.toggle('open'));
