@@ -1,0 +1,7 @@
+# dev/backup artifacts — not part of the live site
+*.light-backup
+*.editorial-backup
+*.landing-3d-backup
+*.landing-static-backup
+_design-directions.html
+DESIGN_STUDY.md

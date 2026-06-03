@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plantillas · WC 2026</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%A5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  h1{font-size:clamp(1.9em,4vw,2.6em);font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+  .sub{color:var(--ink-2);margin-bottom:26px}.sub b{font-family:var(--mono);color:var(--cyan)}
+  .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px}
+  .tcard{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;padding:18px 12px 14px;
+    border-radius:16px;color:var(--ink);transition:transform .18s,border-color .18s,box-shadow .18s}
+  .tcard:hover{transform:translateY(-4px);border-color:var(--cyan);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.45)}
+  .tcard img{width:62px;height:42px;object-fit:cover;border-radius:7px;box-shadow:0 2px 8px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.18)}
+  .tcard .nm{font-weight:700;font-size:.92em;line-height:1.2}
+  .tcard .gr{font-size:.66em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);
+    background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
+  @media(max-width:480px){ .tgrid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px} .tcard img{width:52px;height:36px} }
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
+</head>
+<body>
+<div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+<div class="grid-lines"></div>
+<script>window.PAGE={active:'squads'};</script>
+<div id="site-nav"></div>
+<div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
+<script src="assets/nav.js" defer></script>
+<script src="assets/search.js" defer></script>
+<script>
+async function main(){
+  let idx; try{ idx=await (await fetch('data/teams/index.json')).json(); }
+  catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se pudo cargar.</p>'; return; }
+  const teams=idx.teams.slice().sort((a,b)=>a.name.localeCompare(b.name));
+  let html=`<h1>Plantillas</h1><div class="sub"><b>48</b> selecciones · clica una para ver su plantilla, jugadores y fichas. O pulsa <b>/</b> para buscar.</div><div class="tgrid">`;
+  teams.forEach(t=>{
+    html+=`<a class="tcard glass glass-hover" href="team.html?code=${t.code}">
+      <img src="https://flagcdn.com/w160/${t.flag}.png" alt="${t.name}">
+      <span class="nm">${t.name}</span>
+      <span class="gr">Grupo ${t.group}</span></a>`;
+  });
+  document.getElementById('wrap').innerHTML=html+`</div>`;
+}
+main();
+</script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+</body>
+</html>

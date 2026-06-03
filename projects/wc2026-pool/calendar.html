@@ -16,26 +16,50 @@
 
 <style>
   :root{
-    --bg:#ffffff;--surface:#fafafa;--surface-2:#f3f4f6;
-    --line:#e5e7eb;--line-strong:#d1d5db;
-    --ink:#0a0a0a;--ink-2:#374151;--muted:#6b7280;
-    --primary:#006341;--primary-2:#00945f;--primary-soft:rgba(0,99,65,.08);
-    --gold:#C9A227;--gold-2:#e6c14a;--gold-soft:rgba(201,162,39,.14);
-    --red:#c1272d;
-    --shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+    --bg:#03040c;--surface:rgba(255,255,255,.04);--surface-2:rgba(255,255,255,.06);
+    --line:rgba(255,255,255,.12);--line-strong:rgba(255,255,255,.2);
+    --ink:#ffffff;--ink-2:rgba(255,255,255,.9);--muted:rgba(255,255,255,.66);
+    --primary:#e8c247;--primary-2:#f4d76b;--primary-soft:rgba(232,194,71,.12);
+    --gold:#e8c247;--gold-2:#f4d76b;--gold-soft:rgba(232,194,71,.14);
+    --red:#ff5a5f;
+    --shadow:0 8px 30px rgba(0,0,0,.5);
   }
   *{margin:0;padding:0;box-sizing:border-box}
+  /* view toggle (Partidos / Clasificación) */
+  .view-bar{max-width:1280px;margin:0 auto;padding:18px 24px 0;display:flex;justify-content:center}
+  .view-toggle{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--surface)}
+  .view-toggle button{background:transparent;border:none;padding:9px 20px;font-family:inherit;font-size:.86em;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s}
+  .view-toggle button:hover{color:var(--ink)}
+  .view-toggle button.active{background:var(--primary);color:#03040c}
+  /* real group standings */
+  #standings{max-width:1280px;margin:0 auto;padding:18px 24px 60px}
+  .stand-note{color:var(--muted);font-size:.84em;margin:0 0 16px;text-align:center}
+  .stand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .stand-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .stand-card h3{font-size:.92em;font-weight:800;padding:11px 14px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
+  .stand-table{width:100%;border-collapse:collapse;font-size:.84em}
+  .stand-table th{font-size:.66em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:8px 5px;text-align:center}
+  .stand-table th.lt{text-align:left;padding-left:12px}
+  .stand-table td{padding:7px 5px;text-align:center;border-top:1px solid var(--line);color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .stand-table td.pos{color:var(--muted);font-weight:700;width:22px}
+  .stand-table td.team{text-align:left;padding-left:10px;color:var(--ink);font-weight:600;white-space:nowrap}
+  .stand-table td.team img{width:20px;height:14px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.35);margin-right:8px;vertical-align:-2px}
+  .stand-table td.pts{font-weight:800;color:var(--ink)}
+  .stand-table tr.q1 td.pos{box-shadow:inset 3px 0 0 #2ec27e}
+  .stand-table tr.q2 td.pos{box-shadow:inset 3px 0 0 #35e0d8}
+  .stand-table tr.q3 td.pos{box-shadow:inset 3px 0 0 #f4d76b}
+  @media(max-width:520px){.stand-table .opt{display:none}}
   html,body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
   a{color:var(--primary);text-decoration:none}
   a:hover{text-decoration:underline}
 
   /* Top bar */
-  .topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line)}
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(3,4,12,.72);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line)}
   .topbar-inner{max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .lang-toggle{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--bg)}
   .lang-toggle button{background:transparent;border:none;padding:6px 14px;font-family:inherit;font-size:.82em;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s;letter-spacing:.04em}
   .lang-toggle button:hover{color:var(--ink)}
-  .lang-toggle button.active{background:var(--primary);color:#fff}
+  .lang-toggle button.active{background:var(--primary);color:#03040c}
   .topbar-links{display:flex;align-items:center;gap:14px;font-size:.9em}
   .topbar-links a{color:var(--muted);font-weight:500;text-decoration:none}
   .topbar-links a.active{color:var(--primary);font-weight:700}
@@ -50,10 +74,10 @@
   .hero{position:relative;overflow:hidden;background:
       radial-gradient(800px 320px at 80% -10%, rgba(201,162,39,.18), transparent 60%),
       radial-gradient(700px 300px at 10% 0%, rgba(0,99,65,.18), transparent 60%),
-      #ffffff;border-bottom:1px solid var(--line)}
+      #05060f;border-bottom:1px solid var(--line)}
   .hero-inner{max-width:1100px;margin:0 auto;padding:48px 24px 36px;text-align:center}
   .kicker{display:inline-flex;align-items:center;gap:8px;font-size:.8em;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--primary);background:var(--primary-soft);padding:6px 14px;border-radius:999px;margin-bottom:14px}
-  h1.hero-title{font-size:clamp(1.9em,4.5vw,3em);font-weight:900;letter-spacing:-.02em;line-height:1.05;background:linear-gradient(135deg,#0a0a0a 0%, #1f3a2e 60%, var(--primary) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
+  h1.hero-title{font-size:clamp(1.9em,4.5vw,3em);font-weight:900;letter-spacing:-.02em;line-height:1.05;background:linear-gradient(135deg,#ffffff 0%, #f4e1a0 60%, var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
   .hero-sub{color:var(--muted);font-size:1.02em;max-width:680px;margin:0 auto}
   .hero-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:12px 22px;margin-top:16px;color:var(--ink-2);font-size:.9em}
   .hero-meta b{color:var(--ink);font-weight:700}
@@ -72,7 +96,7 @@
 
   /* Controls bar */
   .controls{
-    position:sticky;top:54px;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:saturate(140%) blur(8px);
+    position:sticky;top:54px;z-index:40;background:rgba(3,4,12,.85);backdrop-filter:saturate(140%) blur(8px);
     border-bottom:1px solid var(--line);padding:12px 24px;
   }
   .controls-inner{max-width:1280px;margin:0 auto;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
@@ -82,7 +106,7 @@
     height:34px;border:1px solid var(--line);border-radius:8px;padding:0 28px 0 12px;
     font-family:inherit;font-size:.9em;font-weight:600;color:var(--ink);background:var(--bg);
     outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;
-    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%23aaaaaa' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 8px center;background-size:10px;
   }
   .ctrl-group select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
@@ -92,7 +116,7 @@
     font-family:inherit;font-size:.86em;font-weight:600;cursor:pointer;transition:all .15s;
   }
   .ctrl-chip:hover{border-color:var(--ink)}
-  .ctrl-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .ctrl-chip.active{background:var(--primary);color:#03040c;border-color:var(--primary)}
   .ctrl-counter{margin-left:auto;font-size:.86em;color:var(--muted);font-weight:600}
   .ctrl-counter b{color:var(--ink);font-weight:800}
 
@@ -100,7 +124,7 @@
   .day-group{margin-bottom:28px}
   .day-heading{
     display:flex;align-items:baseline;gap:12px;padding:10px 4px 10px;border-bottom:2px solid var(--line);
-    margin-bottom:10px;position:sticky;top:122px;background:rgba(255,255,255,.94);backdrop-filter:saturate(140%) blur(6px);z-index:30;
+    margin-bottom:10px;position:sticky;top:122px;background:rgba(3,4,12,.85);backdrop-filter:saturate(140%) blur(6px);z-index:30;
   }
   .day-heading .date{font-size:1.05em;font-weight:800;color:var(--ink)}
   .day-heading .day-name{font-size:.78em;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);background:var(--primary-soft);padding:3px 10px;border-radius:99px}
@@ -125,7 +149,7 @@
   }
   .mc-time .badge.upcoming{background:var(--surface-2);color:var(--muted)}
   .mc-time .badge.today{background:var(--gold-soft);color:#7a5e00}
-  .mc-time .badge.live{background:var(--red);color:#fff;animation:pulse 1.8s infinite}
+  .mc-time .badge.live{background:var(--red);color:#03040c;animation:pulse 1.8s infinite}
   .mc-time .badge.finished{background:var(--primary-soft);color:var(--primary)}
   @keyframes pulse{50%{opacity:.7}}
 
@@ -162,6 +186,7 @@
     .mc-team img{width:22px;height:16px}
   }
 </style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
 </head>
 <body>
 
@@ -170,9 +195,12 @@
     <div class="lang-toggle" role="group" aria-label="Language">
       <button type="button" data-lang="en">EN</button>
       <button type="button" data-lang="es">ES</button>
+      <button type="button" data-lang="tr">TR</button>
     </div>
     <div class="topbar-links">
-      <a href="index.html" data-i18n="topbar.tabPool">🏆 Pool</a>
+      <a href="index.html" data-i18n="topbar.tabHome">🌍 Home</a>
+      <a href="teams.html" data-i18n="topbar.tabTeams">🏳️ Teams</a>
+      <a href="pool.html" data-i18n="topbar.tabPool">🏆 Pool</a>
       <a href="calendar.html" class="active" data-i18n="topbar.tabSchedule">📅 Schedule</a>
     </div>
     <a class="back-link" href="../../index.html" data-i18n="topbar.back">← Back</a>
@@ -194,6 +222,13 @@
     <a href="index.html" class="hero-back-link"><span data-i18n="hero.toPool">🏆 Go to the prediction pool</span> <span>→</span></a>
   </div>
 </header>
+
+<div class="view-bar">
+  <div class="view-toggle" role="group" aria-label="Vista">
+    <button type="button" data-view="matches" class="active" data-i18n="view.matches">Partidos</button>
+    <button type="button" data-view="standings" data-i18n="view.standings">Clasificación</button>
+  </div>
+</div>
 
 <div class="controls">
   <div class="controls-inner">
@@ -234,6 +269,10 @@
 
 <main>
   <div id="schedule"></div>
+  <section id="standings" style="display:none">
+    <p class="stand-note"><span data-i18n="st.note">1º y 2º clasifican a Dieciseisavos · los 8 mejores 3.º también pasan</span></p>
+    <div class="stand-grid" id="standings-grid"></div>
+  </section>
 </main>
 
 <div class="bottom-nav">
@@ -256,6 +295,7 @@
 const I18N = {
   en: {
     "topbar.back": "← Back",
+    "topbar.tabHome": "🌍 Home","topbar.tabTeams": "🏳️ Teams",
     "topbar.tabPool": "🏆 Pool",
     "topbar.tabSchedule": "📅 Schedule",
     "hero.kicker": "World Cup 2026 · Schedule",
@@ -292,6 +332,7 @@ const I18N = {
     "badge.live": "Live",
     "badge.finished": "Finished",
     "round.shortGroup": "Group",
+    "view.matches": "Matches","view.standings": "Standings","st.team": "Team","st.note": "Top 2 advance to the Round of 32 · the 8 best 3rd-placed teams also qualify",
     "empty": "No matches match your filters. Try resetting Today / Upcoming or selecting another team.",
     "footer.tag": "World Cup 2026 Schedule",
     "footer.dataNote": "Schedule data: <a href=\"https://github.com/openfootball/worldcup.json\" target=\"_blank\" rel=\"noopener\">openfootball · worldcup.json</a> (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\" rel=\"noopener\">CC0 1.0 Public Domain</a>). Cross-checked against the official <a href=\"https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026\" target=\"_blank\" rel=\"noopener\">FIFA WC 2026</a> schedule.",
@@ -299,6 +340,7 @@ const I18N = {
   },
   es: {
     "topbar.back": "← Volver",
+    "topbar.tabHome": "🌍 Inicio","topbar.tabTeams": "🏳️ Equipos",
     "topbar.tabPool": "🏆 Quiniela",
     "topbar.tabSchedule": "📅 Calendario",
     "hero.kicker": "Mundial 2026 · Calendario",
@@ -335,17 +377,66 @@ const I18N = {
     "badge.live": "En vivo",
     "badge.finished": "Finalizado",
     "round.shortGroup": "Grupo",
+    "view.matches": "Partidos","view.standings": "Clasificación","st.team": "Equipo","st.note": "1º y 2º clasifican a Dieciseisavos · los 8 mejores 3.º también pasan",
     "empty": "Ningún partido coincide con los filtros. Prueba a desactivar Hoy / Próximos o elige otro equipo.",
     "footer.tag": "Calendario Mundial 2026",
     "footer.dataNote": "Datos del calendario: <a href=\"https://github.com/openfootball/worldcup.json\" target=\"_blank\" rel=\"noopener\">openfootball · worldcup.json</a> (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\" rel=\"noopener\">CC0 1.0 Public Domain</a>). Contrastado con el calendario oficial de <a href=\"https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026\" target=\"_blank\" rel=\"noopener\">FIFA WC 2026</a>.",
     "tz.device": "Tu dispositivo",
+  },
+  tr: {
+    "topbar.back": "← Geri",
+    "topbar.tabHome": "🌍 Ana sayfa","topbar.tabTeams": "🏳️ Takımlar",
+    "topbar.tabPool": "🏆 Tahmin",
+    "topbar.tabSchedule": "📅 Takvim",
+    "hero.kicker": "Dünya Kupası 2026 · Takvim",
+    "hero.title": "104 maç, kendi saat diliminde",
+    "hero.sub": "11 Haz 2026 açılışından 19 Tem 2026 finaline kadar. Saat dilimini seç ve gruba, tura veya takıma göre filtrele.",
+    "hero.matches": "maç",
+    "hero.venues": "saha",
+    "hero.toPool": "🏆 Tahmin havuzuna git",
+    "ctrl.tz": "Saat dilimi",
+    "ctrl.round": "Tur",
+    "ctrl.group": "Grup",
+    "ctrl.team": "Takım",
+    "ctrl.all": "Tümü",
+    "ctrl.shown": "gösteriliyor",
+    "round.groupStage": "Grup aşaması",
+    "round.r32": "Son 32",
+    "round.r16": "Son 16",
+    "round.qf": "Çeyrek final",
+    "round.sf": "Yarı final",
+    "round.third": "Üçüncülük",
+    "round.final": "Final",
+    "chip.today": "Bugün",
+    "chip.upcoming": "Yaklaşan",
+    "day.today": "Bugün",
+    "day.match": "maç",
+    "day.matches": "maç",
+    "card.tbd": "Belirlenecek",
+    "card.winnerGroup": "Grup birincisi",
+    "card.runnerUp": "Grup ikincisi",
+    "card.winnerMatch": "Maç galibi",
+    "card.loserMatch": "Maç mağlubu",
+    "badge.upcoming": "Yaklaşan",
+    "badge.today": "Bugün",
+    "badge.live": "Canlı",
+    "badge.finished": "Bitti",
+    "round.shortGroup": "Grup",
+    "view.matches": "Maçlar","view.standings": "Puan durumu","st.team": "Takım","st.note": "İlk 2 son 32'ye yükselir · en iyi 8 üçüncü de geçer",
+    "empty": "Filtrelerine uyan maç yok. Bugün / Yaklaşan seçimini kaldır ya da başka bir takım seç.",
+    "footer.tag": "Dünya Kupası 2026 Takvimi",
+    "footer.dataNote": "Takvim verileri: <a href=\"https://github.com/openfootball/worldcup.json\" target=\"_blank\" rel=\"noopener\">openfootball · worldcup.json</a> (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\" rel=\"noopener\">CC0 1.0 Public Domain</a>). Resmi <a href=\"https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026\" target=\"_blank\" rel=\"noopener\">FIFA WC 2026</a> takvimiyle karşılaştırılmıştır.",
+    "tz.device": "Cihazın",
   }
 };
 
 let LANG = (function(){
   const stored = localStorage.getItem("wc2026-lang");
-  if (stored === "en" || stored === "es") return stored;
-  return (navigator.language || "en").toLowerCase().startsWith("es") ? "es" : "en";
+  if (stored && I18N[stored]) return stored;
+  const nav = (navigator.language || "en").toLowerCase();
+  if (nav.startsWith("tr")) return "tr";
+  if (nav.startsWith("es")) return "es";
+  return "en";
 })();
 function t(key, vars){
   let s = (I18N[LANG] && I18N[LANG][key]) || (I18N.en[key]) || key;
@@ -361,7 +452,7 @@ function applyI18n(){
   });
 }
 function setLanguage(lang){
-  if (lang !== "en" && lang !== "es") return;
+  if (!I18N[lang]) return;
   LANG = lang;
   localStorage.setItem("wc2026-lang", LANG);
   populateTzOptions();
@@ -459,10 +550,11 @@ function placeholderLabel(name){
 async function loadSchedule(){
   const res = await fetch("data/schedule.json", {cache:"no-store"});
   const data = await res.json();
-  MATCHES = data.matches.map(m => {
+  MATCHES = data.matches.map((m, i) => {
     const dt = parseMatchDateTime(m.date, m.time);
     return {
       raw: m,
+      idx: i,
       datetime: dt,
       team1: m.team1, team2: m.team2,
       isKnockout: !/Matchday/.test(m.round),
@@ -643,6 +735,7 @@ function renderCard(m){
   const roundChipClass = m.isKnockout ? "round ko" : "round";
 
   return `
+    <a class="match-card-link" href="match.html?m=${m.idx}" style="text-decoration:none;color:inherit;display:block">
     <article class="match-card ${status}">
       <div class="mc-time">
         <span class="hhmm">${time}</span>
@@ -658,6 +751,7 @@ function renderCard(m){
         <span class="${roundChipClass}">${groupTag}</span>
       </div>
     </article>
+    </a>
   `;
 }
 
@@ -688,7 +782,80 @@ document.getElementById("chip-upcoming").addEventListener("click", e => {
 });
 
 applyI18n();
+
+/* ============================================================
+   REAL GROUP STANDINGS (live results, separate from the pool)
+   Reads optional data/results.json: { "matches": { "<num>": [s1, s2] } }
+   Empty until matches are played → all teams at 0.
+   ============================================================ */
+let RESULTS = {};
+async function loadResults(){
+  try{
+    const r = await fetch("data/results.json", {cache:"no-store"});
+    if(r.ok){ const j = await r.json(); RESULTS = j.matches || {}; }
+  }catch(e){ /* no results yet → standings stay at zero */ }
+}
+
+function buildStandings(){
+  const el = document.getElementById("standings-grid");
+  if(!el || !MATCHES.length) return;
+  const groups = {};
+  MATCHES.filter(m => m.groupId).forEach(m => {
+    const g = m.groupId;
+    (groups[g] || (groups[g] = {}));
+    [m.team1, m.team2].forEach(tn => {
+      if(tn && !isPlaceholderTeam(tn) && !groups[g][tn]) groups[g][tn] = {team:tn, pj:0, w:0, d:0, l:0, gf:0, ga:0};
+    });
+    const key = (m.num != null) ? String(m.num) : String(m.idx);
+    const sc = RESULTS[key];
+    if(Array.isArray(sc) && sc.length === 2 && groups[g][m.team1] && groups[g][m.team2]){
+      const a = +sc[0], b = +sc[1];
+      const A = groups[g][m.team1], B = groups[g][m.team2];
+      A.pj++; B.pj++; A.gf += a; A.ga += b; B.gf += b; B.ga += a;
+      if(a > b){ A.w++; B.l++; } else if(a < b){ B.w++; A.l++; } else { A.d++; B.d++; }
+    }
+  });
+  const gids = Object.keys(groups).sort();
+  el.innerHTML = gids.map(g => {
+    const rows = Object.values(groups[g])
+      .map(r => ({...r, pts:r.w*3+r.d, dg:r.gf-r.ga}))
+      .sort((x,y) => y.pts-x.pts || y.dg-x.dg || y.gf-x.gf || x.team.localeCompare(y.team));
+    const body = rows.map((r,i) => {
+      const code = teamFlag(r.team);
+      const flag = code ? `<img src="https://flagcdn.com/w40/${code}.png" alt="">` : '';
+      const cls = i===0?'q1':i===1?'q2':i===2?'q3':'';
+      return `<tr class="${cls}"><td class="pos">${i+1}</td>
+        <td class="team">${flag}${r.team}</td>
+        <td>${r.pj}</td><td class="opt">${r.w}</td><td class="opt">${r.d}</td><td class="opt">${r.l}</td>
+        <td class="opt">${r.gf}</td><td class="opt">${r.ga}</td><td>${r.dg>0?'+':''}${r.dg}</td>
+        <td class="pts">${r.pts}</td></tr>`;
+    }).join('');
+    return `<div class="stand-card"><h3>${t("round.shortGroup")} ${g}</h3>
+      <table class="stand-table"><thead><tr>
+        <th></th><th class="lt">${t("st.team")}</th><th>PJ</th>
+        <th class="opt">G</th><th class="opt">E</th><th class="opt">P</th>
+        <th class="opt">GF</th><th class="opt">GC</th><th>DG</th><th>Pts</th>
+      </tr></thead><tbody>${body}</tbody></table></div>`;
+  }).join('');
+}
+
+function setView(v){
+  const isStand = v === "standings";
+  document.getElementById("schedule").style.display = isStand ? "none" : "";
+  document.getElementById("standings").style.display = isStand ? "block" : "none";
+  document.querySelector(".controls").style.display = isStand ? "none" : "";
+  document.querySelectorAll(".view-toggle button").forEach(b => b.classList.toggle("active", b.dataset.view === v));
+  if(isStand) buildStandings();
+}
+document.querySelectorAll(".view-toggle button").forEach(b =>
+  b.addEventListener("click", () => setView(b.dataset.view)));
+
+loadResults();
 loadSchedule();
 </script>
+<script src="assets/search.js" defer></script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script>window.PAGE={active:"calendar"};</script>
+<script src="assets/nav.js" defer></script>
 </body>
 </html>
