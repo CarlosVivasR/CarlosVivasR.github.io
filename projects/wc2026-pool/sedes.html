@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sedes · WC 2026</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8D%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+<meta name="theme-color" content="#03040c"><link rel="manifest" href="manifest.json">
+<style>
+  h1{font-size:clamp(1.9em,4vw,2.6em);font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+  .sub{color:var(--ink-2);margin-bottom:22px}.sub b{font-family:var(--mono);color:var(--cyan)}
+  .country{--accent:var(--gold);margin-bottom:34px}
+  .country[data-code="USA"]{--accent:var(--blue)} .country[data-code="MEX"]{--accent:var(--green)} .country[data-code="CAN"]{--accent:var(--red)}
+  .country-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .country-head .flag{width:38px;height:26px;object-fit:cover;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+  .country-head h2{font-size:clamp(1.5em,4vw,2.1em);font-weight:700;letter-spacing:-.01em}
+  .country-head .cnt{margin-left:auto;font-family:var(--mono);font-size:.8em;color:var(--muted)}
+  /* map */
+  .cmap{padding:14px;margin-bottom:14px}
+  .cmap svg{width:100%;height:auto;max-height:340px;display:block}
+  .coast{fill:rgba(255,255,255,.13);stroke:rgba(255,255,255,.42);stroke-width:1;vector-effect:non-scaling-stroke}
+  .pin{cursor:pointer}.pin circle.dot{fill:var(--accent);transition:r .15s}.pin circle.halo{fill:var(--accent);opacity:.25}
+  .pin.active circle.dot{r:8}
+  .pin text{fill:#fff;font-size:11px;font-weight:700;paint-order:stroke;stroke:rgba(4,6,15,.85);stroke-width:3px;pointer-events:none;opacity:0;transition:opacity .15s}
+  .pin:hover text,.pin.active text{opacity:1}
+  /* accordion */
+  .cacc{display:flex;flex-direction:column;gap:8px}
+  .acc-item{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.03);transition:border-color .18s}
+  .acc-item.open{border-color:var(--accent)}
+  .acc-head{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;width:100%;text-align:left;font-family:inherit;color:var(--ink);background:none;border:none}
+  .acc-head:hover{background:rgba(255,255,255,.04)}
+  .acc-head .num{width:26px;height:26px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:.78em;font-weight:800;background:var(--accent);color:#08111f}
+  .acc-head .meta{display:flex;flex-direction:column;min-width:0}
+  .acc-head .meta .nm{font-weight:700;font-size:.96em}.acc-head .meta .st{font-size:.78em;color:var(--muted)}
+  .acc-head .cnt{margin-left:auto;font-size:.74em;font-weight:700;color:var(--ink-2);background:rgba(255,255,255,.08);border-radius:99px;padding:3px 9px;flex:none}
+  .acc-head .chev{margin-left:8px;color:var(--muted);transition:transform .2s;flex:none}
+  .acc-item.open .acc-head .chev{transform:rotate(90deg)}
+  .acc-body{display:none;padding:0 15px 16px}.acc-item.open .acc-body{display:block}
+  .acc-body .photo{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:12px;background:#0a0e22;margin-bottom:14px}
+  .acc-stats{display:flex;gap:24px;margin-bottom:12px;flex-wrap:wrap}
+  .acc-stats .v{font-family:var(--mono);font-weight:800;color:var(--accent);font-size:1.2em}
+  .acc-stats .k{font-size:.66em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+  .acc-fact{font-size:.88em;color:var(--ink-2);line-height:1.5;border-top:1px solid var(--line);padding:11px 0;margin-bottom:6px}
+  .acc-matches{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+  .match{display:block;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:rgba(255,255,255,.03);color:var(--ink)}
+  .match .top{display:flex;justify-content:space-between;font-size:.72em;color:var(--muted);font-weight:600;margin-bottom:5px}
+  .match .teams{font-weight:700;font-size:.93em}.match .teams .vs{color:var(--muted);font-weight:500;margin:0 5px}
+  .match .when{font-family:var(--mono);font-size:.76em;color:var(--ink-2);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+<div class="grid-lines"></div>
+<script>window.PAGE={active:'sedes'};</script>
+<div id="site-nav"></div>
+<div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
+
+<script src="assets/nav.js" defer></script>
+<script src="assets/search.js" defer></script>
+<script>
+const BBOX={USA:[-125,-66.5,24,49.6],MEX:[-117.5,-86.5,14.4,32.8],CAN:[-129,-73,42,55.5]};
+const NAMES={USA:'Estados Unidos',MEX:'México',CAN:'Canadá'};
+const MONTHS={1:'ene',2:'feb',3:'mar',4:'abr',5:'may',6:'jun',7:'jul',8:'ago',9:'sep',10:'oct',11:'nov',12:'dic'};
+const shortCity=s=>s.replace(/\s*\(.*\)\s*/,'').trim();
+const fmtDate=iso=>{if(!iso)return'';const[y,m,d]=iso.split('-');return`${+d} ${MONTHS[+m]||''}`;};
+const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function makeProjection(code,W){
+  const[minLon,maxLon,minLat,maxLat]=BBOX[code];const midLat=(minLat+maxLat)/2,kx=Math.cos(midLat*Math.PI/180);
+  const wLon=(maxLon-minLon)*kx,wLat=(maxLat-minLat),scale=W/wLon,H=Math.round(wLat*scale);
+  return {project:(lon,lat)=>[(lon-minLon)*kx*scale,(maxLat-lat)*scale],W,H};
+}
+async function main(){
+  let data; try{ data=await (await fetch('data/host_maps.json')).json(); }
+  catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se pudieron cargar las sedes.</p>'; return; }
+  const total=Object.values(data.countries).reduce((a,c)=>a+c.cities.length,0);
+  let html=`<h1>16 ciudades sede</h1><div class="sub"><b>3</b> países · <b>${total}</b> estadios · clica una sede para ver el estadio y sus partidos.</div>`;
+  ['USA','MEX','CAN'].forEach(code=>{
+    const c=data.countries[code]; if(!c)return;
+    html+=`<section class="country" data-code="${code}">
+      <div class="country-head"><img class="flag" src="https://flagcdn.com/w80/${code==='USA'?'us':code==='MEX'?'mx':'ca'}.png"><h2>${NAMES[code]}</h2><span class="cnt">${c.cities.length} sedes</span></div>
+      <div class="cmap glass"></div><div class="cacc"></div></section>`;
+  });
+  document.getElementById('wrap').innerHTML=html;
+  ['USA','MEX','CAN'].forEach(code=> data.countries[code] && renderCountry(code,data.countries[code]));
+}
+function renderCountry(code,c){
+  const sec=document.querySelector(`.country[data-code="${code}"]`); if(!sec)return;
+  const mapEl=sec.querySelector('.cmap'),accEl=sec.querySelector('.cacc');
+  const {project:proj,W,H}=makeProjection(code,700);
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(NS,'svg'); svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+  c.outline.forEach(ring=>{let d='';ring.forEach((pt,i)=>{const[x,y]=proj(pt[0],pt[1]);d+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);});d+='Z';
+    const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('class','coast');svg.appendChild(p);});
+  const pins={};
+  c.cities.forEach((city,i)=>{const[x,y]=proj(city.lon,city.lat);
+    const g=document.createElementNS(NS,'g');g.setAttribute('class','pin');g.setAttribute('transform',`translate(${x.toFixed(1)},${y.toFixed(1)})`);
+    const h=document.createElementNS(NS,'circle');h.setAttribute('class','halo');h.setAttribute('r','11');g.appendChild(h);
+    const dt=document.createElementNS(NS,'circle');dt.setAttribute('class','dot');dt.setAttribute('r','5');g.appendChild(dt);
+    const tx=document.createElementNS(NS,'text');tx.setAttribute('y','-12');tx.setAttribute('text-anchor','middle');tx.textContent=shortCity(city.city);g.appendChild(tx);
+    g.addEventListener('click',()=>open(i,true));svg.appendChild(g);pins[i]=g;});
+  mapEl.appendChild(svg);
+  const items={};
+  c.cities.forEach((city,i)=>{
+    const cap=city.capacity?city.capacity.toLocaleString('es-ES'):'—';
+    const ms=city.matches.map(m=>`<div class="match"><div class="top"><span>${m.group||''}</span><span>${m.round||''}</span></div>
+      <div class="teams">${esc(m.team1)} <span class="vs">vs</span> ${esc(m.team2)}</div><div class="when">${fmtDate(m.date)} · ${m.time||''}</div></div>`).join('');
+    const it=document.createElement('div');it.className='acc-item';
+    it.innerHTML=`<button class="acc-head" type="button"><span class="num">${i+1}</span>
+      <span class="meta"><span class="nm">${shortCity(city.city)}</span><span class="st">${esc(city.stadium)}</span></span>
+      <span class="cnt">${city.matches.length} part.</span><span class="chev">›</span></button>
+      <div class="acc-body"><img class="photo" src="${city.photo}" alt="${esc(city.stadium)}" loading="lazy" onerror="this.style.display='none'">
+        <div class="acc-stats"><div><div class="v">${cap}</div><div class="k">aforo</div></div>
+          <div><div class="v">${city.opened||'—'}</div><div class="k">inaugurado</div></div>
+          <div><div class="v">${city.matches.length}</div><div class="k">partidos</div></div></div>
+        ${city.fact?`<div class="acc-fact">${esc(city.fact)}</div>`:''}<div class="acc-matches">${ms}</div></div>`;
+    it.querySelector('.acc-head').addEventListener('click',()=>open(i));
+    accEl.appendChild(it);items[i]=it;
+  });
+  let curi=-1;
+  function open(i,fromMap){const willOpen=curi!==i;
+    Object.values(items).forEach(e=>e.classList.remove('open'));Object.values(pins).forEach(p=>p.classList.remove('active'));
+    if(willOpen){items[i].classList.add('open');pins[i].classList.add('active');pins[i].parentNode.appendChild(pins[i]);curi=i;
+      if(fromMap)items[i].scrollIntoView({behavior:'smooth',block:'nearest'});}else curi=-1;}
+  let def=0,best=-1;c.cities.forEach((ci,i)=>{if(ci.matches.length>best){best=ci.matches.length;def=i;}});open(def);
+}
+main();
+</script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+</body>
+</html>

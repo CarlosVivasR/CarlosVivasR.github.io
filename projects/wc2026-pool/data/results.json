@@ -1,0 +1,4 @@
+{
+  "_README": "Real group-stage results, used to compute the live group tables in calendar.html (Clasificación) and to order teams.html by classification. Key = 0-based index of the match within schedule.json `matches[]` (e.g. index 0 = Mexico vs South Africa). Value = [goals_team1, goals_team2] in the SAME order as team1/team2 in schedule.json. Example once played: \"0\": [2, 1]. Empty until the tournament starts → all teams show 0 (alphabetical order).",
+  "matches": {}
+}

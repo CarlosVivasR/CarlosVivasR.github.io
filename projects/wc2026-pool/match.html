@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Match · WC 2026</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%BD%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  :root{--bg:#04060f;--bg-2:#0a0e22;--ink:#fff;--ink-2:rgba(255,255,255,.9);--muted:rgba(255,255,255,.55);
+    --gold:#e8c247;--gold-2:#f4d76b;--line:rgba(255,255,255,.10);--line-strong:rgba(255,255,255,.22);}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(4,6,15,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topbar-inner{max-width:920px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--ink-2);font-weight:600;font-size:.92em}
+  .topbar-links{display:flex;gap:18px;font-size:.92em}.topbar-links a{color:var(--ink-2);font-weight:600}
+  .wrap{max-width:920px;margin:0 auto;padding:26px 22px 80px}
+  .eyebrow{text-align:center;font-size:.78em;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+
+  .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin-bottom:8px}
+  .side{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:10px;border-radius:16px;transition:background .15s}
+  a.side:hover{background:rgba(13,17,32,.5)}
+  .side img.flag{width:92px;height:64px;object-fit:cover;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.18),0 8px 24px rgba(0,0,0,.4)}
+  .side .nm{font-weight:800;font-size:1.25em;line-height:1.15}
+  .side .lk{font-size:.74em;color:var(--gold);font-weight:700}
+  .side.tbd .nm{color:var(--muted)}
+  .vs-mid{font-size:1.4em;font-weight:800;color:var(--muted)}
+  .flag-ph{width:92px;height:64px;border-radius:8px;background:rgba(255,255,255,.06);border:1px dashed var(--line-strong)}
+
+  .kick{text-align:center;margin:22px 0 26px}
+  .kick .big{font-size:1.5em;font-weight:900}
+  .kick .local{color:var(--ink-2);font-size:.95em;margin-top:4px}
+  .kick .venuetime{color:var(--muted);font-size:.84em;margin-top:2px}
+
+  .venue{display:grid;grid-template-columns:1.1fr .9fr;gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.01))}
+  @media(max-width:620px){.venue{grid-template-columns:1fr}}
+  .venue .photo{width:100%;height:100%;min-height:200px;object-fit:cover;display:block;background:#0a0e22}
+  .venue .vbody{padding:20px 22px}
+  .venue .vname{font-weight:800;font-size:1.2em}
+  .venue .vcity{color:var(--muted);font-size:.9em;margin-bottom:14px}
+  .venue .vstats{display:flex;gap:22px;margin-bottom:14px}
+  .venue .vstat .v{font-weight:900;color:var(--gold);font-size:1.15em}
+  .venue .vstat .k{font-size:.68em;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .venue .vfact{font-size:.88em;color:var(--ink-2);line-height:1.5;border-top:1px solid var(--line);padding-top:12px}
+  .minimap{margin-top:14px}
+  .minimap svg{width:100%;height:auto;max-height:160px}
+  .minimap .coast{fill:rgba(255,255,255,.13);stroke:rgba(255,255,255,.42);stroke-width:1;vector-effect:non-scaling-stroke}
+  .minimap .pin{fill:var(--gold)}.minimap .pinhalo{fill:var(--gold);opacity:.25}
+
+  /* Section blocks */
+  .block{border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-top:18px;background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.01))}
+  .block h3{font-size:.78em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  /* comparison bars */
+  .cmp-row{margin-bottom:13px}
+  .cmp-row .lbl{display:flex;justify-content:space-between;font-size:.8em;color:var(--ink-2);margin-bottom:5px}
+  .cmp-row .lbl .k{color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-size:.82em;font-weight:700}
+  .cmp-row .lbl b{font-variant-numeric:tabular-nums}
+  .cmp-bar{display:flex;height:8px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.06)}
+  .cmp-bar .l{background:linear-gradient(90deg,#5b9bff,#7db0ff)}.cmp-bar .r{background:linear-gradient(90deg,#f0a868,#e8c247)}
+  /* h2h */
+  .h2h-score{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:10px}
+  .h2h-score .n{font-size:1.8em;font-weight:900}.h2h-score .n.w{color:var(--gold)}
+  .h2h-score .mid{font-size:.74em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .h2h-last{text-align:center;font-size:.84em;color:var(--ink-2)}
+  /* form */
+  .form-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .form-row .tn{font-weight:700;font-size:.9em;min-width:120px}
+  .form-dots{display:flex;gap:6px}
+  .fd{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:.72em;font-weight:800;color:#08111f}
+  .fd.W{background:#2ec27e}.fd.D{background:#9aa0aa}.fd.L{background:#ff5a5f;color:#fff}
+  .climate{display:flex;gap:22px;justify-content:center}
+  .climate .ci{text-align:center}.climate .ci .v{font-size:1.5em;font-weight:900;color:var(--gold)}
+  .climate .ci .k{font-size:.7em;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .scoreline{text-align:center;font-size:1.1em;font-weight:800;color:var(--muted);padding:8px 0}
+
+  .squads{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+  .squads a{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:99px;font-weight:700;
+    background:rgba(255,255,255,.06);border:1px solid var(--line-strong);color:var(--ink);font-size:.92em}
+  .squads a:hover{background:rgba(255,255,255,.12)}
+  .note{margin-top:26px;font-size:.8em;color:var(--muted);text-align:center}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
+</head>
+<body>
+<div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+<div class="grid-lines"></div>
+<script>window.PAGE={active:'calendar',crumbs:[{label:'Calendario',href:'calendar.html'},{label:'…'}]};</script>
+<div id="site-nav"></div>
+<div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
+
+<script>
+const MIDX = parseInt(new URLSearchParams(location.search).get('m')||'0',10);
+const BBOX={USA:[-125,-66.5,24,49.6],MEX:[-117.5,-86.5,14.4,32.8],CAN:[-129,-73,42,55.5]};
+
+function parseKick(date,time){
+  const m=(time||'').match(/(\d{1,2}):(\d{2})\s*UTC([+-]\d{1,2})/);
+  if(!m) return null;
+  const hh=m[1].padStart(2,'0'), mm=m[2], off=m[3];
+  const sign=off[0], hrs=String(Math.abs(+off)).padStart(2,'0');
+  return new Date(`${date}T${hh}:${mm}:00${sign}${hrs}:00`);
+}
+function isPlaceholder(n){ return !n || /^([12][A-L]|W\d+|L\d+|RU|3[A-L])/i.test(n) || /\bB$/.test(n); }
+
+async function main(){
+  let sched,teams,maps,agg,prev;
+  try{
+    [sched,teams,maps,agg,prev]=await Promise.all([
+      fetch('data/schedule.json').then(r=>r.json()),
+      fetch('data/teams/index.json').then(r=>r.json()),
+      fetch('data/host_maps.json').then(r=>r.json()),
+      fetch('data/teams/aggregates.json').then(r=>r.json()).catch(()=>({})),
+      fetch('data/match_previews.json').then(r=>r.json()).catch(()=>({previews:[]})),
+    ]);
+  }catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se pudo cargar el partido.</p>'; return; }
+  const matches=sched.matches||sched;
+  const m=matches[MIDX];
+  if(!m){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">Partido no encontrado.</p>'; return; }
+
+  const teamByName={}; teams.teams.forEach(t=>teamByName[t.name]=t);
+  window.__agg=agg||{}; window.__prev=(prev.previews||[])[MIDX]||null;
+  // venue lookup
+  let venue=null, vcountry=null;
+  for(const code of Object.keys(maps.countries)){
+    const c=maps.countries[code].cities.find(c=>c.city===m.ground);
+    if(c){ venue=c; vcountry=code; break; }
+  }
+  render(m,teamByName,venue,vcountry,maps);
+}
+
+function sideHTML(name,teamByName){
+  if(isPlaceholder(name)) return `<div class="side tbd"><div class="flag-ph"></div><div class="nm">${name||'Por definir'}</div></div>`;
+  const t=teamByName[name];
+  const flag=t?`<img class="flag" src="https://flagcdn.com/w160/${t.flag}.png" alt="${name}">`:`<div class="flag-ph"></div>`;
+  if(t) return `<a class="side" href="team.html?code=${t.code}">${flag}<div class="nm">${name}</div><div class="lk">Ver plantilla →</div></a>`;
+  return `<div class="side"><div class="flag-ph"></div><div class="nm">${name}</div></div>`;
+}
+
+function miniMap(venue,vcountry,maps){
+  if(!venue||!BBOX[vcountry]) return '';
+  const [minLon,maxLon,minLat,maxLat]=BBOX[vcountry];
+  const W=420, midLat=(minLat+maxLat)/2, kx=Math.cos(midLat*Math.PI/180);
+  const wLon=(maxLon-minLon)*kx, wLat=(maxLat-minLat), scale=W/wLon, H=Math.round(wLat*scale);
+  const proj=(lon,lat)=>[((lon-minLon)*kx*scale).toFixed(1),((maxLat-lat)*scale).toFixed(1)];
+  let paths='';
+  maps.countries[vcountry].outline.forEach(ring=>{
+    let d=''; ring.forEach((pt,i)=>{const[x,y]=proj(pt[0],pt[1]); d+=(i?'L':'M')+x+' '+y;}); d+='Z';
+    paths+=`<path class="coast" d="${d}"/>`;
+  });
+  const [px,py]=proj(venue.lon,venue.lat);
+  return `<div class="minimap"><svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${paths}
+    <circle class="pinhalo" cx="${px}" cy="${py}" r="9"/><circle class="pin" cx="${px}" cy="${py}" r="4.5"/></svg></div>`;
+}
+
+function render(m,teamByName,venue,vcountry,maps){
+  const dt=parseKick(m.date,m.time);
+  const localStr = dt ? dt.toLocaleString(undefined,{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}) : m.date;
+  const roundTxt = m.group ? `${m.group} · ${m.round}` : m.round;
+  const cap = venue&&venue.capacity ? venue.capacity.toLocaleString('es-ES') : null;
+  const t1=teamByName[m.team1], t2=teamByName[m.team2];
+
+  const venueHTML = venue ? `
+    <div class="venue">
+      ${venue.photo?`<img class="photo" src="${venue.photo}" alt="${venue.stadium}" onerror="this.style.display='none'">`:'<div class="photo"></div>'}
+      <div class="vbody">
+        <div class="vname">${venue.stadium}</div>
+        <div class="vcity">${(venue.city||'').replace(/\s*\(.*\)/,'')}</div>
+        <div class="vstats">
+          ${cap?`<div class="vstat"><div class="v">${cap}</div><div class="k">aforo</div></div>`:''}
+          ${venue.opened?`<div class="vstat"><div class="v">${venue.opened}</div><div class="k">inaugurado</div></div>`:''}
+        </div>
+        ${venue.fact?`<div class="vfact">${venue.fact}</div>`:''}
+        ${miniMap(venue,vcountry,maps)}
+      </div>
+    </div>` : '';
+
+  // ---- Comparison / H2H / form / climate ----
+  const agg=window.__agg||{}, prev=window.__prev;
+  const a1=t1&&agg[t1.code], a2=t2&&agg[t2.code];
+  const cmpHTML = (a1&&a2) ? `
+    <div class="block"><h3>Comparativa de plantillas</h3>
+      ${cmpRow('Valor total', a1.value_total, a2.value_total, v=>'€'+(v/1e6).toFixed(0)+'M')}
+      ${cmpRow('Edad media', a1.age_avg, a2.age_avg, v=>v+' años', true)}
+      ${cmpRow('Internacionalidades', a1.caps_total, a2.caps_total, v=>v)}
+      ${cmpRow('Lesiones acumuladas', a1.injuries_total, a2.injuries_total, v=>v)}
+    </div>` : '';
+
+  let h2hHTML='';
+  if(prev&&prev.h2h&&prev.h2h.played>0){
+    const h=prev.h2h;
+    const last=h.last?`Último: ${last2(h.last)} <span style="opacity:.6">(${h.last.date})</span>`:'';
+    h2hHTML=`<div class="block"><h3>Cara a cara · ${h.played} enfrentamientos</h3>
+      <div class="h2h-score">
+        <div style="text-align:center"><div class="n ${h.w1>h.w2?'w':''}">${h.w1}</div><div class="mid">${esc(m.team1)}</div></div>
+        <div class="mid">${h.d} emp.</div>
+        <div style="text-align:center"><div class="n ${h.w2>h.w1?'w':''}">${h.w2}</div><div class="mid">${esc(m.team2)}</div></div>
+      </div>
+      <div class="h2h-last">${last}</div></div>`;
+  }
+
+  const formHTML = (prev&&(prev.form1.length||prev.form2.length)) ? `
+    <div class="block"><h3>Forma reciente</h3>
+      ${formRow(m.team1, prev.form1)}
+      ${formRow(m.team2, prev.form2)}
+    </div>` : '';
+
+  const climHTML = (prev&&prev.climate) ? `
+    <div class="block"><h3>Condiciones de la sede</h3>
+      <div class="climate">
+        <div class="ci"><div class="v">${prev.climate.temp_c}°C</div><div class="k">temp. típica jun-jul</div></div>
+        <div class="ci"><div class="v">${prev.climate.alt_m} m</div><div class="k">altitud</div></div>
+      </div></div>` : '';
+
+  const scoreHTML = `<div class="block"><h3>Marcador</h3><div class="scoreline">Por jugar · ${dt?dt.toLocaleDateString(undefined,{day:'numeric',month:'long'}):''}</div></div>`;
+
+  const squadLinks = [t1,t2].filter(Boolean).map(t=>`<a href="team.html?code=${t.code}"><img src="https://flagcdn.com/w40/${t.flag}.png" style="width:22px;height:16px;border-radius:3px;object-fit:cover"> Plantilla de ${t.name}</a>`).join('');
+
+  document.getElementById('wrap').innerHTML = `
+    <div class="eyebrow">${roundTxt}</div>
+    <div class="vs">
+      ${sideHTML(m.team1,teamByName)}
+      <div class="vs-mid">vs</div>
+      ${sideHTML(m.team2,teamByName)}
+    </div>
+    <div class="kick">
+      <div class="big">${dt?dt.toLocaleDateString(undefined,{day:'numeric',month:'short'}):''} · ${dt?dt.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}):m.time}</div>
+      <div class="local">${localStr} <span style="opacity:.6">(tu hora local)</span></div>
+      <div class="venuetime">Hora local de la sede: ${m.time||'—'}</div>
+    </div>
+    ${venueHTML}
+    ${cmpHTML}
+    ${h2hHTML}
+    ${formHTML}
+    ${climHTML}
+    ${scoreHTML}
+    ${squadLinks?`<div class="squads">${squadLinks}</div>`:''}
+    <div class="note">Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto</div>`;
+  document.title = `${m.team1} vs ${m.team2} · WC 2026`;
+  const cb=document.querySelector('.sn-crumbs'); if(cb) cb.innerHTML=`<a href="calendar.html">Calendario</a><span class="sep">›</span><span class="cur">${esc(m.team1)} vs ${esc(m.team2)}</span>`;
+}
+function esc(s){ return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function cmpRow(label,v1,v2,fmt,lowerBetter){
+  v1=v1||0; v2=v2||0; const tot=v1+v2||1;
+  const p1=Math.round(v1/tot*100), p2=100-p1;
+  return `<div class="cmp-row">
+    <div class="lbl"><b>${fmt(v1)}</b><span class="k">${label}</span><b>${fmt(v2)}</b></div>
+    <div class="cmp-bar"><div class="l" style="width:${p1}%"></div><div class="r" style="width:${p2}%"></div></div></div>`;
+}
+function formRow(name,form){
+  const dots=(form||[]).slice().reverse().map(f=>`<span class="fd ${f.r}" title="${f.date} vs ${esc(f.opp)} ${f.gf}-${f.ga}">${f.r}</span>`).join('');
+  return `<div class="form-row"><span class="tn">${esc(name)}</span><div class="form-dots">${dots||'<span style="color:var(--muted);font-size:.85em">sin datos</span>'}</div></div>`;
+}
+function last2(l){ return `${esc(l.home)} ${l.hs}-${l.as} ${esc(l.away)}`; }
+main();
+</script>
+<script src="assets/nav.js" defer></script>
+<script src="assets/search.js" defer>
+</script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+</body>
+</html>

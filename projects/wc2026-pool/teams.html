@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clasificación · WC 2026</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  h1{font-size:clamp(1.9em,4vw,2.6em);font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+  .sub{color:var(--ink-2);margin-bottom:8px}.sub b{font-family:var(--mono);color:var(--cyan)}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;font-size:.78em;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+  .group{padding:14px 14px 10px}
+  .group h2{font-size:.78em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  table.st{width:100%;border-collapse:collapse;font-size:.84em}
+  table.st th{font-size:.66em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:6px 4px;text-align:center}
+  table.st th.lt{text-align:left;padding-left:6px}
+  table.st td{padding:6px 4px;text-align:center;border-top:1px solid var(--line);color:var(--ink-2);font-variant-numeric:tabular-nums}
+  table.st td.pos{width:22px;color:var(--muted);font-weight:700;font-family:var(--mono)}
+  table.st td.team{text-align:left;padding-left:2px}
+  table.st td.team a{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:600;white-space:nowrap}
+  table.st td.team a:hover{color:var(--cyan)}
+  table.st td.team img{width:24px;height:17px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.18);flex:none}
+  table.st td.pts{font-weight:800;color:var(--ink);font-family:var(--mono)}
+  table.st tr.q1 td.pos{box-shadow:inset 3px 0 0 #2ec27e}
+  table.st tr.q2 td.pos{box-shadow:inset 3px 0 0 #35e0d8}
+  table.st tr.q3 td.pos{box-shadow:inset 3px 0 0 #f4d76b}
+  @media(max-width:560px){ table.st .opt{display:none} }
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
+</head>
+<body>
+<div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+<div class="grid-lines"></div>
+<script>window.PAGE={active:'teams'};</script>
+<div id="site-nav"></div>
+<div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
+<script src="assets/nav.js" defer></script>
+<script src="assets/search.js" defer></script>
+<script>
+async function main(){
+  let idx, sched={matches:[]}, results={};
+  try{ idx=await (await fetch('data/teams/index.json')).json(); }
+  catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se pudo cargar.</p>'; return; }
+  try{ sched=await (await fetch('data/schedule.json')).json(); }catch(e){}
+  try{ const r=await fetch('data/results.json',{cache:'no-store'}); if(r.ok){ results=(await r.json()).matches||{}; } }catch(e){}
+
+  const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
+  const norm=n=>(n||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,'').replace(/^usa$/,'unitedstates');
+  // flag + code by normalised name (from index.json)
+  const meta={}; idx.teams.forEach(t=>{ meta[norm(t.name)]={code:t.code,flag:t.flag,name:t.name,group:t.group}; });
+
+  const stats={};                 // group -> normName -> row
+  (sched.matches||[]).forEach((m,i)=>{
+    if(!m.group) return;
+    const g=m.group.replace(/^Group\s+/,'');
+    (stats[g]=stats[g]||{});
+    [m.team1,m.team2].forEach(n=>{ const k=norm(n); if(n&&!isPh(n)&&!stats[g][k]) stats[g][k]={key:k,name:n,pj:0,w:0,d:0,l:0,gf:0,ga:0}; });
+    const sc=results[String(i)]; const A=stats[g][norm(m.team1)], B=stats[g][norm(m.team2)];
+    if(Array.isArray(sc)&&sc.length===2&&A&&B){
+      const a=+sc[0],b=+sc[1];
+      A.pj++;B.pj++;A.gf+=a;A.ga+=b;B.gf+=b;B.ga+=a;
+      if(a>b){A.w++;B.l++;}else if(a<b){B.w++;A.l++;}else{A.d++;B.d++;}
+    }
+  });
+
+  const groups=Object.keys(stats).sort();
+  let html=`<h1>Clasificación</h1>
+    <div class="sub"><b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.</div>
+    <div class="legend">
+      <span><i style="background:#2ec27e"></i>1.º clasifica</span>
+      <span><i style="background:#35e0d8"></i>2.º clasifica</span>
+      <span><i style="background:#f4d76b"></i>3.º (mejores 8 pasan)</span>
+    </div>
+    <div class="groups">`;
+  groups.forEach(g=>{
+    const rows=Object.values(stats[g])
+      .map(r=>({...r,pts:r.w*3+r.d,dg:r.gf-r.ga}))
+      .sort((x,y)=>y.pts-x.pts||y.dg-x.dg||y.gf-x.gf||x.name.localeCompare(y.name));
+    let body='';
+    rows.forEach((r,i)=>{
+      const m=meta[r.key]||{flag:'',code:'',name:r.name};
+      const flag=m.flag?`<img src="https://flagcdn.com/w40/${m.flag}.png" alt="">`:'';
+      const link=m.code?`team.html?code=${m.code}`:'#';
+      const cls=i===0?'q1':i===1?'q2':i===2?'q3':'';
+      body+=`<tr class="${cls}">
+        <td class="pos">${i+1}</td>
+        <td class="team"><a href="${link}">${flag}<span>${m.name}</span></a></td>
+        <td class="opt">${r.w}</td><td class="opt">${r.d}</td><td class="opt">${r.l}</td>
+        <td class="opt">${r.gf}</td><td class="opt">${r.ga}</td>
+        <td class="pts">${r.pts}</td></tr>`;
+    });
+    html+=`<div class="group glass glass-hover"><h2>Grupo ${g}</h2>
+      <table class="st"><thead><tr>
+        <th></th><th class="lt">Equipo</th>
+        <th class="opt">G</th><th class="opt">E</th><th class="opt">P</th>
+        <th class="opt">GF</th><th class="opt">GC</th><th>Pts</th>
+      </tr></thead><tbody>${body}</tbody></table></div>`;
+  });
+  document.getElementById('wrap').innerHTML=html+`</div>`;
+}
+main();
+</script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+</body>
+</html>
