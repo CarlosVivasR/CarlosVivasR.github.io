@@ -1,5 +1,6 @@
 {
  "generated": "2026-06",
+ "fifaDate": "2026-04",
  "teamRankings": {
   "value": [
    {
@@ -774,6 +775,7 @@
    "club": "FC Barcelona",
    "value": 200000000,
    "pos": "4FW",
+   "sub": "Right Winger",
    "pid": "937958",
    "goals": 6,
    "caps": 25
@@ -785,6 +787,7 @@
    "club": "Real Madrid CF",
    "value": 200000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "342229",
    "goals": 56,
    "caps": 96
@@ -796,6 +799,7 @@
    "club": "Manchester City F.C.",
    "value": 200000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "418560",
    "goals": 55,
    "caps": 49
@@ -807,6 +811,7 @@
    "club": "Real Madrid CF",
    "value": 150000000,
    "pos": "4FW",
+   "sub": "Left Winger",
    "pid": "371998",
    "goals": 8,
    "caps": 47
@@ -818,6 +823,7 @@
    "club": "FC Barcelona",
    "value": 150000000,
    "pos": "3MF",
+   "sub": "Central Midfield",
    "pid": "683840",
    "goals": 5,
    "caps": 40
@@ -829,6 +835,7 @@
    "club": "FC Bayern Munich",
    "value": 140000000,
    "pos": "4FW",
+   "sub": "Right Winger",
    "pid": "566723",
    "goals": 4,
    "caps": 15
@@ -840,6 +847,7 @@
    "club": "Real Madrid CF",
    "value": 140000000,
    "pos": "3MF",
+   "sub": "Attacking Midfield",
    "pid": "581678",
    "goals": 6,
    "caps": 46
@@ -851,6 +859,7 @@
    "club": "FC Bayern Munich",
    "value": 120000000,
    "pos": "3MF",
+   "sub": "Attacking Midfield",
    "pid": "580195",
    "goals": 8,
    "caps": 40
@@ -862,6 +871,7 @@
    "club": "Real Madrid CF",
    "value": 120000000,
    "pos": "3MF",
+   "sub": "Central Midfield",
    "pid": "369081",
    "goals": 9,
    "caps": 73
@@ -873,6 +883,7 @@
    "club": "Arsenal F.C.",
    "value": 120000000,
    "pos": "3MF",
+   "sub": "Central Midfield",
    "pid": "357662",
    "goals": 6,
    "caps": 72
@@ -884,6 +895,7 @@
    "club": "Arsenal F.C.",
    "value": 120000000,
    "pos": "4FW",
+   "sub": "Right Winger",
    "pid": "433177",
    "goals": 14,
    "caps": 48
@@ -895,6 +907,7 @@
    "club": "Chelsea F.C.",
    "value": 110000000,
    "pos": "3MF",
+   "sub": "Defensive Midfield",
    "pid": "687626",
    "goals": 3,
    "caps": 60
@@ -906,6 +919,7 @@
    "club": "Liverpool F.C.",
    "value": 110000000,
    "pos": "3MF",
+   "sub": "Attacking Midfield",
    "pid": "598577",
    "goals": 10,
    "caps": 39
@@ -917,6 +931,7 @@
    "club": "Paris Saint-Germain FC",
    "value": 110000000,
    "pos": "3MF",
+   "sub": "Central Midfield",
    "pid": "670681",
    "goals": 3,
    "caps": 21
@@ -928,6 +943,7 @@
    "club": "Paris Saint-Germain FC",
    "value": 110000000,
    "pos": "3MF",
+   "sub": "Defensive Midfield",
    "pid": "487469",
    "goals": 0,
    "caps": 37
@@ -939,6 +955,7 @@
    "club": "Liverpool F.C.",
    "value": 100000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "349066",
    "goals": 16,
    "caps": 56
@@ -950,6 +967,7 @@
    "club": "Paris Saint-Germain FC",
    "value": 100000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "288230",
    "goals": 7,
    "caps": 58
@@ -961,6 +979,7 @@
    "club": "Real Madrid CF",
    "value": 90000000,
    "pos": "4FW",
+   "sub": "Attacking Midfield",
    "pid": "861410",
    "goals": 6,
    "caps": 28
@@ -972,6 +991,7 @@
    "club": "Liverpool F.C.",
    "value": 90000000,
    "pos": "3MF",
+   "sub": "Defensive Midfield",
    "pid": "478573",
    "goals": 1,
    "caps": 25
@@ -983,6 +1003,7 @@
    "club": "Arsenal F.C.",
    "value": 90000000,
    "pos": "2DF",
+   "sub": "Centre-Back",
    "pid": "495666",
    "goals": 0,
    "caps": 31
@@ -994,6 +1015,7 @@
    "club": "Paris Saint-Germain FC",
    "value": 90000000,
    "pos": "4FW",
+   "sub": "Right Winger",
    "pid": "914562",
    "goals": 2,
    "caps": 6
@@ -1005,6 +1027,7 @@
    "club": "Atlético Madrid",
    "value": 90000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "576024",
    "goals": 14,
    "caps": 51
@@ -1016,6 +1039,7 @@
    "club": "Chelsea F.C.",
    "value": 90000000,
    "pos": "3MF",
+   "sub": "Central Midfield",
    "pid": "648195",
    "goals": 6,
    "caps": 40
@@ -1027,117 +1051,25 @@
    "club": "Inter Milan",
    "value": 85000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "406625",
    "goals": 36,
    "caps": 75
   }
  ],
  "bestXI": {
-  "GK": [
-   {
-    "name": "Gregor Kobel",
-    "team": "SUI",
-    "flag": "ch",
-    "club": "Borussia Dortmund",
-    "value": 40000000,
-    "pos": "1GK",
-    "pid": "257814",
-    "goals": 0,
-    "caps": 20
-   }
-  ],
-  "DF": [
-   {
-    "name": "William Saliba",
-    "team": "FRA",
-    "flag": "fr",
-    "club": "Arsenal F.C.",
-    "value": 90000000,
-    "pos": "2DF",
-    "pid": "495666",
-    "goals": 0,
-    "caps": 31
-   },
-   {
-    "name": "Achraf Hakimi",
-    "team": "MAR",
-    "flag": "ma",
-    "club": "Paris Saint-Germain FC",
-    "value": 80000000,
-    "pos": "2DF",
-    "pid": "398073",
-    "goals": 11,
-    "caps": 95
-   },
-   {
-    "name": "Pau Cubarsí",
-    "team": "ESP",
-    "flag": "es",
-    "club": "FC Barcelona",
-    "value": 80000000,
-    "pos": "2DF",
-    "pid": "962110",
-    "goals": 0,
-    "caps": 11
-   },
-   {
-    "name": "Nuno Mendes",
-    "team": "POR",
-    "flag": "pt",
-    "club": "Paris Saint-Germain FC",
-    "value": 75000000,
-    "pos": "2DF",
-    "pid": "616341",
-    "goals": 1,
-    "caps": 43
-   }
-  ],
-  "MF": [
-   {
-    "name": "Pedri",
-    "team": "ESP",
-    "flag": "es",
-    "club": "FC Barcelona",
-    "value": 150000000,
-    "pos": "3MF",
-    "pid": "683840",
-    "goals": 5,
-    "caps": 40
-   },
-   {
-    "name": "Jude Bellingham",
-    "team": "ENG",
-    "flag": "gb-eng",
-    "club": "Real Madrid CF",
-    "value": 140000000,
-    "pos": "3MF",
-    "pid": "581678",
-    "goals": 6,
-    "caps": 46
-   },
-   {
-    "name": "Jamal Musiala",
-    "team": "GER",
-    "flag": "de",
-    "club": "FC Bayern Munich",
-    "value": 120000000,
-    "pos": "3MF",
-    "pid": "580195",
-    "goals": 8,
-    "caps": 40
-   }
-  ],
   "FW": [
    {
-    "name": "Lamine Yamal",
-    "team": "ESP",
-    "flag": "es",
-    "club": "FC Barcelona",
-    "value": 200000000,
+    "name": "Vinícius Júnior",
+    "team": "BRA",
+    "flag": "br",
+    "club": "Real Madrid CF",
+    "value": 150000000,
     "pos": "4FW",
-    "pid": "937958",
-    "goals": 6,
-    "caps": 25
+    "sub": "Left Winger",
+    "pid": "371998",
+    "goals": 8,
+    "caps": 47
    },
    {
     "name": "Kylian Mbappé",
@@ -1146,20 +1078,124 @@
     "club": "Real Madrid CF",
     "value": 200000000,
     "pos": "4FW",
+    "sub": "Centre-Forward",
     "pid": "342229",
     "goals": 56,
     "caps": 96
    },
    {
-    "name": "Erling Haaland",
-    "team": "NOR",
-    "flag": "no",
-    "club": "Manchester City F.C.",
+    "name": "Lamine Yamal",
+    "team": "ESP",
+    "flag": "es",
+    "club": "FC Barcelona",
     "value": 200000000,
     "pos": "4FW",
-    "pid": "418560",
-    "goals": 55,
-    "caps": 49
+    "sub": "Right Winger",
+    "pid": "937958",
+    "goals": 6,
+    "caps": 25
+   }
+  ],
+  "MF": [
+   {
+    "name": "Jude Bellingham",
+    "team": "ENG",
+    "flag": "gb-eng",
+    "club": "Real Madrid CF",
+    "value": 140000000,
+    "pos": "3MF",
+    "sub": "Attacking Midfield",
+    "pid": "581678",
+    "goals": 6,
+    "caps": 46
+   },
+   {
+    "name": "Pedri",
+    "team": "ESP",
+    "flag": "es",
+    "club": "FC Barcelona",
+    "value": 150000000,
+    "pos": "3MF",
+    "sub": "Central Midfield",
+    "pid": "683840",
+    "goals": 5,
+    "caps": 40
+   },
+   {
+    "name": "Jamal Musiala",
+    "team": "GER",
+    "flag": "de",
+    "club": "FC Bayern Munich",
+    "value": 120000000,
+    "pos": "3MF",
+    "sub": "Attacking Midfield",
+    "pid": "580195",
+    "goals": 8,
+    "caps": 40
+   }
+  ],
+  "DF": [
+   {
+    "name": "Nuno Mendes",
+    "team": "POR",
+    "flag": "pt",
+    "club": "Paris Saint-Germain FC",
+    "value": 75000000,
+    "pos": "2DF",
+    "sub": "Left-Back",
+    "pid": "616341",
+    "goals": 1,
+    "caps": 43
+   },
+   {
+    "name": "William Saliba",
+    "team": "FRA",
+    "flag": "fr",
+    "club": "Arsenal F.C.",
+    "value": 90000000,
+    "pos": "2DF",
+    "sub": "Centre-Back",
+    "pid": "495666",
+    "goals": 0,
+    "caps": 31
+   },
+   {
+    "name": "Pau Cubarsí",
+    "team": "ESP",
+    "flag": "es",
+    "club": "FC Barcelona",
+    "value": 80000000,
+    "pos": "2DF",
+    "sub": "Centre-Back",
+    "pid": "962110",
+    "goals": 0,
+    "caps": 11
+   },
+   {
+    "name": "Achraf Hakimi",
+    "team": "MAR",
+    "flag": "ma",
+    "club": "Paris Saint-Germain FC",
+    "value": 80000000,
+    "pos": "2DF",
+    "sub": "Right-Back",
+    "pid": "398073",
+    "goals": 11,
+    "caps": 95
+   }
+  ],
+  "GK": [
+   {
+    "name": "Gregor Kobel",
+    "team": "SUI",
+    "flag": "ch",
+    "club": "Borussia Dortmund",
+    "value": 40000000,
+    "pos": "1GK",
+    "sub": "Goalkeeper",
+    "pid": "257814",
+    "goals": 0,
+    "caps": 20
    }
   ]
  },
@@ -1171,6 +1207,7 @@
    "club": "Al-Nassr FC",
    "value": 12000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "8198",
    "goals": 143,
    "caps": 226
@@ -1182,6 +1219,7 @@
    "club": "Inter Miami CF",
    "value": 15000000,
    "pos": "4FW",
+   "sub": "Right Winger",
    "pid": "28003",
    "goals": 116,
    "caps": 198
@@ -1193,6 +1231,7 @@
    "club": "SSC Napoli",
    "value": 12000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "96341",
    "goals": 89,
    "caps": 124
@@ -1204,6 +1243,7 @@
    "club": "Santos FC",
    "value": 10000000,
    "pos": "4FW",
+   "sub": "Attacking Midfield",
    "pid": "68290",
    "goals": 79,
    "caps": 128
@@ -1215,6 +1255,7 @@
    "club": "FC Bayern Munich",
    "value": 65000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "132098",
    "goals": 78,
    "caps": 112
@@ -1226,6 +1267,7 @@
    "club": "FC Schalke 04",
    "value": 1500000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "28396",
    "goals": 73,
    "caps": 148
@@ -1237,6 +1279,7 @@
    "club": "Liverpool F.C.",
    "value": 30000000,
    "pos": "4FW",
+   "sub": "Right Winger",
    "pid": "148455",
    "goals": 65,
    "caps": 113
@@ -1248,6 +1291,7 @@
    "club": "Olympiacos F.C.",
    "value": 2500000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "307058",
    "goals": 57,
    "caps": 102
@@ -1259,6 +1303,7 @@
    "club": "Real Madrid CF",
    "value": 200000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "342229",
    "goals": 56,
    "caps": 96
@@ -1270,6 +1315,7 @@
    "club": "Al Duhail SC",
    "value": 2500000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "345095",
    "goals": 55,
    "caps": 118
@@ -1281,6 +1327,7 @@
    "club": "SC Corinthians Paulista",
    "value": 8000000,
    "pos": "4FW",
+   "sub": "Second Striker",
    "pid": "167850",
    "goals": 55,
    "caps": 108
@@ -1292,6 +1339,7 @@
    "club": "Manchester City F.C.",
    "value": 200000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "418560",
    "goals": 55,
    "caps": 49
@@ -1303,6 +1351,7 @@
    "club": "Al-Nassr FC",
    "value": 7000000,
    "pos": "4FW",
+   "sub": "Left Winger",
    "pid": "200512",
    "goals": 52,
    "caps": 124
@@ -1314,6 +1363,7 @@
    "club": "C.F. Pachuca",
    "value": 1000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "139503",
    "goals": 49,
    "caps": 105
@@ -1325,6 +1375,7 @@
    "club": "Red Star Belgrade",
    "value": 2500000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "41384",
    "goals": 47,
    "caps": 132
@@ -1336,10 +1387,10 @@
    "club": "Nottingham Forest F.C.",
    "value": 6000000,
    "pos": "4FW",
+   "sub": "Centre-Forward",
    "pid": "108725",
    "goals": 45,
    "caps": 88
   }
- ],
- "fifaDate": "2026-04"
+ ]
 }
