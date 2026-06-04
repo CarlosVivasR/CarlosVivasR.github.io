@@ -78,13 +78,20 @@
   .hm-m .tm img{width:23px;height:15px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.18);flex:none}
   .hm-m .when{font-size:.78em;color:var(--ink-2);margin-top:8px;font-variant-numeric:tabular-nums}
 
-  /* accesos directos */
-  .hm-quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-  .hm-q{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:14px;padding:18px;background:rgba(255,255,255,.03);color:var(--ink);transition:transform .18s,border-color .18s}
-  .hm-q:hover{transform:translateY(-3px);border-color:var(--gold);color:var(--ink)}
-  .hm-q .qi{font-size:1.55em}
-  .hm-q .qt{font-weight:800;font-size:1.02em;margin-top:8px}
-  .hm-q .qs{font-size:.8em;color:var(--muted)}
+  /* two-column home: matches · data */
+  .home-cols{display:grid;grid-template-columns:1.5fr 1fr;gap:26px;margin-top:34px;align-items:start}
+  .home-cols .blk{margin-top:0;min-width:0}
+  @media(max-width:860px){.home-cols{grid-template-columns:1fr;gap:30px}}
+  /* data widgets (right column) */
+  .dwidget{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);padding:14px 14px 8px;margin-bottom:14px}
+  .dwidget h3{font-size:.68em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-family:'Inter',sans-serif}
+  .drow{display:flex;align-items:center;gap:9px;padding:6px 2px;border-top:1px solid var(--line);font-size:.88em}
+  .drow:first-of-type{border-top:none}
+  .drow .pos{width:16px;color:var(--muted);font-family:var(--mono);font-weight:700;font-size:.82em;flex:none}
+  .drow img{width:22px;height:15px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.18);flex:none}
+  .drow .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .drow .nm .sm{color:var(--muted);font-size:.85em;font-weight:500}
+  .drow .vv{margin-left:auto;font-family:var(--mono);font-weight:800;font-size:.85em;color:var(--gold);flex:none}
 
   footer{position:relative;z-index:2;padding:34px 24px;text-align:center;color:var(--muted);font-size:.82em;background:var(--bg);border-top:1px solid var(--line)}
   footer a{color:var(--ink-2)}
@@ -126,24 +133,17 @@
     </div>
   </section>
 
-  <!-- Próximos partidos -->
-  <section class="blk">
-    <div class="blk-head"><h2 data-i18n="home.upcoming">Próximos partidos</h2><a href="calendar.html" class="all" data-i18n="home.all104">Ver los 104 →</a></div>
-    <div class="hm-grid" id="homeMatches"></div>
-  </section>
-
-  <!-- Accesos directos -->
-  <section class="blk">
-    <div class="blk-head"><h2 data-i18n="home.explore">Explora</h2></div>
-    <div class="hm-quick">
-      <a href="teams.html" class="hm-q"><span class="qi">📊</span><span class="qt" data-i18n="home.qStand">Clasificación</span><span class="qs" data-i18n="home.qStandSub">tablas de grupo</span></a>
-      <a href="plantillas.html" class="hm-q"><span class="qi">👥</span><span class="qt" data-i18n="home.qTeams">Plantillas</span><span class="qs" data-i18n="home.qTeamsSub">48 selecciones y jugadores</span></a>
-      <a href="sedes.html" class="hm-q"><span class="qi">📍</span><span class="qt" data-i18n="home.qSedes">16 sedes</span><span class="qs" data-i18n="home.qSedesSub">estadios y mapas</span></a>
-      <a href="pool.html" class="hm-q"><span class="qi">🏆</span><span class="qt" data-i18n="home.qPool">Quiniela</span><span class="qs" data-i18n="home.qPoolSub">predice y compite</span></a>
-      <a href="calendar.html" class="hm-q"><span class="qi">📅</span><span class="qt" data-i18n="home.qCal">Calendario</span><span class="qs" data-i18n="home.qCalSub">104 partidos, tu hora</span></a>
-      <a href="datos.html" class="hm-q"><span class="qi">📈</span><span class="qt" data-i18n="home.qData">Datos</span><span class="qs" data-i18n="home.qDataSub">rankings y curiosidades</span></a>
-    </div>
-  </section>
+  <!-- Two columns: matches · data -->
+  <div class="home-cols">
+    <section class="blk">
+      <div class="blk-head"><h2 data-i18n="home.upcoming">Próximos partidos</h2><a href="calendar.html" class="all" data-i18n="home.all104">Ver los 104 →</a></div>
+      <div class="hm-grid" id="homeMatches"></div>
+    </section>
+    <aside class="blk">
+      <div class="blk-head"><h2 data-i18n="home.data">Datos</h2><a href="datos.html" class="all" data-i18n="home.dataAll">Ver todos →</a></div>
+      <div id="homeData"><p style="color:var(--muted);font-size:.9em">…</p></div>
+    </aside>
+  </div>
 </main>
 
 <footer>
@@ -230,6 +230,26 @@ async function buildHome(){
   }).join('');
 }
 
+// ===== Data column (right) =====
+async function buildData(){
+  const el=document.getElementById('homeData'); if(!el) return;
+  let s; try{ s=await fetch('data/stats.json',{cache:'no-store'}).then(r=>r.json()); }catch(e){ el.innerHTML=''; return; }
+  const lang=document.documentElement.lang||'es';
+  const t=k=>(i18n[lang]&&i18n[lang][k])||(i18n.es&&i18n.es[k])||k;
+  const fmtVal=v=>v==null?'—':v>=1e6?'€'+(v/1e6).toFixed(v>=1e7?0:1)+'M':v>=1e3?'€'+Math.round(v/1e3)+'K':'€'+v;
+  const fl=f=>f?`<img src="https://flagcdn.com/w40/${f}.png">`:'';
+  const esc=x=>(x||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const teamRows=(list,vf)=>list.map((x,i)=>`<a class="drow" href="team.html?code=${x.code}" style="color:inherit">
+     <span class="pos">${i+1}</span>${fl(x.flag)}<span class="nm">${esc(x.name)}</span><span class="vv">${vf(x)}</span></a>`).join('');
+  const plRows=(list,vf)=>list.map((p,i)=>`<a class="drow" href="${p.pid?`player.html?id=${p.pid}`:'#'}" style="color:inherit">
+     <span class="pos">${i+1}</span>${fl(p.flag)}<span class="nm">${esc(p.name)}</span><span class="vv">${vf(p)}</span></a>`).join('');
+  const r=s.teamRankings;
+  el.innerHTML=`
+    <div class="dwidget"><h3>${t('data.valTeams')}</h3>${teamRows(r.value.slice(0,4),x=>fmtVal(x.value))}</div>
+    <div class="dwidget"><h3>${t('data.fifa')}</h3>${teamRows(r.fifa.slice(0,4),x=>'#'+x.fifa)}</div>
+    <div class="dwidget"><h3>${t('data.scorers')}</h3>${plRows((s.topScorers||[]).slice(0,4),p=>(p.goals||0)+' '+t('data.goals'))}</div>`;
+}
+
 // ===== Countdown =====
 const KICK=new Date('2026-06-11T16:00:00Z').getTime();
 function tick(){const diff=KICK-Date.now();
@@ -247,7 +267,7 @@ const i18n={
     'cd.cap':'Until kick-off · Mexico 🇲🇽 vs South Africa 🇿🇦 · Estadio Azteca',
     'home.upcoming':'Upcoming matches','home.all104':'See all 104 →','home.explore':'Explore',
     'home.qStand':'Standings','home.qStandSub':'group tables','home.qTeams':'Squads','home.qTeamsSub':'48 teams & players','home.qSedes':'16 venues','home.qSedesSub':'stadiums & maps',
-    'home.qPool':'Pool','home.qPoolSub':'predict & compete','home.qCal':'Calendar','home.qCalSub':'104 matches, your time','home.qData':'Data','home.qDataSub':'rankings & facts',
+    'home.qPool':'Pool','home.qPoolSub':'predict & compete','home.qCal':'Calendar','home.qCalSub':'104 matches, your time','home.qData':'Data','home.qDataSub':'rankings & facts','home.data':'Data','home.dataAll':'See all →','data.valTeams':'Most valuable squads','data.fifa':'FIFA ranking','data.scorers':'Top scorers','data.goals':'goals',
     'footer.built':'Built by'},
   es:{'hero.kicker':'Mundial FIFA · 11 jun – 19 jul 2026','hero.title':'Mundial 2026','hero.sub':'48 selecciones · 104 partidos · 16 ciudades sede',
     'hero.ctaPool':'🏆 Entrar a la quiniela','hero.ctaCal':'📅 Ver calendario',
@@ -255,7 +275,7 @@ const i18n={
     'cd.cap':'Para el pitido inicial · México 🇲🇽 vs Sudáfrica 🇿🇦 · Estadio Azteca',
     'home.upcoming':'Próximos partidos','home.all104':'Ver los 104 →','home.explore':'Explora',
     'home.qStand':'Clasificación','home.qStandSub':'tablas de grupo','home.qTeams':'Plantillas','home.qTeamsSub':'48 selecciones y jugadores','home.qSedes':'16 sedes','home.qSedesSub':'estadios y mapas',
-    'home.qPool':'Quiniela','home.qPoolSub':'predice y compite','home.qCal':'Calendario','home.qCalSub':'104 partidos, tu hora','home.qData':'Datos','home.qDataSub':'rankings y curiosidades',
+    'home.qPool':'Quiniela','home.qPoolSub':'predice y compite','home.qCal':'Calendario','home.qCalSub':'104 partidos, tu hora','home.qData':'Datos','home.qDataSub':'rankings y curiosidades','home.data':'Datos','home.dataAll':'Ver todos →','data.valTeams':'Selecciones más valiosas','data.fifa':'Ranking FIFA','data.scorers':'Máximos goleadores','data.goals':'goles',
     'footer.built':'Hecho por'},
   tr:{'hero.kicker':'FIFA Dünya Kupası · 11 Haz – 19 Tem 2026','hero.title':'Dünya Kupası 2026','hero.sub':'48 takım · 104 maç · 16 ev sahibi şehir',
     'hero.ctaPool':'🏆 Tahmin havuzu','hero.ctaCal':'📅 Maç takvimi',
@@ -263,7 +283,7 @@ const i18n={
     'cd.cap':'Açılış maçına · Meksika 🇲🇽 vs Güney Afrika 🇿🇦 · Estadio Azteca',
     'home.upcoming':'Yaklaşan maçlar','home.all104':'104 maçın tümü →','home.explore':'Keşfet',
     'home.qStand':'Puan durumu','home.qStandSub':'grup tabloları','home.qTeams':'Kadrolar','home.qTeamsSub':'48 takım & oyuncu','home.qSedes':'16 saha','home.qSedesSub':'stadyumlar & haritalar',
-    'home.qPool':'Tahmin','home.qPoolSub':'tahmin et & yarış','home.qCal':'Takvim','home.qCalSub':'104 maç, senin saatin','home.qData':'Veriler','home.qDataSub':'sıralamalar & bilgiler',
+    'home.qPool':'Tahmin','home.qPoolSub':'tahmin et & yarış','home.qCal':'Takvim','home.qCalSub':'104 maç, senin saatin','home.qData':'Veriler','home.qDataSub':'sıralamalar & bilgiler','home.data':'Veriler','home.dataAll':'Tümü →','data.valTeams':'En değerli kadrolar','data.fifa':'FIFA sıralaması','data.scorers':'Gol kralları','data.goals':'gol',
     'footer.built':'Geliştiren'}
 };
 function setLang(l){
@@ -272,6 +292,7 @@ function setLang(l){
   document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.getAttribute('data-i18n');if(i18n[l][k]!=null)e.textContent=i18n[l][k];});
   document.querySelectorAll('.lang-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
   buildHome();
+  buildData();
 }
 document.querySelectorAll('.lang-toggle button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
 (function(){const s=localStorage.getItem('wc26-lang');if(s&&i18n[s])return setLang(s);
