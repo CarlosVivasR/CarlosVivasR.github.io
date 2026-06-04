@@ -49,15 +49,22 @@
 <div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
 <script src="assets/nav.js" defer></script>
 <script src="assets/search.js" defer></script>
+<script src="assets/i18n.js"></script>
 <script>
+const T={
+  es:{groups:['Porteros','Defensas','Centrocampistas','Delanteros','Otros'],months:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],fail:'No hay datos para este equipo.',squad:'convocados',injTotal:'lesiones acumuladas en sus carreras',legend:'Lista oficial FIFA · clica un jugador para su ficha · pulsa <b style="font-family:var(--mono)">/</b> para buscar.',fixtures:'📅 Partidos',vs:'vs',note:'Fotos: Wikimedia Commons (CC BY-SA) · datos Transfermarkt'},
+  en:{groups:['Goalkeepers','Defenders','Midfielders','Forwards','Other'],months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],fail:'No data for this team.',squad:'called up',injTotal:'career injuries combined',legend:'Official FIFA squad · tap a player for their profile · press <b style="font-family:var(--mono)">/</b> to search.',fixtures:'📅 Matches',vs:'vs',note:'Photos: Wikimedia Commons (CC BY-SA) · data Transfermarkt'},
+  tr:{groups:['Kaleciler','Defanslar','Orta saha','Forvetler','Diğer'],months:['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],fail:'Bu takım için veri yok.',squad:'kadroda',injTotal:'kariyer boyu toplam sakatlık',legend:'Resmi FIFA kadrosu · profili için bir oyuncuya dokun · aramak için <b style="font-family:var(--mono)">/</b> tuşuna bas.',fixtures:'📅 Maçlar',vs:'-',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · veri Transfermarkt'}
+};
+const L=k=>wcT(T,k);
 const CODE=new URLSearchParams(location.search).get('code')||'ARG';
 function posGroup(pos){const t=(pos||'').toUpperCase();
   if(t.includes('GK'))return 0;if(t.includes('DF')||t.includes('DEF'))return 1;
   if(t.includes('MF')||t.includes('MID'))return 2;if(t.includes('FW')||t.includes('FOR'))return 3;return 4;}
-const GROUPS=['Porteros','Defensas','Centrocampistas','Delanteros','Otros'];
+const GROUPS=L('groups');
 const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-const MONTHS={1:'ene',2:'feb',3:'mar',4:'abr',5:'may',6:'jun',7:'jul',8:'ago',9:'sep',10:'oct',11:'nov',12:'dic'};
-const fmtD=iso=>{if(!iso)return'';const[y,m,d]=iso.split('-');return`${+d} ${MONTHS[+m]||''}`;};
+const MON=L('months');
+const fmtD=iso=>{if(!iso)return'';const[y,m,d]=iso.split('-');return`${+d} ${MON[+m-1]||''}`;};
 async function main(){
   let d,sched,idx;
   try{ [d,sched,idx]=await Promise.all([
@@ -65,7 +72,7 @@ async function main(){
     fetch('data/schedule.json').then(r=>r.json()).catch(()=>({matches:[]})),
     fetch('data/teams/index.json').then(r=>r.json()).catch(()=>({teams:[]})),
   ]); }
-  catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No hay datos para este equipo.</p>'; return; }
+  catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   const cur=document.querySelector('.sn-crumbs .cur'); if(cur) cur.textContent=d.team;
   document.title=`${d.team} · WC 2026`;
   const totalInj=d.players.reduce((a,p)=>a+(p.injuries||0),0);
@@ -80,15 +87,15 @@ async function main(){
     fixtures.push({i,opp,date:m.date,round:m.group||m.round,venue:m.ground});
   }});
   let html=`<div class="thead">${flag}<h1>${esc(d.team)}</h1></div>
-    <div class="tsub"><b>${d.players.length}</b> convocados · <b class="red">${totalInj}</b> lesiones acumuladas en sus carreras</div>
-    <div class="legend">Lista oficial FIFA · clica un jugador para su ficha · pulsa <b style="font-family:var(--mono)">/</b> para buscar.</div>`;
+    <div class="tsub"><b>${d.players.length}</b> ${L('squad')} · <b class="red">${totalInj}</b> ${L('injTotal')}</div>
+    <div class="legend">${L('legend')}</div>`;
   if(fixtures.length){
-    html+=`<div class="fixtures glass"><h2>📅 Partidos</h2>`;
+    html+=`<div class="fixtures glass"><h2>${L('fixtures')}</h2>`;
     fixtures.forEach(f=>{
       const of=flagByName[f.opp]; const ofimg=of?`<img src="https://flagcdn.com/w40/${of}.png">`:'';
       html+=`<a class="fix" href="match.html?m=${f.i}">
         <span class="dt">${fmtD(f.date)}</span>
-        <span class="opp">vs ${ofimg}${esc(f.opp)}</span>
+        <span class="opp">${L('vs')} ${ofimg}${esc(f.opp)}</span>
         <span class="rd">${esc(f.round||'')}</span>
         <span class="ven">${esc((f.venue||'').replace(/\s*\(.*\)/,''))} <span class="go">→</span></span></a>`;
     });
@@ -97,7 +104,7 @@ async function main(){
   [0,1,2,3,4].forEach(g=>{ if(!groups[g])return;
     html+=`<div class="grouphead">${GROUPS[g]}</div><div class="grid">`;
     groups[g].forEach(p=>{html+=card(p);}); html+=`</div>`; });
-  document.getElementById('wrap').innerHTML=html+`<div class="note">Fotos: Wikimedia Commons (CC BY-SA) · datos Transfermarkt</div>`;
+  document.getElementById('wrap').innerHTML=html+`<div class="note">${L('note')}</div>`;
 }
 function card(p){
   const initials=p.name.split(' ').map(s=>s[0]).slice(0,2).join('');

@@ -94,7 +94,15 @@
 <div id="site-nav"></div>
 <div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
 
+<script src="assets/i18n.js"></script>
 <script>
+const T={
+  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario'},
+  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar'},
+  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim'}
+};
+const L=k=>wcT(T,k);
+const LOC=L('locale');
 const MIDX = parseInt(new URLSearchParams(location.search).get('m')||'0',10);
 const BBOX={USA:[-125,-66.5,24,49.6],MEX:[-117.5,-86.5,14.4,32.8],CAN:[-129,-73,42,55.5]};
 
@@ -117,7 +125,7 @@ async function main(){
       fetch('data/teams/aggregates.json').then(r=>r.json()).catch(()=>({})),
       fetch('data/match_previews.json').then(r=>r.json()).catch(()=>({previews:[]})),
     ]);
-  }catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se pudo cargar el partido.</p>'; return; }
+  }catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   const matches=sched.matches||sched;
   const m=matches[MIDX];
   if(!m){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">Partido no encontrado.</p>'; return; }
@@ -159,9 +167,9 @@ function miniMap(venue,vcountry,maps){
 
 function render(m,teamByName,venue,vcountry,maps){
   const dt=parseKick(m.date,m.time);
-  const localStr = dt ? dt.toLocaleString(undefined,{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}) : m.date;
+  const localStr = dt ? dt.toLocaleString(LOC,{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}) : m.date;
   const roundTxt = m.group ? `${m.group} · ${m.round}` : m.round;
-  const cap = venue&&venue.capacity ? venue.capacity.toLocaleString('es-ES') : null;
+  const cap = venue&&venue.capacity ? venue.capacity.toLocaleString(LOC) : null;
   const t1=teamByName[m.team1], t2=teamByName[m.team2];
 
   const venueHTML = venue ? `
@@ -171,8 +179,8 @@ function render(m,teamByName,venue,vcountry,maps){
         <div class="vname">${venue.stadium}</div>
         <div class="vcity">${(venue.city||'').replace(/\s*\(.*\)/,'')}</div>
         <div class="vstats">
-          ${cap?`<div class="vstat"><div class="v">${cap}</div><div class="k">aforo</div></div>`:''}
-          ${venue.opened?`<div class="vstat"><div class="v">${venue.opened}</div><div class="k">inaugurado</div></div>`:''}
+          ${cap?`<div class="vstat"><div class="v">${cap}</div><div class="k">${L('cap')}</div></div>`:''}
+          ${venue.opened?`<div class="vstat"><div class="v">${venue.opened}</div><div class="k">${L('opened')}</div></div>`:''}
         </div>
         ${venue.fact?`<div class="vfact">${venue.fact}</div>`:''}
         ${miniMap(venue,vcountry,maps)}
@@ -183,54 +191,54 @@ function render(m,teamByName,venue,vcountry,maps){
   const agg=window.__agg||{}, prev=window.__prev;
   const a1=t1&&agg[t1.code], a2=t2&&agg[t2.code];
   const cmpHTML = (a1&&a2) ? `
-    <div class="block"><h3>Comparativa de plantillas</h3>
-      ${cmpRow('Valor total', a1.value_total, a2.value_total, v=>'€'+(v/1e6).toFixed(0)+'M')}
-      ${cmpRow('Edad media', a1.age_avg, a2.age_avg, v=>v+' años', true)}
-      ${cmpRow('Internacionalidades', a1.caps_total, a2.caps_total, v=>v)}
-      ${cmpRow('Lesiones acumuladas', a1.injuries_total, a2.injuries_total, v=>v)}
+    <div class="block"><h3>${L('cmp')}</h3>
+      ${cmpRow(L('valTotal'), a1.value_total, a2.value_total, v=>'€'+(v/1e6).toFixed(0)+'M')}
+      ${cmpRow(L('ageAvg'), a1.age_avg, a2.age_avg, v=>v+' '+L('years'), true)}
+      ${cmpRow(L('caps'), a1.caps_total, a2.caps_total, v=>v)}
+      ${cmpRow(L('inj'), a1.injuries_total, a2.injuries_total, v=>v)}
     </div>` : '';
 
   let h2hHTML='';
   if(prev&&prev.h2h&&prev.h2h.played>0){
     const h=prev.h2h;
-    const last=h.last?`Último: ${last2(h.last)} <span style="opacity:.6">(${h.last.date})</span>`:'';
-    h2hHTML=`<div class="block"><h3>Cara a cara · ${h.played} enfrentamientos</h3>
+    const last=h.last?`${L('last')}: ${last2(h.last)} <span style="opacity:.6">(${h.last.date})</span>`:'';
+    h2hHTML=`<div class="block"><h3>${L('h2h')} · ${h.played} ${L('matchups')}</h3>
       <div class="h2h-score">
         <div style="text-align:center"><div class="n ${h.w1>h.w2?'w':''}">${h.w1}</div><div class="mid">${esc(m.team1)}</div></div>
-        <div class="mid">${h.d} emp.</div>
+        <div class="mid">${h.d} ${L('draws')}</div>
         <div style="text-align:center"><div class="n ${h.w2>h.w1?'w':''}">${h.w2}</div><div class="mid">${esc(m.team2)}</div></div>
       </div>
       <div class="h2h-last">${last}</div></div>`;
   }
 
   const formHTML = (prev&&(prev.form1.length||prev.form2.length)) ? `
-    <div class="block"><h3>Forma reciente</h3>
+    <div class="block"><h3>${L('form')}</h3>
       ${formRow(m.team1, prev.form1)}
       ${formRow(m.team2, prev.form2)}
     </div>` : '';
 
   const climHTML = (prev&&prev.climate) ? `
-    <div class="block"><h3>Condiciones de la sede</h3>
+    <div class="block"><h3>${L('cond')}</h3>
       <div class="climate">
-        <div class="ci"><div class="v">${prev.climate.temp_c}°C</div><div class="k">temp. típica jun-jul</div></div>
-        <div class="ci"><div class="v">${prev.climate.alt_m} m</div><div class="k">altitud</div></div>
+        <div class="ci"><div class="v">${prev.climate.temp_c}°C</div><div class="k">${L('temp')}</div></div>
+        <div class="ci"><div class="v">${prev.climate.alt_m} m</div><div class="k">${L('alt')}</div></div>
       </div></div>` : '';
 
-  const scoreHTML = `<div class="block"><h3>Marcador</h3><div class="scoreline">Por jugar · ${dt?dt.toLocaleDateString(undefined,{day:'numeric',month:'long'}):''}</div></div>`;
+  const scoreHTML = `<div class="block"><h3>${L('score')}</h3><div class="scoreline">${L('toPlay')} · ${dt?dt.toLocaleDateString(LOC,{day:'numeric',month:'long'}):''}</div></div>`;
 
-  const squadLinks = [t1,t2].filter(Boolean).map(t=>`<a href="team.html?code=${t.code}"><img src="https://flagcdn.com/w40/${t.flag}.png" style="width:22px;height:16px;border-radius:3px;object-fit:cover"> Plantilla de ${t.name}</a>`).join('');
+  const squadLinks = [t1,t2].filter(Boolean).map(t=>`<a href="team.html?code=${t.code}"><img src="https://flagcdn.com/w40/${t.flag}.png" style="width:22px;height:16px;border-radius:3px;object-fit:cover"> ${L('squadOf')} ${t.name}</a>`).join('');
 
   document.getElementById('wrap').innerHTML = `
     <div class="eyebrow">${roundTxt}</div>
     <div class="vs">
       ${sideHTML(m.team1,teamByName)}
-      <div class="vs-mid">vs</div>
+      <div class="vs-mid">${L('vs')}</div>
       ${sideHTML(m.team2,teamByName)}
     </div>
     <div class="kick">
-      <div class="big">${dt?dt.toLocaleDateString(undefined,{day:'numeric',month:'short'}):''} · ${dt?dt.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}):m.time}</div>
-      <div class="local">${localStr} <span style="opacity:.6">(tu hora local)</span></div>
-      <div class="venuetime">Hora local de la sede: ${m.time||'—'}</div>
+      <div class="big">${dt?dt.toLocaleDateString(LOC,{day:'numeric',month:'short'}):''} · ${dt?dt.toLocaleTimeString(LOC,{hour:'2-digit',minute:'2-digit'}):m.time}</div>
+      <div class="local">${localStr} <span style="opacity:.6">${L('localTime')}</span></div>
+      <div class="venuetime">${L('venueTime')} ${m.time||'—'}</div>
     </div>
     ${venueHTML}
     ${cmpHTML}
@@ -239,9 +247,9 @@ function render(m,teamByName,venue,vcountry,maps){
     ${climHTML}
     ${scoreHTML}
     ${squadLinks?`<div class="squads">${squadLinks}</div>`:''}
-    <div class="note">Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto</div>`;
+    <div class="note">${L('note')}</div>`;
   document.title = `${m.team1} vs ${m.team2} · WC 2026`;
-  const cb=document.querySelector('.sn-crumbs'); if(cb) cb.innerHTML=`<a href="calendar.html">Calendario</a><span class="sep">›</span><span class="cur">${esc(m.team1)} vs ${esc(m.team2)}</span>`;
+  const cb=document.querySelector('.sn-crumbs'); if(cb) cb.innerHTML=`<a href="calendar.html">${L('cal')}</a><span class="sep">›</span><span class="cur">${esc(m.team1)} ${L('vs')} ${esc(m.team2)}</span>`;
 }
 function esc(s){ return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 function cmpRow(label,v1,v2,fmt,lowerBetter){

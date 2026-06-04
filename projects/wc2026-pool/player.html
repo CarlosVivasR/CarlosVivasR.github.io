@@ -114,16 +114,23 @@
 
 <script src="assets/nav.js" defer></script>
 <script src="assets/search.js" defer></script>
+<script src="assets/i18n.js"></script>
 <script>
+const T={
+  es:{months:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],fail:'No se encontró la ficha.',prev:'← Anterior',next:'Siguiente →',years:'años',caps:'internac.',goals:'goles',right:'Diestro',left:'Zurdo',injTitle:'🩹 Historial de lesiones',injSub1:'lesiones',injSub2:'días de baja',hoverHint:'Pasa el ratón (o toca) una zona para ver esas lesiones.',valTitle:'📈 Valor de mercado',valSub:'Histórico Transfermarkt',cur:'actual',max:'máximo',clubsTitle:'👕 Clubes',transfers:'traspasos',photoNote:'Foto: Wikimedia Commons (CC BY-SA) · datos del proyecto',noInj:'Sin lesiones registradas.',injDays:'días',noData:'Sin datos.',noHist:'Sin histórico.',
+    reg:{head:'Cabeza',neck:'Cuello',shoulder:'Hombro',chest:'Pecho',ribs:'Costillas',elbow:'Codo',hand:'Mano / muñeca',abdomen:'Abdomen',back:'Espalda',hip:'Cadera',groin:'Ingle / aductor',thigh:'Muslo',hamstring:'Isquiotibial',knee:'Rodilla',shin:'Espinilla',calf:'Gemelo',ankle:'Tobillo',foot:'Pie'}},
+  en:{months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],fail:'Profile not found.',prev:'← Previous',next:'Next →',years:'yrs',caps:'caps',goals:'goals',right:'Right-footed',left:'Left-footed',injTitle:'🩹 Injury history',injSub1:'injuries',injSub2:'days out',hoverHint:'Hover (or tap) a zone to see those injuries.',valTitle:'📈 Market value',valSub:'Transfermarkt history',cur:'current',max:'peak',clubsTitle:'👕 Clubs',transfers:'transfers',photoNote:'Photo: Wikimedia Commons (CC BY-SA) · project data',noInj:'No injuries on record.',injDays:'days',noData:'No data.',noHist:'No history.',
+    reg:{head:'Head',neck:'Neck',shoulder:'Shoulder',chest:'Chest',ribs:'Ribs',elbow:'Elbow',hand:'Hand / wrist',abdomen:'Abdomen',back:'Back',hip:'Hip',groin:'Groin / adductor',thigh:'Thigh',hamstring:'Hamstring',knee:'Knee',shin:'Shin',calf:'Calf',ankle:'Ankle',foot:'Foot'}},
+  tr:{months:['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],fail:'Profil bulunamadı.',prev:'← Önceki',next:'Sonraki →',years:'yaş',caps:'maç',goals:'gol',right:'Sağ ayak',left:'Sol ayak',injTitle:'🩹 Sakatlık geçmişi',injSub1:'sakatlık',injSub2:'gün eksik',hoverHint:'Sakatlıkları görmek için bir bölgeye gel (veya dokun).',valTitle:'📈 Piyasa değeri',valSub:'Transfermarkt geçmişi',cur:'güncel',max:'zirve',clubsTitle:'👕 Kulüpler',transfers:'transfer',photoNote:'Fotoğraf: Wikimedia Commons (CC BY-SA) · proje verisi',noInj:'Kayıtlı sakatlık yok.',injDays:'gün',noData:'Veri yok.',noHist:'Geçmiş yok.',
+    reg:{head:'Baş',neck:'Boyun',shoulder:'Omuz',chest:'Göğüs',ribs:'Kaburga',elbow:'Dirsek',hand:'El / bilek',abdomen:'Karın',back:'Sırt',hip:'Kalça',groin:'Kasık / addüktör',thigh:'Uyluk',hamstring:'Arka adale',knee:'Diz',shin:'İncik',calf:'Baldır',ankle:'Ayak bileği',foot:'Ayak'}}
+};
+const L=k=>wcT(T,k);
+const RL=L('reg');
 const PID=new URLSearchParams(location.search).get('id')||'45320';
-const REGIONS={head:{x:120,y:46,label:'Cabeza'},neck:{x:120,y:86,label:'Cuello'},shoulder:{x:90,y:118,label:'Hombro'},
-  chest:{x:120,y:140,label:'Pecho'},ribs:{x:150,y:158,label:'Costillas'},elbow:{x:62,y:208,label:'Codo'},
-  hand:{x:50,y:262,label:'Mano / muñeca'},abdomen:{x:120,y:188,label:'Abdomen'},back:{x:120,y:170,label:'Espalda'},
-  hip:{x:120,y:214,label:'Cadera'},groin:{x:120,y:230,label:'Ingle / aductor'},thigh:{x:104,y:268,label:'Muslo'},
-  hamstring:{x:138,y:268,label:'Isquiotibial'},knee:{x:104,y:338,label:'Rodilla'},shin:{x:138,y:392,label:'Espinilla'},
-  calf:{x:104,y:392,label:'Gemelo'},ankle:{x:120,y:446,label:'Tobillo'},foot:{x:120,y:476,label:'Pie'}};
-const MONTHS={1:'ene',2:'feb',3:'mar',4:'abr',5:'may',6:'jun',7:'jul',8:'ago',9:'sep',10:'oct',11:'nov',12:'dic'};
-const fmtDate=iso=>{if(!iso)return'';const[y,m]=iso.split('-');return`${MONTHS[+m]||''} ${y}`;};
+const RC={head:[120,46],neck:[120,86],shoulder:[90,118],chest:[120,140],ribs:[150,158],elbow:[62,208],hand:[50,262],abdomen:[120,188],back:[120,170],hip:[120,214],groin:[120,230],thigh:[104,268],hamstring:[138,268],knee:[104,338],shin:[138,392],calf:[104,392],ankle:[120,446],foot:[120,476]};
+const REGIONS={}; for(const k in RC){ REGIONS[k]={x:RC[k][0],y:RC[k][1],label:RL[k]||k}; }
+const MON=L('months');
+const fmtDate=iso=>{if(!iso)return'';const[y,m]=iso.split('-');return`${MON[+m-1]||''} ${y}`;};
 const fmtVal=v=>v==null?'—':v>=1e6?'€'+(v/1e6).toFixed(v>=1e7?0:1)+'M':v>=1e3?'€'+Math.round(v/1e3)+'K':'€'+v;
 const flagByNat={'Argentina':'ar','Germany':'de','Uruguay':'uy','France':'fr','Portugal':'pt','Spain':'es','Italy':'it','Netherlands':'nl','Brazil':'br','Chile':'cl','Colombia':'co','England':'gb-eng','Mexico':'mx'};
 const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
@@ -134,7 +141,7 @@ async function main(){
     fetch(`data/players/${PID}.json`).then(r=>r.json()),
     fetch('data/search_index.json').then(r=>r.json()).catch(()=>({players:[],teams:[]})),
   ]); }
-  catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se encontró la ficha.</p>'; return; }
+  catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   render(p,sidx);
 }
 
@@ -154,8 +161,8 @@ function render(p,sidx){
     ctxHTML=`<div class="ctx">
       <a class="teamlink" href="team.html?code=${me.team}"><img src="https://flagcdn.com/w40/${team.flag}.png"> ← ${esc(team.name)}</a>
       <div class="pn">
-        <a class="${prev?'':'disabled'}" ${prev?`href="player.html?id=${prev.pid}"`:''} title="${prev?esc(prev.name):''}">← Anterior</a>
-        <a class="${next?'':'disabled'}" ${next?`href="player.html?id=${next.pid}"`:''} title="${next?esc(next.name):''}">Siguiente →</a>
+        <a class="${prev?'':'disabled'}" ${prev?`href="player.html?id=${prev.pid}"`:''} title="${prev?esc(prev.name):''}">${L('prev')}</a>
+        <a class="${next?'':'disabled'}" ${next?`href="player.html?id=${next.pid}"`:''} title="${next?esc(next.name):''}">${L('next')}</a>
       </div></div>`;
   }
 
@@ -172,10 +179,10 @@ function render(p,sidx){
         <h1>${flag}${esc(p.name)}</h1>
         <div class="chips">
           <span class="chip">${p.position||'—'}${p.sub_position?` · ${p.sub_position}`:''}</span>
-          ${p.age?`<span class="chip"><b>${p.age}</b> años</span>`:''}
-          ${p.caps!=null?`<span class="chip"><b>${p.caps}</b> internac. · <b>${p.intl_goals||0}</b> goles</span>`:''}
+          ${p.age?`<span class="chip"><b>${p.age}</b> ${L('years')}</span>`:''}
+          ${p.caps!=null?`<span class="chip"><b>${p.caps}</b> ${L('caps')} · <b>${p.intl_goals||0}</b> ${L('goals')}</span>`:''}
           ${p.height_cm?`<span class="chip"><b>${p.height_cm}</b> cm</span>`:''}
-          ${p.foot?`<span class="chip">${p.foot==='right'?'Diestro':p.foot==='left'?'Zurdo':p.foot}</span>`:''}
+          ${p.foot?`<span class="chip">${p.foot==='right'?L('right'):p.foot==='left'?L('left'):p.foot}</span>`:''}
           ${p.current_club?`<span class="chip">${esc(p.current_club)}</span>`:''}
         </div>
       </div>
@@ -183,28 +190,28 @@ function render(p,sidx){
 
     <div class="grid">
       <div class="panel glass">
-        <h2>🩹 Historial de lesiones</h2>
-        <div class="h-sub"><b style="color:var(--red)">${p.injuries.length}</b> lesiones · <b>${totalDays}</b> días de baja</div>
+        <h2>${L('injTitle')}</h2>
+        <div class="h-sub"><b style="color:var(--red)">${p.injuries.length}</b> ${L('injSub1')} · <b>${totalDays}</b> ${L('injSub2')}</div>
         <div class="bodymap"><div>${bodySVG(p)}</div><div class="inj-detail" id="injDetail"></div></div>
-        <div class="h-sub" style="margin-top:12px">Pasa el ratón (o toca) una zona para ver esas lesiones.</div>
+        <div class="h-sub" style="margin-top:12px">${L('hoverHint')}</div>
       </div>
       <div class="panel glass">
-        <h2>📈 Valor de mercado</h2>
-        <div class="h-sub">Histórico Transfermarkt</div>
+        <h2>${L('valTitle')}</h2>
+        <div class="h-sub">${L('valSub')}</div>
         <div class="vstat">
-          <div><div class="v">${fmtVal(p.market_value_eur)}</div><div class="k">actual</div></div>
-          <div><div class="v">${fmtVal(p.highest_value_eur)}</div><div class="k">máximo</div></div>
+          <div><div class="v">${fmtVal(p.market_value_eur)}</div><div class="k">${L('cur')}</div></div>
+          <div><div class="v">${fmtVal(p.highest_value_eur)}</div><div class="k">${L('max')}</div></div>
         </div>
         ${valueChart(p.values)}
-        <h2 style="margin-top:24px">👕 Clubes</h2>
-        <div class="h-sub"><b>${p.clubs.length}</b> traspasos</div>
+        <h2 style="margin-top:24px">${L('clubsTitle')}</h2>
+        <div class="h-sub"><b>${p.clubs.length}</b> ${L('transfers')}</div>
         <div class="timeline">${clubsTL(p.clubs)}</div>
       </div>
     </div>
-    <div class="note">Foto: Wikimedia Commons (CC BY-SA) · datos del proyecto</div>`;
+    <div class="note">${L('photoNote')}</div>`;
 
   const regs=Object.entries(p.injuries_by_region).sort((a,b)=>b[1].length-a[1].length);
-  if(regs.length) showRegion(p,regs[0][0]); else document.getElementById('injDetail').innerHTML='<div style="color:var(--muted);font-size:.9em">Sin lesiones registradas.</div>';
+  if(regs.length) showRegion(p,regs[0][0]); else document.getElementById('injDetail').innerHTML=`<div style="color:var(--muted);font-size:.9em">${L('noInj')}</div>`;
 }
 
 function bodySVG(p){
@@ -225,16 +232,16 @@ function showRegion(p,reg){
   const R=REGIONS[reg]||{label:reg}; const td=list.reduce((a,i)=>a+(i.days||0),0);
   document.querySelectorAll('.region').forEach(g=>g.classList.toggle('active',g.dataset.reg===reg));
   document.getElementById('injDetail').innerHTML=`<div class="rd-head">${R.label}</div>
-    <div class="rd-sub">${list.length} lesiones · ${td} días</div>
+    <div class="rd-sub">${list.length} ${L('injSub1')} · ${td} ${L('injDays')}</div>
     ${list.map(i=>`<div class="inj-row"><span class="dt">${fmtDate(i.from)}</span><span class="nm">${esc(i.injury)}</span>${i.days?`<span class="dd">${i.days}d</span>`:''}</div>`).join('')}`;
 }
 function clubsTL(clubs){
-  if(!clubs.length)return'<div style="color:var(--muted);font-size:.88em">Sin datos.</div>';
+  if(!clubs.length)return`<div style="color:var(--muted);font-size:.88em">${L('noData')}</div>`;
   return clubs.slice().reverse().map(c=>{const yr=(c.date||'').slice(0,4)||c.season||'';
     return`<div class="tl-row"><span class="yr">${yr}</span><span class="mv">${esc(c.from||'?')} <span class="arr">→</span> ${esc(c.to||'?')}</span></div>`;}).join('');
 }
 function valueChart(values){
-  const pts=(values||[]).filter(v=>v.value!=null); if(pts.length<2)return'<div style="color:var(--muted);font-size:.88em">Sin histórico.</div>';
+  const pts=(values||[]).filter(v=>v.value!=null); if(pts.length<2)return`<div style="color:var(--muted);font-size:.88em">${L('noHist')}</div>`;
   const W=460,H=130,P=6,maxY=Math.max(...pts.map(v=>v.value));
   const sx=i=>P+(i/(pts.length-1))*(W-2*P), sy=v=>H-P-(v/(maxY||1))*(H-2*P);
   let d='',area=`M ${sx(0)} ${H-P}`;
