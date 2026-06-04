@@ -1,0 +1,1345 @@
+{
+ "generated": "2026-06",
+ "teamRankings": {
+  "value": [
+   {
+    "code": "FRA",
+    "name": "France",
+    "flag": "fr",
+    "group": "I",
+    "value": 1473000000,
+    "age": 26.6,
+    "caps": 763,
+    "fifa": 1
+   },
+   {
+    "code": "ENG",
+    "name": "England",
+    "flag": "gb-eng",
+    "group": "L",
+    "value": 1255400000,
+    "age": 26.8,
+    "caps": 776,
+    "fifa": 4
+   },
+   {
+    "code": "ESP",
+    "name": "Spain",
+    "flag": "es",
+    "group": "H",
+    "value": 1182250000,
+    "age": 26.5,
+    "caps": 635,
+    "fifa": 2
+   },
+   {
+    "code": "GER",
+    "name": "Germany",
+    "flag": "de",
+    "group": "E",
+    "value": 1005500000,
+    "age": 27.5,
+    "caps": 812,
+    "fifa": 10
+   },
+   {
+    "code": "POR",
+    "name": "Portugal",
+    "flag": "pt",
+    "group": "K",
+    "value": 965000000,
+    "age": 27.5,
+    "caps": 1119,
+    "fifa": 5
+   },
+   {
+    "code": "NED",
+    "name": "Netherlands",
+    "flag": "nl",
+    "group": "F",
+    "value": 837000000,
+    "age": 27.3,
+    "caps": 836,
+    "fifa": 7
+   },
+   {
+    "code": "ARG",
+    "name": "Argentina",
+    "flag": "ar",
+    "group": "J",
+    "value": 779500000,
+    "age": 28.6,
+    "caps": 1174,
+    "fifa": 3
+   },
+   {
+    "code": "BRA",
+    "name": "Brazil",
+    "flag": "br",
+    "group": "C",
+    "value": 667000000,
+    "age": 30.6,
+    "caps": 628,
+    "fifa": 6
+   },
+   {
+    "code": "NOR",
+    "name": "Norway",
+    "flag": "no",
+    "group": "I",
+    "value": 579500000,
+    "age": 26.4,
+    "caps": 710,
+    "fifa": 31
+   },
+   {
+    "code": "BEL",
+    "name": "Belgium",
+    "flag": "be",
+    "group": "G",
+    "value": 558200000,
+    "age": 27.1,
+    "caps": 1047,
+    "fifa": 9
+   },
+   {
+    "code": "CIV",
+    "name": "Ivory Coast",
+    "flag": "ci",
+    "group": "E",
+    "value": 513300000,
+    "age": 25.3,
+    "caps": 667,
+    "fifa": 34
+   },
+   {
+    "code": "TUR",
+    "name": "Turkey",
+    "flag": "tr",
+    "group": "D",
+    "value": 468700000,
+    "age": 27.2,
+    "caps": 935,
+    "fifa": 22
+   }
+  ],
+  "youngest": [
+   {
+    "code": "KOR",
+    "name": "South Korea",
+    "flag": "kr",
+    "group": "A",
+    "value": 6000000,
+    "age": 22.0,
+    "caps": 5,
+    "fifa": 25
+   },
+   {
+    "code": "CIV",
+    "name": "Ivory Coast",
+    "flag": "ci",
+    "group": "E",
+    "value": 513300000,
+    "age": 25.3,
+    "caps": 667,
+    "fifa": 34
+   },
+   {
+    "code": "ECU",
+    "name": "Ecuador",
+    "flag": "ec",
+    "group": "E",
+    "value": 360400000,
+    "age": 25.4,
+    "caps": 730,
+    "fifa": 23
+   },
+   {
+    "code": "MAR",
+    "name": "Morocco",
+    "flag": "ma",
+    "group": "C",
+    "value": 461700000,
+    "age": 25.5,
+    "caps": 691,
+    "fifa": 8
+   },
+   {
+    "code": "BIH",
+    "name": "Bosnia and Herzegovina",
+    "flag": "ba",
+    "group": "B",
+    "value": 133000000,
+    "age": 26.2,
+    "caps": 551,
+    "fifa": 65
+   },
+   {
+    "code": "GHA",
+    "name": "Ghana",
+    "flag": "gh",
+    "group": "L",
+    "value": 212275000,
+    "age": 26.2,
+    "caps": 487,
+    "fifa": 74
+   },
+   {
+    "code": "RSA",
+    "name": "South Africa",
+    "flag": "za",
+    "group": "A",
+    "value": 41000000,
+    "age": 26.3,
+    "caps": 363,
+    "fifa": 60
+   },
+   {
+    "code": "USA",
+    "name": "United States",
+    "flag": "us",
+    "group": "D",
+    "value": 355700000,
+    "age": 26.4,
+    "caps": 888,
+    "fifa": 16
+   }
+  ],
+  "oldest": [
+   {
+    "code": "BRA",
+    "name": "Brazil",
+    "flag": "br",
+    "group": "C",
+    "value": 667000000,
+    "age": 30.6,
+    "caps": 628,
+    "fifa": 6
+   },
+   {
+    "code": "IRN",
+    "name": "Iran",
+    "flag": "ir",
+    "group": "G",
+    "value": 21775000,
+    "age": 30.6,
+    "caps": 587,
+    "fifa": 21
+   },
+   {
+    "code": "COL",
+    "name": "Colombia",
+    "flag": "co",
+    "group": "K",
+    "value": 297950000,
+    "age": 29.6,
+    "caps": 999,
+    "fifa": 13
+   },
+   {
+    "code": "SCO",
+    "name": "Scotland",
+    "flag": "gb-sct",
+    "group": "C",
+    "value": 172525000,
+    "age": 29.3,
+    "caps": 835,
+    "fifa": 43
+   },
+   {
+    "code": "PAN",
+    "name": "Panama",
+    "flag": "pa",
+    "group": "L",
+    "value": 25425000,
+    "age": 29.3,
+    "caps": 1163,
+    "fifa": 33
+   },
+   {
+    "code": "QAT",
+    "name": "Qatar",
+    "flag": "qa",
+    "group": "B",
+    "value": 17525000,
+    "age": 29.2,
+    "caps": 994,
+    "fifa": 55
+   },
+   {
+    "code": "EGY",
+    "name": "Egypt",
+    "flag": "eg",
+    "group": "G",
+    "value": 120875000,
+    "age": 29.2,
+    "caps": 613,
+    "fifa": 29
+   },
+   {
+    "code": "ARG",
+    "name": "Argentina",
+    "flag": "ar",
+    "group": "J",
+    "value": 779500000,
+    "age": 28.6,
+    "caps": 1174,
+    "fifa": 3
+   }
+  ],
+  "experienced": [
+   {
+    "code": "MEX",
+    "name": "Mexico",
+    "flag": "mx",
+    "group": "A",
+    "value": 198100000,
+    "age": 27.5,
+    "caps": 1185,
+    "fifa": 15
+   },
+   {
+    "code": "ARG",
+    "name": "Argentina",
+    "flag": "ar",
+    "group": "J",
+    "value": 779500000,
+    "age": 28.6,
+    "caps": 1174,
+    "fifa": 3
+   },
+   {
+    "code": "PAN",
+    "name": "Panama",
+    "flag": "pa",
+    "group": "L",
+    "value": 25425000,
+    "age": 29.3,
+    "caps": 1163,
+    "fifa": 33
+   },
+   {
+    "code": "CRO",
+    "name": "Croatia",
+    "flag": "hr",
+    "group": "L",
+    "value": 356300000,
+    "age": 27.9,
+    "caps": 1121,
+    "fifa": 11
+   },
+   {
+    "code": "POR",
+    "name": "Portugal",
+    "flag": "pt",
+    "group": "K",
+    "value": 965000000,
+    "age": 27.5,
+    "caps": 1119,
+    "fifa": 5
+   },
+   {
+    "code": "SUI",
+    "name": "Switzerland",
+    "flag": "ch",
+    "group": "B",
+    "value": 317600000,
+    "age": 27.8,
+    "caps": 1089,
+    "fifa": 19
+   },
+   {
+    "code": "BEL",
+    "name": "Belgium",
+    "flag": "be",
+    "group": "G",
+    "value": 558200000,
+    "age": 27.1,
+    "caps": 1047,
+    "fifa": 9
+   },
+   {
+    "code": "COL",
+    "name": "Colombia",
+    "flag": "co",
+    "group": "K",
+    "value": 297950000,
+    "age": 29.6,
+    "caps": 999,
+    "fifa": 13
+   }
+  ],
+  "fifa": [
+   {
+    "code": "FRA",
+    "name": "France",
+    "flag": "fr",
+    "group": "I",
+    "fifa": 1
+   },
+   {
+    "code": "ESP",
+    "name": "Spain",
+    "flag": "es",
+    "group": "H",
+    "fifa": 2
+   },
+   {
+    "code": "ARG",
+    "name": "Argentina",
+    "flag": "ar",
+    "group": "J",
+    "fifa": 3
+   },
+   {
+    "code": "ENG",
+    "name": "England",
+    "flag": "gb-eng",
+    "group": "L",
+    "fifa": 4
+   },
+   {
+    "code": "POR",
+    "name": "Portugal",
+    "flag": "pt",
+    "group": "K",
+    "fifa": 5
+   },
+   {
+    "code": "BRA",
+    "name": "Brazil",
+    "flag": "br",
+    "group": "C",
+    "fifa": 6
+   },
+   {
+    "code": "NED",
+    "name": "Netherlands",
+    "flag": "nl",
+    "group": "F",
+    "fifa": 7
+   },
+   {
+    "code": "MAR",
+    "name": "Morocco",
+    "flag": "ma",
+    "group": "C",
+    "fifa": 8
+   },
+   {
+    "code": "BEL",
+    "name": "Belgium",
+    "flag": "be",
+    "group": "G",
+    "fifa": 9
+   },
+   {
+    "code": "GER",
+    "name": "Germany",
+    "flag": "de",
+    "group": "E",
+    "fifa": 10
+   },
+   {
+    "code": "CRO",
+    "name": "Croatia",
+    "flag": "hr",
+    "group": "L",
+    "fifa": 11
+   },
+   {
+    "code": "COL",
+    "name": "Colombia",
+    "flag": "co",
+    "group": "K",
+    "fifa": 13
+   },
+   {
+    "code": "SEN",
+    "name": "Senegal",
+    "flag": "sn",
+    "group": "I",
+    "fifa": 14
+   },
+   {
+    "code": "MEX",
+    "name": "Mexico",
+    "flag": "mx",
+    "group": "A",
+    "fifa": 15
+   },
+   {
+    "code": "USA",
+    "name": "United States",
+    "flag": "us",
+    "group": "D",
+    "fifa": 16
+   },
+   {
+    "code": "URU",
+    "name": "Uruguay",
+    "flag": "uy",
+    "group": "H",
+    "fifa": 17
+   },
+   {
+    "code": "JPN",
+    "name": "Japan",
+    "flag": "jp",
+    "group": "F",
+    "fifa": 18
+   },
+   {
+    "code": "SUI",
+    "name": "Switzerland",
+    "flag": "ch",
+    "group": "B",
+    "fifa": 19
+   },
+   {
+    "code": "IRN",
+    "name": "Iran",
+    "flag": "ir",
+    "group": "G",
+    "fifa": 21
+   },
+   {
+    "code": "TUR",
+    "name": "Turkey",
+    "flag": "tr",
+    "group": "D",
+    "fifa": 22
+   },
+   {
+    "code": "ECU",
+    "name": "Ecuador",
+    "flag": "ec",
+    "group": "E",
+    "fifa": 23
+   },
+   {
+    "code": "AUT",
+    "name": "Austria",
+    "flag": "at",
+    "group": "J",
+    "fifa": 24
+   },
+   {
+    "code": "KOR",
+    "name": "South Korea",
+    "flag": "kr",
+    "group": "A",
+    "fifa": 25
+   },
+   {
+    "code": "AUS",
+    "name": "Australia",
+    "flag": "au",
+    "group": "D",
+    "fifa": 27
+   },
+   {
+    "code": "ALG",
+    "name": "Algeria",
+    "flag": "dz",
+    "group": "J",
+    "fifa": 28
+   },
+   {
+    "code": "EGY",
+    "name": "Egypt",
+    "flag": "eg",
+    "group": "G",
+    "fifa": 29
+   },
+   {
+    "code": "CAN",
+    "name": "Canada",
+    "flag": "ca",
+    "group": "B",
+    "fifa": 30
+   },
+   {
+    "code": "NOR",
+    "name": "Norway",
+    "flag": "no",
+    "group": "I",
+    "fifa": 31
+   },
+   {
+    "code": "PAN",
+    "name": "Panama",
+    "flag": "pa",
+    "group": "L",
+    "fifa": 33
+   },
+   {
+    "code": "CIV",
+    "name": "Ivory Coast",
+    "flag": "ci",
+    "group": "E",
+    "fifa": 34
+   },
+   {
+    "code": "SWE",
+    "name": "Sweden",
+    "flag": "se",
+    "group": "F",
+    "fifa": 38
+   },
+   {
+    "code": "PAR",
+    "name": "Paraguay",
+    "flag": "py",
+    "group": "D",
+    "fifa": 40
+   },
+   {
+    "code": "CZE",
+    "name": "Czech Republic",
+    "flag": "cz",
+    "group": "A",
+    "fifa": 41
+   },
+   {
+    "code": "SCO",
+    "name": "Scotland",
+    "flag": "gb-sct",
+    "group": "C",
+    "fifa": 43
+   },
+   {
+    "code": "TUN",
+    "name": "Tunisia",
+    "flag": "tn",
+    "group": "F",
+    "fifa": 44
+   },
+   {
+    "code": "COD",
+    "name": "DR Congo",
+    "flag": "cd",
+    "group": "K",
+    "fifa": 46
+   },
+   {
+    "code": "UZB",
+    "name": "Uzbekistan",
+    "flag": "uz",
+    "group": "K",
+    "fifa": 50
+   },
+   {
+    "code": "QAT",
+    "name": "Qatar",
+    "flag": "qa",
+    "group": "B",
+    "fifa": 55
+   },
+   {
+    "code": "IRQ",
+    "name": "Iraq",
+    "flag": "iq",
+    "group": "I",
+    "fifa": 57
+   },
+   {
+    "code": "RSA",
+    "name": "South Africa",
+    "flag": "za",
+    "group": "A",
+    "fifa": 60
+   },
+   {
+    "code": "KSA",
+    "name": "Saudi Arabia",
+    "flag": "sa",
+    "group": "H",
+    "fifa": 61
+   },
+   {
+    "code": "JOR",
+    "name": "Jordan",
+    "flag": "jo",
+    "group": "J",
+    "fifa": 63
+   },
+   {
+    "code": "BIH",
+    "name": "Bosnia and Herzegovina",
+    "flag": "ba",
+    "group": "B",
+    "fifa": 65
+   },
+   {
+    "code": "CPV",
+    "name": "Cape Verde",
+    "flag": "cv",
+    "group": "H",
+    "fifa": 69
+   },
+   {
+    "code": "GHA",
+    "name": "Ghana",
+    "flag": "gh",
+    "group": "L",
+    "fifa": 74
+   },
+   {
+    "code": "CUW",
+    "name": "Curaçao",
+    "flag": "cw",
+    "group": "E",
+    "fifa": 82
+   },
+   {
+    "code": "HAI",
+    "name": "Haiti",
+    "flag": "ht",
+    "group": "C",
+    "fifa": 83
+   },
+   {
+    "code": "NZL",
+    "name": "New Zealand",
+    "flag": "nz",
+    "group": "G",
+    "fifa": 85
+   }
+  ]
+ },
+ "topClubs": [
+  {
+   "club": "Manchester City F.C.",
+   "n": 19
+  },
+  {
+   "club": "FC Bayern Munich",
+   "n": 18
+  },
+  {
+   "club": "Paris Saint-Germain FC",
+   "n": 16
+  },
+  {
+   "club": "Arsenal F.C.",
+   "n": 16
+  },
+  {
+   "club": "FC Barcelona",
+   "n": 15
+  },
+  {
+   "club": "Atlético Madrid",
+   "n": 12
+  },
+  {
+   "club": "Manchester United F.C.",
+   "n": 12
+  },
+  {
+   "club": "Al Hilal SFC",
+   "n": 12
+  },
+  {
+   "club": "Crystal Palace F.C.",
+   "n": 12
+  },
+  {
+   "club": "Borussia Dortmund",
+   "n": 11
+  },
+  {
+   "club": "Liverpool F.C.",
+   "n": 11
+  },
+  {
+   "club": "Galatasaray S.K. (football)",
+   "n": 11
+  },
+  {
+   "club": "PSV Eindhoven",
+   "n": 10
+  },
+  {
+   "club": "SK Slavia Prague",
+   "n": 10
+  }
+ ],
+ "topPlayers": [
+  {
+   "name": "Lamine Yamal",
+   "team": "ESP",
+   "flag": "es",
+   "club": "FC Barcelona",
+   "value": 200000000,
+   "pos": "4FW",
+   "pid": "937958",
+   "goals": 6,
+   "caps": 25
+  },
+  {
+   "name": "Kylian Mbappé",
+   "team": "FRA",
+   "flag": "fr",
+   "club": "Real Madrid CF",
+   "value": 200000000,
+   "pos": "4FW",
+   "pid": "342229",
+   "goals": 56,
+   "caps": 96
+  },
+  {
+   "name": "Erling Haaland",
+   "team": "NOR",
+   "flag": "no",
+   "club": "Manchester City F.C.",
+   "value": 200000000,
+   "pos": "4FW",
+   "pid": "418560",
+   "goals": 55,
+   "caps": 49
+  },
+  {
+   "name": "Vinícius Júnior",
+   "team": "BRA",
+   "flag": "br",
+   "club": "Real Madrid CF",
+   "value": 150000000,
+   "pos": "4FW",
+   "pid": "371998",
+   "goals": 8,
+   "caps": 47
+  },
+  {
+   "name": "Pedri",
+   "team": "ESP",
+   "flag": "es",
+   "club": "FC Barcelona",
+   "value": 150000000,
+   "pos": "3MF",
+   "pid": "683840",
+   "goals": 5,
+   "caps": 40
+  },
+  {
+   "name": "Michael Olise",
+   "team": "FRA",
+   "flag": "fr",
+   "club": "FC Bayern Munich",
+   "value": 140000000,
+   "pos": "4FW",
+   "pid": "566723",
+   "goals": 4,
+   "caps": 15
+  },
+  {
+   "name": "Jude Bellingham",
+   "team": "ENG",
+   "flag": "gb-eng",
+   "club": "Real Madrid CF",
+   "value": 140000000,
+   "pos": "3MF",
+   "pid": "581678",
+   "goals": 6,
+   "caps": 46
+  },
+  {
+   "name": "Jamal Musiala",
+   "team": "GER",
+   "flag": "de",
+   "club": "FC Bayern Munich",
+   "value": 120000000,
+   "pos": "3MF",
+   "pid": "580195",
+   "goals": 8,
+   "caps": 40
+  },
+  {
+   "name": "Federico Valverde",
+   "team": "URU",
+   "flag": "uy",
+   "club": "Real Madrid CF",
+   "value": 120000000,
+   "pos": "3MF",
+   "pid": "369081",
+   "goals": 9,
+   "caps": 73
+  },
+  {
+   "name": "Declan Rice",
+   "team": "ENG",
+   "flag": "gb-eng",
+   "club": "Arsenal F.C.",
+   "value": 120000000,
+   "pos": "3MF",
+   "pid": "357662",
+   "goals": 6,
+   "caps": 72
+  },
+  {
+   "name": "Bukayo Saka",
+   "team": "ENG",
+   "flag": "gb-eng",
+   "club": "Arsenal F.C.",
+   "value": 120000000,
+   "pos": "4FW",
+   "pid": "433177",
+   "goals": 14,
+   "caps": 48
+  },
+  {
+   "name": "Moisés Caicedo",
+   "team": "ECU",
+   "flag": "ec",
+   "club": "Chelsea F.C.",
+   "value": 110000000,
+   "pos": "3MF",
+   "pid": "687626",
+   "goals": 3,
+   "caps": 60
+  },
+  {
+   "name": "Florian Wirtz",
+   "team": "GER",
+   "flag": "de",
+   "club": "Liverpool F.C.",
+   "value": 110000000,
+   "pos": "3MF",
+   "pid": "598577",
+   "goals": 10,
+   "caps": 39
+  },
+  {
+   "name": "João Neves",
+   "team": "POR",
+   "flag": "pt",
+   "club": "Paris Saint-Germain FC",
+   "value": 110000000,
+   "pos": "3MF",
+   "pid": "670681",
+   "goals": 3,
+   "caps": 21
+  },
+  {
+   "name": "Vitinha",
+   "team": "POR",
+   "flag": "pt",
+   "club": "Paris Saint-Germain FC",
+   "value": 110000000,
+   "pos": "3MF",
+   "pid": "487469",
+   "goals": 0,
+   "caps": 37
+  },
+  {
+   "name": "Alexander Isak",
+   "team": "SWE",
+   "flag": "se",
+   "club": "Liverpool F.C.",
+   "value": 100000000,
+   "pos": "4FW",
+   "pid": "349066",
+   "goals": 16,
+   "caps": 56
+  },
+  {
+   "name": "Ousmane Dembélé",
+   "team": "FRA",
+   "flag": "fr",
+   "club": "Paris Saint-Germain FC",
+   "value": 100000000,
+   "pos": "4FW",
+   "pid": "288230",
+   "goals": 7,
+   "caps": 58
+  },
+  {
+   "name": "Arda Güler",
+   "team": "TUR",
+   "flag": "tr",
+   "club": "Real Madrid CF",
+   "value": 90000000,
+   "pos": "4FW",
+   "pid": "861410",
+   "goals": 6,
+   "caps": 28
+  },
+  {
+   "name": "Ryan Gravenberch",
+   "team": "NED",
+   "flag": "nl",
+   "club": "Liverpool F.C.",
+   "value": 90000000,
+   "pos": "3MF",
+   "pid": "478573",
+   "goals": 1,
+   "caps": 25
+  },
+  {
+   "name": "William Saliba",
+   "team": "FRA",
+   "flag": "fr",
+   "club": "Arsenal F.C.",
+   "value": 90000000,
+   "pos": "2DF",
+   "pid": "495666",
+   "goals": 0,
+   "caps": 31
+  },
+  {
+   "name": "Désiré Doué",
+   "team": "FRA",
+   "flag": "fr",
+   "club": "Paris Saint-Germain FC",
+   "value": 90000000,
+   "pos": "4FW",
+   "pid": "914562",
+   "goals": 2,
+   "caps": 6
+  },
+  {
+   "name": "Julián Alvarez",
+   "team": "ARG",
+   "flag": "ar",
+   "club": "Atlético Madrid",
+   "value": 90000000,
+   "pos": "4FW",
+   "pid": "576024",
+   "goals": 14,
+   "caps": 51
+  },
+  {
+   "name": "Enzo Fernández",
+   "team": "ARG",
+   "flag": "ar",
+   "club": "Chelsea F.C.",
+   "value": 90000000,
+   "pos": "3MF",
+   "pid": "648195",
+   "goals": 6,
+   "caps": 40
+  },
+  {
+   "name": "Lautaro Martínez",
+   "team": "ARG",
+   "flag": "ar",
+   "club": "Inter Milan",
+   "value": 85000000,
+   "pos": "4FW",
+   "pid": "406625",
+   "goals": 36,
+   "caps": 75
+  }
+ ],
+ "bestXI": {
+  "GK": [
+   {
+    "name": "Gregor Kobel",
+    "team": "SUI",
+    "flag": "ch",
+    "club": "Borussia Dortmund",
+    "value": 40000000,
+    "pos": "1GK",
+    "pid": "257814",
+    "goals": 0,
+    "caps": 20
+   }
+  ],
+  "DF": [
+   {
+    "name": "William Saliba",
+    "team": "FRA",
+    "flag": "fr",
+    "club": "Arsenal F.C.",
+    "value": 90000000,
+    "pos": "2DF",
+    "pid": "495666",
+    "goals": 0,
+    "caps": 31
+   },
+   {
+    "name": "Achraf Hakimi",
+    "team": "MAR",
+    "flag": "ma",
+    "club": "Paris Saint-Germain FC",
+    "value": 80000000,
+    "pos": "2DF",
+    "pid": "398073",
+    "goals": 11,
+    "caps": 95
+   },
+   {
+    "name": "Pau Cubarsí",
+    "team": "ESP",
+    "flag": "es",
+    "club": "FC Barcelona",
+    "value": 80000000,
+    "pos": "2DF",
+    "pid": "962110",
+    "goals": 0,
+    "caps": 11
+   },
+   {
+    "name": "Nuno Mendes",
+    "team": "POR",
+    "flag": "pt",
+    "club": "Paris Saint-Germain FC",
+    "value": 75000000,
+    "pos": "2DF",
+    "pid": "616341",
+    "goals": 1,
+    "caps": 43
+   }
+  ],
+  "MF": [
+   {
+    "name": "Pedri",
+    "team": "ESP",
+    "flag": "es",
+    "club": "FC Barcelona",
+    "value": 150000000,
+    "pos": "3MF",
+    "pid": "683840",
+    "goals": 5,
+    "caps": 40
+   },
+   {
+    "name": "Jude Bellingham",
+    "team": "ENG",
+    "flag": "gb-eng",
+    "club": "Real Madrid CF",
+    "value": 140000000,
+    "pos": "3MF",
+    "pid": "581678",
+    "goals": 6,
+    "caps": 46
+   },
+   {
+    "name": "Jamal Musiala",
+    "team": "GER",
+    "flag": "de",
+    "club": "FC Bayern Munich",
+    "value": 120000000,
+    "pos": "3MF",
+    "pid": "580195",
+    "goals": 8,
+    "caps": 40
+   }
+  ],
+  "FW": [
+   {
+    "name": "Lamine Yamal",
+    "team": "ESP",
+    "flag": "es",
+    "club": "FC Barcelona",
+    "value": 200000000,
+    "pos": "4FW",
+    "pid": "937958",
+    "goals": 6,
+    "caps": 25
+   },
+   {
+    "name": "Kylian Mbappé",
+    "team": "FRA",
+    "flag": "fr",
+    "club": "Real Madrid CF",
+    "value": 200000000,
+    "pos": "4FW",
+    "pid": "342229",
+    "goals": 56,
+    "caps": 96
+   },
+   {
+    "name": "Erling Haaland",
+    "team": "NOR",
+    "flag": "no",
+    "club": "Manchester City F.C.",
+    "value": 200000000,
+    "pos": "4FW",
+    "pid": "418560",
+    "goals": 55,
+    "caps": 49
+   }
+  ]
+ },
+ "topScorers": [
+  {
+   "name": "Cristiano Ronaldo",
+   "team": "POR",
+   "flag": "pt",
+   "club": "Al-Nassr FC",
+   "value": 12000000,
+   "pos": "4FW",
+   "pid": "8198",
+   "goals": 143,
+   "caps": 226
+  },
+  {
+   "name": "Lionel Messi",
+   "team": "ARG",
+   "flag": "ar",
+   "club": "Inter Miami CF",
+   "value": 15000000,
+   "pos": "4FW",
+   "pid": "28003",
+   "goals": 116,
+   "caps": 198
+  },
+  {
+   "name": "Romelu Lukaku",
+   "team": "BEL",
+   "flag": "be",
+   "club": "SSC Napoli",
+   "value": 12000000,
+   "pos": "4FW",
+   "pid": "96341",
+   "goals": 89,
+   "caps": 124
+  },
+  {
+   "name": "Neymar",
+   "team": "BRA",
+   "flag": "br",
+   "club": "Santos FC",
+   "value": 10000000,
+   "pos": "4FW",
+   "pid": "68290",
+   "goals": 79,
+   "caps": 128
+  },
+  {
+   "name": "Harry Kane",
+   "team": "ENG",
+   "flag": "gb-eng",
+   "club": "FC Bayern Munich",
+   "value": 65000000,
+   "pos": "4FW",
+   "pid": "132098",
+   "goals": 78,
+   "caps": 112
+  },
+  {
+   "name": "Edin Džeko",
+   "team": "BIH",
+   "flag": "ba",
+   "club": "FC Schalke 04",
+   "value": 1500000,
+   "pos": "4FW",
+   "pid": "28396",
+   "goals": 73,
+   "caps": 148
+  },
+  {
+   "name": "Mohamed Salah",
+   "team": "EGY",
+   "flag": "eg",
+   "club": "Liverpool F.C.",
+   "value": 30000000,
+   "pos": "4FW",
+   "pid": "148455",
+   "goals": 65,
+   "caps": 113
+  },
+  {
+   "name": "Mehdi Taremi",
+   "team": "IRN",
+   "flag": "ir",
+   "club": "Olympiacos F.C.",
+   "value": 2500000,
+   "pos": "4FW",
+   "pid": "307058",
+   "goals": 57,
+   "caps": 102
+  },
+  {
+   "name": "Kylian Mbappé",
+   "team": "FRA",
+   "flag": "fr",
+   "club": "Real Madrid CF",
+   "value": 200000000,
+   "pos": "4FW",
+   "pid": "342229",
+   "goals": 56,
+   "caps": 96
+  },
+  {
+   "name": "Almoez Ali",
+   "team": "QAT",
+   "flag": "qa",
+   "club": "Al Duhail SC",
+   "value": 2500000,
+   "pos": "4FW",
+   "pid": "345095",
+   "goals": 55,
+   "caps": 118
+  },
+  {
+   "name": "Memphis Depay",
+   "team": "NED",
+   "flag": "nl",
+   "club": "SC Corinthians Paulista",
+   "value": 8000000,
+   "pos": "4FW",
+   "pid": "167850",
+   "goals": 55,
+   "caps": 108
+  },
+  {
+   "name": "Erling Haaland",
+   "team": "NOR",
+   "flag": "no",
+   "club": "Manchester City F.C.",
+   "value": 200000000,
+   "pos": "4FW",
+   "pid": "418560",
+   "goals": 55,
+   "caps": 49
+  },
+  {
+   "name": "Sadio Mané",
+   "team": "SEN",
+   "flag": "sn",
+   "club": "Al-Nassr FC",
+   "value": 7000000,
+   "pos": "4FW",
+   "pid": "200512",
+   "goals": 52,
+   "caps": 124
+  },
+  {
+   "name": "Enner Valencia",
+   "team": "ECU",
+   "flag": "ec",
+   "club": "C.F. Pachuca",
+   "value": 1000000,
+   "pos": "4FW",
+   "pid": "139503",
+   "goals": 49,
+   "caps": 105
+  },
+  {
+   "name": "Marko Arnautović",
+   "team": "AUT",
+   "flag": "at",
+   "club": "Red Star Belgrade",
+   "value": 2500000,
+   "pos": "4FW",
+   "pid": "41384",
+   "goals": 47,
+   "caps": 132
+  },
+  {
+   "name": "Chris Wood",
+   "team": "NZL",
+   "flag": "nz",
+   "club": "Nottingham Forest F.C.",
+   "value": 6000000,
+   "pos": "4FW",
+   "pid": "108725",
+   "goals": 45,
+   "caps": 88
+  }
+ ],
+ "fifaDate": "2026-04"
+}

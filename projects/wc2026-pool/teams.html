@@ -26,6 +26,7 @@
   table.st td.team{text-align:left;padding-left:2px}
   table.st td.team a{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:600;white-space:nowrap}
   table.st td.team a:hover{color:var(--cyan)}
+  table.st td.team .fifa{font-family:var(--mono);font-size:.7em;font-weight:700;color:var(--muted);background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:6px;padding:1px 5px;margin-left:7px}
   table.st td.team img{width:24px;height:17px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.18);flex:none}
   table.st td.pts{font-weight:800;color:var(--ink);font-family:var(--mono)}
   table.st tr.q1 td.pos{box-shadow:inset 3px 0 0 #2ec27e}
@@ -57,6 +58,7 @@ async function main(){
   catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   try{ sched=await (await fetch('data/schedule.json')).json(); }catch(e){}
   try{ const r=await fetch('data/results.json',{cache:'no-store'}); if(r.ok){ results=(await r.json()).matches||{}; } }catch(e){}
+  let fifa={}; try{ fifa=(await (await fetch('data/fifa_ranking.json')).json()).ranks||{}; }catch(e){}
 
   const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
   const norm=n=>(n||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,'').replace(/^usa$/,'unitedstates');
@@ -98,7 +100,7 @@ async function main(){
       const cls=i===0?'q1':i===1?'q2':i===2?'q3':'';
       body+=`<tr class="${cls}">
         <td class="pos">${i+1}</td>
-        <td class="team"><a href="${link}">${flag}<span>${m.name}</span></a></td>
+        <td class="team"><a href="${link}">${flag}<span>${m.name}</span>${m.code&&fifa[m.code]?`<span class="fifa" title="Ranking FIFA">#${fifa[m.code]}</span>`:''}</a></td>
         <td class="opt">${r.w}</td><td class="opt">${r.d}</td><td class="opt">${r.l}</td>
         <td class="opt">${r.gf}</td><td class="opt">${r.ga}</td>
         <td class="pts">${r.pts}</td></tr>`;

@@ -32,8 +32,8 @@
   const css = `
   .sn{position:sticky;top:0;z-index:60;background:rgba(3,4,12,.72);backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid rgba(255,255,255,.1)}
   .sn-in{max-width:1100px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:18px}
-  .sn-brand{display:inline-flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.03em;font-size:.9em;color:#fff;text-decoration:none;flex:none}
-  .sn-brand .dot{width:7px;height:7px;border-radius:50%;background:#e8c247;box-shadow:0 0 10px #e8c247}
+  .sn-brand{display:inline-flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.03em;font-size:.9em;color:#fff;text-decoration:none;flex:none}
+  .sn-brand .sn-logo{height:26px;width:auto;display:block;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
   .sn-links{display:flex;align-items:center;gap:4px;margin-left:6px}
   .sn-links a{color:rgba(255,255,255,.65);font-weight:600;font-size:.92em;text-decoration:none;padding:7px 12px;border-radius:99px;transition:all .15s}
   .sn-links a:hover{color:#fff;background:rgba(255,255,255,.06)}
@@ -89,7 +89,7 @@
       }).join('')+`</div>` : '';
   const topHTML = `
     <header class="sn"><div class="sn-in">
-      <a class="sn-brand" href="index.html"><span class="dot"></span>WC&nbsp;26</a>
+      <a class="sn-brand" href="index.html"><img class="sn-logo" src="assets/logo-wc2026.svg" alt="" aria-hidden="true">WC&nbsp;26</a>
       <nav class="sn-links" id="snLinks">${linksHTML}</nav>
       <div class="sn-right"><button class="sn-burger" id="snBurger" aria-label="Menú">☰</button></div>
     </div></header>${crumbsHTML}`;
