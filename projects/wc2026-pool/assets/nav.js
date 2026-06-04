@@ -4,14 +4,31 @@
    include nav.js + search.js. active ∈ home|teams|calendar|pool|sedes . */
 (function(){
   const P = window.PAGE || {};
+  // current language (chosen on Home, stored in localStorage)
+  let NL = localStorage.getItem('wc2026-lang') || localStorage.getItem('wc26-lang');
+  if(!['en','es','tr'].includes(NL)){ const n=(navigator.language||'es').toLowerCase(); NL=n.startsWith('en')?'en':n.startsWith('tr')?'tr':'es'; }
+  const NAV_T = {
+    es:{home:'Inicio',teams:'Clasificación',calendar:'Calendario',pool:'Quiniela',sedes:'Sedes',squads:'Plantillas'},
+    en:{home:'Home',teams:'Standings',calendar:'Calendar',pool:'Pool',sedes:'Venues',squads:'Squads'},
+    tr:{home:'Ana sayfa',teams:'Puan durumu',calendar:'Takvim',pool:'Tahmin',sedes:'Sahalar',squads:'Kadrolar'}
+  };
+  const NAV_S = {
+    es:{home:'Inicio',teams:'Clasif.',calendar:'Calend.',pool:'Quiniela',sedes:'Sedes',squads:'Plantel'},
+    en:{home:'Home',teams:'Standings',calendar:'Calendar',pool:'Pool',sedes:'Venues',squads:'Squads'},
+    tr:{home:'Ana',teams:'Puan',calendar:'Takvim',pool:'Tahmin',sedes:'Sahalar',squads:'Kadro'}
+  };
+  const tn = NAV_T[NL] || NAV_T.es, ts = NAV_S[NL] || NAV_S.es;
   const LINKS = [
-    {id:'home',     label:'Inicio',        short:'Inicio',   href:'index.html',      icon:'🌍'},
-    {id:'teams',    label:'Clasificación', short:'Clasif.',  href:'teams.html',      icon:'📊'},
-    {id:'calendar', label:'Calendario',    short:'Calend.',  href:'calendar.html',   icon:'📅'},
-    {id:'pool',     label:'Quiniela',      short:'Quiniela', href:'pool.html',       icon:'🏆'},
-    {id:'sedes',    label:'Sedes',         short:'Sedes',    href:'sedes.html',      icon:'📍'},
-    {id:'squads',   label:'Plantillas',    short:'Plantel',  href:'plantillas.html', icon:'👥'},
+    {id:'home',     label:tn.home,     short:ts.home,     href:'index.html',      icon:'🌍'},
+    {id:'teams',    label:tn.teams,    short:ts.teams,    href:'teams.html',      icon:'📊'},
+    {id:'calendar', label:tn.calendar, short:ts.calendar, href:'calendar.html',   icon:'📅'},
+    {id:'pool',     label:tn.pool,     short:ts.pool,     href:'pool.html',       icon:'🏆'},
+    {id:'sedes',    label:tn.sedes,    short:ts.sedes,    href:'sedes.html',      icon:'📍'},
+    {id:'squads',   label:tn.squads,   short:ts.squads,   href:'plantillas.html', icon:'👥'},
   ];
+  // translate known breadcrumb section labels by their href
+  const CRUMB_BY_HREF = {'index.html':tn.home,'teams.html':tn.teams,'calendar.html':tn.calendar,'pool.html':tn.pool,'sedes.html':tn.sedes,'plantillas.html':tn.squads};
+  if(P.crumbs) P.crumbs = P.crumbs.map(c => (c.href && CRUMB_BY_HREF[c.href]) ? {...c, label:CRUMB_BY_HREF[c.href]} : c);
   const css = `
   .sn{position:sticky;top:0;z-index:60;background:rgba(3,4,12,.72);backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid rgba(255,255,255,.1)}
   .sn-in{max-width:1100px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:18px}
@@ -87,14 +104,16 @@
   // floating search magnifier (binds via search.js which listens for #searchBtn clicks)
   document.body.insertAdjacentHTML('beforeend', `<button class="sn-fab" id="searchBtn" aria-label="Buscar">🔍</button>`);
 
-  // floating language toggle (writes both storage keys used across pages, then reloads)
-  const LKEYS=['wc2026-lang','wc26-lang'];
-  let lang='es';
-  for(const k of LKEYS){ const v=localStorage.getItem(k); if(v){ lang=v; break; } }
-  if(!['en','es','tr'].includes(lang)){ const n=(navigator.language||'es').toLowerCase(); lang=n.startsWith('en')?'en':n.startsWith('tr')?'tr':'es'; }
-  const langHTML=['EN','ES','TR'].map(L=>`<button data-l="${L.toLowerCase()}" class="${lang===L.toLowerCase()?'on':''}">${L}</button>`).join('');
-  document.body.insertAdjacentHTML('beforeend', `<div class="sn-lang" role="group" aria-label="Idioma">${langHTML}</div>`);
-  document.querySelector('.sn-lang').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; LKEYS.forEach(k=>localStorage.setItem(k,b.dataset.l)); location.reload(); });
+  // floating language toggle — ONLY on Home; other pages keep the chosen language.
+  if(P.active==='home'){
+    const LKEYS=['wc2026-lang','wc26-lang'];
+    let lang='es';
+    for(const k of LKEYS){ const v=localStorage.getItem(k); if(v){ lang=v; break; } }
+    if(!['en','es','tr'].includes(lang)){ const n=(navigator.language||'es').toLowerCase(); lang=n.startsWith('en')?'en':n.startsWith('tr')?'tr':'es'; }
+    const langHTML=['EN','ES','TR'].map(L=>`<button data-l="${L.toLowerCase()}" class="${lang===L.toLowerCase()?'on':''}">${L}</button>`).join('');
+    document.body.insertAdjacentHTML('beforeend', `<div class="sn-lang" role="group" aria-label="Idioma">${langHTML}</div>`);
+    document.querySelector('.sn-lang').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; LKEYS.forEach(k=>localStorage.setItem(k,b.dataset.l)); location.reload(); });
+  }
 
   const burger=document.getElementById('snBurger'), links=document.getElementById('snLinks');
   burger&&burger.addEventListener('click',()=>links.classList.toggle('open'));

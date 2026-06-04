@@ -32,17 +32,24 @@
 <div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
 <script src="assets/nav.js" defer></script>
 <script src="assets/search.js" defer></script>
+<script src="assets/i18n.js"></script>
 <script>
+const T={
+  es:{title:'Plantillas',sub:'<b>48</b> selecciones · clica una para ver su plantilla, jugadores y fichas. O pulsa <b>/</b> para buscar.',grp:'Grupo',fail:'No se pudo cargar.'},
+  en:{title:'Squads',sub:'<b>48</b> teams · tap one to see its squad, players and profiles. Or press <b>/</b> to search.',grp:'Group',fail:'Could not load.'},
+  tr:{title:'Kadrolar',sub:'<b>48</b> takım · kadro, oyuncular ve profiller için birine dokun. Ya da aramak için <b>/</b> tuşuna bas.',grp:'Grup',fail:'Yüklenemedi.'}
+};
+const L=k=>wcT(T,k);
 async function main(){
   let idx; try{ idx=await (await fetch('data/teams/index.json')).json(); }
-  catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se pudo cargar.</p>'; return; }
+  catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   const teams=idx.teams.slice().sort((a,b)=>a.name.localeCompare(b.name));
-  let html=`<h1>Plantillas</h1><div class="sub"><b>48</b> selecciones · clica una para ver su plantilla, jugadores y fichas. O pulsa <b>/</b> para buscar.</div><div class="tgrid">`;
+  let html=`<h1>${L('title')}</h1><div class="sub">${L('sub')}</div><div class="tgrid">`;
   teams.forEach(t=>{
     html+=`<a class="tcard glass glass-hover" href="team.html?code=${t.code}">
       <img src="https://flagcdn.com/w160/${t.flag}.png" alt="${t.name}">
       <span class="nm">${t.name}</span>
-      <span class="gr">Grupo ${t.group}</span></a>`;
+      <span class="gr">${L('grp')} ${t.group}</span></a>`;
   });
   document.getElementById('wrap').innerHTML=html+`</div>`;
 }

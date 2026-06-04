@@ -61,12 +61,19 @@
 
 <script src="assets/nav.js" defer></script>
 <script src="assets/search.js" defer></script>
+<script src="assets/i18n.js"></script>
 <script>
+const T={
+  es:{title:'16 ciudades sede',subA:'países',subB:'estadios',subC:'clica una sede para ver el estadio y sus partidos.',venues:'sedes',part:'part.',cap:'aforo',opened:'inaugurado',matches:'partidos',vs:'vs',fail:'No se pudieron cargar las sedes.',USA:'Estados Unidos',MEX:'México',CAN:'Canadá',locale:'es-ES',months:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']},
+  en:{title:'16 host cities',subA:'countries',subB:'stadiums',subC:'tap a city to see the stadium and its matches.',venues:'venues',part:'mat.',cap:'capacity',opened:'opened',matches:'matches',vs:'vs',fail:'Could not load venues.',USA:'United States',MEX:'Mexico',CAN:'Canada',locale:'en-GB',months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']},
+  tr:{title:'16 ev sahibi şehir',subA:'ülke',subB:'stadyum',subC:'stadyumu ve maçlarını görmek için bir şehre dokun.',venues:'saha',part:'maç',cap:'kapasite',opened:'açılış',matches:'maç',vs:'-',fail:'Sahalar yüklenemedi.',USA:'ABD',MEX:'Meksika',CAN:'Kanada',locale:'tr-TR',months:['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara']}
+};
+const L=k=>wcT(T,k);
 const BBOX={USA:[-125,-66.5,24,49.6],MEX:[-117.5,-86.5,14.4,32.8],CAN:[-129,-73,42,55.5]};
-const NAMES={USA:'Estados Unidos',MEX:'México',CAN:'Canadá'};
-const MONTHS={1:'ene',2:'feb',3:'mar',4:'abr',5:'may',6:'jun',7:'jul',8:'ago',9:'sep',10:'oct',11:'nov',12:'dic'};
+const NAMES={USA:L('USA'),MEX:L('MEX'),CAN:L('CAN')};
+const MON=L('months');
 const shortCity=s=>s.replace(/\s*\(.*\)\s*/,'').trim();
-const fmtDate=iso=>{if(!iso)return'';const[y,m,d]=iso.split('-');return`${+d} ${MONTHS[+m]||''}`;};
+const fmtDate=iso=>{if(!iso)return'';const[y,m,d]=iso.split('-');return`${+d} ${MON[+m-1]||''}`;};
 const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 function makeProjection(code,W){
   const[minLon,maxLon,minLat,maxLat]=BBOX[code];const midLat=(minLat+maxLat)/2,kx=Math.cos(midLat*Math.PI/180);
@@ -75,13 +82,13 @@ function makeProjection(code,W){
 }
 async function main(){
   let data; try{ data=await (await fetch('data/host_maps.json')).json(); }
-  catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se pudieron cargar las sedes.</p>'; return; }
+  catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   const total=Object.values(data.countries).reduce((a,c)=>a+c.cities.length,0);
-  let html=`<h1>16 ciudades sede</h1><div class="sub"><b>3</b> países · <b>${total}</b> estadios · clica una sede para ver el estadio y sus partidos.</div>`;
+  let html=`<h1>${L('title')}</h1><div class="sub"><b>3</b> ${L('subA')} · <b>${total}</b> ${L('subB')} · ${L('subC')}</div>`;
   ['USA','MEX','CAN'].forEach(code=>{
     const c=data.countries[code]; if(!c)return;
     html+=`<section class="country" data-code="${code}">
-      <div class="country-head"><img class="flag" src="https://flagcdn.com/w80/${code==='USA'?'us':code==='MEX'?'mx':'ca'}.png"><h2>${NAMES[code]}</h2><span class="cnt">${c.cities.length} sedes</span></div>
+      <div class="country-head"><img class="flag" src="https://flagcdn.com/w80/${code==='USA'?'us':code==='MEX'?'mx':'ca'}.png"><h2>${NAMES[code]}</h2><span class="cnt">${c.cities.length} ${L('venues')}</span></div>
       <div class="cmap glass"></div><div class="cacc"></div></section>`;
   });
   document.getElementById('wrap').innerHTML=html;
@@ -105,17 +112,17 @@ function renderCountry(code,c){
   mapEl.appendChild(svg);
   const items={};
   c.cities.forEach((city,i)=>{
-    const cap=city.capacity?city.capacity.toLocaleString('es-ES'):'—';
+    const cap=city.capacity?city.capacity.toLocaleString(L('locale')):'—';
     const ms=city.matches.map(m=>`<div class="match"><div class="top"><span>${m.group||''}</span><span>${m.round||''}</span></div>
-      <div class="teams">${esc(m.team1)} <span class="vs">vs</span> ${esc(m.team2)}</div><div class="when">${fmtDate(m.date)} · ${m.time||''}</div></div>`).join('');
+      <div class="teams">${esc(m.team1)} <span class="vs">${L('vs')}</span> ${esc(m.team2)}</div><div class="when">${fmtDate(m.date)} · ${m.time||''}</div></div>`).join('');
     const it=document.createElement('div');it.className='acc-item';
     it.innerHTML=`<button class="acc-head" type="button"><span class="num">${i+1}</span>
       <span class="meta"><span class="nm">${shortCity(city.city)}</span><span class="st">${esc(city.stadium)}</span></span>
-      <span class="cnt">${city.matches.length} part.</span><span class="chev">›</span></button>
+      <span class="cnt">${city.matches.length} ${L('part')}</span><span class="chev">›</span></button>
       <div class="acc-body"><img class="photo" src="${city.photo}" alt="${esc(city.stadium)}" loading="lazy" onerror="this.style.display='none'">
-        <div class="acc-stats"><div><div class="v">${cap}</div><div class="k">aforo</div></div>
-          <div><div class="v">${city.opened||'—'}</div><div class="k">inaugurado</div></div>
-          <div><div class="v">${city.matches.length}</div><div class="k">partidos</div></div></div>
+        <div class="acc-stats"><div><div class="v">${cap}</div><div class="k">${L('cap')}</div></div>
+          <div><div class="v">${city.opened||'—'}</div><div class="k">${L('opened')}</div></div>
+          <div><div class="v">${city.matches.length}</div><div class="k">${L('matches')}</div></div></div>
         ${city.fact?`<div class="acc-fact">${esc(city.fact)}</div>`:''}<div class="acc-matches">${ms}</div></div>`;
     it.querySelector('.acc-head').addEventListener('click',()=>open(i));
     accEl.appendChild(it);items[i]=it;

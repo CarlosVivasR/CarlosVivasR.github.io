@@ -43,11 +43,18 @@
 <div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
 <script src="assets/nav.js" defer></script>
 <script src="assets/search.js" defer></script>
+<script src="assets/i18n.js"></script>
 <script>
+const T={
+  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts'},
+  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts'},
+  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P'}
+};
+const L=k=>wcT(T,k);
 async function main(){
   let idx, sched={matches:[]}, results={};
   try{ idx=await (await fetch('data/teams/index.json')).json(); }
-  catch(e){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">No se pudo cargar.</p>'; return; }
+  catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   try{ sched=await (await fetch('data/schedule.json')).json(); }catch(e){}
   try{ const r=await fetch('data/results.json',{cache:'no-store'}); if(r.ok){ results=(await r.json()).matches||{}; } }catch(e){}
 
@@ -71,12 +78,12 @@ async function main(){
   });
 
   const groups=Object.keys(stats).sort();
-  let html=`<h1>Clasificación</h1>
-    <div class="sub"><b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.</div>
+  let html=`<h1>${L('title')}</h1>
+    <div class="sub">${L('sub')}</div>
     <div class="legend">
-      <span><i style="background:#2ec27e"></i>1.º clasifica</span>
-      <span><i style="background:#35e0d8"></i>2.º clasifica</span>
-      <span><i style="background:#f4d76b"></i>3.º (mejores 8 pasan)</span>
+      <span><i style="background:#2ec27e"></i>${L('q1')}</span>
+      <span><i style="background:#35e0d8"></i>${L('q2')}</span>
+      <span><i style="background:#f4d76b"></i>${L('q3')}</span>
     </div>
     <div class="groups">`;
   groups.forEach(g=>{
@@ -96,11 +103,11 @@ async function main(){
         <td class="opt">${r.gf}</td><td class="opt">${r.ga}</td>
         <td class="pts">${r.pts}</td></tr>`;
     });
-    html+=`<div class="group glass glass-hover"><h2>Grupo ${g}</h2>
+    html+=`<div class="group glass glass-hover"><h2>${L('grp')} ${g}</h2>
       <table class="st"><thead><tr>
-        <th></th><th class="lt">Equipo</th>
-        <th class="opt">G</th><th class="opt">E</th><th class="opt">P</th>
-        <th class="opt">GF</th><th class="opt">GC</th><th>Pts</th>
+        <th></th><th class="lt">${L('team')}</th>
+        <th class="opt">${L('cG')}</th><th class="opt">${L('cE')}</th><th class="opt">${L('cP')}</th>
+        <th class="opt">${L('cGF')}</th><th class="opt">${L('cGC')}</th><th>${L('cPts')}</th>
       </tr></thead><tbody>${body}</tbody></table></div>`;
   });
   document.getElementById('wrap').innerHTML=html+`</div>`;
