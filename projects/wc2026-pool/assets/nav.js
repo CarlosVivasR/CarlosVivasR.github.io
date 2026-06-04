@@ -59,11 +59,11 @@
   .sn-lang button.on{background:#e8c247;color:#03040c}
 
   @media(max-width:720px){
-    .sn-links{position:absolute;top:54px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;
-      background:rgba(8,10,20,.98);backdrop-filter:blur(16px);padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.1);display:none}
-    .sn-links.open{display:flex}.sn-links a{padding:11px 12px}
-    .sn-burger{display:inline-block}
-    .sn{display:none}.sn-crumbs{padding-top:16px}
+    /* mobile: slim top bar with the logo only — navigation lives in the bottom tabs */
+    .sn-links{display:none}
+    .sn-burger{display:none}
+    .sn-in{padding:8px 16px}
+    .sn-crumbs{padding-top:12px}
     .topbar{display:none !important}
   }
   /* bottom tab bar — app style, mobile only */
