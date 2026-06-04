@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datos · WC 2026</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  h1{font-size:clamp(1.9em,4vw,2.6em);font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+  .sub{color:var(--ink-2);margin-bottom:24px;font-size:.94em}
+  h2.sec{font-size:1.15em;font-weight:700;margin:30px 0 14px;letter-spacing:-.01em}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .card{padding:16px 16px 10px}
+  .card h3{font-size:.72em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+  .lrow{display:flex;align-items:center;gap:10px;padding:7px 4px;border-top:1px solid var(--line)}
+  .lrow:first-of-type{border-top:none}
+  .lrow .pos{width:18px;color:var(--muted);font-family:var(--mono);font-weight:700;font-size:.82em;flex:none}
+  .lrow img{width:24px;height:17px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.18);flex:none}
+  .lrow .nm{font-weight:600;font-size:.9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lrow .nm a{color:var(--ink)}.lrow .nm a:hover{color:var(--cyan)}
+  .lrow .vv{margin-left:auto;font-family:var(--mono);font-weight:800;font-size:.86em;color:var(--gold);flex:none}
+  .lrow .sm{font-size:.78em;color:var(--muted)}
+  /* XI pitch */
+  .xi{display:flex;flex-direction:column;gap:14px;padding:18px 14px;background:linear-gradient(180deg,rgba(46,194,126,.06),rgba(255,255,255,.01))}
+  .xi-line{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+  .xi-p{display:flex;flex-direction:column;align-items:center;gap:4px;width:96px;text-align:center}
+  .xi-p img{width:34px;height:24px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.18)}
+  .xi-p .pn{font-weight:700;font-size:.78em;line-height:1.1}
+  .xi-p .pv{font-family:var(--mono);font-size:.72em;color:var(--gold);font-weight:700}
+  /* club bars */
+  .clubbar{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:.88em}
+  .clubbar .cn{width:150px;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
+  .clubbar .bar{height:9px;border-radius:99px;background:linear-gradient(90deg,#35e0d8,#5b9bff);flex:none}
+  .clubbar .cv{font-family:var(--mono);font-weight:700;color:var(--ink)}
+  .note{margin-top:28px;font-size:.8em;color:var(--muted);text-align:center}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
+</head>
+<body>
+<div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+<div class="grid-lines"></div>
+<script>window.PAGE={active:'home',crumbs:[{label:'Inicio',href:'index.html'},{label:'Datos'}]};</script>
+<div id="site-nav"></div>
+<div class="wrap" id="wrap"><p style="color:var(--muted)">Cargando…</p></div>
+<script src="assets/nav.js" defer></script>
+<script src="assets/search.js" defer></script>
+<script src="assets/i18n.js"></script>
+<script>
+const T={
+  es:{title:'Datos del Mundial',sub:'Rankings y curiosidades de las 48 selecciones.',secTeams:'Selecciones',valTitle:'Plantillas más valiosas',fifaTitle:'Ranking FIFA',youngTitle:'Más jóvenes (edad media)',expTitle:'Más internacionales',secXI:'El XI más caro',secTop:'Jugadores más valiosos',secScorers:'Máximos goleadores con su selección',secClubs:'Clubes que más jugadores aportan',goals:'goles',caps:'caps',players:'jug.',note:'Valores de mercado: Transfermarkt · Ranking FIFA: abril 2026',fail:'No se pudieron cargar los datos.',GK:'Portero',DF:'Defensas',MF:'Medios',FW:'Delanteros',years:'años'},
+  en:{title:'World Cup data',sub:'Rankings and facts about the 48 teams.',secTeams:'Teams',valTitle:'Most valuable squads',fifaTitle:'FIFA ranking',youngTitle:'Youngest (avg age)',expTitle:'Most capped',secXI:'The most expensive XI',secTop:'Most valuable players',secScorers:'Top scorers for their country',secClubs:'Clubs sending the most players',goals:'goals',caps:'caps',players:'pl.',note:'Market values: Transfermarkt · FIFA ranking: April 2026',fail:'Could not load the data.',GK:'Goalkeeper',DF:'Defenders',MF:'Midfielders',FW:'Forwards',years:'yrs'},
+  tr:{title:'Dünya Kupası verileri',sub:'48 takım hakkında sıralamalar ve ilginç bilgiler.',secTeams:'Takımlar',valTitle:'En değerli kadrolar',fifaTitle:'FIFA sıralaması',youngTitle:'En genç (yaş ort.)',expTitle:'En çok forma giyen',secXI:'En pahalı 11',secTop:'En değerli oyuncular',secScorers:'Ülkesinin en golcüleri',secClubs:'En çok oyuncu veren kulüpler',goals:'gol',caps:'maç',players:'oy.',note:'Piyasa değerleri: Transfermarkt · FIFA sıralaması: Nisan 2026',fail:'Veriler yüklenemedi.',GK:'Kaleci',DF:'Defans',MF:'Orta saha',FW:'Forvet',years:'yaş'}
+};
+const L=k=>wcT(T,k);
+const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const fmtVal=v=>v==null?'—':v>=1e6?'€'+(v/1e6).toFixed(v>=1e7?0:1)+'M':v>=1e3?'€'+Math.round(v/1e3)+'K':'€'+v;
+const flagImg=f=>f?`<img src="https://flagcdn.com/w40/${f}.png" alt="">`:'';
+
+async function main(){
+  let s; try{ s=await (await fetch('data/stats.json',{cache:'no-store'})).json(); }
+  catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
+  const r=s.teamRankings;
+
+  const teamCard=(title,list,valFn)=>`<div class="card glass"><h3>${title}</h3>${
+    list.map((t,i)=>`<div class="lrow"><span class="pos">${i+1}</span>${flagImg(t.flag)}
+      <span class="nm"><a href="team.html?code=${t.code}">${esc(t.name)}</a></span>
+      <span class="vv">${valFn(t)}</span></div>`).join('')}</div>`;
+
+  const playerRow=(p,i,extra)=>`<div class="lrow"><span class="pos">${i+1}</span>${flagImg(p.flag)}
+    <span class="nm">${p.pid?`<a href="player.html?id=${p.pid}">${esc(p.name)}</a>`:esc(p.name)} <span class="sm">${esc((p.club||'').replace(/ F\.?C\.?$| C\.?F\.?$/,''))}</span></span>
+    <span class="vv">${extra}</span></div>`;
+
+  let html=`<h1>${L('title')}</h1><div class="sub">${L('sub')}</div>`;
+
+  // ---- team rankings ----
+  html+=`<h2 class="sec">${L('secTeams')}</h2><div class="cards">
+    ${teamCard(L('valTitle'), r.value, t=>fmtVal(t.value))}
+    ${teamCard(L('fifaTitle'), r.fifa.slice(0,12), t=>'#'+t.fifa)}
+    ${teamCard(L('youngTitle'), r.youngest, t=>(t.age!=null?t.age.toFixed(1):'—')+' '+L('years'))}
+    ${teamCard(L('expTitle'), r.experienced, t=>t.caps+' '+L('caps'))}
+  </div>`;
+
+  // ---- best XI ----
+  const xiLine=(arr)=>`<div class="xi-line">${arr.map(p=>`<a class="xi-p" href="${p.pid?`player.html?id=${p.pid}`:'#'}">${flagImg(p.flag)}<span class="pn">${esc(p.name)}</span><span class="pv">${fmtVal(p.value)}</span></a>`).join('')}</div>`;
+  html+=`<h2 class="sec">${L('secXI')}</h2>
+    <div class="card glass xi">
+      ${xiLine(s.bestXI.FW)}${xiLine(s.bestXI.MF)}${xiLine(s.bestXI.DF)}${xiLine(s.bestXI.GK)}
+    </div>`;
+
+  // ---- most valuable players & top scorers ----
+  html+=`<div class="cards" style="margin-top:18px">
+    <div class="card glass"><h3>${L('secTop')}</h3>${s.topPlayers.slice(0,12).map((p,i)=>playerRow(p,i,fmtVal(p.value))).join('')}</div>
+    <div class="card glass"><h3>${L('secScorers')}</h3>${s.topScorers.slice(0,12).map((p,i)=>playerRow(p,i,(p.goals||0)+' '+L('goals'))).join('')}</div>
+  </div>`;
+
+  // ---- clubs ----
+  const maxN=s.topClubs[0].n;
+  html+=`<h2 class="sec">${L('secClubs')}</h2><div class="card glass">
+    ${s.topClubs.map(c=>`<div class="clubbar"><span class="cn">${esc(c.club.replace(/ F\.?C\.?$| C\.?F\.?$/,''))}</span>
+      <span class="bar" style="width:${Math.round(c.n/maxN*220)}px"></span><span class="cv">${c.n} ${L('players')}</span></div>`).join('')}
+  </div>`;
+
+  html+=`<div class="note">${L('note')}</div>`;
+  document.getElementById('wrap').innerHTML=html;
+}
+main();
+</script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+</body>
+</html>
