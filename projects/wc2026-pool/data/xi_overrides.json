@@ -1,15 +1,842 @@
 {
-  "_README": "Manual probable-XI overrides taken from reference sites. Key = team code. Each line is left→right. Names are matched against the squad roster (data/teams/<code>.json). Use this to fix teams where the automatic estimate (by caps/value) is wrong because of missing player data. After editing, run: python3 scripts/build_team_xi.py",
-  "BRA": {
-    "GK": ["Alisson Becker"],
-    "DF": ["Alex Sandro", "Marquinhos", "Gabriel Magalhães", "Wesley França"],
-    "MF": ["Lucas Paquetá", "Bruno Guimarães", "Casemiro"],
-    "FW": ["Vinícius Júnior", "Matheus Cunha", "Raphinha"]
-  },
-  "KOR": {
-    "GK": ["Kim Seung-gyu"],
-    "DF": ["Lee Tae-seok", "Kim Min-jae", "Kim Tae-hyeon", "Seol Young-woo"],
-    "MF": ["Hwang In-beom", "Lee Jae-sung", "Lee Kang-in"],
-    "FW": ["Son Heung-min", "Oh Hyeon-gyu", "Hwang Hee-chan"]
-  }
+ "_README": "Starting XIs scraped from porraselsapo.site/equipos/<code> (once titular). Matched to our roster. Rebuild: python3 scripts/build_team_xi.py ; regenerate: python3 scripts/build_lineups_sapo.py",
+ "CZE": {
+  "GK": [
+   "Lukáš Horníček"
+  ],
+  "DF": [
+   "Robin Hranáč",
+   "Vladimír Coufal",
+   "Štěpán Chaloupek",
+   "Ladislav Krejčí",
+   "Jaroslav Zelený"
+  ],
+  "MF": [
+   "Vladimír Darida",
+   "Lukáš Provod",
+   "Tomáš Souček"
+  ],
+  "FW": [
+   "Patrik Schick",
+   "Pavel Šulc"
+  ]
+ },
+ "MEX": {
+  "GK": [
+   "Raúl Rangel"
+  ],
+  "DF": [
+   "Jorge Sánchez",
+   "César Montes",
+   "Edson Álvarez",
+   "Johan Vásquez",
+   "Jesús Gallardo"
+  ],
+  "MF": [
+   "Álvaro Fidalgo",
+   "Orbelín Pineda"
+  ],
+  "FW": [
+   "Raúl Jiménez",
+   "Alexis Vega",
+   "Julián Quiñones"
+  ]
+ },
+ "RSA": {
+  "GK": [
+   "Ronwen Williams"
+  ],
+  "DF": [
+   "Khulumani Ndamane",
+   "Aubrey Modiba",
+   "Nkosinathi Sibisi",
+   "Khuliso Mudau"
+  ],
+  "MF": [
+   "Teboho Mokoena",
+   "Themba Zwane",
+   "Sphephelo Sithole"
+  ],
+  "FW": [
+   "Oswin Appollis",
+   "Lyle Foster",
+   "Relebohile Mofokeng"
+  ]
+ },
+ "KOR": {
+  "GK": [
+   "Kim Seung-gyu"
+  ],
+  "DF": [
+   "Lee Tae-seok",
+   "Kim Min-jae",
+   "Kim Tae-hyeon",
+   "Seol Young-woo"
+  ],
+  "MF": [
+   "Hwang In-beom",
+   "Lee Jae-sung",
+   "Lee Kang-in"
+  ],
+  "FW": [
+   "Son Heung-min",
+   "Oh Hyeon-gyu",
+   "Hwang Hee-chan"
+  ]
+ },
+ "BIH": {
+  "GK": [
+   "Nikola Vasilj"
+  ],
+  "DF": [
+   "Tarik Muharemović",
+   "Sead Kolašinac",
+   "Amar Dedić",
+   "Nikola Katić"
+  ],
+  "MF": [
+   "Benjamin Tahirović",
+   "Ivan Šunjić",
+   "Amar Memić"
+  ],
+  "FW": [
+   "Ermedin Demirović",
+   "Edin Džeko",
+   "Esmir Bajraktarević"
+  ]
+ },
+ "CAN": {
+  "GK": [
+   "Maxime Crépeau"
+  ],
+  "DF": [
+   "Alfie Jones",
+   "Moïse Bombito",
+   "Alphonso Davies",
+   "Richie Laryea",
+   "Niko Sigur"
+  ],
+  "MF": [
+   "Stephen Eustáquio",
+   "Ismaël Koné"
+  ],
+  "FW": [
+   "Jonathan David",
+   "Tani Oluwaseyi",
+   "Tajon Buchanan"
+  ]
+ },
+ "QAT": {
+  "GK": [
+   "Meshaal Barsham"
+  ],
+  "DF": [
+   "Pedro Miguel",
+   "Issa Laye",
+   "Boualem Khoukhi",
+   "Sultan Al-Brake"
+  ],
+  "MF": [
+   "Abdulaziz Hatem",
+   "Karim Boudiaf",
+   "Ahmed Alaaeldin"
+  ],
+  "FW": [
+   "Edmilson Junior",
+   "Akram Afif",
+   "Almoez Ali"
+  ]
+ },
+ "SUI": {
+  "GK": [
+   "Gregor Kobel"
+  ],
+  "DF": [
+   "Silvan Widmer",
+   "Nico Elvedi",
+   "Manuel Akanji",
+   "Ricardo Rodriguez"
+  ],
+  "MF": [
+   "Remo Freuler",
+   "Granit Xhaka",
+   "Fabian Rieder"
+  ],
+  "FW": [
+   "Breel Embolo",
+   "Dan Ndoye",
+   "Rubén Vargas"
+  ]
+ },
+ "BRA": {
+  "GK": [
+   "Alisson Becker"
+  ],
+  "DF": [
+   "Wesley",
+   "Gabriel Martinelli",
+   "Marquinhos",
+   "Douglas Santos"
+  ],
+  "MF": [
+   "Casemiro",
+   "Bruno Guimarães"
+  ],
+  "FW": [
+   "Vinícius Júnior",
+   "Matheus Cunha",
+   "Raphinha",
+   "Luiz Henrique"
+  ]
+ },
+ "HAI": {
+  "GK": [
+   "Johny Placide",
+   "Alexandre Pierre"
+  ],
+  "DF": [
+   "Carlens Arcus",
+   "Ricardo Adé",
+   "Martin Experience",
+   "Jean-Kévin Duverne"
+  ],
+  "MF": [
+   "Jean-Ricner Bellegarde"
+  ],
+  "FW": [
+   "Duckens Nazon",
+   "Louicius Deedson",
+   "Ruben Providence",
+   "Wilson Isidor"
+  ]
+ },
+ "MAR": {
+  "GK": [
+   "Yassine Bounou"
+  ],
+  "DF": [
+   "Achraf Hakimi",
+   "Nayef Aguerd",
+   "Issa Diop",
+   "Anass Salah-Eddine"
+  ],
+  "MF": [
+   "Chemsdine Talbi",
+   "Azzedine Ounahi",
+   "Ismael Saibari",
+   "Neil El Aynaoui"
+  ],
+  "FW": [
+   "Brahim Díaz",
+   "Ayoub El Kaabi"
+  ]
+ },
+ "SCO": {
+  "GK": [
+   "Craig Gordon"
+  ],
+  "DF": [
+   "Aaron Hickey",
+   "Andy Robertson",
+   "Grant Hanley",
+   "Scott McKenna"
+  ],
+  "MF": [
+   "Scott McTominay",
+   "John McGinn",
+   "Ryan Christie",
+   "Lewis Ferguson"
+  ],
+  "FW": [
+   "Ché Adams",
+   "Ben Gannon-Doak"
+  ]
+ },
+ "AUS": {
+  "GK": [
+   "Mathew Ryan"
+  ],
+  "DF": [
+   "Miloš Degenek",
+   "Alessandro Circati",
+   "Jacob Italiano",
+   "Jordan Bos",
+   "Harry Souttar"
+  ],
+  "MF": [
+   "Connor Metcalfe",
+   "Aiden O'Neill",
+   "Cameron Burgess"
+  ],
+  "FW": [
+   "Mohamed Touré",
+   "Nestory Irankunda"
+  ]
+ },
+ "PAR": {
+  "GK": [
+   "Orlando Gill"
+  ],
+  "DF": [
+   "Omar Alderete",
+   "Juan José Cáceres",
+   "Júnior Alonso",
+   "Gustavo Gómez"
+  ],
+  "MF": [
+   "Diego Gómez",
+   "Miguel Almirón",
+   "Damián Bobadilla",
+   "Braian Ojeda"
+  ],
+  "FW": [
+   "Julio Enciso",
+   "Gabriel Ávalos"
+  ]
+ },
+ "USA": {
+  "GK": [
+   "Matt Freese"
+  ],
+  "DF": [
+   "Chris Richards",
+   "Antonee Robinson",
+   "Auston Trusty",
+   "Alex Freeman"
+  ],
+  "MF": [
+   "Tyler Adams",
+   "Weston McKennie",
+   "Sebastian Berhalter"
+  ],
+  "FW": [
+   "Christian Pulisic",
+   "Folarin Balogun",
+   "Timothy Weah"
+  ]
+ },
+ "CUW": {
+  "GK": [
+   "Eloy Room"
+  ],
+  "DF": [
+   "Shurandy Sambo",
+   "Roshon van Eijma",
+   "Sherel Floranus",
+   "Armando Obispo"
+  ],
+  "MF": [
+   "Juninho Bacuna",
+   "Livano Comenencia",
+   "Leandro Bacuna",
+   "Tahith Chong"
+  ],
+  "FW": [
+   "Jürgen Locadia",
+   "Kenji Gorré"
+  ]
+ },
+ "ECU": {
+  "GK": [
+   "Hernán Galíndez"
+  ],
+  "DF": [
+   "Piero Hincapié",
+   "Joel Ordóñez",
+   "Willian Pacho",
+   "Ángelo Preciado"
+  ],
+  "MF": [
+   "Anthony Valencia",
+   "Pedro Vite",
+   "Denil Castillo"
+  ],
+  "FW": [
+   "John Yeboah",
+   "Jordy Caicedo",
+   "Nilson Angulo"
+  ]
+ },
+ "GER": {
+  "GK": [
+   "Manuel Neuer"
+  ],
+  "DF": [
+   "Jonathan Tah",
+   "Joshua Kimmich",
+   "Nico Schlotterbeck",
+   "David Raum"
+  ],
+  "MF": [
+   "Aleksandar Pavlović",
+   "Leon Goretzka",
+   "Jamal Musiala",
+   "Florian Wirtz",
+   "Leroy Sané"
+  ],
+  "FW": [
+   "Kai Havertz"
+  ]
+ },
+ "CIV": {
+  "GK": [
+   "Yahia Fofana"
+  ],
+  "DF": [
+   "Ousmane Diomande",
+   "Ghislain Konan",
+   "Odilon Kossounou",
+   "Guéla Doué",
+   "Evan Ndicka"
+  ],
+  "MF": [
+   "Franck Kessié",
+   "Ibrahim Sangaré",
+   "Christ Inao Oulaï"
+  ],
+  "FW": [
+   "Nicolas Pépé",
+   "Evann Guessand"
+  ]
+ },
+ "NED": {
+  "GK": [
+   "Bart Verbruggen"
+  ],
+  "DF": [
+   "Virgil van Dijk",
+   "Nathan Aké",
+   "Micky van de Ven",
+   "Denzel Dumfries"
+  ],
+  "MF": [
+   "Ryan Gravenberch",
+   "Tijjani Reijnders",
+   "Frenkie de Jong"
+  ],
+  "FW": [
+   "Memphis Depay",
+   "Cody Gakpo",
+   "Donyell Malen"
+  ]
+ },
+ "SWE": {
+  "GK": [
+   "Kristoffer Nordfeldt"
+  ],
+  "DF": [
+   "Gustaf Lagerbielke",
+   "Victor Lindelöf",
+   "Gabriel Gudmundsson",
+   "Daniel Svensson",
+   "Carl Starfelt"
+  ],
+  "MF": [
+   "Benjamin Nygren",
+   "Jesper Karlström",
+   "Yasin Ayari"
+  ],
+  "FW": [
+   "Anthony Elanga",
+   "Viktor Gyökeres"
+  ]
+ },
+ "TUN": {
+  "GK": [
+   "Aymen Dahmen"
+  ],
+  "DF": [
+   "Ali Abdi",
+   "Montassar Talbi",
+   "Dylan Bronn",
+   "Yan Valery"
+  ],
+  "MF": [
+   "Hannibal Mejbri",
+   "Ismaël Gharbi",
+   "Ellyes Skhiri",
+   "Sebastian Tounekti"
+  ],
+  "FW": [
+   "Elias Achouri",
+   "Hazem Mastouri"
+  ]
+ },
+ "BEL": {
+  "GK": [
+   "Thibaut Courtois"
+  ],
+  "DF": [
+   "Zeno Debast",
+   "Arthur Theate",
+   "Maxim De Cuyper",
+   "Timothy Castagne"
+  ],
+  "MF": [
+   "Kevin De Bruyne",
+   "Youri Tielemans",
+   "Amadou Onana"
+  ],
+  "FW": [
+   "Leandro Trossard",
+   "Jérémy Doku",
+   "Charles De Ketelaere"
+  ]
+ },
+ "IRN": {
+  "GK": [
+   "Alireza Beiranvand"
+  ],
+  "DF": [
+   "Shojae Khalilzadeh",
+   "Milad Mohammadi",
+   "Hossein Kanani",
+   "Arya Yousefi"
+  ],
+  "MF": [
+   "Saeid Ezatolahi",
+   "Alireza Jahanbakhsh",
+   "Mohammad Mohebi",
+   "Saman Ghoddos"
+  ],
+  "FW": [
+   "Mehdi Taremi",
+   "Mehdi Ghayedi"
+  ]
+ },
+ "NZL": {
+  "GK": [
+   "Max Crocombe"
+  ],
+  "DF": [
+   "Tim Payne",
+   "Tyler Bindon",
+   "Michael Boxall",
+   "Liberato Cacace"
+  ],
+  "MF": [
+   "Joe Bell",
+   "Matthew Garbett",
+   "Sarpreet Singh",
+   "Elijah Just",
+   "Callum McCowatt"
+  ],
+  "FW": [
+   "Chris Wood"
+  ]
+ },
+ "ESP": {
+  "GK": [
+   "Unai Simón"
+  ],
+  "DF": [
+   "Marcos Llorente",
+   "Aymeric Laporte",
+   "Pau Cubarsí",
+   "Marc Cucurella"
+  ],
+  "MF": [
+   "Fabián Ruiz",
+   "Rodri",
+   "Pedri"
+  ],
+  "FW": [
+   "Nico Williams",
+   "Lamine Yamal",
+   "Mikel Oyarzabal"
+  ]
+ },
+ "URU": {
+  "GK": [
+   "Sergio Rochet"
+  ],
+  "DF": [
+   "José María Giménez",
+   "Ronald Araújo",
+   "Guillermo Varela",
+   "Mathías Olivera"
+  ],
+  "MF": [
+   "Manuel Ugarte",
+   "Rodrigo Bentancur",
+   "Federico Valverde",
+   "Agustín Canobbio"
+  ],
+  "FW": [
+   "Darwin Núñez",
+   "Brian Rodríguez"
+  ]
+ },
+ "FRA": {
+  "GK": [
+   "Mike Maignan"
+  ],
+  "DF": [
+   "Dayot Upamecano",
+   "Jules Koundé",
+   "William Saliba",
+   "Théo Hernandez"
+  ],
+  "MF": [
+   "Aurélien Tchouaméni",
+   "Adrien Rabiot"
+  ],
+  "FW": [
+   "Ousmane Dembélé",
+   "Kylian Mbappé",
+   "Michael Olise",
+   "Désiré Doué"
+  ]
+ },
+ "NOR": {
+  "GK": [
+   "Ørjan Nyland"
+  ],
+  "DF": [
+   "Leo Ostigard",
+   "David Møller Wolfe",
+   "Torbjørn Heggem"
+  ],
+  "MF": [
+   "Patrick Berg",
+   "Sander Berge",
+   "Kristian Thorstvedt"
+  ],
+  "FW": [
+   "Alexander Sørloth",
+   "Erling Haaland",
+   "Antonio Nusa",
+   "Julian Ryerson"
+  ]
+ },
+ "SEN": {
+  "GK": [
+   "Édouard Mendy"
+  ],
+  "DF": [
+   "Kalidou Koulibaly",
+   "Ismail Jakobs",
+   "Krépin Diatta",
+   "Moussa Niakhaté"
+  ],
+  "MF": [
+   "Idrissa Gueye",
+   "Pape Gueye"
+  ],
+  "FW": [
+   "Sadio Mané",
+   "Nicolas Jackson",
+   "Iliman Ndiaye",
+   "Ismaïla Sarr"
+  ]
+ },
+ "ALG": {
+  "GK": [
+   "Luca Zidane"
+  ],
+  "DF": [
+   "Zineddine Belaïd",
+   "Rayan Aït-Nouri",
+   "Rafik Belghali",
+   "Ramy Bensebaini"
+  ],
+  "MF": [
+   "Ramiz Zerrouki",
+   "Houssem Aouar",
+   "Farès Chaïbi",
+   "Hicham Boudaoui"
+  ],
+  "FW": [
+   "Riyad Mahrez",
+   "Amine Gouiri"
+  ]
+ },
+ "ARG": {
+  "GK": [],
+  "DF": [
+   "Nicolás Tagliafico",
+   "Lisandro Martínez",
+   "Cristian Romero",
+   "Nicolás Otamendi",
+   "Nahuel Molina"
+  ],
+  "MF": [
+   "Leandro Paredes",
+   "Alexis Mac Allister",
+   "Enzo Fernández"
+  ],
+  "FW": [
+   "Julián Alvarez",
+   "Lionel Messi",
+   "Thiago Almada"
+  ]
+ },
+ "AUT": {
+  "GK": [
+   "Alexander Schlager"
+  ],
+  "DF": [
+   "David Alaba",
+   "Philipp Lienhart",
+   "Phillipp Mwene"
+  ],
+  "MF": [
+   "Xaver Schlager",
+   "Nicolas Seiwald",
+   "Marcel Sabitzer",
+   "Christoph Baumgartner",
+   "Konrad Laimer"
+  ],
+  "FW": [
+   "Marko Arnautović",
+   "Patrick Wimmer"
+  ]
+ },
+ "COL": {
+  "GK": [
+   "Álvaro Montero"
+  ],
+  "DF": [
+   "Daniel Muñoz",
+   "Santiago Arias",
+   "Yerry Mina",
+   "Johan Mojica",
+   "Davinson Sánchez"
+  ],
+  "MF": [
+   "Richard Ríos",
+   "James Rodríguez",
+   "Jefferson Lerma"
+  ],
+  "FW": [
+   "Luis Díaz",
+   "Luis Suárez"
+  ]
+ },
+ "COD": {
+  "GK": [
+   "Lionel Mpasi"
+  ],
+  "DF": [
+   "Aaron Wan-Bissaka",
+   "Axel Tuanzebe",
+   "Chancel Mbemba",
+   "Arthur Masuaku"
+  ],
+  "MF": [
+   "Samuel Moutoussamy",
+   "Théo Bongonda",
+   "Charles Pickel"
+  ],
+  "FW": [
+   "Gaël Kakuta",
+   "Cédric Bakambu",
+   "Yoane Wissa"
+  ]
+ },
+ "POR": {
+  "GK": [
+   "Diogo Costa"
+  ],
+  "DF": [
+   "Rúben Dias",
+   "Gonçalo Inácio",
+   "João Cancelo",
+   "Nuno Mendes"
+  ],
+  "MF": [
+   "Bruno Fernandes",
+   "Bernardo Silva",
+   "João Neves",
+   "Vitinha"
+  ],
+  "FW": [
+   "Cristiano Ronaldo",
+   "João Félix"
+  ]
+ },
+ "CRO": {
+  "GK": [
+   "Dominik Livaković"
+  ],
+  "DF": [
+   "Josip Stanišić",
+   "Joško Gvardiol",
+   "Duje Ćaleta-Car",
+   "Josip Šutalo"
+  ],
+  "MF": [
+   "Luka Modrić",
+   "Mario Pašalić",
+   "Petar Sučić"
+  ],
+  "FW": [
+   "Andrej Kramarić",
+   "Ante Budimir",
+   "Ivan Perišić"
+  ]
+ },
+ "ENG": {
+  "GK": [
+   "Jordan Pickford"
+  ],
+  "DF": [
+   "Ezri Konsa",
+   "Nico O'Reilly",
+   "Marc Guéhi",
+   "Reece James"
+  ],
+  "MF": [
+   "Declan Rice",
+   "Elliot Anderson",
+   "Jude Bellingham",
+   "Eberechi Eze"
+  ],
+  "FW": [
+   "Bukayo Saka",
+   "Harry Kane"
+  ]
+ },
+ "GHA": {
+  "GK": [
+   "Benjamin Asare"
+  ],
+  "DF": [
+   "Alidu Seidu",
+   "Jonas Adjetey",
+   "Gideon Mensah",
+   "Kojo Peprah Oppong"
+  ],
+  "MF": [
+   "Caleb Yirenkyi",
+   "Thomas Partey",
+   "Kwasi Sibo",
+   "Antoine Semenyo"
+  ],
+  "FW": [
+   "Jordan Ayew",
+   "Kamaldeen Sulemana"
+  ]
+ },
+ "PAN": {
+  "GK": [
+   "Orlando Mosquera"
+  ],
+  "DF": [
+   "José Córdoba",
+   "Edgardo Fariña",
+   "Eric Davis",
+   "Andrés Andrade",
+   "Amir Murillo"
+  ],
+  "MF": [
+   "Adalberto Carrasquilla",
+   "Ismael Díaz",
+   "Yoel Bárcenas",
+   "Aníbal Godoy"
+  ],
+  "FW": [
+   "José Fajardo"
+  ]
+ }
 }
