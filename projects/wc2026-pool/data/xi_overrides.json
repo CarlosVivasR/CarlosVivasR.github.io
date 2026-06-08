@@ -54,13 +54,13 @@
   ],
   "MF": [
    "Teboho Mokoena",
-   "Themba Zwane",
-   "Sphephelo Sithole"
+   "Themba Zwane"
   ],
   "FW": [
    "Oswin Appollis",
    "Lyle Foster",
-   "Relebohile Mofokeng"
+   "Relebohile Mofokeng",
+   "Evidence Makgopa"
   ]
  },
  "KOR": {
@@ -173,7 +173,6 @@
    "Alisson Becker"
   ],
   "DF": [
-   "Wesley",
    "Gabriel Martinelli",
    "Marquinhos",
    "Douglas Santos"
@@ -186,7 +185,8 @@
    "Vinícius Júnior",
    "Matheus Cunha",
    "Raphinha",
-   "Luiz Henrique"
+   "Luiz Henrique",
+   "Neymar"
   ]
  },
  "HAI": {
@@ -197,7 +197,6 @@
   "DF": [
    "Carlens Arcus",
    "Ricardo Adé",
-   "Martin Experience",
    "Jean-Kévin Duverne"
   ],
   "MF": [
@@ -207,7 +206,8 @@
    "Duckens Nazon",
    "Louicius Deedson",
    "Ruben Providence",
-   "Wilson Isidor"
+   "Wilson Isidor",
+   "Frantzdy Pierrot"
   ]
  },
  "MAR": {
@@ -292,6 +292,27 @@
   "FW": [
    "Julio Enciso",
    "Gabriel Ávalos"
+  ]
+ },
+ "TUR": {
+  "GK": [
+   "Uğurcan Çakır"
+  ],
+  "DF": [
+   "Zeki Çelik",
+   "Merih Demiral",
+   "Abdülkerim Bardakcı",
+   "Ozan Kabak"
+  ],
+  "MF": [
+   "Orkun Kökçü",
+   "Hakan Çalhanoğlu",
+   "Kaan Ayhan"
+  ],
+  "FW": [
+   "Kerem Aktürkoğlu",
+   "Arda Güler",
+   "Kenan Yıldız"
   ]
  },
  "USA": {
@@ -399,6 +420,27 @@
    "Evann Guessand"
   ]
  },
+ "JPN": {
+  "GK": [
+   "Zion Suzuki"
+  ],
+  "DF": [
+   "Shōgo Taniguchi",
+   "Kō Itakura",
+   "Takehiro Tomiyasu",
+   "Yūto Nagatomo"
+  ],
+  "MF": [
+   "Wataru Endo",
+   "Ao Tanaka",
+   "Takefusa Kubo",
+   "Ritsu Dōan",
+   "Keito Nakamura"
+  ],
+  "FW": [
+   "Ayase Ueda"
+  ]
+ },
  "NED": {
   "GK": [
    "Bart Verbruggen"
@@ -483,6 +525,27 @@
    "Charles De Ketelaere"
   ]
  },
+ "EGY": {
+  "GK": [
+   "Mohamed El Shenawy"
+  ],
+  "DF": [
+   "Yasser Ibrahim",
+   "Mohamed Hany",
+   "Ramy Rabia",
+   "Ahmed Fatouh",
+   "Mohamed Abdelmonem"
+  ],
+  "MF": [
+   "Emam Ashour",
+   "Hamdy Fathy"
+  ],
+  "FW": [
+   "Omar Marmoush",
+   "Mohamed Salah",
+   "Trézéguet"
+  ]
+ },
  "IRN": {
   "GK": [
    "Alireza Beiranvand"
@@ -490,8 +553,8 @@
   "DF": [
    "Shojae Khalilzadeh",
    "Milad Mohammadi",
-   "Hossein Kanani",
-   "Arya Yousefi"
+   "Ehsan Hajsafi",
+   "Ramin Rezaeian"
   ],
   "MF": [
    "Saeid Ezatolahi",
@@ -523,6 +586,48 @@
   ],
   "FW": [
    "Chris Wood"
+  ]
+ },
+ "CPV": {
+  "GK": [
+   "Vozinha"
+  ],
+  "DF": [
+   "Sidny Lopes Cabral",
+   "Steven Moreira",
+   "Logan Costa"
+  ],
+  "MF": [
+   "Jovane Cabral",
+   "Jamiro Monteiro",
+   "Garry Rodrigues",
+   "Deroy Duarte",
+   "Hélio Varela",
+   "Laros Duarte"
+  ],
+  "FW": [
+   "Dailon Livramento"
+  ]
+ },
+ "KSA": {
+  "GK": [
+   "Nawaf Al-Aqidi"
+  ],
+  "DF": [
+   "Ali Majrashi",
+   "Abdulelah Al-Amri",
+   "Moteb Al-Harbi",
+   "Saud Abdulhamid"
+  ],
+  "MF": [
+   "Nasser Al-Dawsari",
+   "Abdullah Al-Khaibari",
+   "Mohamed Kanno"
+  ],
+  "FW": [
+   "Salem Al-Dawsari",
+   "Firas Al-Buraikan",
+   "Abdullah Al-Hamdan"
   ]
  },
  "ESP": {
@@ -588,19 +693,40 @@
    "Désiré Doué"
   ]
  },
+ "IRQ": {
+  "GK": [
+   "Jalal Hassan"
+  ],
+  "DF": [
+   "Rebin Sulaka",
+   "Hussein Ali",
+   "Merchas Doski"
+  ],
+  "MF": [
+   "Youssef Amyn",
+   "Ibrahim Bayesh",
+   "Zidane Iqbal",
+   "Amir Al-Ammari"
+  ],
+  "FW": [
+   "Ali Jasim",
+   "Aymen Hussein",
+   "Mohanad Ali"
+  ]
+ },
  "NOR": {
   "GK": [
    "Ørjan Nyland"
   ],
   "DF": [
-   "Leo Ostigard",
    "David Møller Wolfe",
    "Torbjørn Heggem"
   ],
   "MF": [
    "Patrick Berg",
    "Sander Berge",
-   "Kristian Thorstvedt"
+   "Kristian Thorstvedt",
+   "Martin Ødegaard"
   ],
   "FW": [
    "Alexander Sørloth",
@@ -684,12 +810,33 @@
    "Xaver Schlager",
    "Nicolas Seiwald",
    "Marcel Sabitzer",
-   "Christoph Baumgartner",
    "Konrad Laimer"
   ],
   "FW": [
    "Marko Arnautović",
-   "Patrick Wimmer"
+   "Patrick Wimmer",
+   "Michael Gregoritsch"
+  ]
+ },
+ "JOR": {
+  "GK": [
+   "Yazeed Abulaila"
+  ],
+  "DF": [
+   "Mohammad Abu Hashish",
+   "Abdallah Nasib",
+   "Yazan Al-Arab",
+   "Saed Al-Rosan"
+  ],
+  "MF": [
+   "Noor Al-Rawabdeh",
+   "Mohannad Abu Taha",
+   "Rajaei Ayed",
+   "Nizar Al-Rashdan"
+  ],
+  "FW": [
+   "Mahmoud Al-Mardi",
+   "Ali Olwan"
   ]
  },
  "COL": {
@@ -753,6 +900,27 @@
   "FW": [
    "Cristiano Ronaldo",
    "João Félix"
+  ]
+ },
+ "UZB": {
+  "GK": [
+   "Abduvohid Nematov"
+  ],
+  "DF": [
+   "Abdukodir Khusanov",
+   "Farrukh Sayfiev",
+   "Rustam Ashurmatov",
+   "Sherzod Nasrullaev",
+   "Abdulla Abdullaev"
+  ],
+  "MF": [
+   "Otabek Shukurov",
+   "Oston Urunov",
+   "Jaloliddin Masharipov"
+  ],
+  "FW": [
+   "Eldor Shomurodov",
+   "Igor Sergeev"
   ]
  },
  "CRO": {
@@ -826,14 +994,14 @@
    "José Córdoba",
    "Edgardo Fariña",
    "Eric Davis",
-   "Andrés Andrade",
-   "Amir Murillo"
+   "Andrés Andrade"
   ],
   "MF": [
    "Adalberto Carrasquilla",
    "Ismael Díaz",
    "Yoel Bárcenas",
-   "Aníbal Godoy"
+   "Aníbal Godoy",
+   "Alberto Quintero"
   ],
   "FW": [
    "José Fajardo"
