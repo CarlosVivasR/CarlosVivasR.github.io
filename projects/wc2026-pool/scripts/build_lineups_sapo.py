@@ -14,6 +14,19 @@ def fetch(url):
     req=urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'})
     return urllib.request.urlopen(req, timeout=25).read().decode('utf-8','ignore')
 
+def posline(pos):
+    t=(pos or '').upper()
+    return 'GK' if 'GK' in t else 'DF' if 'DF' in t else 'FW' if 'FW' in t else 'MF'
+_capcache={}
+def caps(pid):                       # international caps from the player file (tiebreaker for completion)
+    if pid in _capcache: return _capcache[pid]
+    v=0
+    try:
+        fp=f'data/players/{pid}.json'
+        if pid and os.path.exists(fp): v=json.load(open(fp)).get('caps') or 0
+    except Exception: pass
+    _capcache[pid]=v; return v
+
 ALT={'CUW':['cur'],'COD':['drc']}   # porraselsapo codes that differ from ours
 # Korea: porraselsapo lists names in Western order → poor match; keep a manual reference XI
 KOR_MANUAL={'GK':['Kim Seung-gyu'],'DF':['Lee Tae-seok','Kim Min-jae','Kim Tae-hyeon','Seol Young-woo'],
@@ -52,16 +65,25 @@ for t in idx:
         nm=re.search(r'font-medium">([^<]+)</span>', r)
         ps=re.search(r'rounded[^>]*>\s*([A-Za-z]{2,4})\s*<', r)
         if nm and ps: xi.append((nm.group(1).strip(), POS.get(ps.group(1).upper(),'MF')))
-    if len(xi)<11: rep.append((code,'incompleto',len(xi))); continue
+    if len(xi)<6: rep.append((code,'muy-incompleto',len(xi))); continue   # too little signal → keep heuristic
     try: roster=json.load(open(f'data/teams/{code}.json'))['players']
     except: continue
+    # base: only porraselsapo starters that match our roster (so every name links + has a number)
     lines={'GK':[],'DF':[],'MF':[],'FW':[]}; used=set(); matched=0
     for nm,ln in xi:
         rp=match(nm, roster, used)
         if rp: lines[ln].append(rp['name']); used.add(rp['pid']); matched+=1
-        else: lines[ln].append(nm)
-    if matched<9: rep.append((code,'low-match',f'{matched}/11')); continue  # unreliable → keep heuristic
-    out[code]=lines; rep.append((code,'ok',f'{matched}/11'))
+    total=sum(len(v) for v in lines.values())
+    # complete to 11 with the most-capped unused roster players (they're usually the unmarked starters)
+    filled=0
+    if total<11:
+        pool=sorted([p for p in roster if p['pid'] not in used], key=lambda p:-caps(p['pid']))
+        for p in pool:
+            if total>=11: break
+            ln=posline(p.get('pos'))
+            if ln=='GK' and lines['GK']: continue   # never two keepers
+            lines[ln].append(p['name']); used.add(p['pid']); total+=1; filled+=1
+    out[code]=lines; rep.append((code,'ok',f'{matched}+{filled}'))
     time.sleep(0.25)
 json.dump(out, open('data/xi_overrides.json','w'), ensure_ascii=False, indent=1)
 ok=[r for r in rep if r[1]=='ok']

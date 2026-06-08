@@ -169,11 +169,6 @@
 "name": "Themba Zwane",
 "pid": null,
 "value": 0
-},
-{
-"name": "Sphephelo Sithole",
-"pid": null,
-"value": 0
 }
 ],
 "FW": [
@@ -191,6 +186,11 @@
 "name": "Relebohile Mofokeng",
 "pid": "1125037",
 "value": 2000000
+},
+{
+"name": "Evidence Makgopa",
+"pid": "746781",
+"value": 1200000
 }
 ]
 },
@@ -529,11 +529,6 @@
 ],
 "DF": [
 {
-"name": "Wesley França",
-"pid": null,
-"value": 0
-},
-{
 "name": "Gabriel Martinelli",
 "pid": "655488",
 "value": 45000000
@@ -581,6 +576,11 @@
 "name": "Luiz Henrique",
 "pid": "530289",
 "value": 300000
+},
+{
+"name": "Neymar",
+"pid": "68290",
+"value": 10000000
 }
 ]
 },
@@ -641,6 +641,11 @@
 "name": "Wilson Isidor",
 "pid": "494237",
 "value": 18000000
+},
+{
+"name": "Frantzdy Pierrot",
+"pid": "492955",
+"value": 1500000
 }
 ]
 },
@@ -914,9 +919,9 @@
 ],
 "DF": [
 {
-"name": "Ferdi Kadıoğlu",
-"pid": "369316",
-"value": 30000000
+"name": "Zeki Çelik",
+"pid": "251075",
+"value": 12000000
 },
 {
 "name": "Merih Demiral",
@@ -924,26 +929,26 @@
 "value": 14000000
 },
 {
-"name": "Çağlar Söyüncü",
-"pid": "320141",
-"value": 3500000
+"name": "Abdülkerim Bardakcı",
+"pid": "199316",
+"value": 6500000
 },
 {
-"name": "Zeki Çelik",
-"pid": "251075",
-"value": 12000000
+"name": "Ozan Kabak",
+"pid": "361260",
+"value": 10000000
 }
 ],
 "MF": [
 {
-"name": "Hakan Çalhanoğlu",
-"pid": "126414",
-"value": 18000000
-},
-{
 "name": "Orkun Kökçü",
 "pid": "454567",
 "value": 25000000
+},
+{
+"name": "Hakan Çalhanoğlu",
+"pid": "126414",
+"value": 18000000
 },
 {
 "name": "Kaan Ayhan",
@@ -958,14 +963,14 @@
 "value": 20000000
 },
 {
-"name": "Deniz Gül",
-"pid": "1063292",
-"value": 6000000
+"name": "Arda Güler",
+"pid": "861410",
+"value": 90000000
 },
 {
-"name": "İrfan Can Kahveci",
-"pid": "216603",
-"value": 3000000
+"name": "Kenan Yıldız",
+"pid": "845654",
+"value": 75000000
 }
 ]
 },
@@ -1304,9 +1309,9 @@
 ],
 "DF": [
 {
-"name": "Yūto Nagatomo",
-"pid": "79522",
-"value": 100000
+"name": "Shōgo Taniguchi",
+"pid": "307870",
+"value": 800000
 },
 {
 "name": "Kō Itakura",
@@ -1314,14 +1319,14 @@
 "value": 10000000
 },
 {
-"name": "Shōgo Taniguchi",
-"pid": "307870",
-"value": 800000
-},
-{
 "name": "Takehiro Tomiyasu",
 "pid": "331560",
 "value": 8000000
+},
+{
+"name": "Yūto Nagatomo",
+"pid": "79522",
+"value": 100000
 }
 ],
 "MF": [
@@ -1331,31 +1336,31 @@
 "value": 5000000
 },
 {
-"name": "Ritsu Dōan",
-"pid": "358504",
-"value": 20000000
-},
-{
-"name": "Junya Itō",
-"pid": "348791",
-"value": 3500000
-}
-],
-"FW": [
-{
-"name": "Daizen Maeda",
-"pid": "420931",
-"value": 13000000
-},
-{
-"name": "Ayase Ueda",
-"pid": "589128",
-"value": 15000000
+"name": "Ao Tanaka",
+"pid": "489359",
+"value": 10000000
 },
 {
 "name": "Takefusa Kubo",
 "pid": "405398",
 "value": 30000000
+},
+{
+"name": "Ritsu Dōan",
+"pid": "358504",
+"value": 20000000
+},
+{
+"name": "Keito Nakamura",
+"pid": "405397",
+"value": 9000000
+}
+],
+"FW": [
+{
+"name": "Ayase Ueda",
+"pid": "589128",
+"value": 15000000
 }
 ]
 },
@@ -1629,9 +1634,14 @@
 ],
 "DF": [
 {
-"name": "Ahmed Fatouh",
-"pid": "465966",
-"value": 1000000
+"name": "Yasser Ibrahim",
+"pid": "237425",
+"value": 275000
+},
+{
+"name": "Mohamed Hany",
+"pid": "343974",
+"value": 1500000
 },
 {
 "name": "Ramy Rabia",
@@ -1639,39 +1649,29 @@
 "value": 700000
 },
 {
+"name": "Ahmed Fatouh",
+"pid": "465966",
+"value": 1000000
+},
+{
 "name": "Mohamed Abdelmonem",
 "pid": "566025",
 "value": 3000000
-},
-{
-"name": "Mohamed Hany",
-"pid": "343974",
-"value": 1500000
 }
 ],
 "MF": [
-{
-"name": "Hamdy Fathy",
-"pid": "340303",
-"value": 1800000
-},
 {
 "name": "Emam Ashour",
 "pid": "604008",
 "value": 2000000
 },
 {
-"name": "Mahmoud Saber",
-"pid": "729390",
-"value": 1500000
+"name": "Hamdy Fathy",
+"pid": "340303",
+"value": 1800000
 }
 ],
 "FW": [
-{
-"name": "Trézéguet",
-"pid": "234189",
-"value": 4500000
-},
 {
 "name": "Omar Marmoush",
 "pid": "445939",
@@ -1681,6 +1681,11 @@
 "name": "Mohamed Salah",
 "pid": "148455",
 "value": 30000000
+},
+{
+"name": "Trézéguet",
+"pid": "234189",
+"value": 4500000
 }
 ]
 },
@@ -1702,6 +1707,16 @@
 "name": "Milad Mohammadi",
 "pid": "333355",
 "value": 1300000
+},
+{
+"name": "Ehsan Hajsafi",
+"pid": "77547",
+"value": 275000
+},
+{
+"name": "Ramin Rezaeian",
+"pid": "188312",
+"value": 250000
 }
 ],
 "MF": [
@@ -1807,16 +1822,16 @@
 "CPV": {
 "GK": [
 {
-"name": "CJ dos Santos",
-"pid": "532096",
-"value": 1200000
+"name": "Vozinha",
+"pid": null,
+"value": 0
 }
 ],
 "DF": [
 {
-"name": "Logan Costa",
-"pid": "484988",
-"value": 18000000
+"name": "Sidny Lopes Cabral",
+"pid": "611855",
+"value": 5000000
 },
 {
 "name": "Steven Moreira",
@@ -1824,64 +1839,64 @@
 "value": 1500000
 },
 {
-"name": "Wagner Pina",
-"pid": "1072017",
-"value": 11000000
-},
-{
-"name": "Sidny Lopes Cabral",
-"pid": "611855",
-"value": 5000000
+"name": "Logan Costa",
+"pid": "484988",
+"value": 18000000
 }
 ],
 "MF": [
-{
-"name": "Jamiro Monteiro",
-"pid": "272930",
-"value": 750000
-},
 {
 "name": "Jovane Cabral",
 "pid": "448466",
 "value": 800000
 },
 {
+"name": "Jamiro Monteiro",
+"pid": "272930",
+"value": 750000
+},
+{
 "name": "Garry Rodrigues",
 "pid": "170895",
 "value": 325000
-}
-],
-"FW": [
+},
+{
+"name": "Deroy Duarte",
+"pid": "432852",
+"value": 1000000
+},
 {
 "name": "Hélio Varela",
 "pid": "840836",
 "value": 1200000
 },
 {
+"name": "Laros Duarte",
+"pid": "258513",
+"value": 1000000
+}
+],
+"FW": [
+{
 "name": "Dailon Livramento",
 "pid": "676411",
 "value": 800000
-},
-{
-"name": "Telmo Arcanjo",
-"pid": "791528",
-"value": 3000000
 }
 ]
 },
 "KSA": {
 "GK": [
 {
-"name": "Mohammed Al-Owais",
-"pid": "262845",
-"value": 0
+"name": "Nawaf Al-Aqidi",
+"pid": "886183",
+"value": 700000
 }
 ],
 "DF": [
 {
-"name": "Ayman Yahya",
-"pid": "735815",
-"value": 1400000
+"name": "Ali Majrashi",
+"pid": "672391",
+"value": 1200000
 },
 {
 "name": "Abdulelah Al-Amri",
@@ -1889,9 +1904,9 @@
 "value": 1000000
 },
 {
-"name": "Ali Lajami",
-"pid": "264909",
-"value": 800000
+"name": "Moteb Al-Harbi",
+"pid": "869509",
+"value": 1200000
 },
 {
 "name": "Saud Abdulhamid",
@@ -1901,19 +1916,19 @@
 ],
 "MF": [
 {
-"name": "Mohamed Kanno",
-"pid": "308120",
-"value": 900000
-},
-{
-"name": "Musab Al-Juwayr",
-"pid": "901181",
-"value": 4500000
-},
-{
 "name": "Nasser Al-Dawsari",
 "pid": "509911",
 "value": 800000
+},
+{
+"name": "Abdullah Al-Khaibari",
+"pid": "437903",
+"value": 800000
+},
+{
+"name": "Mohamed Kanno",
+"pid": "308120",
+"value": 900000
 }
 ],
 "FW": [
@@ -1928,9 +1943,9 @@
 "value": 4000000
 },
 {
-"name": "Sultan Mandash",
-"pid": "210349",
-"value": 400000
+"name": "Abdullah Al-Hamdan",
+"pid": "68626",
+"value": 325000
 }
 ]
 },
@@ -2139,31 +2154,26 @@
 ],
 "DF": [
 {
-"name": "Merchas Doski",
-"pid": "530527",
-"value": 1700000
-},
-{
 "name": "Rebin Sulaka",
 "pid": "217073",
 "value": 100000
 },
 {
-"name": "Manaf Younis",
-"pid": "945266",
-"value": 350000
+"name": "Hussein Ali",
+"pid": "535744",
+"value": 450000
 },
 {
-"name": "Mustafa Saadoon",
-"pid": "952341",
-"value": 300000
+"name": "Merchas Doski",
+"pid": "530527",
+"value": 1700000
 }
 ],
 "MF": [
 {
-"name": "Amir Al-Ammari",
-"pid": "303766",
-"value": 850000
+"name": "Youssef Amyn",
+"pid": "684307",
+"value": 600000
 },
 {
 "name": "Ibrahim Bayesh",
@@ -2171,16 +2181,21 @@
 "value": 900000
 },
 {
-"name": "Youssef Amyn",
-"pid": "684307",
-"value": 600000
+"name": "Zidane Iqbal",
+"pid": "686845",
+"value": 1000000
+},
+{
+"name": "Amir Al-Ammari",
+"pid": "303766",
+"value": 850000
 }
 ],
 "FW": [
 {
-"name": "Hussein Ali",
-"pid": "535744",
-"value": 450000
+"name": "Ali Jasim",
+"pid": "877672",
+"value": 550000
 },
 {
 "name": "Aymen Hussein",
@@ -2188,9 +2203,9 @@
 "value": 450000
 },
 {
-"name": "Ahmed Qasem",
-"pid": "833817",
-"value": 3500000
+"name": "Mohanad Ali",
+"pid": "589646",
+"value": 1400000
 }
 ]
 },
@@ -2229,6 +2244,11 @@
 "name": "Kristian Thorstvedt",
 "pid": "564785",
 "value": 10000000
+},
+{
+"name": "Martin Ødegaard",
+"pid": "316264",
+"value": 65000000
 }
 ],
 "FW": [
@@ -2505,6 +2525,11 @@
 "name": "Patrick Wimmer",
 "pid": "533295",
 "value": 15000000
+},
+{
+"name": "Michael Gregoritsch",
+"pid": "120205",
+"value": 1500000
 }
 ]
 },
@@ -2518,19 +2543,19 @@
 ],
 "DF": [
 {
-"name": "Mohannad Abu Taha",
-"pid": "883111",
-"value": 450000
-},
-{
-"name": "Yazan Al-Arab",
-"pid": "539961",
-"value": 1000000
+"name": "Mohammad Abu Hashish",
+"pid": null,
+"value": 0
 },
 {
 "name": "Abdallah Nasib",
 "pid": "882197",
 "value": 500000
+},
+{
+"name": "Yazan Al-Arab",
+"pid": "539961",
+"value": 1000000
 },
 {
 "name": "Saed Al-Rosan",
@@ -2545,14 +2570,19 @@
 "value": 450000
 },
 {
-"name": "Nizar Al-Rashdan",
-"pid": "734751",
-"value": 600000
+"name": "Mohannad Abu Taha",
+"pid": "883111",
+"value": 450000
 },
 {
 "name": "Rajaei Ayed",
 "pid": "261842",
 "value": 350000
+},
+{
+"name": "Nizar Al-Rashdan",
+"pid": "734751",
+"value": 600000
 }
 ],
 "FW": [
@@ -2565,11 +2595,6 @@
 "name": "Ali Olwan",
 "pid": "664057",
 "value": 800000
-},
-{
-"name": "Ali Azaizeh",
-"pid": "1059056",
-"value": 200000
 }
 ]
 },
@@ -2771,12 +2796,17 @@
 "UZB": {
 "GK": [
 {
-"name": "Utkir Yusupov",
-"pid": "311958",
-"value": 500000
+"name": "Abduvohid Nematov",
+"pid": null,
+"value": 0
 }
 ],
 "DF": [
+{
+"name": "Abdukodir Khusanov",
+"pid": "763079",
+"value": 35000000
+},
 {
 "name": "Farrukh Sayfiev",
 "pid": "212499",
@@ -2788,48 +2818,43 @@
 "value": 750000
 },
 {
-"name": "Umar Eshmurodov",
-"pid": "493725",
-"value": 450000
-},
-{
 "name": "Sherzod Nasrullaev",
 "pid": "608537",
 "value": 1200000
+},
+{
+"name": "Abdulla Abdullaev",
+"pid": "570272",
+"value": 600000
 }
 ],
 "MF": [
-{
-"name": "Jaloliddin Masharipov",
-"pid": "274536",
-"value": 1000000
-},
 {
 "name": "Otabek Shukurov",
 "pid": "294525",
 "value": 1600000
 },
 {
-"name": "Jamshid Iskanderov",
-"pid": "260857",
-"value": 1000000
-}
-],
-"FW": [
-{
 "name": "Oston Urunov",
 "pid": "492556",
 "value": 2000000
 },
+{
+"name": "Jaloliddin Masharipov",
+"pid": "274536",
+"value": 1000000
+}
+],
+"FW": [
 {
 "name": "Eldor Shomurodov",
 "pid": "358166",
 "value": 7000000
 },
 {
-"name": "Dostonbek Khamdamov",
-"pid": "294502",
-"value": 900000
+"name": "Igor Sergeev",
+"pid": "185372",
+"value": 1200000
 }
 ]
 },
@@ -3056,11 +3081,6 @@
 "name": "Andrés Andrade",
 "pid": "403808",
 "value": 2000000
-},
-{
-"name": "Michael Amir Murillo",
-"pid": null,
-"value": 0
 }
 ],
 "MF": [
@@ -3083,6 +3103,11 @@
 "name": "Aníbal Godoy",
 "pid": "161671",
 "value": 100000
+},
+{
+"name": "Alberto Quintero",
+"pid": "126019",
+"value": 75000
 }
 ],
 "FW": [
