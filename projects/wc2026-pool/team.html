@@ -23,7 +23,8 @@
   .fline{display:flex;justify-content:center;gap:6px;flex-wrap:nowrap}
   .fp{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1 1 0;min-width:0;max-width:118px;text-align:center;color:var(--ink)}
   .fp:hover .pn{color:var(--cyan)}
-  .fp .dot{width:30px;height:30px;border-radius:50%;background:rgba(13,17,32,.7);border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.4);flex:none}
+  .fp .dot{width:32px;height:32px;border-radius:50%;background:rgba(13,17,32,.7);border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.4);flex:none;
+    display:grid;place-items:center;font-family:var(--mono);font-weight:800;font-size:.82em;color:var(--gold-2)}
   .fp .pn{font-size:.74em;font-weight:700;line-height:1.15;overflow-wrap:anywhere}
   @media(max-width:380px){ .fp .pn{font-size:.66em} .formation{padding:18px 6px} }
   .grouphead{font-size:.78em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:26px 0 12px}
@@ -46,6 +47,7 @@
   .pcard .avi{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font:800 1.3em var(--disp);background:linear-gradient(150deg,#1a2540,#0a0e22);border:1px solid var(--line-2);color:var(--gold)}
   .pcard .nm{font-weight:700;font-size:.92em;line-height:1.2}
   .pcard .cl{font-size:.74em;color:var(--muted);line-height:1.3}
+  .pcard .dorsal{position:absolute;top:8px;left:10px;font-family:var(--mono);font-size:.82em;font-weight:800;color:var(--gold-2);min-width:18px;text-align:center}
   .pcard .injb{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:.68em;font-weight:800;color:#fff;background:var(--red);border-radius:99px;padding:2px 7px}
   .pcard .injb.zero{background:rgba(255,255,255,.12);color:var(--ink-2)}
   .note{margin-top:30px;font-size:.78em;color:var(--muted);text-align:center}
@@ -74,6 +76,9 @@ function posGroup(pos){const t=(pos||'').toUpperCase();
   if(t.includes('MF')||t.includes('MID'))return 2;if(t.includes('FW')||t.includes('FOR'))return 3;return 4;}
 const GROUPS=L('groups');
 const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const norm=s=>(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+let NUM={};
+const dorsal=name=>NUM[norm(name)];
 const MON=L('months');
 const fmtD=iso=>{if(!iso)return'';const[y,m,d]=iso.split('-');return`${+d} ${MON[+m-1]||''}`;};
 async function main(){
@@ -86,6 +91,7 @@ async function main(){
   catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   try{ coaches=(await (await fetch('data/coaches.json')).json()).coaches||{}; }catch(e){}
   try{ xi=await (await fetch('data/team_xi.json')).json(); }catch(e){}
+  try{ NUM=(await (await fetch('data/numbers.json')).json())[CODE]||{}; }catch(e){}
   const cur=document.querySelector('.sn-crumbs .cur'); if(cur) cur.textContent=d.team;
   document.title=`${d.team} · WC 2026`;
   const totalInj=d.players.reduce((a,p)=>a+(p.injuries||0),0);
@@ -106,7 +112,7 @@ async function main(){
   // probable XI on a pitch
   const f=xi[CODE];
   if(f && (f.GK.length || f.DF.length || f.FW.length)){
-    const fp=p=>`<a class="fp" href="${p&&p.pid?`player.html?id=${p.pid}`:'#'}"><span class="dot"></span><span class="pn">${esc(p?p.name:'')}</span></a>`;
+    const fp=p=>{const n=p?dorsal(p.name):null;return `<a class="fp" href="${p&&p.pid?`player.html?id=${p.pid}`:'#'}"><span class="dot">${n!=null?n:''}</span><span class="pn">${esc(p?p.name:'')}</span></a>`;};
     const fline=arr=>`<div class="fline">${(arr||[]).map(fp).join('')}</div>`;
     html+=`<h2 class="grouphead" style="margin-top:0">${L('formation')}</h2>
       <div class="formation">${fline(f.FW)}${fline(f.MF)}${fline(f.DF)}${fline(f.GK)}</div>`;
@@ -133,7 +139,8 @@ function card(p){
   const av=p.photo?`<img class="ph" src="${p.photo}" alt="${esc(p.name)}" loading="lazy" onerror="this.outerHTML='<div class=avi>${initials}</div>'">`:`<div class="avi">${initials}</div>`;
   const inj=p.injuries==null?'':`<span class="injb ${p.injuries===0?'zero':''}">🩹 ${p.injuries}</span>`;
   const tag=p.pid?'a':'div', href=p.pid?`href="player.html?id=${p.pid}"`:'', cls=p.pid?'pcard glass glass-hover':'pcard glass nolink';
-  return `<${tag} class="${cls}" ${href}>${inj}${av}<div class="nm">${esc(p.name)}</div><div class="cl">${esc(p.club||'')}</div></${tag}>`;
+  const n=dorsal(p.name); const numb=n!=null?`<span class="dorsal">${n}</span>`:'';
+  return `<${tag} class="${cls}" ${href}>${numb}${inj}${av}<div class="nm">${esc(p.name)}</div><div class="cl">${esc(p.club||'')}</div></${tag}>`;
 }
 main();
 </script>
