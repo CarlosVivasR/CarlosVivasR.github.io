@@ -18,12 +18,14 @@
   .legend{font-size:.82em;color:var(--muted);margin-bottom:24px}
   /* probable XI on a pitch */
   .formation{background:linear-gradient(180deg,rgba(46,194,126,.10),rgba(255,255,255,.012));border:1px solid var(--line);
-    border-radius:16px;padding:22px 12px;display:flex;flex-direction:column;gap:18px;margin-bottom:8px}
-  .fline{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
-  .fp{display:flex;flex-direction:column;align-items:center;gap:5px;width:88px;text-align:center;color:var(--ink)}
+    border-radius:16px;padding:22px 10px;display:flex;flex-direction:column;gap:18px;margin-bottom:8px}
+  /* each line stays on ONE row at any width → 4-3-3 structure is preserved */
+  .fline{display:flex;justify-content:center;gap:6px;flex-wrap:nowrap}
+  .fp{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1 1 0;min-width:0;max-width:118px;text-align:center;color:var(--ink)}
   .fp:hover .pn{color:var(--cyan)}
-  .fp .dot{width:30px;height:30px;border-radius:50%;background:rgba(13,17,32,.7);border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.4)}
-  .fp .pn{font-size:.76em;font-weight:700;line-height:1.15}
+  .fp .dot{width:30px;height:30px;border-radius:50%;background:rgba(13,17,32,.7);border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.4);flex:none}
+  .fp .pn{font-size:.74em;font-weight:700;line-height:1.15;overflow-wrap:anywhere}
+  @media(max-width:380px){ .fp .pn{font-size:.66em} .formation{padding:18px 6px} }
   .grouphead{font-size:.78em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:26px 0 12px}
   /* fixtures */
   .fixtures{padding:18px 20px;margin-bottom:8px}
