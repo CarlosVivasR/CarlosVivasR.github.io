@@ -1,0 +1,3122 @@
+{
+"CZE": {
+"GK": [
+{
+"name": "Lukáš Horníček",
+"pid": "629773",
+"value": 15000000
+}
+],
+"DF": [
+{
+"name": "David Jurásek",
+"pid": "500054",
+"value": 5000000
+},
+{
+"name": "Robin Hranáč",
+"pid": "620217",
+"value": 10000000
+},
+{
+"name": "Štěpán Chaloupek",
+"pid": "944827",
+"value": 10000000
+},
+{
+"name": "Vladimír Coufal",
+"pid": "157672",
+"value": 2700000
+}
+],
+"MF": [
+{
+"name": "Lukáš Provod",
+"pid": "292779",
+"value": 8000000
+},
+{
+"name": "Tomáš Souček",
+"pid": "283628",
+"value": 12000000
+},
+{
+"name": "Michal Sadílek",
+"pid": "321204",
+"value": 8000000
+}
+],
+"FW": [
+{
+"name": "Ladislav Krejčí",
+"pid": "140206",
+"value": 100000
+},
+{
+"name": "Patrik Schick",
+"pid": "242086",
+"value": 20000000
+},
+{
+"name": "David Douděra",
+"pid": "493758",
+"value": 3500000
+}
+]
+},
+"MEX": {
+"GK": [
+{
+"name": "Raúl Rangel",
+"pid": "802855",
+"value": 6500000
+}
+],
+"DF": [
+{
+"name": "Mateo Chávez",
+"pid": "1066953",
+"value": 4000000
+},
+{
+"name": "Johan Vásquez",
+"pid": "532937",
+"value": 13000000
+},
+{
+"name": "César Montes",
+"pid": "387687",
+"value": 7000000
+},
+{
+"name": "Jorge Sánchez",
+"pid": "356044",
+"value": 2200000
+}
+],
+"MF": [
+{
+"name": "Álvaro Fidalgo",
+"pid": "261503",
+"value": 10000000
+},
+{
+"name": "Érik Lira",
+"pid": "602324",
+"value": 12000000
+},
+{
+"name": "Gilberto Mora",
+"pid": "1155723",
+"value": 10000000
+}
+],
+"FW": [
+{
+"name": "Alexis Vega",
+"pid": "424689",
+"value": 8000000
+},
+{
+"name": "Santiago Giménez",
+"pid": "552955",
+"value": 20000000
+},
+{
+"name": "Roberto Alvarado",
+"pid": "353583",
+"value": 7500000
+}
+]
+},
+"RSA": {
+"GK": [
+{
+"name": "Sipho Chaine",
+"pid": "453370",
+"value": 1400000
+}
+],
+"DF": [
+{
+"name": "Samukele Kabini",
+"pid": "1175086",
+"value": 2000000
+},
+{
+"name": "Mbekezeli Mbokazi",
+"pid": "1378320",
+"value": 2500000
+},
+{
+"name": "Olwethu Makhanya",
+"pid": "1069801",
+"value": 2000000
+},
+{
+"name": "Khuliso Mudau",
+"pid": "450806",
+"value": 1200000
+}
+],
+"MF": [
+{
+"name": "Thalente Mbatha",
+"pid": "735697",
+"value": 1600000
+},
+{
+"name": "Teboho Mokoena",
+"pid": "436372",
+"value": 2500000
+},
+{
+"name": "Jayden Adams",
+"pid": "804472",
+"value": 1400000
+}
+],
+"FW": [
+{
+"name": "Oswin Appollis",
+"pid": "673381",
+"value": 2000000
+},
+{
+"name": "Lyle Foster",
+"pid": "467623",
+"value": 10000000
+},
+{
+"name": "Kamogelo Sebelebele",
+"pid": "994370",
+"value": 850000
+}
+]
+},
+"KOR": {
+"GK": [
+{
+"name": "Kim Seung-gyu",
+"pid": null,
+"value": 0
+}
+],
+"DF": [
+{
+"name": "Jens Castrop",
+"pid": "613192",
+"value": 6000000
+},
+{
+"name": "Lee Han-beom",
+"pid": null,
+"value": 0
+},
+{
+"name": "Lee Han-beom",
+"pid": null,
+"value": 0
+},
+{
+"name": "Lee Han-beom",
+"pid": null,
+"value": 0
+}
+],
+"MF": [
+{
+"name": "Lee Gi-hyuk",
+"pid": null,
+"value": 0
+},
+{
+"name": "Lee Gi-hyuk",
+"pid": null,
+"value": 0
+},
+{
+"name": "Lee Gi-hyuk",
+"pid": null,
+"value": 0
+}
+],
+"FW": [
+{
+"name": "Son Heung-min",
+"pid": null,
+"value": 0
+},
+{
+"name": "Son Heung-min",
+"pid": null,
+"value": 0
+},
+{
+"name": "Son Heung-min",
+"pid": null,
+"value": 0
+}
+]
+},
+"BIH": {
+"GK": [
+{
+"name": "Nikola Vasilj",
+"pid": "248454",
+"value": 4500000
+}
+],
+"DF": [
+{
+"name": "Tarik Muharemović",
+"pid": "679423",
+"value": 20000000
+},
+{
+"name": "Sead Kolašinac",
+"pid": "94005",
+"value": 6000000
+},
+{
+"name": "Amar Dedić",
+"pid": "519184",
+"value": 15000000
+},
+{
+"name": "Nidal Čelik",
+"pid": "819566",
+"value": 4000000
+}
+],
+"MF": [
+{
+"name": "Benjamin Tahirović",
+"pid": "787907",
+"value": 4500000
+},
+{
+"name": "Ermin Mahmić",
+"pid": "803049",
+"value": 5000000
+},
+{
+"name": "Amar Memić",
+"pid": "638990",
+"value": 4500000
+}
+],
+"FW": [
+{
+"name": "Kerim Alajbegović",
+"pid": "929994",
+"value": 15000000
+},
+{
+"name": "Ermedin Demirović",
+"pid": "335457",
+"value": 22000000
+},
+{
+"name": "Esmir Bajraktarević",
+"pid": "925862",
+"value": 5000000
+}
+]
+},
+"CAN": {
+"GK": [
+{
+"name": "Dayne St. Clair",
+"pid": "439750",
+"value": 3500000
+}
+],
+"DF": [
+{
+"name": "Alphonso Davies",
+"pid": "424204",
+"value": 45000000
+},
+{
+"name": "Moïse Bombito",
+"pid": "1089202",
+"value": 8000000
+},
+{
+"name": "Alfie Jones",
+"pid": "340990",
+"value": 6000000
+},
+{
+"name": "Alistair Johnston",
+"pid": "637446",
+"value": 8000000
+}
+],
+"MF": [
+{
+"name": "Stephen Eustáquio",
+"pid": "512913",
+"value": 7000000
+},
+{
+"name": "Ismaël Koné",
+"pid": "921655",
+"value": 20000000
+},
+{
+"name": "Jacob Shaffelburg",
+"pid": "637632",
+"value": 3000000
+}
+],
+"FW": [
+{
+"name": "Liam Millar",
+"pid": "487417",
+"value": 1700000
+},
+{
+"name": "Jonathan David",
+"pid": "533738",
+"value": 35000000
+},
+{
+"name": "Tajon Buchanan",
+"pid": "638793",
+"value": 12000000
+}
+]
+},
+"QAT": {
+"GK": [
+{
+"name": "Meshaal Barsham",
+"pid": "560423",
+"value": 700000
+}
+],
+"DF": [
+{
+"name": "Sultan Al-Brake",
+"pid": "336665",
+"value": 300000
+},
+{
+"name": "Lucas Mendes",
+"pid": "83983",
+"value": 350000
+},
+{
+"name": "Al-Hashmi Al-Hussain",
+"pid": "943150",
+"value": 250000
+},
+{
+"name": "Ayoub Al-Oui",
+"pid": "1054631",
+"value": 375000
+}
+],
+"MF": [
+{
+"name": "Assim Madibo",
+"pid": "336667",
+"value": 350000
+},
+{
+"name": "Ahmed Al-Ganehi",
+"pid": "670659",
+"value": 500000
+},
+{
+"name": "Karim Boudiaf",
+"pid": "222385",
+"value": 175000
+}
+],
+"FW": [
+{
+"name": "Akram Afif",
+"pid": "336646",
+"value": 8000000
+},
+{
+"name": "Almoez Ali",
+"pid": "345095",
+"value": 2500000
+},
+{
+"name": "Edmilson Junior",
+"pid": "237846",
+"value": 1800000
+}
+]
+},
+"SUI": {
+"GK": [
+{
+"name": "Gregor Kobel",
+"pid": "257814",
+"value": 40000000
+}
+],
+"DF": [
+{
+"name": "Miro Muheim",
+"pid": "298603",
+"value": 5000000
+},
+{
+"name": "Manuel Akanji",
+"pid": "284730",
+"value": 18000000
+},
+{
+"name": "Luca Jaquez",
+"pid": "539798",
+"value": 10000000
+},
+{
+"name": "Silvan Widmer",
+"pid": "168989",
+"value": 800000
+}
+],
+"MF": [
+{
+"name": "Ardon Jashari",
+"pid": "608172",
+"value": 30000000
+},
+{
+"name": "Johan Manzambi",
+"pid": "927353",
+"value": 35000000
+},
+{
+"name": "Denis Zakaria",
+"pid": "334526",
+"value": 25000000
+}
+],
+"FW": [
+{
+"name": "Noah Okafor",
+"pid": "346890",
+"value": 18000000
+},
+{
+"name": "Breel Embolo",
+"pid": "237662",
+"value": 12000000
+},
+{
+"name": "Dan Ndoye",
+"pid": "365108",
+"value": 35000000
+}
+]
+},
+"BRA": {
+"GK": [
+{
+"name": "Weverton",
+"pid": "69400",
+"value": 700000
+}
+],
+"DF": [
+{
+"name": "Douglas Santos",
+"pid": "220793",
+"value": 8000000
+},
+{
+"name": "Marquinhos",
+"pid": "181767",
+"value": 30000000
+},
+{
+"name": "Roger Ibañez",
+"pid": "524481",
+"value": 17000000
+},
+{
+"name": "Léo Pereira",
+"pid": "288431",
+"value": 10000000
+}
+],
+"MF": [
+{
+"name": "Lucas Paquetá",
+"pid": "444523",
+"value": 35000000
+},
+{
+"name": "Bruno Guimarães",
+"pid": "520624",
+"value": 75000000
+},
+{
+"name": "Casemiro",
+"pid": "16306",
+"value": 8000000
+}
+],
+"FW": [
+{
+"name": "Vinícius Júnior",
+"pid": "371998",
+"value": 150000000
+},
+{
+"name": "Matheus Cunha",
+"pid": "517894",
+"value": 70000000
+},
+{
+"name": "Rayan",
+"pid": "1012564",
+"value": 40000000
+}
+]
+},
+"HAI": {
+"GK": [
+{
+"name": "Johny Placide",
+"pid": "51035",
+"value": 250000
+}
+],
+"DF": [
+{
+"name": "Hannes Delcroix",
+"pid": "338635",
+"value": 2000000
+},
+{
+"name": "Jean-Kévin Duverne",
+"pid": "344864",
+"value": 2000000
+},
+{
+"name": "Carlens Arcus",
+"pid": "371686",
+"value": 1800000
+},
+{
+"name": "Wilguens Paugain",
+"pid": "609691",
+"value": 600000
+}
+],
+"MF": [
+{
+"name": "Danley Jean Jacques",
+"pid": "628834",
+"value": 3000000
+},
+{
+"name": "Jean-Ricner Bellegarde",
+"pid": "450050",
+"value": 16000000
+},
+{
+"name": "Carl Sainté",
+"pid": null,
+"value": 0
+}
+],
+"FW": [
+{
+"name": "Derrick Etienne Jr.",
+"pid": "354763",
+"value": 800000
+},
+{
+"name": "Wilson Isidor",
+"pid": "494237",
+"value": 18000000
+},
+{
+"name": "Josué Casimir",
+"pid": "763182",
+"value": 3500000
+}
+]
+},
+"MAR": {
+"GK": [
+{
+"name": "Yassine Bounou",
+"pid": "207834",
+"value": 3500000
+}
+],
+"DF": [
+{
+"name": "Anass Salah-Eddine",
+"pid": "485584",
+"value": 12000000
+},
+{
+"name": "Nayef Aguerd",
+"pid": "361914",
+"value": 20000000
+},
+{
+"name": "Chadi Riad",
+"pid": "689637",
+"value": 12000000
+},
+{
+"name": "Achraf Hakimi",
+"pid": "398073",
+"value": 80000000
+}
+],
+"MF": [
+{
+"name": "Ismael Saibari",
+"pid": "702869",
+"value": 32000000
+},
+{
+"name": "Ayyoub Bouaddi",
+"pid": "1097139",
+"value": 50000000
+},
+{
+"name": "Bilal El Khannouss",
+"pid": "654982",
+"value": 32000000
+}
+],
+"FW": [
+{
+"name": "Abde Ezzalzouli",
+"pid": "724520",
+"value": 30000000
+},
+{
+"name": "Ayoub El Kaabi",
+"pid": "521127",
+"value": 5000000
+},
+{
+"name": "Brahim Díaz",
+"pid": "314678",
+"value": 35000000
+}
+]
+},
+"SCO": {
+"GK": [
+{
+"name": "Angus Gunn",
+"pid": "201574",
+"value": 1500000
+}
+],
+"DF": [
+{
+"name": "Kieran Tierney",
+"pid": "300716",
+"value": 8000000
+},
+{
+"name": "Scott McKenna",
+"pid": "255906",
+"value": 4000000
+},
+{
+"name": "Jack Hendry",
+"pid": "363223",
+"value": 2500000
+},
+{
+"name": "Aaron Hickey",
+"pid": "591949",
+"value": 16000000
+}
+],
+"MF": [
+{
+"name": "Lewis Ferguson",
+"pid": "428563",
+"value": 18000000
+},
+{
+"name": "Scott McTominay",
+"pid": "315969",
+"value": 45000000
+},
+{
+"name": "John McGinn",
+"pid": "193116",
+"value": 15000000
+}
+],
+"FW": [
+{
+"name": "Findlay Curtis",
+"pid": "1082993",
+"value": 2000000
+},
+{
+"name": "Ché Adams",
+"pid": "346779",
+"value": 8500000
+},
+{
+"name": "Ben Gannon-Doak",
+"pid": "719673",
+"value": 16000000
+}
+]
+},
+"AUS": {
+"GK": [
+{
+"name": "Mathew Ryan",
+"pid": "128969",
+"value": 2000000
+}
+],
+"DF": [
+{
+"name": "Jordan Bos",
+"pid": "855731",
+"value": 8000000
+},
+{
+"name": "Alessandro Circati",
+"pid": "867137",
+"value": 10000000
+},
+{
+"name": "Harry Souttar",
+"pid": "298091",
+"value": 6000000
+},
+{
+"name": "Jacob Italiano",
+"pid": "545810",
+"value": 400000
+}
+],
+"MF": [
+{
+"name": "Connor Metcalfe",
+"pid": "522223",
+"value": 2000000
+},
+{
+"name": "Aiden O'Neill",
+"pid": "385918",
+"value": 3000000
+},
+{
+"name": "Cammy Devlin",
+"pid": "399162",
+"value": 2000000
+}
+],
+"FW": [
+{
+"name": "Awer Mabil",
+"pid": "255729",
+"value": 1300000
+},
+{
+"name": "Mohamed Touré",
+"pid": "742770",
+"value": 4000000
+},
+{
+"name": "Nestory Irankunda",
+"pid": "956920",
+"value": 6000000
+}
+]
+},
+"PAR": {
+"GK": [
+{
+"name": "Orlando Gill",
+"pid": "643259",
+"value": 6000000
+}
+],
+"DF": [
+{
+"name": "Alexandro Maidana",
+"pid": "1371519",
+"value": 2500000
+},
+{
+"name": "Omar Alderete",
+"pid": "353032",
+"value": 15000000
+},
+{
+"name": "Gustavo Gómez",
+"pid": "215390",
+"value": 4000000
+},
+{
+"name": "Juan José Cáceres",
+"pid": "756494",
+"value": 4000000
+}
+],
+"MF": [
+{
+"name": "Maurício",
+"pid": "678439",
+"value": 14000000
+},
+{
+"name": "Diego Gómez",
+"pid": "996897",
+"value": 25000000
+},
+{
+"name": "Ramón Sosa",
+"pid": "745191",
+"value": 10000000
+}
+],
+"FW": [
+{
+"name": "Gustavo Caballero",
+"pid": "891672",
+"value": 0
+},
+{
+"name": "Isidro Pitta",
+"pid": "675178",
+"value": 7500000
+},
+{
+"name": "Miguel Almirón",
+"pid": "272999",
+"value": 9000000
+}
+]
+},
+"TUR": {
+"GK": [
+{
+"name": "Uğurcan Çakır",
+"pid": "292199",
+"value": 15000000
+}
+],
+"DF": [
+{
+"name": "Ferdi Kadıoğlu",
+"pid": "369316",
+"value": 30000000
+},
+{
+"name": "Merih Demiral",
+"pid": "340879",
+"value": 14000000
+},
+{
+"name": "Ozan Kabak",
+"pid": "361260",
+"value": 10000000
+},
+{
+"name": "Zeki Çelik",
+"pid": "251075",
+"value": 12000000
+}
+],
+"MF": [
+{
+"name": "Hakan Çalhanoğlu",
+"pid": "126414",
+"value": 18000000
+},
+{
+"name": "Orkun Kökçü",
+"pid": "454567",
+"value": 25000000
+},
+{
+"name": "İsmail Yüksek",
+"pid": "613725",
+"value": 15000000
+}
+],
+"FW": [
+{
+"name": "Kenan Yıldız",
+"pid": "845654",
+"value": 75000000
+},
+{
+"name": "Deniz Gül",
+"pid": "1063292",
+"value": 6000000
+},
+{
+"name": "Yunus Akgün",
+"pid": "396908",
+"value": 18000000
+}
+]
+},
+"USA": {
+"GK": [
+{
+"name": "Matt Turner",
+"pid": "425306",
+"value": 2500000
+}
+],
+"DF": [
+{
+"name": "Antonee Robinson",
+"pid": "349701",
+"value": 25000000
+},
+{
+"name": "Chris Richards",
+"pid": "578539",
+"value": 25000000
+},
+{
+"name": "Auston Trusty",
+"pid": "389253",
+"value": 6000000
+},
+{
+"name": "Sergiño Dest",
+"pid": "361104",
+"value": 18000000
+}
+],
+"MF": [
+{
+"name": "Malik Tillman",
+"pid": "467437",
+"value": 30000000
+},
+{
+"name": "Weston McKennie",
+"pid": "332697",
+"value": 30000000
+},
+{
+"name": "Tyler Adams",
+"pid": "332705",
+"value": 25000000
+}
+],
+"FW": [
+{
+"name": "Folarin Balogun",
+"pid": "503770",
+"value": 30000000
+},
+{
+"name": "Christian Pulisic",
+"pid": "315779",
+"value": 50000000
+},
+{
+"name": "Ricardo Pepi",
+"pid": "627207",
+"value": 25000000
+}
+]
+},
+"CUW": {
+"GK": [
+{
+"name": "Eloy Room",
+"pid": "79294",
+"value": 200000
+}
+],
+"DF": [
+{
+"name": "Sherel Floranus",
+"pid": "315211",
+"value": 800000
+},
+{
+"name": "Armando Obispo",
+"pid": "339337",
+"value": 4000000
+},
+{
+"name": "Riechedly Bazoer",
+"pid": "216443",
+"value": 1500000
+},
+{
+"name": "Shurandy Sambo",
+"pid": "412937",
+"value": 1500000
+}
+],
+"MF": [
+{
+"name": "Juninho Bacuna",
+"pid": "348863",
+"value": 2200000
+},
+{
+"name": "Tahith Chong",
+"pid": "344830",
+"value": 6000000
+},
+{
+"name": "Ar'jany Martha",
+"pid": "572519",
+"value": 1200000
+}
+],
+"FW": [
+{
+"name": "Jeremy Antonisse",
+"pid": "594273",
+"value": 800000
+},
+{
+"name": "Jürgen Locadia",
+"pid": "166240",
+"value": 1800000
+},
+{
+"name": "Sontje Hansen",
+"pid": "485582",
+"value": 3000000
+}
+]
+},
+"ECU": {
+"GK": [
+{
+"name": "Moisés Ramírez",
+"pid": "450233",
+"value": 800000
+}
+],
+"DF": [
+{
+"name": "Pervis Estupiñán",
+"pid": "349599",
+"value": 14000000
+},
+{
+"name": "Willian Pacho",
+"pid": "661171",
+"value": 70000000
+},
+{
+"name": "Piero Hincapié",
+"pid": "659813",
+"value": 50000000
+},
+{
+"name": "Ángelo Preciado",
+"pid": "450241",
+"value": 3800000
+}
+],
+"MF": [
+{
+"name": "Kendry Páez",
+"pid": "1052439",
+"value": 8000000
+},
+{
+"name": "Moisés Caicedo",
+"pid": "687626",
+"value": 110000000
+},
+{
+"name": "Denil Castillo",
+"pid": "941418",
+"value": 7000000
+}
+],
+"FW": [
+{
+"name": "Nilson Angulo",
+"pid": "903611",
+"value": 17000000
+},
+{
+"name": "Jeremy Arévalo",
+"pid": "971663",
+"value": 7000000
+},
+{
+"name": "Gonzalo Plata",
+"pid": "592735",
+"value": 8000000
+}
+]
+},
+"GER": {
+"GK": [
+{
+"name": "Alexander Nübel",
+"pid": "195778",
+"value": 12000000
+}
+],
+"DF": [
+{
+"name": "Nathaniel Brown",
+"pid": "691892",
+"value": 35000000
+},
+{
+"name": "Nico Schlotterbeck",
+"pid": "388198",
+"value": 55000000
+},
+{
+"name": "Malick Thiaw",
+"pid": "521964",
+"value": 45000000
+},
+{
+"name": "Joshua Kimmich",
+"pid": "161056",
+"value": 40000000
+}
+],
+"MF": [
+{
+"name": "Florian Wirtz",
+"pid": "598577",
+"value": 110000000
+},
+{
+"name": "Jamal Musiala",
+"pid": "580195",
+"value": 120000000
+},
+{
+"name": "Aleksandar Pavlović",
+"pid": "792380",
+"value": 75000000
+}
+],
+"FW": [
+{
+"name": "Nick Woltemade",
+"pid": "455661",
+"value": 65000000
+},
+{
+"name": "Jamie Leweling",
+"pid": "518505",
+"value": 40000000
+},
+{
+"name": "Kai Havertz",
+"pid": "309400",
+"value": 50000000
+}
+]
+},
+"CIV": {
+"GK": [
+{
+"name": "Yahia Fofana",
+"pid": "418651",
+"value": 5000000
+}
+],
+"DF": [
+{
+"name": "Christopher Opéri",
+"pid": "469976",
+"value": 4000000
+},
+{
+"name": "Ousmane Diomande",
+"pid": "974982",
+"value": 45000000
+},
+{
+"name": "Evan Ndicka",
+"pid": "371149",
+"value": 35000000
+},
+{
+"name": "Guéla Doué",
+"pid": "711980",
+"value": 18000000
+}
+],
+"MF": [
+{
+"name": "Ibrahim Sangaré",
+"pid": "375885",
+"value": 22000000
+},
+{
+"name": "Christ Inao Oulaï",
+"pid": "1279526",
+"value": 23000000
+},
+{
+"name": "Franck Kessié",
+"pid": "294808",
+"value": 12000000
+}
+],
+"FW": [
+{
+"name": "Yan Diomande",
+"pid": "1390649",
+"value": 75000000
+},
+{
+"name": "Ange-Yoan Bonny",
+"pid": "827734",
+"value": 35000000
+},
+{
+"name": "Amad Diallo",
+"pid": "536835",
+"value": 50000000
+}
+]
+},
+"JPN": {
+"GK": [
+{
+"name": "Zion Suzuki",
+"pid": "432298",
+"value": 20000000
+}
+],
+"DF": [
+{
+"name": "Yūto Nagatomo",
+"pid": "79522",
+"value": 100000
+},
+{
+"name": "Hiroki Itō",
+"pid": "353892",
+"value": 18000000
+},
+{
+"name": "Kō Itakura",
+"pid": "355816",
+"value": 10000000
+},
+{
+"name": "Takehiro Tomiyasu",
+"pid": "331560",
+"value": 8000000
+}
+],
+"MF": [
+{
+"name": "Kaishū Sano",
+"pid": "643574",
+"value": 25000000
+},
+{
+"name": "Takefusa Kubo",
+"pid": "405398",
+"value": 30000000
+},
+{
+"name": "Ritsu Dōan",
+"pid": "358504",
+"value": 20000000
+}
+],
+"FW": [
+{
+"name": "Daizen Maeda",
+"pid": "420931",
+"value": 13000000
+},
+{
+"name": "Yuito Suzuki",
+"pid": "668606",
+"value": 18000000
+},
+{
+"name": "Junya Itō",
+"pid": "348791",
+"value": 3500000
+}
+]
+},
+"NED": {
+"GK": [
+{
+"name": "Bart Verbruggen",
+"pid": "565093",
+"value": 40000000
+}
+],
+"DF": [
+{
+"name": "Jorrel Hato",
+"pid": "904802",
+"value": 35000000
+},
+{
+"name": "Micky van de Ven",
+"pid": "557459",
+"value": 65000000
+},
+{
+"name": "Jan Paul van Hecke",
+"pid": "576314",
+"value": 35000000
+},
+{
+"name": "Jurriën Timber",
+"pid": "420243",
+"value": 70000000
+}
+],
+"MF": [
+{
+"name": "Tijjani Reijnders",
+"pid": "460939",
+"value": 60000000
+},
+{
+"name": "Ryan Gravenberch",
+"pid": "478573",
+"value": 90000000
+},
+{
+"name": "Frenkie de Jong",
+"pid": "326330",
+"value": 45000000
+}
+],
+"FW": [
+{
+"name": "Cody Gakpo",
+"pid": "434675",
+"value": 65000000
+},
+{
+"name": "Donyell Malen",
+"pid": "326029",
+"value": 35000000
+},
+{
+"name": "Crysencio Summerville",
+"pid": "474701",
+"value": 30000000
+}
+]
+},
+"SWE": {
+"GK": [
+{
+"name": "Viktor Johansson",
+"pid": "273742",
+"value": 12000000
+}
+],
+"DF": [
+{
+"name": "Daniel Svensson",
+"pid": "579287",
+"value": 22000000
+},
+{
+"name": "Isak Hien",
+"pid": "503075",
+"value": 22000000
+},
+{
+"name": "Victor Lindelöf",
+"pid": "184573",
+"value": 6000000
+},
+{
+"name": "Gabriel Gudmundsson",
+"pid": "362108",
+"value": 20000000
+}
+],
+"MF": [
+{
+"name": "Yasin Ayari",
+"pid": "667287",
+"value": 30000000
+},
+{
+"name": "Lucas Bergvall",
+"pid": "866246",
+"value": 40000000
+},
+{
+"name": "Benjamin Nygren",
+"pid": "475949",
+"value": 14000000
+}
+],
+"FW": [
+{
+"name": "Elliot Stroud",
+"pid": "687622",
+"value": 3000000
+},
+{
+"name": "Alexander Isak",
+"pid": "349066",
+"value": 100000000
+},
+{
+"name": "Anthony Elanga",
+"pid": "583189",
+"value": 40000000
+}
+]
+},
+"TUN": {
+"GK": [
+{
+"name": "Aymen Dahmen",
+"pid": "569433",
+"value": 800000
+}
+],
+"DF": [
+{
+"name": "Ali Abdi",
+"pid": "211474",
+"value": 2500000
+},
+{
+"name": "Montassar Talbi",
+"pid": "496706",
+"value": 7000000
+},
+{
+"name": "Adem Arous",
+"pid": "1071742",
+"value": 4000000
+},
+{
+"name": "Yan Valery",
+"pid": "406008",
+"value": 1300000
+}
+],
+"MF": [
+{
+"name": "Ismaël Gharbi",
+"pid": "810096",
+"value": 5000000
+},
+{
+"name": "Ellyes Skhiri",
+"pid": "290587",
+"value": 6000000
+},
+{
+"name": "Sebastian Tounekti",
+"pid": "539677",
+"value": 5000000
+}
+],
+"FW": [
+{
+"name": "Elias Achouri",
+"pid": "645589",
+"value": 3000000
+},
+{
+"name": "Hazem Mastouri",
+"pid": "953150",
+"value": 700000
+},
+{
+"name": "Rayan Elloumi",
+"pid": "1273985",
+"value": 600000
+}
+]
+},
+"BEL": {
+"GK": [
+{
+"name": "Senne Lammens",
+"pid": "503883",
+"value": 30000000
+}
+],
+"DF": [
+{
+"name": "Maxim De Cuyper",
+"pid": "429915",
+"value": 22000000
+},
+{
+"name": "Zeno Debast",
+"pid": "548193",
+"value": 30000000
+},
+{
+"name": "Koni De Winter",
+"pid": "490384",
+"value": 23000000
+},
+{
+"name": "Timothy Castagne",
+"pid": "262226",
+"value": 10000000
+}
+],
+"MF": [
+{
+"name": "Youri Tielemans",
+"pid": "249565",
+"value": 35000000
+},
+{
+"name": "Amadou Onana",
+"pid": "485706",
+"value": 45000000
+},
+{
+"name": "Diego Moreira",
+"pid": "655006",
+"value": 25000000
+}
+],
+"FW": [
+{
+"name": "Jérémy Doku",
+"pid": "486049",
+"value": 65000000
+},
+{
+"name": "Matias Fernandez-Pardo",
+"pid": "724129",
+"value": 30000000
+},
+{
+"name": "Alexis Saelemaekers",
+"pid": "381950",
+"value": 25000000
+}
+]
+},
+"EGY": {
+"GK": [
+{
+"name": "Mohamed El Shenawy",
+"pid": "134573",
+"value": 500000
+}
+],
+"DF": [
+{
+"name": "Ahmed Fatouh",
+"pid": "465966",
+"value": 1000000
+},
+{
+"name": "Mohamed Abdelmonem",
+"pid": "566025",
+"value": 3000000
+},
+{
+"name": "Hossam Abdelmaguid",
+"pid": "737524",
+"value": 2000000
+},
+{
+"name": "Mohamed Hany",
+"pid": "343974",
+"value": 1500000
+}
+],
+"MF": [
+{
+"name": "Hamdy Fathy",
+"pid": "340303",
+"value": 1800000
+},
+{
+"name": "Emam Ashour",
+"pid": "604008",
+"value": 2000000
+},
+{
+"name": "Mahmoud Saber",
+"pid": "729390",
+"value": 1500000
+}
+],
+"FW": [
+{
+"name": "Trézéguet",
+"pid": "234189",
+"value": 4500000
+},
+{
+"name": "Omar Marmoush",
+"pid": "445939",
+"value": 60000000
+},
+{
+"name": "Mohamed Salah",
+"pid": "148455",
+"value": 30000000
+}
+]
+},
+"IRN": {
+"GK": [
+{
+"name": "Alireza Beiranvand",
+"pid": "229081",
+"value": 1200000
+}
+],
+"DF": [
+{
+"name": "Milad Mohammadi",
+"pid": "333355",
+"value": 1300000
+},
+{
+"name": "Ramin Rezaeian",
+"pid": "188312",
+"value": 250000
+},
+{
+"name": "Ehsan Hajsafi",
+"pid": "77547",
+"value": 275000
+},
+{
+"name": "Saleh Hardani",
+"pid": null,
+"value": 0
+}
+],
+"MF": [
+{
+"name": "Saman Ghoddos",
+"pid": "204294",
+"value": 2000000
+},
+{
+"name": "Mohammad Mohebi",
+"pid": "603149",
+"value": 2800000
+},
+{
+"name": "Saeid Ezatolahi",
+"pid": "249271",
+"value": 900000
+}
+],
+"FW": [
+{
+"name": "Mehdi Ghayedi",
+"pid": "478192",
+"value": 4500000
+},
+{
+"name": "Mehdi Taremi",
+"pid": "307058",
+"value": 2500000
+},
+{
+"name": "Alireza Jahanbakhsh",
+"pid": "213268",
+"value": 600000
+}
+]
+},
+"NZL": {
+"GK": [
+{
+"name": "Max Crocombe",
+"pid": "207843",
+"value": 1000000
+}
+],
+"DF": [
+{
+"name": "Liberato Cacace",
+"pid": "469211",
+"value": 3000000
+},
+{
+"name": "Tyler Bindon",
+"pid": "1007720",
+"value": 1500000
+},
+{
+"name": "Finn Surman",
+"pid": "724809",
+"value": 1500000
+},
+{
+"name": "Tim Payne",
+"pid": "149901",
+"value": 400000
+}
+],
+"MF": [
+{
+"name": "Marko Stamenić",
+"pid": "617018",
+"value": 3000000
+},
+{
+"name": "Joe Bell",
+"pid": "345700",
+"value": 3000000
+},
+{
+"name": "Elijah Just",
+"pid": "485672",
+"value": 2500000
+}
+],
+"FW": [
+{
+"name": "Jesse Randall",
+"pid": "677509",
+"value": 600000
+},
+{
+"name": "Chris Wood",
+"pid": "108725",
+"value": 6000000
+},
+{
+"name": "Ben Waine",
+"pid": "539502",
+"value": 400000
+}
+]
+},
+"CPV": {
+"GK": [
+{
+"name": "CJ dos Santos",
+"pid": "532096",
+"value": 1200000
+}
+],
+"DF": [
+{
+"name": "Logan Costa",
+"pid": "484988",
+"value": 18000000
+},
+{
+"name": "Wagner Pina",
+"pid": "1072017",
+"value": 11000000
+},
+{
+"name": "Sidny Lopes Cabral",
+"pid": "611855",
+"value": 5000000
+},
+{
+"name": "Steven Moreira",
+"pid": "203517",
+"value": 1500000
+}
+],
+"MF": [
+{
+"name": "Hélio Varela",
+"pid": "840836",
+"value": 1200000
+},
+{
+"name": "Telmo Arcanjo",
+"pid": "791528",
+"value": 3000000
+},
+{
+"name": "Deroy Duarte",
+"pid": "432852",
+"value": 1000000
+}
+],
+"FW": [
+{
+"name": "Jovane Cabral",
+"pid": "448466",
+"value": 800000
+},
+{
+"name": "Dailon Livramento",
+"pid": "676411",
+"value": 800000
+},
+{
+"name": "Garry Rodrigues",
+"pid": "170895",
+"value": 325000
+}
+]
+},
+"KSA": {
+"GK": [
+{
+"name": "Nawaf Al-Aqidi",
+"pid": "886183",
+"value": 700000
+}
+],
+"DF": [
+{
+"name": "Ayman Yahya",
+"pid": "735815",
+"value": 1400000
+},
+{
+"name": "Abdulelah Al-Amri",
+"pid": "509894",
+"value": 1000000
+},
+{
+"name": "Jehad Thakri",
+"pid": "901334",
+"value": 900000
+},
+{
+"name": "Saud Abdulhamid",
+"pid": "631927",
+"value": 5000000
+}
+],
+"MF": [
+{
+"name": "Mohamed Kanno",
+"pid": "308120",
+"value": 900000
+},
+{
+"name": "Musab Al-Juwayr",
+"pid": "901181",
+"value": 4500000
+},
+{
+"name": "Nasser Al-Dawsari",
+"pid": "509911",
+"value": 800000
+}
+],
+"FW": [
+{
+"name": "Salem Al-Dawsari",
+"pid": "195332",
+"value": 1300000
+},
+{
+"name": "Firas Al-Buraikan",
+"pid": "631922",
+"value": 4000000
+},
+{
+"name": "Sultan Mandash",
+"pid": "210349",
+"value": 400000
+}
+]
+},
+"ESP": {
+"GK": [
+{
+"name": "Joan Garcia",
+"pid": "561613",
+"value": 40000000
+}
+],
+"DF": [
+{
+"name": "Marc Cucurella",
+"pid": "284857",
+"value": 50000000
+},
+{
+"name": "Pau Cubarsí",
+"pid": "962110",
+"value": 80000000
+},
+{
+"name": "Eric García",
+"pid": "466794",
+"value": 35000000
+},
+{
+"name": "Pedro Porro",
+"pid": "553875",
+"value": 40000000
+}
+],
+"MF": [
+{
+"name": "Martín Zubimendi",
+"pid": "423440",
+"value": 80000000
+},
+{
+"name": "Pedri",
+"pid": "683840",
+"value": 150000000
+},
+{
+"name": "Álex Baena",
+"pid": "548111",
+"value": 45000000
+}
+],
+"FW": [
+{
+"name": "Nico Williams",
+"pid": "709187",
+"value": 50000000
+},
+{
+"name": "Ferran Torres",
+"pid": "398184",
+"value": 50000000
+},
+{
+"name": "Lamine Yamal",
+"pid": "937958",
+"value": 200000000
+}
+]
+},
+"URU": {
+"GK": [
+{
+"name": "Sergio Rochet",
+"pid": "264014",
+"value": 2000000
+}
+],
+"DF": [
+{
+"name": "Mathías Olivera",
+"pid": "376514",
+"value": 15000000
+},
+{
+"name": "Ronald Araújo",
+"pid": "480267",
+"value": 20000000
+},
+{
+"name": "José María Giménez",
+"pid": "250845",
+"value": 12000000
+},
+{
+"name": "Guillermo Varela",
+"pid": "188862",
+"value": 1200000
+}
+],
+"MF": [
+{
+"name": "Manuel Ugarte",
+"pid": "476701",
+"value": 30000000
+},
+{
+"name": "Federico Valverde",
+"pid": "369081",
+"value": 120000000
+},
+{
+"name": "Rodrigo Bentancur",
+"pid": "354362",
+"value": 22000000
+}
+],
+"FW": [
+{
+"name": "Brian Rodríguez",
+"pid": "465818",
+"value": 8000000
+},
+{
+"name": "Darwin Núñez",
+"pid": "546543",
+"value": 25000000
+},
+{
+"name": "Facundo Pellistri",
+"pid": "676318",
+"value": 6000000
+}
+]
+},
+"FRA": {
+"GK": [
+{
+"name": "Mike Maignan",
+"pid": "182906",
+"value": 25000000
+}
+],
+"DF": [
+{
+"name": "Théo Hernandez",
+"pid": "339808",
+"value": 28000000
+},
+{
+"name": "William Saliba",
+"pid": "495666",
+"value": 90000000
+},
+{
+"name": "Dayot Upamecano",
+"pid": "344695",
+"value": 70000000
+},
+{
+"name": "Jules Koundé",
+"pid": "411975",
+"value": 65000000
+}
+],
+"MF": [
+{
+"name": "Rayan Cherki",
+"pid": "607223",
+"value": 65000000
+},
+{
+"name": "Aurélien Tchouaméni",
+"pid": "413112",
+"value": 75000000
+},
+{
+"name": "Warren Zaïre-Emery",
+"pid": "810092",
+"value": 60000000
+}
+],
+"FW": [
+{
+"name": "Bradley Barcola",
+"pid": "708265",
+"value": 70000000
+},
+{
+"name": "Kylian Mbappé",
+"pid": "342229",
+"value": 200000000
+},
+{
+"name": "Michael Olise",
+"pid": "566723",
+"value": 140000000
+}
+]
+},
+"IRQ": {
+"GK": [
+{
+"name": "Fahad Talib",
+"pid": "377268",
+"value": 400000
+}
+],
+"DF": [
+{
+"name": "Merchas Doski",
+"pid": "530527",
+"value": 1700000
+},
+{
+"name": "Zaid Tahseen",
+"pid": "931147",
+"value": 600000
+},
+{
+"name": "Manaf Younis",
+"pid": "945266",
+"value": 350000
+},
+{
+"name": "Mustafa Saadoon",
+"pid": "952341",
+"value": 300000
+}
+],
+"MF": [
+{
+"name": "Zidane Iqbal",
+"pid": "686845",
+"value": 1000000
+},
+{
+"name": "Aimar Sher",
+"pid": "579294",
+"value": 1300000
+},
+{
+"name": "Ibrahim Bayesh",
+"pid": "560957",
+"value": 900000
+}
+],
+"FW": [
+{
+"name": "Marko Farji",
+"pid": "663153",
+"value": 1800000
+},
+{
+"name": "Ali Al-Hamadi",
+"pid": "610581",
+"value": 1500000
+},
+{
+"name": "Ahmed Qasem",
+"pid": "833817",
+"value": 3500000
+}
+]
+},
+"NOR": {
+"GK": [
+{
+"name": "Sander Tangvik",
+"pid": "549378",
+"value": 3000000
+}
+],
+"DF": [
+{
+"name": "David Møller Wolfe",
+"pid": "661427",
+"value": 10000000
+},
+{
+"name": "Kristoffer Ajer",
+"pid": "328658",
+"value": 18000000
+},
+{
+"name": "Torbjørn Heggem",
+"pid": "464469",
+"value": 14000000
+},
+{
+"name": "Julian Ryerson",
+"pid": "370789",
+"value": 25000000
+}
+],
+"MF": [
+{
+"name": "Oscar Bobb",
+"pid": "661207",
+"value": 30000000
+},
+{
+"name": "Martin Ødegaard",
+"pid": "316264",
+"value": 65000000
+},
+{
+"name": "Sander Berge",
+"pid": "333014",
+"value": 25000000
+}
+],
+"FW": [
+{
+"name": "Antonio Nusa",
+"pid": "894914",
+"value": 32000000
+},
+{
+"name": "Erling Haaland",
+"pid": "418560",
+"value": 200000000
+},
+{
+"name": "Jørgen Strand Larsen",
+"pid": "429983",
+"value": 45000000
+}
+]
+},
+"SEN": {
+"GK": [
+{
+"name": "Yehvann Diouf",
+"pid": "448632",
+"value": 7000000
+}
+],
+"DF": [
+{
+"name": "El Hadji Malick Diouf",
+"pid": "1111589",
+"value": 28000000
+},
+{
+"name": "Mamadou Sarr",
+"pid": "910905",
+"value": 25000000
+},
+{
+"name": "Moussa Niakhaté",
+"pid": "291200",
+"value": 18000000
+},
+{
+"name": "Ismail Jakobs",
+"pid": "375137",
+"value": 8000000
+}
+],
+"MF": [
+{
+"name": "Lamine Camara",
+"pid": "918969",
+"value": 35000000
+},
+{
+"name": "Pape Gueye",
+"pid": "485963",
+"value": 40000000
+},
+{
+"name": "Pape Matar Sarr",
+"pid": "568693",
+"value": 32000000
+}
+],
+"FW": [
+{
+"name": "Assane Diao",
+"pid": "1061282",
+"value": 30000000
+},
+{
+"name": "Nicolas Jackson",
+"pid": "776890",
+"value": 40000000
+},
+{
+"name": "Iliman Ndiaye",
+"pid": "623570",
+"value": 50000000
+}
+]
+},
+"ALG": {
+"GK": [
+{
+"name": "Luca Zidane",
+"pid": "283489",
+"value": 1000000
+}
+],
+"DF": [
+{
+"name": "Rayan Aït-Nouri",
+"pid": "578391",
+"value": 40000000
+},
+{
+"name": "Ramy Bensebaini",
+"pid": "284732",
+"value": 7000000
+},
+{
+"name": "Samir Chergui",
+"pid": "668167",
+"value": 3000000
+},
+{
+"name": "Rafik Belghali",
+"pid": "864306",
+"value": 7000000
+}
+],
+"MF": [
+{
+"name": "Farès Chaïbi",
+"pid": "855015",
+"value": 15000000
+},
+{
+"name": "Ibrahim Maza",
+"pid": "905011",
+"value": 40000000
+},
+{
+"name": "Hicham Boudaoui",
+"pid": "560593",
+"value": 12000000
+}
+],
+"FW": [
+{
+"name": "Adil Boulbina",
+"pid": "748443",
+"value": 3000000
+},
+{
+"name": "Amine Gouiri",
+"pid": "418659",
+"value": 28000000
+},
+{
+"name": "Anis Hadj Moussa",
+"pid": "917911",
+"value": 20000000
+}
+]
+},
+"ARG": {
+"GK": [
+{
+"name": "Emiliano Martínez",
+"pid": "111873",
+"value": 15000000
+}
+],
+"DF": [
+{
+"name": "Nicolás Tagliafico",
+"pid": "131225",
+"value": 5000000
+},
+{
+"name": "Cristian Romero",
+"pid": "355915",
+"value": 50000000
+},
+{
+"name": "Lisandro Martínez",
+"pid": "480762",
+"value": 40000000
+},
+{
+"name": "Nahuel Molina",
+"pid": "424042",
+"value": 15000000
+}
+],
+"MF": [
+{
+"name": "Alexis Mac Allister",
+"pid": "534033",
+"value": 80000000
+},
+{
+"name": "Enzo Fernández",
+"pid": "648195",
+"value": 90000000
+},
+{
+"name": "Valentín Barco",
+"pid": "849410",
+"value": 35000000
+}
+],
+"FW": [
+{
+"name": "Thiago Almada",
+"pid": "576028",
+"value": 20000000
+},
+{
+"name": "Julián Alvarez",
+"pid": "576024",
+"value": 90000000
+},
+{
+"name": "Giuliano Simeone",
+"pid": "742201",
+"value": 40000000
+}
+]
+},
+"AUT": {
+"GK": [
+{
+"name": "Alexander Schlager",
+"pid": "186374",
+"value": 2500000
+}
+],
+"DF": [
+{
+"name": "Phillipp Mwene",
+"pid": "127573",
+"value": 1500000
+},
+{
+"name": "Kevin Danso",
+"pid": "263236",
+"value": 20000000
+},
+{
+"name": "Philipp Lienhart",
+"pid": "225657",
+"value": 12000000
+},
+{
+"name": "Konrad Laimer",
+"pid": "223967",
+"value": 32000000
+}
+],
+"MF": [
+{
+"name": "Carney Chukwuemeka",
+"pid": "659459",
+"value": 20000000
+},
+{
+"name": "Nicolas Seiwald",
+"pid": "404950",
+"value": 22000000
+},
+{
+"name": "Paul Wanner",
+"pid": "900909",
+"value": 18000000
+}
+],
+"FW": [
+{
+"name": "Alexander Prass",
+"pid": "434116",
+"value": 7000000
+},
+{
+"name": "Marko Arnautović",
+"pid": "41384",
+"value": 2500000
+},
+{
+"name": "Patrick Wimmer",
+"pid": "533295",
+"value": 15000000
+}
+]
+},
+"JOR": {
+"GK": [
+{
+"name": "Yazeed Abulaila",
+"pid": "261850",
+"value": 300000
+}
+],
+"DF": [
+{
+"name": "Mohannad Abu Taha",
+"pid": "883111",
+"value": 450000
+},
+{
+"name": "Yazan Al-Arab",
+"pid": "539961",
+"value": 1000000
+},
+{
+"name": "Abdallah Nasib",
+"pid": "882197",
+"value": 500000
+},
+{
+"name": "Saed Al-Rosan",
+"pid": "561481",
+"value": 400000
+}
+],
+"MF": [
+{
+"name": "Amer Jamous",
+"pid": "744040",
+"value": 450000
+},
+{
+"name": "Nizar Al-Rashdan",
+"pid": "734751",
+"value": 600000
+},
+{
+"name": "Noor Al-Rawabdeh",
+"pid": "561485",
+"value": 450000
+}
+],
+"FW": [
+{
+"name": "Mahmoud Al-Mardi",
+"pid": "401086",
+"value": 400000
+},
+{
+"name": "Ali Olwan",
+"pid": "664057",
+"value": 800000
+},
+{
+"name": "Ali Azaizeh",
+"pid": "1059056",
+"value": 200000
+}
+]
+},
+"COL": {
+"GK": [
+{
+"name": "Álvaro Montero",
+"pid": "292985",
+"value": 2500000
+}
+],
+"DF": [
+{
+"name": "Deiver Machado",
+"pid": "332560",
+"value": 2000000
+},
+{
+"name": "Jhon Lucumí",
+"pid": "413565",
+"value": 25000000
+},
+{
+"name": "Davinson Sánchez",
+"pid": "341429",
+"value": 16000000
+},
+{
+"name": "Daniel Muñoz",
+"pid": "493003",
+"value": 27000000
+}
+],
+"MF": [
+{
+"name": "Jhon Arias",
+"pid": "588989",
+"value": 15000000
+},
+{
+"name": "Richard Ríos",
+"pid": "735573",
+"value": 22000000
+},
+{
+"name": "Jorge Carrascal",
+"pid": "354145",
+"value": 11000000
+}
+],
+"FW": [
+{
+"name": "Luis Díaz",
+"pid": "480692",
+"value": 70000000
+},
+{
+"name": "Luis Suárez",
+"pid": "424784",
+"value": 28000000
+},
+{
+"name": "Cucho Hernández",
+"pid": "459463",
+"value": 18000000
+}
+]
+},
+"COD": {
+"GK": [
+{
+"name": "Matthieu Epolo",
+"pid": "680218",
+"value": 5000000
+}
+],
+"DF": [
+{
+"name": "Joris Kayembe",
+"pid": "129586",
+"value": 2500000
+},
+{
+"name": "Axel Tuanzebe",
+"pid": "342046",
+"value": 5000000
+},
+{
+"name": "Steve Kapuadi",
+"pid": "679709",
+"value": 2500000
+},
+{
+"name": "Aaron Wan-Bissaka",
+"pid": "477758",
+"value": 22000000
+}
+],
+"MF": [
+{
+"name": "Ngal'ayel Mukau",
+"pid": "1016015",
+"value": 12000000
+},
+{
+"name": "Noah Sadiki",
+"pid": "727089",
+"value": 30000000
+},
+{
+"name": "Théo Bongonda",
+"pid": "280701",
+"value": 4000000
+}
+],
+"FW": [
+{
+"name": "Nathanaël Mbuku",
+"pid": "557614",
+"value": 2000000
+},
+{
+"name": "Yoane Wissa",
+"pid": "388165",
+"value": 30000000
+},
+{
+"name": "Simon Banza",
+"pid": "344869",
+"value": 11000000
+}
+]
+},
+"POR": {
+"GK": [
+{
+"name": "Diogo Costa",
+"pid": "357153",
+"value": 40000000
+}
+],
+"DF": [
+{
+"name": "Nuno Mendes",
+"pid": "616341",
+"value": 75000000
+},
+{
+"name": "Rúben Dias",
+"pid": "258004",
+"value": 60000000
+},
+{
+"name": "Gonçalo Inácio",
+"pid": "549006",
+"value": 40000000
+},
+{
+"name": "Matheus Nunes",
+"pid": "601883",
+"value": 45000000
+}
+],
+"MF": [
+{
+"name": "Vitinha",
+"pid": "487469",
+"value": 110000000
+},
+{
+"name": "João Neves",
+"pid": "670681",
+"value": 110000000
+},
+{
+"name": "Bruno Fernandes",
+"pid": "240306",
+"value": 40000000
+}
+],
+"FW": [
+{
+"name": "Rafael Leão",
+"pid": "357164",
+"value": 65000000
+},
+{
+"name": "Gonçalo Ramos",
+"pid": "550550",
+"value": 35000000
+},
+{
+"name": "Pedro Neto",
+"pid": "487465",
+"value": 60000000
+}
+]
+},
+"UZB": {
+"GK": [
+{
+"name": "Utkir Yusupov",
+"pid": "311958",
+"value": 500000
+}
+],
+"DF": [
+{
+"name": "Sherzod Nasrullaev",
+"pid": "608537",
+"value": 1200000
+},
+{
+"name": "Abdukodir Khusanov",
+"pid": "763079",
+"value": 35000000
+},
+{
+"name": "Rustam Ashurmatov",
+"pid": "288883",
+"value": 750000
+},
+{
+"name": "Abdulla Abdullaev",
+"pid": "570272",
+"value": 600000
+}
+],
+"MF": [
+{
+"name": "Oston Urunov",
+"pid": "492556",
+"value": 2000000
+},
+{
+"name": "Abbosbek Fayzullaev",
+"pid": "754037",
+"value": 7000000
+},
+{
+"name": "Otabek Shukurov",
+"pid": "294525",
+"value": 1600000
+}
+],
+"FW": [
+{
+"name": "Jaloliddin Masharipov",
+"pid": "274536",
+"value": 1000000
+},
+{
+"name": "Eldor Shomurodov",
+"pid": "358166",
+"value": 7000000
+},
+{
+"name": "Dostonbek Khamdamov",
+"pid": "294502",
+"value": 900000
+}
+]
+},
+"CRO": {
+"GK": [
+{
+"name": "Dominik Kotarski",
+"pid": "370997",
+"value": 5000000
+}
+],
+"DF": [
+{
+"name": "Joško Gvardiol",
+"pid": "475959",
+"value": 70000000
+},
+{
+"name": "Luka Vušković",
+"pid": "892160",
+"value": 60000000
+},
+{
+"name": "Josip Stanišić",
+"pid": "483046",
+"value": 35000000
+},
+{
+"name": "Josip Šutalo",
+"pid": "371001",
+"value": 15000000
+}
+],
+"MF": [
+{
+"name": "Martin Baturina",
+"pid": "580451",
+"value": 24000000
+},
+{
+"name": "Petar Sučić",
+"pid": "668207",
+"value": 30000000
+},
+{
+"name": "Mateo Kovačić",
+"pid": "51471",
+"value": 12000000
+}
+],
+"FW": [
+{
+"name": "Ivan Perišić",
+"pid": "42460",
+"value": 1300000
+},
+{
+"name": "Igor Matanović",
+"pid": "605268",
+"value": 10000000
+},
+{
+"name": "Marco Pašalić",
+"pid": "395928",
+"value": 6500000
+}
+]
+},
+"ENG": {
+"GK": [
+{
+"name": "Dean Henderson",
+"pid": "258919",
+"value": 28000000
+}
+],
+"DF": [
+{
+"name": "Nico O'Reilly",
+"pid": "743413",
+"value": 50000000
+},
+{
+"name": "Marc Guéhi",
+"pid": "392757",
+"value": 65000000
+},
+{
+"name": "Jarell Quansah",
+"pid": "632349",
+"value": 45000000
+},
+{
+"name": "Tino Livramento",
+"pid": "503981",
+"value": 40000000
+}
+],
+"MF": [
+{
+"name": "Declan Rice",
+"pid": "357662",
+"value": 120000000
+},
+{
+"name": "Jude Bellingham",
+"pid": "581678",
+"value": 140000000
+},
+{
+"name": "Morgan Rogers",
+"pid": "503743",
+"value": 80000000
+}
+],
+"FW": [
+{
+"name": "Anthony Gordon",
+"pid": "503733",
+"value": 60000000
+},
+{
+"name": "Harry Kane",
+"pid": "132098",
+"value": 65000000
+},
+{
+"name": "Bukayo Saka",
+"pid": "433177",
+"value": 120000000
+}
+]
+},
+"GHA": {
+"GK": [
+{
+"name": "Joseph Anang",
+"pid": "576099",
+"value": 275000
+}
+],
+"DF": [
+{
+"name": "Gideon Mensah",
+"pid": "397171",
+"value": 3500000
+},
+{
+"name": "Kojo Peprah Oppong",
+"pid": "1113451",
+"value": 10000000
+},
+{
+"name": "Jonas Adjetey",
+"pid": "734676",
+"value": 7000000
+},
+{
+"name": "Marvin Senaya",
+"pid": "830890",
+"value": 3000000
+}
+],
+"MF": [
+{
+"name": "Caleb Yirenkyi",
+"pid": "1240763",
+"value": 10000000
+},
+{
+"name": "Antoine Semenyo",
+"pid": "583255",
+"value": 75000000
+},
+{
+"name": "Augustine Boakye",
+"pid": "579263",
+"value": 4000000
+}
+],
+"FW": [
+{
+"name": "Kamaldeen Sulemana",
+"pid": "746695",
+"value": 18000000
+},
+{
+"name": "Jordan Ayew",
+"pid": "108354",
+"value": 1800000
+},
+{
+"name": "Abdul Fatawu",
+"pid": "864121",
+"value": 20000000
+}
+]
+},
+"PAN": {
+"GK": [
+{
+"name": "Orlando Mosquera",
+"pid": "402979",
+"value": 650000
+}
+],
+"DF": [
+{
+"name": "Jorge Gutiérrez",
+"pid": "443379",
+"value": 750000
+},
+{
+"name": "José Córdoba",
+"pid": "698415",
+"value": 4500000
+},
+{
+"name": "Andrés Andrade",
+"pid": "403808",
+"value": 2000000
+},
+{
+"name": "César Blackman",
+"pid": "440383",
+"value": 2500000
+}
+],
+"MF": [
+{
+"name": "José Luis Rodríguez",
+"pid": "425028",
+"value": 2500000
+},
+{
+"name": "Adalberto Carrasquilla",
+"pid": "375300",
+"value": 4000000
+},
+{
+"name": "Ismael Díaz",
+"pid": "243298",
+"value": 1800000
+}
+],
+"FW": [
+{
+"name": "Azarias Londoño",
+"pid": "860998",
+"value": 1200000
+},
+{
+"name": "Yoel Bárcenas",
+"pid": "283473",
+"value": 650000
+},
+{
+"name": "Tomás Rodríguez",
+"pid": "569205",
+"value": 1000000
+}
+]
+}
+}

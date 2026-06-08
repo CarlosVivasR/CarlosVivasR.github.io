@@ -14,7 +14,16 @@
   .thead .flag{width:52px;height:36px;object-fit:cover;border-radius:6px;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
   .thead h1{font-size:clamp(1.8em,4vw,2.6em);font-weight:700;letter-spacing:-.02em}
   .tsub{color:var(--ink-2);margin-bottom:4px;font-weight:500}.tsub b{font-family:var(--mono);color:var(--cyan)}.tsub b.red{color:var(--red)}
+  .coach{font-size:.9em;color:var(--ink-2);margin-bottom:4px}.coach b{color:var(--ink);font-weight:700}
   .legend{font-size:.82em;color:var(--muted);margin-bottom:24px}
+  /* probable XI on a pitch */
+  .formation{background:linear-gradient(180deg,rgba(46,194,126,.10),rgba(255,255,255,.012));border:1px solid var(--line);
+    border-radius:16px;padding:22px 12px;display:flex;flex-direction:column;gap:18px;margin-bottom:8px}
+  .fline{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+  .fp{display:flex;flex-direction:column;align-items:center;gap:5px;width:88px;text-align:center;color:var(--ink)}
+  .fp:hover .pn{color:var(--cyan)}
+  .fp .dot{width:30px;height:30px;border-radius:50%;background:rgba(13,17,32,.7);border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .fp .pn{font-size:.76em;font-weight:700;line-height:1.15}
   .grouphead{font-size:.78em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:26px 0 12px}
   /* fixtures */
   .fixtures{padding:18px 20px;margin-bottom:8px}
@@ -52,9 +61,9 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{groups:['Porteros','Defensas','Centrocampistas','Delanteros','Otros'],months:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],fail:'No hay datos para este equipo.',squad:'convocados',injTotal:'lesiones acumuladas en sus carreras',legend:'Lista oficial FIFA · clica un jugador para su ficha · pulsa <b style="font-family:var(--mono)">/</b> para buscar.',fixtures:'📅 Partidos',vs:'vs',note:'Fotos: Wikimedia Commons (CC BY-SA) · datos Transfermarkt'},
-  en:{groups:['Goalkeepers','Defenders','Midfielders','Forwards','Other'],months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],fail:'No data for this team.',squad:'called up',injTotal:'career injuries combined',legend:'Official FIFA squad · tap a player for their profile · press <b style="font-family:var(--mono)">/</b> to search.',fixtures:'📅 Matches',vs:'vs',note:'Photos: Wikimedia Commons (CC BY-SA) · data Transfermarkt'},
-  tr:{groups:['Kaleciler','Defanslar','Orta saha','Forvetler','Diğer'],months:['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],fail:'Bu takım için veri yok.',squad:'kadroda',injTotal:'kariyer boyu toplam sakatlık',legend:'Resmi FIFA kadrosu · profili için bir oyuncuya dokun · aramak için <b style="font-family:var(--mono)">/</b> tuşuna bas.',fixtures:'📅 Maçlar',vs:'-',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · veri Transfermarkt'}
+  es:{groups:['Porteros','Defensas','Centrocampistas','Delanteros','Otros'],months:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],fail:'No hay datos para este equipo.',squad:'convocados',injTotal:'lesiones acumuladas en sus carreras',legend:'Lista oficial FIFA · clica un jugador para su ficha · pulsa <b style="font-family:var(--mono)">/</b> para buscar.',fixtures:'📅 Partidos',vs:'vs',note:'Fotos: Wikimedia Commons (CC BY-SA) · datos Transfermarkt',coach:'Entrenador',formation:'⚽ Once probable'},
+  en:{groups:['Goalkeepers','Defenders','Midfielders','Forwards','Other'],months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],fail:'No data for this team.',squad:'called up',injTotal:'career injuries combined',legend:'Official FIFA squad · tap a player for their profile · press <b style="font-family:var(--mono)">/</b> to search.',fixtures:'📅 Matches',vs:'vs',note:'Photos: Wikimedia Commons (CC BY-SA) · data Transfermarkt',coach:'Coach',formation:'⚽ Probable XI'},
+  tr:{groups:['Kaleciler','Defanslar','Orta saha','Forvetler','Diğer'],months:['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],fail:'Bu takım için veri yok.',squad:'kadroda',injTotal:'kariyer boyu toplam sakatlık',legend:'Resmi FIFA kadrosu · profili için bir oyuncuya dokun · aramak için <b style="font-family:var(--mono)">/</b> tuşuna bas.',fixtures:'📅 Maçlar',vs:'-',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · veri Transfermarkt',coach:'Teknik direktör',formation:'⚽ Muhtemel 11'}
 };
 const L=k=>wcT(T,k);
 const CODE=new URLSearchParams(location.search).get('code')||'ARG';
@@ -66,13 +75,15 @@ const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]
 const MON=L('months');
 const fmtD=iso=>{if(!iso)return'';const[y,m,d]=iso.split('-');return`${+d} ${MON[+m-1]||''}`;};
 async function main(){
-  let d,sched,idx;
+  let d,sched,idx,coaches={},xi={};
   try{ [d,sched,idx]=await Promise.all([
     fetch(`data/teams/${CODE}.json`).then(r=>r.json()),
     fetch('data/schedule.json').then(r=>r.json()).catch(()=>({matches:[]})),
     fetch('data/teams/index.json').then(r=>r.json()).catch(()=>({teams:[]})),
   ]); }
   catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
+  try{ coaches=(await (await fetch('data/coaches.json')).json()).coaches||{}; }catch(e){}
+  try{ xi=await (await fetch('data/team_xi.json')).json(); }catch(e){}
   const cur=document.querySelector('.sn-crumbs .cur'); if(cur) cur.textContent=d.team;
   document.title=`${d.team} · WC 2026`;
   const totalInj=d.players.reduce((a,p)=>a+(p.injuries||0),0);
@@ -88,7 +99,16 @@ async function main(){
   }});
   let html=`<div class="thead">${flag}<h1>${esc(d.team)}</h1></div>
     <div class="tsub"><b>${d.players.length}</b> ${L('squad')} · <b class="red">${totalInj}</b> ${L('injTotal')}</div>
+    ${coaches[CODE]?`<div class="coach">🧑‍🏫 ${L('coach')}: <b>${esc(coaches[CODE])}</b></div>`:''}
     <div class="legend">${L('legend')}</div>`;
+  // probable XI on a pitch
+  const f=xi[CODE];
+  if(f && (f.GK.length || f.DF.length || f.FW.length)){
+    const fp=p=>`<a class="fp" href="${p&&p.pid?`player.html?id=${p.pid}`:'#'}"><span class="dot"></span><span class="pn">${esc(p?p.name:'')}</span></a>`;
+    const fline=arr=>`<div class="fline">${(arr||[]).map(fp).join('')}</div>`;
+    html+=`<h2 class="grouphead" style="margin-top:0">${L('formation')}</h2>
+      <div class="formation">${fline(f.FW)}${fline(f.MF)}${fline(f.DF)}${fline(f.GK)}</div>`;
+  }
   if(fixtures.length){
     html+=`<div class="fixtures glass"><h2>${L('fixtures')}</h2>`;
     fixtures.forEach(f=>{
