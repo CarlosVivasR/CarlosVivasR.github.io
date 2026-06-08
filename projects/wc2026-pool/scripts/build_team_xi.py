@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Per-team probable XI (4-3-3) placed by real position → data/team_xi.json"""
-import json, os
+import json, os, re
 idx = json.load(open('data/teams/index.json'))['teams']
+norm = lambda s: re.sub(r'[^a-z]', '', (s or '').lower())
+try: OV = json.load(open('data/xi_overrides.json'))   # {code:{GK:[names],DF:[...],MF:[...],FW:[...]}}
+except Exception: OV = {}
 
 def pf(pid):
     fp = f'data/players/{pid}.json'
@@ -17,10 +20,25 @@ for t in idx:
         d = pf(p.get('pid'))
         pls.append({'name': p['name'], 'pid': p.get('pid'), 'pos': p.get('pos') or '',
                     'club': p.get('club') or '', 'sub': d.get('sub_position') or d.get('position'),
-                    'value': d.get('market_value_eur') or 0})
+                    'value': d.get('market_value_eur') or 0, 'caps': d.get('caps') or 0})
+    def slim(p): return p and {'name': p['name'], 'pid': p['pid'], 'value': p['value']}
+    # manual override (probable XI taken from reference sites), matched by name
+    if code in OV:
+        def by_name(nm):
+            nn = norm(nm)
+            for p in pls:
+                if norm(p['name']) == nn: return p
+            for p in pls:
+                if nn and (nn in norm(p['name']) or norm(p['name']).endswith(nn)): return p
+            return None
+        o = OV[code]
+        def fn(lst): return [slim(by_name(n)) for n in lst if by_name(n)]
+        out[code] = {'GK': fn(o.get('GK', [])), 'DF': fn(o.get('DF', [])), 'MF': fn(o.get('MF', [])), 'FW': fn(o.get('FW', []))}
+        continue
     used = set()
+    # likely starter ≈ most international caps (then market value as tiebreaker)
     def take(cond):
-        pool = sorted([p for p in pls if p['pid'] not in used and cond(p)], key=lambda p: -p['value'])
+        pool = sorted([p for p in pls if p['pid'] not in used and cond(p)], key=lambda p: (-p['caps'], -p['value']))
         if not pool: return None
         used.add(pool[0]['pid'] or pool[0]['name']); return pool[0]
     def sub_is(p, *names): return (p['sub'] or '') in names

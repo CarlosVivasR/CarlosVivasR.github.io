@@ -1,0 +1,9 @@
+{
+  "_README": "Manual probable-XI overrides taken from reference sites. Key = team code. Each line is left→right. Names are matched against the squad roster (data/teams/<code>.json). Use this to fix teams where the automatic estimate (by caps/value) is wrong because of missing player data. After editing, run: python3 scripts/build_team_xi.py",
+  "BRA": {
+    "GK": ["Alisson Becker"],
+    "DF": ["Alex Sandro", "Marquinhos", "Gabriel Magalhães", "Wesley França"],
+    "MF": ["Lucas Paquetá", "Bruno Guimarães", "Casemiro"],
+    "FW": ["Vinícius Júnior", "Matheus Cunha", "Raphinha"]
+  }
+}
