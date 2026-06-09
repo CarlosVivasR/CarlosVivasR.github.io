@@ -772,26 +772,21 @@
     padding:2px 7px;border-radius:99px;margin-left:6px;letter-spacing:.06em;
   }
 
-  /* ===== Overlay bracket tree (Option A) ===== */
-  .cbt-legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;font-size:.82em;font-weight:800}
-  .cbt-key.a{color:#17a89f}
-  .cbt-key.b{color:#C9A227}
-  .cbt-wrap{overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
-  .cbt-tree{display:flex;gap:16px;align-items:stretch;min-width:max-content}
-  .cbt-col{display:flex;flex-direction:column;justify-content:space-around;gap:6px;flex:0 0 auto}
-  .cbt-lbl{font-size:.6em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9aa3af;text-align:center;height:13px;margin-bottom:2px}
-  .cbt-node{position:relative;border:1px solid #e3e8ef;border-radius:8px;background:#fff;min-width:130px;padding:4px 18px 4px 5px;display:flex;flex-direction:column;gap:2px}
-  .cbt-node.same{background:rgba(46,194,126,.12);border-color:rgba(46,194,126,.42)}
-  .cbt-node.diff{background:rgba(193,39,45,.06);border-color:rgba(193,39,45,.22)}
-  .cbt-node .r{display:flex;align-items:center;gap:5px;font-size:.74em;font-weight:700;min-width:0;border-left:3px solid transparent;padding-left:5px}
-  .cbt-node .r.a{border-left-color:#17a89f}
-  .cbt-node .r.b{border-left-color:#C9A227}
-  .cbt-node .r img{width:17px;height:12px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.1);flex-shrink:0}
-  .cbt-node .r .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#0a0a0a}
-  .cbt-node .r .nm.empty{color:#c0c6cf;font-weight:600}
-  .cbt-node .tk{position:absolute;right:5px;top:50%;transform:translateY(-50%);font-size:.82em;font-weight:900}
-  .cbt-node.same .tk{color:#1a9d63}
-  .cbt-node.diff .tk{color:#c1272d;font-size:.7em}
+  /* ===== Side-by-side brackets (one tree per participant) ===== */
+  .cbt-lbl{font-size:.58em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9aa3af;text-align:center;height:13px;margin-bottom:2px}
+  .cbt2-wrap{display:flex;gap:24px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+  .cbt2-side{flex:0 0 auto}
+  .cbt2-who{font-size:.84em;font-weight:800;text-align:center;margin-bottom:10px;padding:5px 10px;border-radius:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cbt2-who.a{color:#0f7b74;background:rgba(23,168,159,.12)}
+  .cbt2-who.b{color:#9a7400;background:rgba(201,162,39,.16)}
+  .cbt2-tree{display:flex;gap:7px;align-items:stretch}
+  .cbt2-col{display:flex;flex-direction:column;justify-content:space-around;gap:5px;flex:0 0 auto}
+  .cbt2-node{display:flex;align-items:center;gap:5px;border:1px solid #e3e8ef;border-radius:7px;background:#fff;padding:4px 7px;min-width:62px;white-space:nowrap}
+  .cbt2-node img{width:17px;height:12px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.1);flex-shrink:0}
+  .cbt2-node .ab{font-family:ui-monospace,Menlo,monospace;font-weight:800;font-size:.72em;letter-spacing:.02em;color:#0a0a0a}
+  .cbt2-node .ab.empty{color:#c0c6cf}
+  .cbt2-node.hit{background:rgba(46,194,126,.15);border-color:rgba(46,194,126,.45)}
+  .cbt2-node.hit .ab{color:#0e7a45}
 
   @media (max-width:680px){
     .cmp-selectors{grid-template-columns:1fr;gap:10px}
@@ -801,9 +796,10 @@
     .cmp-row .pick img{width:18px;height:13px}
     .cmp-body{padding:14px 14px 22px}
     .cmp-head{padding:14px 16px}
-    .cbt-node{min-width:108px;padding:3px 16px 3px 4px}
-    .cbt-node .r{font-size:.66em;gap:4px}
-    .cbt-tree{gap:10px}
+    .cbt2-wrap{gap:14px}
+    .cbt2-node{min-width:56px;padding:3px 5px;gap:4px}
+    .cbt2-node .ab{font-size:.66em}
+    .cbt2-tree{gap:5px}
   }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -3149,33 +3145,35 @@ function renderSideBySide(){
     <span class="cmp-pill gold"><span class="num">${pct}%</span></span>
   `;
 
-  /* ===== Option A — single overlay bracket tree ===== */
+  /* ===== Side-by-side brackets (one full tree per participant) ===== */
   const treeA = userFullTree(a.picks);
   const treeB = userFullTree(b.picks);
   const RND = [['r32','round.r32'],['r16','round.r16'],['qf','round.qf'],['sf','round.sf'],['f','round.final']];
-  const flagSm = tm => tm ? `<img src="https://flagcdn.com/w20/${tm.code}.png" alt="">` : '';
-  const cellOf = tm => tm ? `${flagSm(tm)}<span class="nm">${escapeHtml(tm.name)}</span>` : `<span class="nm empty">—</span>`;
-  const treeNode = (ta, tb) => {
-    const same = ta && tb && ta.name === tb.name;
-    const cls = same ? 'same' : ((ta && tb) ? 'diff' : '');
-    return `<div class="cbt-node ${cls}">
-      <div class="r a">${cellOf(ta)}</div>
-      <div class="r b">${cellOf(tb)}</div>
-      <div class="tk">${same ? '✓' : ((ta && tb) ? '≠' : '')}</div>
-    </div>`;
-  };
+  const TEAM_ABBR = { mx:'MEX', za:'RSA', kr:'KOR', cz:'CZE', ca:'CAN', ch:'SUI', qa:'QAT', ba:'BIH', br:'BRA', ma:'MAR', ht:'HAI', 'gb-sct':'SCO', us:'USA', py:'PAR', au:'AUS', tr:'TUR', de:'GER', cw:'CUW', ci:'CIV', ec:'ECU', nl:'NED', jp:'JPN', se:'SWE', tn:'TUN', be:'BEL', eg:'EGY', ir:'IRN', nz:'NZL', es:'ESP', cv:'CPV', sa:'KSA', uy:'URU', fr:'FRA', sn:'SEN', no:'NOR', iq:'IRQ', ar:'ARG', dz:'ALG', at:'AUT', jo:'JOR', pt:'POR', cd:'COD', uz:'UZB', co:'COL', 'gb-eng':'ENG', hr:'CRO', gh:'GHA', pa:'PAN' };
+  const abbrOf = tm => tm ? (TEAM_ABBR[tm.code] || (tm.name||'').slice(0,3).toUpperCase()) : '';
+  const miniTree = (self, other) => RND.map(([rk,lbl]) => {
+    const nodes = self[rk].map((m,i) => {
+      const o = (other[rk][i]||{}).w;
+      const hit = m.w && o && m.w.name === o.name;
+      return `<div class="cbt2-node ${hit?'hit':''}" title="${m.w?escapeHtml(m.w.name):''}">`
+        + (m.w ? `<img src="https://flagcdn.com/w20/${m.w.code}.png" alt=""><span class="ab">${abbrOf(m.w)}</span>` : `<span class="ab empty">—</span>`)
+        + `</div>`;
+    }).join("");
+    return `<div class="cbt2-col"><div class="cbt-lbl">${t(lbl)}</div>${nodes}</div>`;
+  }).join("");
   let treeHTML;
   if (treeA && treeB) {
-    const cols = RND.map(([rk,lbl]) => {
-      const nodes = treeA[rk].map((m,i) => treeNode(m.w, (treeB[rk][i]||{}).w)).join("");
-      return `<div class="cbt-col"><div class="cbt-lbl">${t(lbl)}</div>${nodes}</div>`;
-    }).join("");
     treeHTML = `
-      <div class="cbt-legend">
-        <span class="cbt-key a">● ${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</span>
-        <span class="cbt-key b">● ${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</span>
-      </div>
-      <div class="cbt-wrap"><div class="cbt-tree">${cols}</div></div>`;
+      <div class="cbt2-wrap">
+        <div class="cbt2-side">
+          <div class="cbt2-who a">${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</div>
+          <div class="cbt2-tree">${miniTree(treeA, treeB)}</div>
+        </div>
+        <div class="cbt2-side">
+          <div class="cbt2-who b">${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</div>
+          <div class="cbt2-tree">${miniTree(treeB, treeA)}</div>
+        </div>
+      </div>`;
   } else {
     treeHTML = `<div class="cmp-empty">${t("cmp.empty")}</div>`;
   }
