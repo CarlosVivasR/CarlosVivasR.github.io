@@ -777,29 +777,30 @@
   .brk-cap b.a{color:#0f7b74}
   .brk-cap b.b{color:#9a7400}
   .brk-cap-hit::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:rgba(46,194,126,.4);margin-right:5px;vertical-align:-1px}
-  .cmpbr-wrap{overflow-x:auto;padding-bottom:8px;margin-bottom:18px;-webkit-overflow-scrolling:touch}
-  .cmpbr{display:flex;gap:16px;min-width:940px;align-items:stretch;--cc:#d1d5db}
-  .cmpbr-round{flex:1;min-width:158px;display:grid;grid-template-rows:auto repeat(16,1fr);gap:0}
-  .cmpbr-rlabel{grid-row:1;font-size:.6em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9aa3af;text-align:center;margin-bottom:6px}
-  .cmpbr-round:nth-child(1) .cmpbr-cell{grid-row-end:span 1}
-  .cmpbr-round:nth-child(2) .cmpbr-cell{grid-row-end:span 2}
-  .cmpbr-round:nth-child(3) .cmpbr-cell{grid-row-end:span 4}
-  .cmpbr-round:nth-child(4) .cmpbr-cell{grid-row-end:span 8}
-  .cmpbr-round:nth-child(5) .cmpbr-cell{grid-row-end:span 16}
-  .cmpbr-cell{position:relative;display:flex;align-items:center}
-  .cmpbr-round:not(:nth-child(1)) .cmpbr-cell::before{content:"";position:absolute;left:-8px;top:25%;height:50%;width:1px;background:var(--cc)}
-  .cmpbr-round:not(:nth-child(1)) .cmpbr-cell::after{content:"";position:absolute;left:-8px;top:50%;height:1px;width:8px;background:var(--cc)}
-  .cmpbr-match{flex:1;position:relative;background:#fff;border:1px solid #e3e8ef;border-radius:8px;padding:3px;display:flex;flex-direction:column;gap:3px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-  .cmpbr-round:not(:nth-child(5)) .cmpbr-match::after{content:"";position:absolute;right:-8px;top:50%;height:1px;width:8px;background:var(--cc)}
-  .cmpbr-match.fin{border:2px solid #e8c247;background:linear-gradient(180deg,rgba(232,194,71,.1),#fff)}
-  .cmpbr-slot{display:flex;align-items:center;gap:5px;padding:3px 5px;border-radius:5px;background:#f7f8fa;border:1px solid transparent;min-width:0}
-  .cmpbr-slot .fl{width:16px;height:11px;flex-shrink:0;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08);background:#eef2f5;display:inline-block}
-  .cmpbr-slot .nm{font-size:.74em;font-weight:600;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .cmpbr-slot .nm.ph{color:#b9c0c9;font-style:italic}
-  .cmpbr-slot.win .nm{font-weight:800;color:#0a0a0a}
-  .cmpbr-slot.win.hit{background:rgba(46,194,126,.16);border-color:rgba(46,194,126,.5)}
-  .cmpbr-slot.win.hit .nm{color:#0e7a45}
-  .cmpbr-slot.win.miss{background:#eceff3}
+  .cmp2br-wrap{display:flex;gap:30px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+  .cmp2br-side{flex:0 0 auto}
+  .cmp2br-who{font-size:.82em;font-weight:800;text-align:center;margin-bottom:9px;padding:5px 10px;border-radius:8px;white-space:nowrap;position:sticky;left:0}
+  .cmp2br-who.a{color:#0f7b74;background:rgba(23,168,159,.12)}
+  .cmp2br-who.b{color:#9a7400;background:rgba(201,162,39,.16)}
+  .cmp2br{display:flex;gap:13px;align-items:stretch;--cc:#d1d5db}
+  .cmp2br-round{display:grid;grid-template-rows:auto repeat(16,1fr);gap:0;min-width:66px}
+  .cmp2br-rlbl{grid-row:1;font-size:.54em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9aa3af;text-align:center;margin-bottom:5px}
+  .cmp2br-round.r0 .cmp2br-cell{grid-row-end:span 1}
+  .cmp2br-round.r1 .cmp2br-cell{grid-row-end:span 2}
+  .cmp2br-round.r2 .cmp2br-cell{grid-row-end:span 4}
+  .cmp2br-round.r3 .cmp2br-cell{grid-row-end:span 8}
+  .cmp2br-round.r4 .cmp2br-cell{grid-row-end:span 16}
+  .cmp2br-cell{position:relative;display:flex;align-items:center}
+  .cmp2br-round:not(.r0) .cmp2br-cell::before{content:"";position:absolute;left:-7px;top:25%;height:50%;width:1px;background:var(--cc)}
+  .cmp2br-round:not(.r0) .cmp2br-cell::after{content:"";position:absolute;left:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
+  .cmp2br-win{flex:1;position:relative;display:flex;align-items:center;gap:5px;justify-content:center;background:#fff;border:1px solid #e3e8ef;border-radius:6px;padding:4px 5px;box-shadow:0 1px 1px rgba(0,0,0,.04)}
+  .cmp2br-round:not(.r4) .cmp2br-win::after{content:"";position:absolute;right:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
+  .cmp2br-win .fl{width:15px;height:11px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
+  .cmp2br-win b{font-size:.7em;font-family:ui-monospace,Menlo,monospace;font-weight:800;letter-spacing:.02em;color:#0a0a0a}
+  .cmp2br-win b.ph{color:#c0c6cf}
+  .cmp2br-win.hit{background:rgba(46,194,126,.16);border-color:rgba(46,194,126,.5)}
+  .cmp2br-win.hit b{color:#0e7a45}
+  .cmp2br-win.fin{border:2px solid #e8c247}
 
   @media (max-width:680px){
     .cmp-selectors{grid-template-columns:1fr;gap:10px}
@@ -809,11 +810,9 @@
     .cmp-row .pick img{width:18px;height:13px}
     .cmp-body{padding:14px 14px 22px}
     .cmp-head{padding:14px 16px}
-    .cmpbr{flex-direction:column;min-width:0;gap:20px}
-    .cmpbr-round{grid-template-rows:auto;grid-template-columns:1fr 1fr;gap:8px}
-    .cmpbr-rlabel{grid-column:1/-1;text-align:left;margin-bottom:0}
-    .cmpbr-round .cmpbr-cell{grid-row-end:auto !important}
-    .cmpbr-cell::before,.cmpbr-cell::after,.cmpbr-match::after{display:none}
+    /* stack the two brackets; each one scrolls horizontally inside its box */
+    .cmp2br-wrap{flex-direction:column;gap:18px;overflow-x:visible}
+    .cmp2br-side{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
   }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -1273,6 +1272,7 @@ const I18N = {
     "cmp.bracketOf": "Bracket of",
     "cmp.advances": "team that advances in bold",
     "cmp.greenMeans": "green = same pick as",
+    "cmp.greenSame": "Green = both send the same team through that match.",
     "cmp.gWinners": "Group winners",
     "cmp.gRunnersUp": "Group runners-up",
     "cmp.thirds": "Starred 3rd-placed (qualified)",
@@ -1464,6 +1464,7 @@ const I18N = {
     "cmp.bracketOf": "Cuadro de",
     "cmp.advances": "el que pasa, en negrita",
     "cmp.greenMeans": "verde = mismo que pasa para",
+    "cmp.greenSame": "Verde = los dos pasáis al mismo equipo en ese partido.",
     "cmp.gWinners": "1.º de grupo",
     "cmp.gRunnersUp": "2.º de grupo",
     "cmp.thirds": "Mejores 3.os (clasificados)",
@@ -1655,6 +1656,7 @@ const I18N = {
     "cmp.bracketOf": "Tablo:",
     "cmp.advances": "geçen takım kalın",
     "cmp.greenMeans": "yeşil = aynı seçim:",
+    "cmp.greenSame": "Yeşil = ikiniz de o maçta aynı takımı geçiriyorsunuz.",
     "cmp.gWinners": "Grup birincileri",
     "cmp.gRunnersUp": "Grup ikincileri",
     "cmp.thirds": "İşaretli üçüncüler (geçenler)",
@@ -3172,26 +3174,30 @@ function renderSideBySide(){
   const treeA = userFullTree(a.picks);
   const treeB = userFullTree(b.picks);
   const RND = [['r32','round.r32'],['r16','round.r16'],['qf','round.qf'],['sf','round.sf'],['f','round.final']];
-  const brkSlot = (tm, win, hit) => {
-    const flag = tm ? `<img class="fl" src="https://flagcdn.com/w20/${tm.code}.png" alt="">` : `<span class="fl"></span>`;
-    const nm = `<span class="nm ${tm?'':'ph'}">${tm ? escapeHtml(tm.name) : '—'}</span>`;
-    return `<div class="cmpbr-slot ${win ? ('win ' + (hit ? 'hit' : 'miss')) : ''}">${flag}${nm}</div>`;
+  const TEAM_ABBR = { mx:'MEX', za:'RSA', kr:'KOR', cz:'CZE', ca:'CAN', ch:'SUI', qa:'QAT', ba:'BIH', br:'BRA', ma:'MAR', ht:'HAI', 'gb-sct':'SCO', us:'USA', py:'PAR', au:'AUS', tr:'TUR', de:'GER', cw:'CUW', ci:'CIV', ec:'ECU', nl:'NED', jp:'JPN', se:'SWE', tn:'TUN', be:'BEL', eg:'EGY', ir:'IRN', nz:'NZL', es:'ESP', cv:'CPV', sa:'KSA', uy:'URU', fr:'FRA', sn:'SEN', no:'NOR', iq:'IRQ', ar:'ARG', dz:'ALG', at:'AUT', jo:'JOR', pt:'POR', cd:'COD', uz:'UZB', co:'COL', 'gb-eng':'ENG', hr:'CRO', gh:'GHA', pa:'PAN' };
+  const abbrOf = tm => tm ? (TEAM_ABBR[tm.code] || (tm.name||'').slice(0,3).toUpperCase()) : '';
+  /* one bracket showing only the team that advances per match (Idea 2), green where the other agrees */
+  const winTree = (self, other) => {
+    const cols = RND.map(([rk,lbl], ri) => {
+      const cells = self[rk].map((m,i) => {
+        const o = (other[rk][i]||{}).w;
+        const hit = m.w && o && m.w.name === o.name;
+        const inner = m.w
+          ? `<img class="fl" src="https://flagcdn.com/w20/${m.w.code}.png" alt=""><b>${abbrOf(m.w)}</b>`
+          : `<b class="ph">—</b>`;
+        return `<div class="cmp2br-cell"><div class="cmp2br-win ${hit?'hit':''} ${rk==='f'?'fin':''}">${inner}</div></div>`;
+      }).join("");
+      const head = (rk==='f' ? '🏆 ' : '') + t(lbl);
+      return `<div class="cmp2br-round r${ri}"><div class="cmp2br-rlbl">${head}</div>${cells}</div>`;
+    }).join("");
+    return `<div class="cmp2br">${cols}</div>`;
   };
   let bracketHTML;
   if (treeA && treeB) {
-    const rounds = RND.map(([rk,lbl]) => {
-      const cells = treeA[rk].map((m,i) => {
-        const oW = (treeB[rk][i]||{}).w;
-        const hit = m.w && oW && m.w.name === oW.name;
-        const winA = m.a && m.w && m.a.name === m.w.name;
-        const winB = m.b && m.w && m.b.name === m.w.name;
-        return `<div class="cmpbr-cell"><div class="cmpbr-match ${rk==='f'?'fin':''}">`
-          + brkSlot(m.a, winA, hit) + brkSlot(m.b, winB, hit) + `</div></div>`;
-      }).join("");
-      const head = (rk==='f' ? '🏆 ' : '') + t(lbl);
-      return `<div class="cmpbr-round"><div class="cmpbr-rlabel">${head}</div>${cells}</div>`;
-    }).join("");
-    bracketHTML = `<div class="cmpbr-wrap"><div class="cmpbr">${rounds}</div></div>`;
+    bracketHTML = `<div class="cmp2br-wrap">
+      <div class="cmp2br-side"><div class="cmp2br-who a">${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</div>${winTree(treeA, treeB)}</div>
+      <div class="cmp2br-side"><div class="cmp2br-who b">${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</div>${winTree(treeB, treeA)}</div>
+    </div>`;
   } else {
     bracketHTML = `<div class="cmp-empty">${t("cmp.empty")}</div>`;
   }
@@ -3224,11 +3230,7 @@ function renderSideBySide(){
   const gbRow = cmpFreeText("", a.goldenBoot, b.goldenBoot);
 
   body.innerHTML = `
-    <div class="brk-cap">
-      ${t("cmp.bracketOf")} <b class="a">${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</b> ·
-      <span class="brk-cap-win">${t("cmp.advances")}</span> ·
-      <span class="brk-cap-hit">${t("cmp.greenMeans")} <b class="b">${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</b></span>
-    </div>
+    <div class="brk-cap"><span class="brk-cap-hit">${t("cmp.greenSame")}</span></div>
     ${bracketHTML}
     <div class="cmp-block">
       <h4>${t("cmp.thirds")}</h4>
