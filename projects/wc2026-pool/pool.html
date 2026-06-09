@@ -772,16 +772,25 @@
     padding:2px 7px;border-radius:99px;margin-left:6px;letter-spacing:.06em;
   }
 
-  /* ===== Bracket comparison: participant name header over the two pick columns ===== */
-  .cmp-bracket-head{
-    display:grid;grid-template-columns:32px 1fr 18px 1fr;gap:10px;align-items:center;
-    padding:4px 10px 12px;position:sticky;top:0;z-index:2;background:#fff;
-    border-bottom:1px solid #eef2f7;margin-bottom:10px;
+  /* ===== Bracket as fixture rows (TeamA vs TeamB, winner bold) ===== */
+  .brk-cap{font-size:.8em;color:#6b7280;line-height:1.5;margin:0 2px 14px;padding-bottom:12px;border-bottom:1px solid #eef2f7}
+  .brk-cap b.a{color:#0f7b74}
+  .brk-cap b.b{color:#9a7400}
+  .brk-cap-hit::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:rgba(46,194,126,.4);margin-right:5px;vertical-align:-1px}
+  .brk-row{
+    display:grid;grid-template-columns:20px 1fr 28px 1fr;gap:6px;align-items:center;
+    padding:6px 10px;border-radius:8px;transition:background .15s;
   }
-  .cmp-bracket-head::before{content:"";grid-column:1}
-  .cmp-who{font-size:.86em;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .cmp-who.a{color:#0f7b74}
-  .cmp-who.b{grid-column:4;text-align:right;color:#9a7400}
+  .brk-row:hover{background:#fafafa}
+  .brk-row.hit{background:rgba(46,194,126,.12)}
+  .brk-row.hit:hover{background:rgba(46,194,126,.18)}
+  .brk-n{font-size:.72em;font-weight:800;color:#aab0b9;text-align:center}
+  .brk-side{display:flex;align-items:center;gap:6px;min-width:0;font-size:.88em;color:#6b7280}
+  .brk-side.r{justify-content:flex-end}
+  .brk-side img{width:20px;height:14px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
+  .brk-side .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .brk-side.win{color:#0a0a0a;font-weight:800}
+  .brk-vs{font-size:.68em;font-weight:700;color:#c0c6cf;text-align:center;text-transform:uppercase}
 
   @media (max-width:680px){
     .cmp-selectors{grid-template-columns:1fr;gap:10px}
@@ -791,8 +800,9 @@
     .cmp-row .pick img{width:18px;height:13px}
     .cmp-body{padding:14px 14px 22px}
     .cmp-head{padding:14px 16px}
-    .cmp-bracket-head{grid-template-columns:28px 1fr 16px 1fr;gap:6px;padding:4px 6px 10px}
-    .cmp-who{font-size:.8em}
+    .brk-row{grid-template-columns:18px 1fr 24px 1fr;gap:4px;padding:6px 4px}
+    .brk-side{font-size:.8em;gap:4px}
+    .brk-side img{width:17px;height:12px}
   }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -1249,6 +1259,9 @@ const I18N = {
     "cmp.same": "These are the same person.",
     "cmp.coincidence": "Coincidence",
     "cmp.bracket": "Knockout bracket",
+    "cmp.bracketOf": "Bracket of",
+    "cmp.advances": "team that advances in bold",
+    "cmp.greenMeans": "green = same pick as",
     "cmp.gWinners": "Group winners",
     "cmp.gRunnersUp": "Group runners-up",
     "cmp.thirds": "Starred 3rd-placed (qualified)",
@@ -1437,6 +1450,9 @@ const I18N = {
     "cmp.same": "Son la misma persona.",
     "cmp.coincidence": "Coincidencia",
     "cmp.bracket": "Cuadro de eliminatorias",
+    "cmp.bracketOf": "Cuadro de",
+    "cmp.advances": "el que pasa, en negrita",
+    "cmp.greenMeans": "verde = mismo que pasa para",
     "cmp.gWinners": "1.º de grupo",
     "cmp.gRunnersUp": "2.º de grupo",
     "cmp.thirds": "Mejores 3.os (clasificados)",
@@ -1625,6 +1641,9 @@ const I18N = {
     "cmp.same": "Aynı kişi.",
     "cmp.coincidence": "Eşleşme",
     "cmp.bracket": "Eleme tablosu",
+    "cmp.bracketOf": "Tablo:",
+    "cmp.advances": "geçen takım kalın",
+    "cmp.greenMeans": "yeşil = aynı seçim:",
     "cmp.gWinners": "Grup birincileri",
     "cmp.gRunnersUp": "Grup ikincileri",
     "cmp.thirds": "İşaretli üçüncüler (geçenler)",
@@ -3142,13 +3161,28 @@ function renderSideBySide(){
   const treeA = userFullTree(a.picks);
   const treeB = userFullTree(b.picks);
   const RND = [['r32','round.r32'],['r16','round.r16'],['qf','round.qf'],['sf','round.sf'],['f','round.final']];
+  const brkSide = (tm, win, right) => {
+    if (!tm) return `<span class="brk-side ${right?'r':''}"><span class="nm">—</span></span>`;
+    const flag = `<img src="https://flagcdn.com/w20/${tm.code}.png" alt="">`;
+    const nm = `<span class="nm">${escapeHtml(tm.name)}</span>`;
+    return `<span class="brk-side ${right?'r':''} ${win?'win':''}">${right ? nm+flag : flag+nm}</span>`;
+  };
   let bracketHTML;
   if (treeA && treeB) {
     bracketHTML = RND.map(([rk,lbl]) => {
       const n = treeA[rk].length;
-      const rows = treeA[rk].map((m,i) =>
-        cmpPick(n > 1 ? String(i+1) : "", m.w, (treeB[rk][i]||{}).w)
-      ).join("");
+      const rows = treeA[rk].map((m,i) => {
+        const oW = (treeB[rk][i]||{}).w;
+        const hit = m.w && oW && m.w.name === oW.name;
+        const winA = m.a && m.w && m.a.name === m.w.name;
+        const winB = m.b && m.w && m.b.name === m.w.name;
+        return `<div class="brk-row ${hit?'hit':''}">
+          <span class="brk-n">${n>1 ? (i+1) : ''}</span>
+          ${brkSide(m.a, winA, false)}
+          <span class="brk-vs">vs</span>
+          ${brkSide(m.b, winB, true)}
+        </div>`;
+      }).join("");
       const head = (rk === 'f' ? '🏆 ' : '') + t(lbl);
       return `<div class="cmp-block"><h4>${head}</h4>${rows}</div>`;
     }).join("");
@@ -3184,9 +3218,10 @@ function renderSideBySide(){
   const gbRow = cmpFreeText("", a.goldenBoot, b.goldenBoot);
 
   body.innerHTML = `
-    <div class="cmp-bracket-head">
-      <span class="cmp-who a">${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</span>
-      <span class="cmp-who b">${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</span>
+    <div class="brk-cap">
+      ${t("cmp.bracketOf")} <b class="a">${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</b> ·
+      <span class="brk-cap-win">${t("cmp.advances")}</span> ·
+      <span class="brk-cap-hit">${t("cmp.greenMeans")} <b class="b">${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</b></span>
     </div>
     ${bracketHTML}
     <div class="cmp-block">
