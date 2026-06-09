@@ -772,6 +772,27 @@
     padding:2px 7px;border-radius:99px;margin-left:6px;letter-spacing:.06em;
   }
 
+  /* ===== Overlay bracket tree (Option A) ===== */
+  .cbt-legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;font-size:.82em;font-weight:800}
+  .cbt-key.a{color:#17a89f}
+  .cbt-key.b{color:#C9A227}
+  .cbt-wrap{overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+  .cbt-tree{display:flex;gap:16px;align-items:stretch;min-width:max-content}
+  .cbt-col{display:flex;flex-direction:column;justify-content:space-around;gap:6px;flex:0 0 auto}
+  .cbt-lbl{font-size:.6em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9aa3af;text-align:center;height:13px;margin-bottom:2px}
+  .cbt-node{position:relative;border:1px solid #e3e8ef;border-radius:8px;background:#fff;min-width:130px;padding:4px 18px 4px 5px;display:flex;flex-direction:column;gap:2px}
+  .cbt-node.same{background:rgba(46,194,126,.12);border-color:rgba(46,194,126,.42)}
+  .cbt-node.diff{background:rgba(193,39,45,.06);border-color:rgba(193,39,45,.22)}
+  .cbt-node .r{display:flex;align-items:center;gap:5px;font-size:.74em;font-weight:700;min-width:0;border-left:3px solid transparent;padding-left:5px}
+  .cbt-node .r.a{border-left-color:#17a89f}
+  .cbt-node .r.b{border-left-color:#C9A227}
+  .cbt-node .r img{width:17px;height:12px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.1);flex-shrink:0}
+  .cbt-node .r .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#0a0a0a}
+  .cbt-node .r .nm.empty{color:#c0c6cf;font-weight:600}
+  .cbt-node .tk{position:absolute;right:5px;top:50%;transform:translateY(-50%);font-size:.82em;font-weight:900}
+  .cbt-node.same .tk{color:#1a9d63}
+  .cbt-node.diff .tk{color:#c1272d;font-size:.7em}
+
   @media (max-width:680px){
     .cmp-selectors{grid-template-columns:1fr;gap:10px}
     .cmp-vs{display:none}
@@ -780,6 +801,9 @@
     .cmp-row .pick img{width:18px;height:13px}
     .cmp-body{padding:14px 14px 22px}
     .cmp-head{padding:14px 16px}
+    .cbt-node{min-width:108px;padding:3px 16px 3px 4px}
+    .cbt-node .r{font-size:.66em;gap:4px}
+    .cbt-tree{gap:10px}
   }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -1235,6 +1259,7 @@ const I18N = {
     "cmp.empty": "Pick two participants to compare.",
     "cmp.same": "These are the same person.",
     "cmp.coincidence": "Coincidence",
+    "cmp.bracket": "Knockout bracket",
     "cmp.gWinners": "Group winners",
     "cmp.gRunnersUp": "Group runners-up",
     "cmp.thirds": "Starred 3rd-placed (qualified)",
@@ -1422,6 +1447,7 @@ const I18N = {
     "cmp.empty": "Elige dos participantes para comparar.",
     "cmp.same": "Son la misma persona.",
     "cmp.coincidence": "Coincidencia",
+    "cmp.bracket": "Cuadro de eliminatorias",
     "cmp.gWinners": "1.º de grupo",
     "cmp.gRunnersUp": "2.º de grupo",
     "cmp.thirds": "Mejores 3.os (clasificados)",
@@ -1609,6 +1635,7 @@ const I18N = {
     "cmp.empty": "Karşılaştırmak için iki katılımcı seç.",
     "cmp.same": "Aynı kişi.",
     "cmp.coincidence": "Eşleşme",
+    "cmp.bracket": "Eleme tablosu",
     "cmp.gWinners": "Grup birincileri",
     "cmp.gRunnersUp": "Grup ikincileri",
     "cmp.thirds": "İşaretli üçüncüler (geçenler)",
@@ -2747,6 +2774,31 @@ function extractBracketSummary(picks){
   return {gWinners, starred, stars, sfTeams, finalists};
 }
 
+/* Full knockout tree for one user: each round = ordered array of {a,b,w} (w = advancing pick) */
+function userFullTree(picks){
+  return withPicks(picks, () => {
+    const br = resolveFullBracket();
+    if (!br) return null;
+    const round = (slots, prefix, n) => {
+      const arr = [];
+      for (let i=1;i<=n;i++){
+        const id = `${prefix}-${i}`;
+        const s = slots[id];
+        const w = state.winners[id];
+        arr.push({ a: (s&&s.a)||null, b: (s&&s.b)||null, w: (s && w && s[w]) ? s[w] : null });
+      }
+      return arr;
+    };
+    return {
+      r32: round(br.r32, "R32", 16),
+      r16: round(br.r16, "R16", 8),
+      qf:  round(br.qf,  "QF",  4),
+      sf:  round(br.sf,  "SF",  2),
+      f:   round(br.fin, "F",   1)
+    };
+  });
+}
+
 function renderUserPicksSummary(entry, myEntry){
   const summary = extractBracketSummary(entry.picks);
   const champ = entry.champion;
@@ -3097,14 +3149,36 @@ function renderSideBySide(){
     <span class="cmp-pill gold"><span class="num">${pct}%</span></span>
   `;
 
-  /* Build rows */
-  const groupWinnerRows = sumA.gWinners.map((row,i) =>
-    cmpPick(row.g, row.team, sumB.gWinners[i].team)
-  ).join("");
-
-  const groupRURows = ruA.map((row,i) =>
-    cmpPick(row.g, row.team, ruB[i].team)
-  ).join("");
+  /* ===== Option A — single overlay bracket tree ===== */
+  const treeA = userFullTree(a.picks);
+  const treeB = userFullTree(b.picks);
+  const RND = [['r32','round.r32'],['r16','round.r16'],['qf','round.qf'],['sf','round.sf'],['f','round.final']];
+  const flagSm = tm => tm ? `<img src="https://flagcdn.com/w20/${tm.code}.png" alt="">` : '';
+  const cellOf = tm => tm ? `${flagSm(tm)}<span class="nm">${escapeHtml(tm.name)}</span>` : `<span class="nm empty">—</span>`;
+  const treeNode = (ta, tb) => {
+    const same = ta && tb && ta.name === tb.name;
+    const cls = same ? 'same' : ((ta && tb) ? 'diff' : '');
+    return `<div class="cbt-node ${cls}">
+      <div class="r a">${cellOf(ta)}</div>
+      <div class="r b">${cellOf(tb)}</div>
+      <div class="tk">${same ? '✓' : ((ta && tb) ? '≠' : '')}</div>
+    </div>`;
+  };
+  let treeHTML;
+  if (treeA && treeB) {
+    const cols = RND.map(([rk,lbl]) => {
+      const nodes = treeA[rk].map((m,i) => treeNode(m.w, (treeB[rk][i]||{}).w)).join("");
+      return `<div class="cbt-col"><div class="cbt-lbl">${t(lbl)}</div>${nodes}</div>`;
+    }).join("");
+    treeHTML = `
+      <div class="cbt-legend">
+        <span class="cbt-key a">● ${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</span>
+        <span class="cbt-key b">● ${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</span>
+      </div>
+      <div class="cbt-wrap"><div class="cbt-tree">${cols}</div></div>`;
+  } else {
+    treeHTML = `<div class="cmp-empty">${t("cmp.empty")}</div>`;
+  }
 
   /* Starred thirds — by group letter (binary): show 12 rows of all groups, indicate which is starred per user */
   const thirdsRows = Object.keys(GROUPS).map(g => {
@@ -3128,17 +3202,6 @@ function renderSideBySide(){
     `;
   }).join("");
 
-  /* Semis: pair by position (could mismatch on order; do set-style by index) */
-  const semiRows = Array.from({length:4}, (_,i) =>
-    cmpPick(`SF${i+1}`, sumA.sfTeams[i], sumB.sfTeams[i])
-  ).join("");
-
-  const finalistRows = Array.from({length:2}, (_,i) =>
-    cmpPick(`F${i+1}`, sumA.finalists[i], sumB.finalists[i])
-  ).join("");
-
-  const championRow = cmpPick('🏆', a.champion, b.champion);
-
   const finalScoreA = (a.finalGoalsA != null && a.finalGoalsB != null) ? `${a.finalGoalsA} – ${a.finalGoalsB}` : "";
   const finalScoreB = (b.finalGoalsA != null && b.finalGoalsB != null) ? `${b.finalGoalsA} – ${b.finalGoalsB}` : "";
   const finalScoreRow = cmpFreeText("", finalScoreA, finalScoreB);
@@ -3146,36 +3209,20 @@ function renderSideBySide(){
 
   body.innerHTML = `
     <div class="cmp-block">
-      <h4>${t("cmp.gWinners")}</h4>
-      ${groupWinnerRows}
-    </div>
-    <div class="cmp-block">
-      <h4>${t("cmp.gRunnersUp")}</h4>
-      ${groupRURows}
+      <h4>${t("cmp.bracket")}</h4>
+      ${treeHTML}
     </div>
     <div class="cmp-block">
       <h4>${t("cmp.thirds")}</h4>
       ${thirdsRows}
     </div>
     <div class="cmp-block">
-      <h4>${t("cmp.semis")}</h4>
-      ${semiRows}
-    </div>
-    <div class="cmp-block">
-      <h4>${t("cmp.finalists")}</h4>
-      ${finalistRows}
-    </div>
-    <div class="cmp-block">
-      <h4>${t("cmp.champion")}</h4>
-      ${championRow}
+      <h4>${t("cmp.goldenBoot")}</h4>
+      ${gbRow}
     </div>
     <div class="cmp-block">
       <h4>${t("cmp.finalScore")}</h4>
       ${finalScoreRow}
-    </div>
-    <div class="cmp-block">
-      <h4>${t("cmp.goldenBoot")}</h4>
-      ${gbRow}
     </div>
   `;
 }
