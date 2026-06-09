@@ -772,25 +772,34 @@
     padding:2px 7px;border-radius:99px;margin-left:6px;letter-spacing:.06em;
   }
 
-  /* ===== Bracket as fixture rows (TeamA vs TeamB, winner bold) ===== */
+  /* ===== Bracket comparison as a real bracket tree (fixtures, winner highlighted) ===== */
   .brk-cap{font-size:.8em;color:#6b7280;line-height:1.5;margin:0 2px 14px;padding-bottom:12px;border-bottom:1px solid #eef2f7}
   .brk-cap b.a{color:#0f7b74}
   .brk-cap b.b{color:#9a7400}
   .brk-cap-hit::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:rgba(46,194,126,.4);margin-right:5px;vertical-align:-1px}
-  .brk-row{
-    display:grid;grid-template-columns:20px 1fr 28px 1fr;gap:6px;align-items:center;
-    padding:6px 10px;border-radius:8px;transition:background .15s;
-  }
-  .brk-row:hover{background:#fafafa}
-  .brk-row.hit{background:rgba(46,194,126,.12)}
-  .brk-row.hit:hover{background:rgba(46,194,126,.18)}
-  .brk-n{font-size:.72em;font-weight:800;color:#aab0b9;text-align:center}
-  .brk-side{display:flex;align-items:center;gap:6px;min-width:0;font-size:.88em;color:#6b7280}
-  .brk-side.r{justify-content:flex-end}
-  .brk-side img{width:20px;height:14px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
-  .brk-side .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .brk-side.win{color:#0a0a0a;font-weight:800}
-  .brk-vs{font-size:.68em;font-weight:700;color:#c0c6cf;text-align:center;text-transform:uppercase}
+  .cmpbr-wrap{overflow-x:auto;padding-bottom:8px;margin-bottom:18px;-webkit-overflow-scrolling:touch}
+  .cmpbr{display:flex;gap:16px;min-width:940px;align-items:stretch;--cc:#d1d5db}
+  .cmpbr-round{flex:1;min-width:158px;display:grid;grid-template-rows:auto repeat(16,1fr);gap:0}
+  .cmpbr-rlabel{grid-row:1;font-size:.6em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9aa3af;text-align:center;margin-bottom:6px}
+  .cmpbr-round:nth-child(1) .cmpbr-cell{grid-row-end:span 1}
+  .cmpbr-round:nth-child(2) .cmpbr-cell{grid-row-end:span 2}
+  .cmpbr-round:nth-child(3) .cmpbr-cell{grid-row-end:span 4}
+  .cmpbr-round:nth-child(4) .cmpbr-cell{grid-row-end:span 8}
+  .cmpbr-round:nth-child(5) .cmpbr-cell{grid-row-end:span 16}
+  .cmpbr-cell{position:relative;display:flex;align-items:center}
+  .cmpbr-round:not(:nth-child(1)) .cmpbr-cell::before{content:"";position:absolute;left:-8px;top:25%;height:50%;width:1px;background:var(--cc)}
+  .cmpbr-round:not(:nth-child(1)) .cmpbr-cell::after{content:"";position:absolute;left:-8px;top:50%;height:1px;width:8px;background:var(--cc)}
+  .cmpbr-match{flex:1;position:relative;background:#fff;border:1px solid #e3e8ef;border-radius:8px;padding:3px;display:flex;flex-direction:column;gap:3px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .cmpbr-round:not(:nth-child(5)) .cmpbr-match::after{content:"";position:absolute;right:-8px;top:50%;height:1px;width:8px;background:var(--cc)}
+  .cmpbr-match.fin{border:2px solid #e8c247;background:linear-gradient(180deg,rgba(232,194,71,.1),#fff)}
+  .cmpbr-slot{display:flex;align-items:center;gap:5px;padding:3px 5px;border-radius:5px;background:#f7f8fa;border:1px solid transparent;min-width:0}
+  .cmpbr-slot .fl{width:16px;height:11px;flex-shrink:0;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08);background:#eef2f5;display:inline-block}
+  .cmpbr-slot .nm{font-size:.74em;font-weight:600;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cmpbr-slot .nm.ph{color:#b9c0c9;font-style:italic}
+  .cmpbr-slot.win .nm{font-weight:800;color:#0a0a0a}
+  .cmpbr-slot.win.hit{background:rgba(46,194,126,.16);border-color:rgba(46,194,126,.5)}
+  .cmpbr-slot.win.hit .nm{color:#0e7a45}
+  .cmpbr-slot.win.miss{background:#eceff3}
 
   @media (max-width:680px){
     .cmp-selectors{grid-template-columns:1fr;gap:10px}
@@ -800,9 +809,11 @@
     .cmp-row .pick img{width:18px;height:13px}
     .cmp-body{padding:14px 14px 22px}
     .cmp-head{padding:14px 16px}
-    .brk-row{grid-template-columns:18px 1fr 24px 1fr;gap:4px;padding:6px 4px}
-    .brk-side{font-size:.8em;gap:4px}
-    .brk-side img{width:17px;height:12px}
+    .cmpbr{flex-direction:column;min-width:0;gap:20px}
+    .cmpbr-round{grid-template-rows:auto;grid-template-columns:1fr 1fr;gap:8px}
+    .cmpbr-rlabel{grid-column:1/-1;text-align:left;margin-bottom:0}
+    .cmpbr-round .cmpbr-cell{grid-row-end:auto !important}
+    .cmpbr-cell::before,.cmpbr-cell::after,.cmpbr-match::after{display:none}
   }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -3161,33 +3172,28 @@ function renderSideBySide(){
   const treeA = userFullTree(a.picks);
   const treeB = userFullTree(b.picks);
   const RND = [['r32','round.r32'],['r16','round.r16'],['qf','round.qf'],['sf','round.sf'],['f','round.final']];
-  const brkSide = (tm, win, right) => {
-    if (!tm) return `<span class="brk-side ${right?'r':''}"><span class="nm">—</span></span>`;
-    const flag = `<img src="https://flagcdn.com/w20/${tm.code}.png" alt="">`;
-    const nm = `<span class="nm">${escapeHtml(tm.name)}</span>`;
-    return `<span class="brk-side ${right?'r':''} ${win?'win':''}">${right ? nm+flag : flag+nm}</span>`;
+  const brkSlot = (tm, win, hit) => {
+    const flag = tm ? `<img class="fl" src="https://flagcdn.com/w20/${tm.code}.png" alt="">` : `<span class="fl"></span>`;
+    const nm = `<span class="nm ${tm?'':'ph'}">${tm ? escapeHtml(tm.name) : '—'}</span>`;
+    return `<div class="cmpbr-slot ${win ? ('win ' + (hit ? 'hit' : 'miss')) : ''}">${flag}${nm}</div>`;
   };
   let bracketHTML;
   if (treeA && treeB) {
-    bracketHTML = RND.map(([rk,lbl]) => {
-      const n = treeA[rk].length;
-      const rows = treeA[rk].map((m,i) => {
+    const rounds = RND.map(([rk,lbl]) => {
+      const cells = treeA[rk].map((m,i) => {
         const oW = (treeB[rk][i]||{}).w;
         const hit = m.w && oW && m.w.name === oW.name;
         const winA = m.a && m.w && m.a.name === m.w.name;
         const winB = m.b && m.w && m.b.name === m.w.name;
-        return `<div class="brk-row ${hit?'hit':''}">
-          <span class="brk-n">${n>1 ? (i+1) : ''}</span>
-          ${brkSide(m.a, winA, false)}
-          <span class="brk-vs">vs</span>
-          ${brkSide(m.b, winB, true)}
-        </div>`;
+        return `<div class="cmpbr-cell"><div class="cmpbr-match ${rk==='f'?'fin':''}">`
+          + brkSlot(m.a, winA, hit) + brkSlot(m.b, winB, hit) + `</div></div>`;
       }).join("");
-      const head = (rk === 'f' ? '🏆 ' : '') + t(lbl);
-      return `<div class="cmp-block"><h4>${head}</h4>${rows}</div>`;
+      const head = (rk==='f' ? '🏆 ' : '') + t(lbl);
+      return `<div class="cmpbr-round"><div class="cmpbr-rlabel">${head}</div>${cells}</div>`;
     }).join("");
+    bracketHTML = `<div class="cmpbr-wrap"><div class="cmpbr">${rounds}</div></div>`;
   } else {
-    bracketHTML = `<div class="cmp-block"><h4>${t("cmp.bracket")}</h4><div class="cmp-empty">${t("cmp.empty")}</div></div>`;
+    bracketHTML = `<div class="cmp-empty">${t("cmp.empty")}</div>`;
   }
 
   /* Starred thirds — by group letter (binary): show 12 rows of all groups, indicate which is starred per user */
