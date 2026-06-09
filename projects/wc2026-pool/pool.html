@@ -772,21 +772,16 @@
     padding:2px 7px;border-radius:99px;margin-left:6px;letter-spacing:.06em;
   }
 
-  /* ===== Side-by-side brackets (one tree per participant) ===== */
-  .cbt-lbl{font-size:.58em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9aa3af;text-align:center;height:13px;margin-bottom:2px}
-  .cbt2-wrap{display:flex;gap:24px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
-  .cbt2-side{flex:0 0 auto}
-  .cbt2-who{font-size:.84em;font-weight:800;text-align:center;margin-bottom:10px;padding:5px 10px;border-radius:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .cbt2-who.a{color:#0f7b74;background:rgba(23,168,159,.12)}
-  .cbt2-who.b{color:#9a7400;background:rgba(201,162,39,.16)}
-  .cbt2-tree{display:flex;gap:7px;align-items:stretch}
-  .cbt2-col{display:flex;flex-direction:column;justify-content:space-around;gap:5px;flex:0 0 auto}
-  .cbt2-node{display:flex;align-items:center;gap:5px;border:1px solid #e3e8ef;border-radius:7px;background:#fff;padding:4px 7px;min-width:62px;white-space:nowrap}
-  .cbt2-node img{width:17px;height:12px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.1);flex-shrink:0}
-  .cbt2-node .ab{font-family:ui-monospace,Menlo,monospace;font-weight:800;font-size:.72em;letter-spacing:.02em;color:#0a0a0a}
-  .cbt2-node .ab.empty{color:#c0c6cf}
-  .cbt2-node.hit{background:rgba(46,194,126,.15);border-color:rgba(46,194,126,.45)}
-  .cbt2-node.hit .ab{color:#0e7a45}
+  /* ===== Bracket comparison: participant name header over the two pick columns ===== */
+  .cmp-bracket-head{
+    display:grid;grid-template-columns:32px 1fr 18px 1fr;gap:10px;align-items:center;
+    padding:4px 10px 12px;position:sticky;top:0;z-index:2;background:#fff;
+    border-bottom:1px solid #eef2f7;margin-bottom:10px;
+  }
+  .cmp-bracket-head::before{content:"";grid-column:1}
+  .cmp-who{font-size:.86em;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cmp-who.a{color:#0f7b74}
+  .cmp-who.b{grid-column:4;text-align:right;color:#9a7400}
 
   @media (max-width:680px){
     .cmp-selectors{grid-template-columns:1fr;gap:10px}
@@ -796,10 +791,8 @@
     .cmp-row .pick img{width:18px;height:13px}
     .cmp-body{padding:14px 14px 22px}
     .cmp-head{padding:14px 16px}
-    .cbt2-wrap{gap:14px}
-    .cbt2-node{min-width:56px;padding:3px 5px;gap:4px}
-    .cbt2-node .ab{font-size:.66em}
-    .cbt2-tree{gap:5px}
+    .cmp-bracket-head{grid-template-columns:28px 1fr 16px 1fr;gap:6px;padding:4px 6px 10px}
+    .cmp-who{font-size:.8em}
   }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -3145,37 +3138,22 @@ function renderSideBySide(){
     <span class="cmp-pill gold"><span class="num">${pct}%</span></span>
   `;
 
-  /* ===== Side-by-side brackets (one full tree per participant) ===== */
+  /* ===== Knockout bracket as per-match rows (both picks side by side, grouped by round) ===== */
   const treeA = userFullTree(a.picks);
   const treeB = userFullTree(b.picks);
   const RND = [['r32','round.r32'],['r16','round.r16'],['qf','round.qf'],['sf','round.sf'],['f','round.final']];
-  const TEAM_ABBR = { mx:'MEX', za:'RSA', kr:'KOR', cz:'CZE', ca:'CAN', ch:'SUI', qa:'QAT', ba:'BIH', br:'BRA', ma:'MAR', ht:'HAI', 'gb-sct':'SCO', us:'USA', py:'PAR', au:'AUS', tr:'TUR', de:'GER', cw:'CUW', ci:'CIV', ec:'ECU', nl:'NED', jp:'JPN', se:'SWE', tn:'TUN', be:'BEL', eg:'EGY', ir:'IRN', nz:'NZL', es:'ESP', cv:'CPV', sa:'KSA', uy:'URU', fr:'FRA', sn:'SEN', no:'NOR', iq:'IRQ', ar:'ARG', dz:'ALG', at:'AUT', jo:'JOR', pt:'POR', cd:'COD', uz:'UZB', co:'COL', 'gb-eng':'ENG', hr:'CRO', gh:'GHA', pa:'PAN' };
-  const abbrOf = tm => tm ? (TEAM_ABBR[tm.code] || (tm.name||'').slice(0,3).toUpperCase()) : '';
-  const miniTree = (self, other) => RND.map(([rk,lbl]) => {
-    const nodes = self[rk].map((m,i) => {
-      const o = (other[rk][i]||{}).w;
-      const hit = m.w && o && m.w.name === o.name;
-      return `<div class="cbt2-node ${hit?'hit':''}" title="${m.w?escapeHtml(m.w.name):''}">`
-        + (m.w ? `<img src="https://flagcdn.com/w20/${m.w.code}.png" alt=""><span class="ab">${abbrOf(m.w)}</span>` : `<span class="ab empty">—</span>`)
-        + `</div>`;
-    }).join("");
-    return `<div class="cbt2-col"><div class="cbt-lbl">${t(lbl)}</div>${nodes}</div>`;
-  }).join("");
-  let treeHTML;
+  let bracketHTML;
   if (treeA && treeB) {
-    treeHTML = `
-      <div class="cbt2-wrap">
-        <div class="cbt2-side">
-          <div class="cbt2-who a">${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</div>
-          <div class="cbt2-tree">${miniTree(treeA, treeB)}</div>
-        </div>
-        <div class="cbt2-side">
-          <div class="cbt2-who b">${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</div>
-          <div class="cbt2-tree">${miniTree(treeB, treeA)}</div>
-        </div>
-      </div>`;
+    bracketHTML = RND.map(([rk,lbl]) => {
+      const n = treeA[rk].length;
+      const rows = treeA[rk].map((m,i) =>
+        cmpPick(n > 1 ? String(i+1) : "", m.w, (treeB[rk][i]||{}).w)
+      ).join("");
+      const head = (rk === 'f' ? '🏆 ' : '') + t(lbl);
+      return `<div class="cmp-block"><h4>${head}</h4>${rows}</div>`;
+    }).join("");
   } else {
-    treeHTML = `<div class="cmp-empty">${t("cmp.empty")}</div>`;
+    bracketHTML = `<div class="cmp-block"><h4>${t("cmp.bracket")}</h4><div class="cmp-empty">${t("cmp.empty")}</div></div>`;
   }
 
   /* Starred thirds — by group letter (binary): show 12 rows of all groups, indicate which is starred per user */
@@ -3206,10 +3184,11 @@ function renderSideBySide(){
   const gbRow = cmpFreeText("", a.goldenBoot, b.goldenBoot);
 
   body.innerHTML = `
-    <div class="cmp-block">
-      <h4>${t("cmp.bracket")}</h4>
-      ${treeHTML}
+    <div class="cmp-bracket-head">
+      <span class="cmp-who a">${escapeHtml(a.name)}${a.isMe ? t("cmp.you") : ""}</span>
+      <span class="cmp-who b">${escapeHtml(b.name)}${b.isMe ? t("cmp.you") : ""}</span>
     </div>
+    ${bracketHTML}
     <div class="cmp-block">
       <h4>${t("cmp.thirds")}</h4>
       ${thirdsRows}
