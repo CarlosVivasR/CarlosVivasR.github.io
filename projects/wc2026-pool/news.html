@@ -77,12 +77,17 @@ async function main(){
   document.getElementById('h1').textContent=L('title');
   document.getElementById('sub').textContent=L('sub');
   const hl=L('hl'),gl=L('gl'),lang=(window.WC_LANG||'es'),CK='wc26news_'+lang;
-  // 1) show last cached headlines instantly (so there's always something, even offline)
+  let shown=false;
+  // 1) instant: last headlines this browser fetched live
   let cached=null;
   try{ cached=JSON.parse(localStorage.getItem(CK)||'null'); }catch(e){}
-  const haveCache=cached&&cached.items&&cached.items.length;
-  if(haveCache) render(cached.items); else document.getElementById('state').textContent=L('loading');
-  // 2) fetch fresh — race several proxies, fastest valid response wins
+  if(cached&&cached.items&&cached.items.length){ render(cached.items); shown=true; }
+  // 2) baseline: pre-built same-origin file — always available, no proxy needed (never stuck on "loading")
+  if(!shown){
+    try{ const r=await fetch('data/news.json',{cache:'no-cache'}); if(r.ok){ const j=await r.json(); const it=j[lang]||[]; if(it.length){ render(it); shown=true; } } }catch(e){}
+  }
+  if(!shown) document.getElementById('state').textContent=L('loading');
+  // 3) live refresh — race several CORS proxies, fastest valid response wins
   const rss=`https://news.google.com/rss/search?q=${encodeURIComponent(L('q'))}&hl=${hl}&gl=${gl}&ceid=${gl}:${hl.split('-')[0]}`;
   const proxies=[
     u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
@@ -92,13 +97,12 @@ async function main(){
   ];
   let xml=null;
   try{ xml=await Promise.any(proxies.map(p=>fetchVia(p,rss))); }catch(e){}
-  const gnUrl=`https://news.google.com/search?q=${encodeURIComponent(L('q'))}&hl=${hl}`;
   if(xml){
     const items=parseItems(xml);
     if(items.length){ try{ localStorage.setItem(CK,JSON.stringify({items,ts:Date.now()})); }catch(e){} render(items); return; }
   }
-  // 3) all proxies failed → keep the cached list if we have one, else show a fallback link
-  if(!haveCache){ document.getElementById('state').innerHTML=`${L('fail')} <a href="${gnUrl}" target="_blank" rel="noopener">${L('open')} →</a>`; }
+  // 4) nothing worked and nothing on screen → offer a direct Google News link
+  if(!shown){ const gnUrl=`https://news.google.com/search?q=${encodeURIComponent(L('q'))}&hl=${hl}`; document.getElementById('state').innerHTML=`${L('fail')} <a href="${gnUrl}" target="_blank" rel="noopener">${L('open')} →</a>`; }
 }
 main();
 </script>
