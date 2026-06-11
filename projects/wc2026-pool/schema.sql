@@ -16,7 +16,7 @@
 --   * `picks.user_id` is both PK and FK with ON DELETE CASCADE,
 --     so deleting a user via admin automatically removes their picks.
 --   * The deadline policy hard-blocks any insert into `picks` after
---     2026-06-11 16:00 UTC (kick-off Mexico vs South Africa).
+--     2026-06-11 19:00 UTC = 20:00 Irish (kick-off Mexico vs South Africa).
 -- ============================================================
 
 
@@ -127,7 +127,7 @@ create policy "anyone can register"
   with check (true);
 
 -- picks: anyone can read all picks (needed for leaderboard); inserts
--- are allowed only BEFORE the WC 2026 kick-off (2026-06-11 16:00 UTC).
+-- are allowed only BEFORE the WC 2026 kick-off (2026-06-11 19:00 UTC = 20:00 Irish).
 -- The picks.user_id PK enforces "one submission per user" automatically.
 drop policy if exists "public read picks" on picks;
 create policy "public read picks"
@@ -139,7 +139,7 @@ drop policy if exists "submit before deadline" on picks;
 create policy "submit before deadline"
   on picks for insert
   with check (
-    now() < '2026-06-11T16:00:00+00'::timestamptz
+    now() < '2026-06-11T19:00:00+00'::timestamptz
   );
 
 -- official_results: world readable; writable by anyone authenticated
