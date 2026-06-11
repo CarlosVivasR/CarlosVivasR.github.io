@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ejemplo · cuadro completo de un participante</title>
+<style>
+  :root{--bg:#0e121c;--card:rgba(255,255,255,.035);--line:rgba(255,255,255,.10);--ink:#eef2f7;--muted:#8b93a3;
+        --gold:#e8c247;--cyan:#35e0d8;--green:#3ad29f;--amber:#f0a33c;--red:#e06464;--cc:#3a4254;}
+  *{box-sizing:border-box}
+  body{margin:0;background:#070a10;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);padding:24px 16px 70px}
+  .modal{max-width:1080px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5)}
+  .mhead{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent)}
+  .mhead .who{font-size:1.25em;font-weight:800}
+  .mhead .champ{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:.9em;color:var(--gold);font-weight:700}
+  .mhead .champ img{width:22px;height:16px;border-radius:2px;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.3)}
+  .sect{padding:18px 22px}
+  .sect h3{margin:0 0 12px;font-size:.74em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---- GROUPS ---- */
+  .ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .gcard{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .ghd{font-size:.72em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 11px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .grow{display:flex;align-items:center;gap:9px;padding:7px 11px;font-size:.9em;font-weight:600;border-bottom:1px solid rgba(255,255,255,.05)}
+  .grow:last-child{border-bottom:0}
+  .grow img{width:21px;height:15px;border-radius:2px;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.3);flex-shrink:0}
+  .grow .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pos{flex-shrink:0;width:26px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:.74em;font-weight:900;font-family:ui-monospace,Menlo,monospace}
+  .p1 .pos{background:rgba(232,194,71,.18);color:var(--gold);border:1px solid rgba(232,194,71,.4)}
+  .p2 .pos{background:rgba(53,224,216,.15);color:var(--cyan);border:1px solid rgba(53,224,216,.35)}
+  .p3 .pos{background:rgba(240,163,60,.15);color:var(--amber);border:1px solid rgba(240,163,60,.35)}
+  .p4 .pos{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid rgba(255,255,255,.12)}
+  .p4 .nm{color:var(--muted)}
+  .grow.q{background:rgba(58,210,159,.08)}
+  .q .tag{flex-shrink:0;font-size:.66em;font-weight:800;color:var(--green);background:rgba(58,210,159,.14);border:1px solid rgba(58,210,159,.35);padding:1px 6px;border-radius:99px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.74em;color:var(--muted);margin:0 0 14px}
+  .legend b{color:var(--ink);font-weight:700}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+
+  /* ---- BRACKET (winner-only + R32 fixture) ---- */
+  .brk-wrap{overflow-x:auto;padding-bottom:6px}
+  .brk{display:flex;gap:14px;align-items:stretch;min-width:max-content;--cc:#3a4254}
+  .br-col{display:grid;grid-template-rows:auto repeat(16,1fr);gap:0;min-width:74px}
+  .br-lbl{grid-row:1;font-size:.56em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:5px}
+  .br-col.r0 .cell{grid-row-end:span 1}.br-col.r1 .cell{grid-row-end:span 2}.br-col.r2 .cell{grid-row-end:span 4}.br-col.r3 .cell{grid-row-end:span 8}.br-col.r4 .cell{grid-row-end:span 16}
+  .cell{position:relative;display:flex;align-items:center}
+  .br-col:not(.r0) .cell::before{content:"";position:absolute;left:-7px;top:25%;height:50%;width:1px;background:var(--cc)}
+  .br-col:not(.r0) .cell::after{content:"";position:absolute;left:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
+  .win{flex:1;position:relative;display:flex;align-items:center;gap:5px;justify-content:center;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 5px}
+  .br-col:not(.r4) .win::after,.br-col.r0 .match::after{content:"";position:absolute;right:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
+  .win img,.team img{width:15px;height:11px;border-radius:2px;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.3);flex-shrink:0}
+  .win b,.team b{font-size:.7em;font-family:ui-monospace,Menlo,monospace;font-weight:800}
+  .win.fin{border:2px solid var(--gold)}
+  .match{flex:1;position:relative;display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:2px}
+  .team{display:flex;align-items:center;gap:5px;justify-content:center;padding:2px 4px;border-radius:4px}
+  .team b{color:var(--muted)}
+  .team.w{background:rgba(255,255,255,.06)}
+  .team.w b{color:var(--ink)}
+</style></head>
+<body>
+<div class="modal" id="root"></div>
+<script>
+const T={
+  mx:'MEX',za:'RSA',kr:'KOR',cz:'CZE',ca:'CAN',ch:'SUI',qa:'QAT',ba:'BIH',br:'BRA',ma:'MAR',ht:'HAI','gb-sct':'SCO',
+  us:'USA',py:'PAR',au:'AUS',tr:'TUR',de:'GER',cw:'CUW',ci:'CIV',ec:'ECU',nl:'NED',jp:'JPN',se:'SWE',tn:'TUN',
+  be:'BEL',eg:'EGY',ir:'IRN',nz:'NZL',es:'ESP',cv:'CPV',sa:'KSA',uy:'URU',fr:'FRA',sn:'SEN',no:'NOR',iq:'IRQ',
+  ar:'ARG',dz:'ALG',at:'AUT',jo:'JOR',pt:'POR',cd:'COD',uz:'UZB',co:'COL','gb-eng':'ENG',hr:'CRO',gh:'GHA',pa:'PAN'};
+const NM={mx:'México',za:'Sudáfrica',kr:'Corea del Sur',cz:'Chequia',ca:'Canadá',ch:'Suiza',qa:'Catar',ba:'Bosnia',
+  br:'Brasil',ma:'Marruecos',ht:'Haití','gb-sct':'Escocia',us:'EE.UU.',py:'Paraguay',au:'Australia',tr:'Turquía',
+  de:'Alemania',cw:'Curazao',ci:'Costa de Marfil',ec:'Ecuador',nl:'P. Bajos',jp:'Japón',se:'Suecia',tn:'Túnez',
+  be:'Bélgica',eg:'Egipto',ir:'Irán',nz:'N. Zelanda',es:'España',cv:'Cabo Verde',sa:'A. Saudí',uy:'Uruguay',
+  fr:'Francia',sn:'Senegal',no:'Noruega',iq:'Irak',ar:'Argentina',dz:'Argelia',at:'Austria',jo:'Jordania',
+  pt:'Portugal',cd:'RD Congo',uz:'Uzbekistán',co:'Colombia','gb-eng':'Inglaterra',hr:'Croacia',gh:'Ghana',pa:'Panamá'};
+const fl=c=>`<img src="https://flagcdn.com/w20/${c}.png" alt="">`;
+
+/* sample: predicted group order (1º..4º). 'star' = groups whose 3rd this person backs to qualify */
+const GROUPS={
+ A:['mx','kr','cz','za'], B:['ch','ca','ba','qa'], C:['br','ma','gb-sct','ht'],
+ D:['us','tr','py','au'], E:['de','ec','ci','cw'], F:['nl','jp','se','tn'],
+ G:['be','eg','ir','nz'], H:['es','uy','cv','sa'], I:['fr','sn','no','iq'],
+ J:['ar','at','dz','jo'], K:['pt','co','uz','cd'], L:['gb-eng','hr','gh','pa']};
+const STARRED=new Set(['A','C','E','H','I','J','K','L']);  // 8 thirds backed to advance
+
+function groupCard(g){
+  const ts=GROUPS[g];
+  const rows=ts.map((c,i)=>{
+    const pos=i+1, q=(pos===3&&STARRED.has(g));
+    return `<div class="grow p${pos} ${q?'q':''}">
+      <span class="pos">${pos}º</span>${fl(c)}<span class="nm">${NM[c]}</span>${q?'<span class="tag">★ pasa</span>':''}</div>`;
+  }).join('');
+  return `<div class="gcard"><div class="ghd">Grupo ${g}</div>${rows}</div>`;
+}
+
+/* ---- sample bracket ---- */
+const ORDER=['fr','es','ar','br','pt','nl','de','be','ma','hr','uy','co','us','mx','sn','jp','ec','tr','ch','kr','no','at','cz','ir','eg','gh','ca','au','ci','qa','sa','cw'];
+const seed={};ORDER.forEach((k,i)=>seed[k]=i);
+const R32=[['br','no'],['es','ca'],['ar','au'],['fr','sa'],['pt','gh'],['nl','ir'],['de','qa'],['be','cw'],
+  ['ma','ec'],['hr','cz'],['uy','at'],['co','kr'],['us','sn'],['mx','eg'],['sn','ch'],['jp','tr']]
+  .map(([a,b])=>({a,b}));
+const pick=(a,b)=>seed[a]<=seed[b]?a:b;
+const r32=R32.map(m=>({...m,w:pick(m.a,m.b)}));
+const mk=p=>{const o=[];for(let i=0;i<p.length;i+=2){const a=p[i].w,b=p[i+1].w;o.push({a,b,w:pick(a,b)});}return o;};
+const r16=mk(r32),qf=mk(r16),sf=mk(qf),f=mk(sf);
+const ROUNDS=[['R32',r32],['Octavos',r16],['Cuartos',qf],['Semis',sf],['Final',f]];
+function bracket(){
+  let cols='';
+  ROUNDS.forEach(([lbl,arr],ri)=>{
+    let cells='';
+    arr.forEach(m=>{
+      if(ri===0){
+        const slot=c=>`<div class="team ${c===m.w?'w':''}">${fl(c)}<b>${T[c]}</b></div>`;
+        cells+=`<div class="cell"><div class="match">${slot(m.a)}${slot(m.b)}</div></div>`;
+      }else{
+        cells+=`<div class="cell"><div class="win ${ri===4?'fin':''}">${fl(m.w)}<b>${T[m.w]}</b></div></div>`;
+      }
+    });
+    cols+=`<div class="br-col r${ri}"><div class="br-lbl">${lbl}</div>${cells}</div>`;
+  });
+  return `<div class="brk-wrap"><div class="brk">${cols}</div></div>`;
+}
+
+document.getElementById('root').innerHTML=`
+  <div class="mhead">
+    <span class="who">Agustín Vivas</span>
+    <span class="champ">🏆 ${fl('es')} España</span>
+  </div>
+  <div class="sect">
+    <h3>Fase de grupos · posición de cada equipo</h3>
+    <div class="legend">
+      <span><span class="dot" style="background:rgba(232,194,71,.7)"></span><b>1º</b> y <b>2º</b> pasan directos</span>
+      <span><span class="dot" style="background:rgba(240,163,60,.7)"></span><b>3º</b> con ★ = lo eligió como uno de los 8 mejores terceros</span>
+      <span><span class="dot" style="background:rgba(255,255,255,.25)"></span><b>4º</b> eliminado</span>
+    </div>
+    <div class="ggrid">${Object.keys(GROUPS).map(groupCard).join('')}</div>
+  </div>
+  <div class="sect" style="border-top:1px solid var(--line)">
+    <h3>Eliminatorias · su cuadro completo</h3>
+    ${bracket()}
+  </div>`;
+</script>
+</body></html>
