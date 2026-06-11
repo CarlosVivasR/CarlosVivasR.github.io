@@ -252,7 +252,7 @@ async function buildData(){
 }
 
 // ===== Countdown =====
-const KICK=new Date('2026-06-11T16:00:00Z').getTime();
+const KICK=new Date('2026-06-11T19:00:00Z').getTime();
 function tick(){const diff=KICK-Date.now();
   if(diff<=0){document.getElementById('countdown').innerHTML='<div class="cd-unit"><div class="num" style="font-size:1.1em">⚽ ¡En juego!</div></div>';return;}
   const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
