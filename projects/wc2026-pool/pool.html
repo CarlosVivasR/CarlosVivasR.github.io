@@ -964,7 +964,7 @@
   <div class="pool-closed" id="pool-closed">
     <div class="label" data-i18n="poolClosed.title">Pool closed</div>
     <div class="msg" data-i18n="poolClosed.msg">Submissions are no longer accepted.</div>
-    <div class="sub" data-i18n="poolClosed.sub">Deadline was 11 Jun 2026, 16:00 UTC (kick-off Mexico vs South Africa).</div>
+    <div class="sub" data-i18n="poolClosed.sub">Deadline was 11 Jun 2026, 19:00 UTC (kick-off Mexico vs South Africa).</div>
   </div>
 
   <div class="submitted-banner" id="submitted-banner">
@@ -1254,7 +1254,7 @@ const I18N = {
     "lockBanner.submitted": "Submitted:",
     "poolClosed.title": "Pool closed",
     "poolClosed.msg": "Submissions are no longer accepted.",
-    "poolClosed.sub": "Deadline was 11 Jun 2026, 16:00 UTC (kick-off Mexico vs South Africa).",
+    "poolClosed.sub": "Deadline was 11 Jun 2026, 19:00 UTC (kick-off Mexico vs South Africa).",
     "newResults.text": "<b>Results updated</b> on {when}. The leaderboard may have new rankings — scroll to the bottom to check.",
     "newResults.dismiss": "Got it",
     "lb.title": "Pool leaderboard",
@@ -1446,7 +1446,7 @@ const I18N = {
     "lockBanner.submitted": "Enviado:",
     "poolClosed.title": "Quiniela cerrada",
     "poolClosed.msg": "Ya no se aceptan envíos.",
-    "poolClosed.sub": "La fecha límite fue el 11 jun 2026, 16:00 UTC (inicio México vs Sudáfrica).",
+    "poolClosed.sub": "La fecha límite fue el 11 jun 2026, 19:00 UTC (inicio México vs Sudáfrica).",
     "newResults.text": "<b>Resultados actualizados</b> el {when}. Es posible que el leaderboard tenga nuevas posiciones — baja al final para verlo.",
     "newResults.dismiss": "Entendido",
     "lb.title": "Clasificación",
@@ -1638,7 +1638,7 @@ const I18N = {
     "lockBanner.submitted": "Gönderim:",
     "poolClosed.title": "Havuz kapalı",
     "poolClosed.msg": "Artık gönderim kabul edilmiyor.",
-    "poolClosed.sub": "Son tarih 11 Haz 2026, 16:00 UTC (Meksika vs Güney Afrika açılışı) idi.",
+    "poolClosed.sub": "Son tarih 11 Haz 2026, 19:00 UTC (Meksika vs Güney Afrika açılışı) idi.",
     "newResults.text": "<b>Sonuçlar güncellendi</b>: {when}. Klasmanda yeni sıralamalar olabilir — görmek için aşağı kaydır.",
     "newResults.dismiss": "Anladım",
     "lb.title": "Klasman",
@@ -1765,7 +1765,7 @@ async function logError(context, err, meta){
 }
 
 /* Deadline = WC 2026 kick-off (Mexico vs South Africa, Estadio Azteca) */
-const POOL_DEADLINE = new Date("2026-06-11T16:00:00Z");
+const POOL_DEADLINE = new Date("2026-06-11T19:00:00Z");
 const poolIsOpen = () => Date.now() < POOL_DEADLINE.getTime();
 
 /* Scoring scheme (Golazo-clone, 201 pts max) */
