@@ -794,13 +794,22 @@
   .cmp2br-round:not(.r0) .cmp2br-cell::before{content:"";position:absolute;left:-7px;top:25%;height:50%;width:1px;background:var(--cc)}
   .cmp2br-round:not(.r0) .cmp2br-cell::after{content:"";position:absolute;left:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
   .cmp2br-win{flex:1;position:relative;display:flex;align-items:center;gap:5px;justify-content:center;background:#fff;border:1px solid #e3e8ef;border-radius:6px;padding:4px 5px;box-shadow:0 1px 1px rgba(0,0,0,.04)}
-  .cmp2br-round:not(.r4) .cmp2br-win::after{content:"";position:absolute;right:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
-  .cmp2br-win .fl{width:15px;height:11px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
+  .cmp2br-round:not(.r4) .cmp2br-win::after,
+  .cmp2br-round.r0 .cmp2br-match::after{content:"";position:absolute;right:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
+  .cmp2br-win .fl, .cmp2br-team .fl{width:15px;height:11px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
   .cmp2br-win b{font-size:.7em;font-family:ui-monospace,Menlo,monospace;font-weight:800;letter-spacing:.02em;color:#0a0a0a}
   .cmp2br-win b.ph{color:#c0c6cf}
   .cmp2br-win.hit{background:rgba(46,194,126,.16);border-color:rgba(46,194,126,.5)}
   .cmp2br-win.hit b{color:#0e7a45}
   .cmp2br-win.fin{border:2px solid #e8c247}
+  /* R32 fixture box: two teams stacked, winner highlighted */
+  .cmp2br-match{flex:1;position:relative;display:flex;flex-direction:column;gap:2px;background:#fff;border:1px solid #e3e8ef;border-radius:6px;padding:2px;box-shadow:0 1px 1px rgba(0,0,0,.04)}
+  .cmp2br-team{display:flex;align-items:center;gap:5px;justify-content:center;padding:2px 4px;border-radius:4px;background:#f7f8fa}
+  .cmp2br-team b{font-size:.68em;font-family:ui-monospace,Menlo,monospace;font-weight:700;letter-spacing:.02em;color:#9aa3af}
+  .cmp2br-team.win{background:#eceff3}
+  .cmp2br-team.win b{color:#0a0a0a;font-weight:800}
+  .cmp2br-team.win.hit{background:rgba(46,194,126,.16)}
+  .cmp2br-team.win.hit b{color:#0e7a45}
 
   @media (max-width:680px){
     .cmp-selectors{grid-template-columns:1fr;gap:10px}
@@ -3177,15 +3186,21 @@ function renderSideBySide(){
   const TEAM_ABBR = { mx:'MEX', za:'RSA', kr:'KOR', cz:'CZE', ca:'CAN', ch:'SUI', qa:'QAT', ba:'BIH', br:'BRA', ma:'MAR', ht:'HAI', 'gb-sct':'SCO', us:'USA', py:'PAR', au:'AUS', tr:'TUR', de:'GER', cw:'CUW', ci:'CIV', ec:'ECU', nl:'NED', jp:'JPN', se:'SWE', tn:'TUN', be:'BEL', eg:'EGY', ir:'IRN', nz:'NZL', es:'ESP', cv:'CPV', sa:'KSA', uy:'URU', fr:'FRA', sn:'SEN', no:'NOR', iq:'IRQ', ar:'ARG', dz:'ALG', at:'AUT', jo:'JOR', pt:'POR', cd:'COD', uz:'UZB', co:'COL', 'gb-eng':'ENG', hr:'CRO', gh:'GHA', pa:'PAN' };
   const abbrOf = tm => tm ? (TEAM_ABBR[tm.code] || (tm.name||'').slice(0,3).toUpperCase()) : '';
   /* one bracket showing only the team that advances per match (Idea 2), green where the other agrees */
+  const teamChip = tm => tm ? `<img class="fl" src="https://flagcdn.com/w20/${tm.code}.png" alt=""><b>${abbrOf(tm)}</b>` : `<b class="ph">—</b>`;
   const winTree = (self, other) => {
     const cols = RND.map(([rk,lbl], ri) => {
       const cells = self[rk].map((m,i) => {
         const o = (other[rk][i]||{}).w;
         const hit = m.w && o && m.w.name === o.name;
-        const inner = m.w
-          ? `<img class="fl" src="https://flagcdn.com/w20/${m.w.code}.png" alt=""><b>${abbrOf(m.w)}</b>`
-          : `<b class="ph">—</b>`;
-        return `<div class="cmp2br-cell"><div class="cmp2br-win ${hit?'hit':''} ${rk==='f'?'fin':''}">${inner}</div></div>`;
+        if (ri === 0) {
+          /* Round of 32: show the full fixture (both teams), winner highlighted */
+          const slot = tm => {
+            const win = tm && m.w && tm.name === m.w.name;
+            return `<div class="cmp2br-team ${win?'win':''} ${win&&hit?'hit':''}">${teamChip(tm)}</div>`;
+          };
+          return `<div class="cmp2br-cell"><div class="cmp2br-match">${slot(m.a)}${slot(m.b)}</div></div>`;
+        }
+        return `<div class="cmp2br-cell"><div class="cmp2br-win ${hit?'hit':''} ${rk==='f'?'fin':''}">${teamChip(m.w)}</div></div>`;
       }).join("");
       const head = (rk==='f' ? '🏆 ' : '') + t(lbl);
       return `<div class="cmp2br-round r${ri}"><div class="cmp2br-rlbl">${head}</div>${cells}</div>`;
