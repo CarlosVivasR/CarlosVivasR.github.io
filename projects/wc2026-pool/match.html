@@ -120,7 +120,30 @@
   .lu-subs{margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
   .lu-subs b{display:block;font-size:.66em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
   .lu-subs .pl{opacity:.72}
-  @media(max-width:640px){ .lineups{grid-template-columns:1fr} .lv-sc{font-size:1.8em;min-width:80px} }
+  /* formation pitch */
+  .pf{display:flex;justify-content:space-between;font-size:.8em;font-weight:700;color:var(--ink-2);margin-bottom:9px}
+  .pitch{position:relative;background:linear-gradient(180deg,#176540,#0e4a30);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 4px;display:flex;flex-direction:column;overflow:hidden}
+  .pitch::before{content:"";position:absolute;inset:7px;border:1px solid rgba(255,255,255,.16);border-radius:8px;pointer-events:none}
+  .pteam{flex:1;display:flex;flex-direction:column;justify-content:space-around;gap:8px;z-index:1}
+  .pline{height:1px;background:rgba(255,255,255,.2);margin:7px 12px;position:relative}
+  .pline::after{content:"";position:absolute;left:50%;top:50%;width:36px;height:36px;border:1px solid rgba(255,255,255,.2);border-radius:50%;transform:translate(-50%,-50%)}
+  .frow{display:flex;justify-content:space-around;gap:3px}
+  .fpos{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1 1 0;min-width:0;max-width:78px}
+  .fdot{width:26px;height:26px;border-radius:50%;background:#fff;color:#0a3b26;display:grid;place-items:center;font-weight:900;font-size:.72em;font-family:var(--mono,monospace);box-shadow:0 1px 3px rgba(0,0,0,.45)}
+  .fnm{font-size:.58em;font-weight:700;color:#fff;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-shadow:0 1px 2px rgba(0,0,0,.7)}
+  .lu-h2{font-size:.66em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+  .subs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .subs-col b{display:block;font-size:.8em;font-weight:800;margin-bottom:6px}
+  .sub-pl{display:block;font-size:.8em;color:var(--ink-2);padding:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sub-pl i{color:var(--muted);font-style:normal;font-family:var(--mono,monospace);margin-right:5px}
+  .ev-ic{font-size:1.05em}
+  /* commentary */
+  .cm-list{max-height:340px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .cm-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.85em}
+  .cm-row:last-child{border-bottom:0}
+  .cm-min{color:var(--gold);font-weight:800;min-width:34px;font-variant-numeric:tabular-nums;flex-shrink:0}
+  .cm-tx{color:var(--ink-2);line-height:1.45}
+  @media(max-width:640px){ .lineups,.subs{grid-template-columns:1fr} .lv-sc{font-size:1.8em;min-width:80px} .fnm{font-size:.52em} .fdot{width:23px;height:23px} }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
 </head>
@@ -134,9 +157,9 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario'},
-  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar'},
-  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim'}
+  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario',lvPred:'Predicción',lvStats:'Estadísticas',lvLineups:'Alineaciones',lvEvents:'Eventos',lvComm:'Comentario en directo',lvSubs:'Suplentes',lvDraw:'Empate',lvToPlay:'Por jugar',lvFinal:'Final',lvHT:'Descanso',liveData:'Datos en vivo: ESPN'},
+  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar',lvPred:'Prediction',lvStats:'Stats',lvLineups:'Lineups',lvEvents:'Events',lvComm:'Live commentary',lvSubs:'Substitutes',lvDraw:'Draw',lvToPlay:'Scheduled',lvFinal:'Full Time',lvHT:'Half-time',liveData:'Live data: ESPN'},
+  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim',lvPred:'Tahmin',lvStats:'İstatistikler',lvLineups:'Kadrolar',lvEvents:'Olaylar',lvComm:'Canlı anlatım',lvSubs:'Yedekler',lvDraw:'Beraberlik',lvToPlay:'Programlandı',lvFinal:'Maç sonu',lvHT:'Devre arası',liveData:'Canlı veri: ESPN'}
 };
 const L=k=>wcT(T,k);
 const LOC=L('locale');
@@ -313,7 +336,20 @@ function nrmt(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerC
 function mlPct(ml){ ml=parseFloat(ml); if(isNaN(ml)) return null; return ml<0 ? (-ml)/((-ml)+100) : 100/(ml+100); }
 function FLAG(name){ const t=(window.__teamByName||{})[name]; return t?`https://flagcdn.com/w40/${t.flag}.png`:''; }
 const STAT_ES={'possession':'Posesión','shots':'Tiros','on goal':'Tiros a puerta','fouls':'Faltas','yellow cards':'T. amarillas','red cards':'T. rojas','offsides':'Fueras de juego','corner kicks':'Córners','saves':'Paradas','passes':'Pases','accurate passes':'Pases acertados','pass completion %':'% acierto pase','on target %':'% a puerta','accurate crosses':'Centros acertados','crosses':'Centros','penalty goals':'Goles de penalti','penalty kicks taken':'Penaltis lanzados','total shots':'Tiros','shots on target':'Tiros a puerta'};
-function statLabel(s){ const isEs=((document.documentElement.lang)||'es')==='es'; const raw=s.label||s.name||''; return isEs?(STAT_ES[raw.toLowerCase()]||raw):raw; }
+const STAT_TR={'possession':'Topa sahip olma','shots':'Şutlar','on goal':'İsabetli şut','fouls':'Fauller','yellow cards':'Sarı kart','red cards':'Kırmızı kart','offsides':'Ofsayt','corner kicks':'Korner','saves':'Kurtarış','passes':'Pas','accurate passes':'İsabetli pas','pass completion %':'Pas isabeti %','on target %':'İsabet %','accurate crosses':'İsabetli orta','crosses':'Orta','penalty goals':'Penaltı golü','penalty kicks taken':'Kullanılan penaltı','total shots':'Şutlar','shots on target':'İsabetli şut'};
+function statLabel(s){ const lang=(document.documentElement.lang)||'es'; const raw=s.label||s.name||''; const k=raw.toLowerCase(); if(lang==='es') return STAT_ES[k]||raw; if(lang==='tr') return STAT_TR[k]||raw; return raw; }
+function lastName(n){ const p=(n||'').trim().split(' '); return p.length>1?p[p.length-1]:n||''; }
+/* parse "4-1-4-1" + starters → {gk, rows:[[...],[...]]} from defence to attack */
+function formationRows(team){
+  const starters=(team.roster||[]).filter(p=>p.starter);
+  let gk=starters.find(p=>/^g/i.test((p.position||{}).abbreviation||''))||starters[0];
+  const rest=starters.filter(p=>p!==gk);
+  const form=(team.formation||'').split('-').map(n=>parseInt(n,10)).filter(n=>n>0);
+  const rows=[]; let i=0;
+  (form.length?form:[rest.length]).forEach(n=>{ rows.push(rest.slice(i,i+n)); i+=n; });
+  if(i<rest.length) rows.push(rest.slice(i));
+  return {gk, rows};
+}
 let __evId=null, __mref=null;
 async function loadMatchLive(m){
   __mref=m;
@@ -340,11 +376,10 @@ function renderLive(ev,sum,m){
   const st=(ev.status||{}).type||{}; const clk=(ev.status||{}).displayClock||'';
   const homeIsT1=nrmt((home.team||{}).displayName)===nrmt(m.team1);
   const s1=homeIsT1?home.score:away.score, s2=homeIsT1?away.score:home.score;
-  const isEs=((document.documentElement.lang)||'es')==='es';
   let statusTx;
-  if(st.state==='post') statusTx = isEs?'Final':'Full Time';
-  else if(st.state==='pre') statusTx = isEs?'Por jugar':esc(st.shortDetail||'Scheduled');
-  else { let raw=(clk||st.shortDetail||st.detail||'').trim(); if(isEs && /half|^ht$/i.test(raw) && !/\d/.test(raw)) raw='Descanso'; statusTx='🔴 '+esc(raw); }
+  if(st.state==='post') statusTx = L('lvFinal');
+  else if(st.state==='pre') statusTx = L('lvToPlay');
+  else { let raw=(clk||st.shortDetail||st.detail||'').trim(); if(/half|^ht$/i.test(raw) && !/\d/.test(raw)) raw=L('lvHT'); statusTx='🔴 '+esc(raw); }
   const head=`<div class="lv-head ${st.state==='in'?'in':''}">
     <div class="lv-t"><img src="${FLAG(m.team1)}" alt=""><span>${esc(m.team1)}</span></div>
     <div class="lv-sc">${s1==null?'-':esc(String(s1))} <span>–</span> ${s2==null?'-':esc(String(s2))}<div class="lv-st">${statusTx}</div></div>
@@ -358,22 +393,21 @@ function renderLive(ev,sum,m){
       const sum3=hp+ap+dp; let H=Math.round(hp/sum3*100), D=Math.round(dp/sum3*100), A=100-H-D;
       const pcHomeIsT1=nrmt((pc.homeTeamOdds.team||{}).displayName)===nrmt(m.team1);
       const p1=pcHomeIsT1?H:A, p2=pcHomeIsT1?A:H;
-      pred=`<div class="lv-block"><h4>Predicción</h4>
+      pred=`<div class="lv-block"><h4>${L('lvPred')}</h4>
         <div class="pred"><div class="pb t1" style="width:${p1}%">${p1}%</div><div class="pb dr" style="width:${D}%">${D>7?D+'%':''}</div><div class="pb t2" style="width:${p2}%">${p2}%</div></div>
-        <div class="pred-lbl"><span>${esc(m.team1)}</span><span>Empate</span><span>${esc(m.team2)}</span></div></div>`;
+        <div class="pred-lbl"><span>${esc(m.team1)}</span><span>${L('lvDraw')}</span><span>${esc(m.team2)}</span></div></div>`;
     }
   }
-  /* events */
+  /* events (icon + minute + player — language-neutral) */
   let events='';
   const ke=(sum&&sum.keyEvents)||[];
-  if(ke.length){
-    const rows=ke.slice().reverse().map(e=>{
-      const cl=((e.clock||{}).displayValue)||''; const ty=((e.type||{}).text||'').toLowerCase(); const tx=e.text||(e.type||{}).text||'';
-      const ic=ty.includes('goal')?'⚽':ty.includes('yellow')?'🟨':ty.includes('red')?'🟥':ty.includes('substitution')?'🔄':'•';
-      return `<div class="ev-row"><span class="ev-min">${esc(cl)}</span><span>${ic}</span><span class="ev-tx">${esc(tx)}</span></div>`;
-    }).join('');
-    events=`<div class="lv-block"><h4>Eventos</h4>${rows}</div>`;
-  }
+  const evRows=ke.filter(e=>/goal|card|substitut|penal/.test(((e.type||{}).text||'').toLowerCase())).slice().reverse().map(e=>{
+    const cl=((e.clock||{}).displayValue)||''; const t=((e.type||{}).text||'').toLowerCase();
+    const ic=t.includes('goal')?(e.ownGoal?'⚽':'⚽'):t.includes('yellow')?'🟨':t.includes('red')?'🟥':t.includes('substitut')?'🔄':t.includes('penal')?'🎯':'•';
+    const who=((e.participants||[]).map(p=>(p.athlete||{}).displayName).filter(Boolean).join(' / '))||((e.team||{}).displayName||'');
+    return `<div class="ev-row"><span class="ev-min">${esc(cl)}</span><span class="ev-ic">${ic}</span><span class="ev-tx">${esc(who)}</span></div>`;
+  }).join('');
+  if(evRows) events=`<div class="lv-block"><h4>${L('lvEvents')}</h4>${evRows}</div>`;
   /* stats */
   let stats='';
   const bt=((sum&&sum.boxscore)||{}).teams||[];
@@ -389,22 +423,35 @@ function renderLive(ev,sum,m){
       return `<div class="stat-row"><div class="stat-top"><span class="sv">${esc(a.displayValue)}</span><span class="sk">${esc(statLabel(a))}</span><span class="sv">${esc(b.displayValue)}</span></div>
         <div class="stat-bar"><div class="l" style="width:${Math.round(v1/tot*100)}%"></div><div class="r" style="width:${Math.round(v2/tot*100)}%"></div></div></div>`;
     }).join('');
-    if(rows.replace(/\s/g,'')) stats=`<div class="lv-block"><h4>Estadísticas</h4>${rows}</div>`;
+    if(rows.replace(/\s/g,'')) stats=`<div class="lv-block"><h4>${L('lvStats')}</h4>${rows}</div>`;
   }
-  /* lineups */
+  /* lineups → formation pitch + substitutes */
   let lineups='';
   const ros=(sum&&sum.rosters)||[];
   if(ros.length===2){
-    const lu=(t)=>{
-      const starters=(t.roster||[]).filter(p=>p.starter), subs=(t.roster||[]).filter(p=>!p.starter);
-      const pl=p=>`<div class="pl"><span class="pn">${esc(String(p.jersey||''))}</span><span class="pnm">${esc((p.athlete||{}).displayName||'')}</span><span class="pp">${esc((p.position||{}).abbreviation||'')}</span></div>`;
-      return `<div class="lu-team"><div class="lu-h">${esc((t.team||{}).displayName)} <span class="lu-form">${esc(t.formation||'')}</span></div>${starters.map(pl).join('')}${subs.length?`<div class="lu-subs"><b>Suplentes</b>${subs.map(pl).join('')}</div>`:''}</div>`;
-    };
     const r1=ros.find(t=>nrmt((t.team||{}).displayName)===nrmt(m.team1))||ros[0];
     const r2=ros.find(t=>nrmt((t.team||{}).displayName)===nrmt(m.team2))||ros[1];
-    lineups=`<div class="lv-block"><h4>Alineaciones</h4><div class="lineups">${lu(r1)}${lu(r2)}</div></div>`;
+    const dot=p=>`<div class="fpos"><div class="fdot">${esc(String(p.jersey||''))}</div><div class="fnm">${esc(lastName((p.athlete||{}).displayName))}</div></div>`;
+    const rowH=arr=>`<div class="frow">${arr.map(dot).join('')}</div>`;
+    const f1=formationRows(r1), f2=formationRows(r2);
+    const pitch=`<div class="pitch">
+      <div class="pteam">${rowH([f2.gk])}${f2.rows.map(rowH).join('')}</div>
+      <div class="pline"></div>
+      <div class="pteam">${f1.rows.slice().reverse().map(rowH).join('')}${rowH([f1.gk])}</div></div>`;
+    const subEl=t=>{ const s=(t.roster||[]).filter(p=>!p.starter); return s.length?`<div class="subs-col"><b>${esc((t.team||{}).displayName)}</b>${s.map(p=>`<span class="sub-pl"><i>${esc(String(p.jersey||''))}</i> ${esc((p.athlete||{}).displayName||'')}</span>`).join('')}</div>`:''; };
+    lineups=`<div class="lv-block"><h4>${L('lvLineups')}</h4>
+      <div class="pf"><span>${esc(m.team1)} · ${esc(r1.formation||'')}</span><span>${esc(r2.formation||'')} · ${esc(m.team2)}</span></div>
+      ${pitch}
+      <div class="lu-h2">${L('lvSubs')}</div><div class="subs">${subEl(r1)}${subEl(r2)}</div></div>`;
   }
-  box.innerHTML = head + pred + events + stats + lineups;
+  /* live commentary (text comes from ESPN in English) */
+  let comm='';
+  const cm=(sum&&sum.commentary)||[];
+  if(cm.length){
+    const rows=cm.slice().reverse().slice(0,50).map(x=>{ const tm=((x.time||{}).displayValue)||''; return `<div class="cm-row"><span class="cm-min">${esc(tm)}</span><span class="cm-tx">${esc(x.text||'')}</span></div>`; }).join('');
+    comm=`<div class="lv-block"><h4>${L('lvComm')}</h4><div class="cm-list">${rows}</div></div>`;
+  }
+  box.innerHTML = head + events + pred + stats + lineups + comm;
 }
 
 main();
