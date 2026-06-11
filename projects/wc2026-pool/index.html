@@ -137,7 +137,7 @@
   <!-- Two columns: matches · data -->
   <div class="home-cols">
     <section class="blk">
-      <div class="blk-head"><h2 data-i18n="home.upcoming">Próximos partidos</h2><a href="calendar.html" class="all" data-i18n="home.all104">Ver los 104 →</a></div>
+      <div class="blk-head"><h2 id="homeMatchesTitle" data-i18n="home.upcoming">Próximos partidos</h2><a href="calendar.html" class="all" data-i18n="home.all104">Ver los 104 →</a></div>
       <div class="hm-grid" id="homeMatches"></div>
     </section>
     <aside class="blk">
@@ -218,8 +218,15 @@ async function buildHome(){
   const fmt=iso=>{ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); return d.toLocaleDateString(loc,{weekday:'short',day:'numeric',month:'short'}); };
   const matches=(sched.matches||[]).map((m,i)=>({...m,idx:i}));
   const now=Date.now();
+  const todayStr=new Date().toLocaleDateString('en-CA');   // YYYY-MM-DD in the visitor's local timezone
+  const todays=matches.filter(m=>m.date===todayStr);
   const upcoming=matches.filter(m=>{ const t=new Date((m.date||'')+'T12:00:00').getTime(); return t>=now-864e5; }).slice(0,6);
-  const list=upcoming.length?upcoming:matches.slice(0,6);
+  const isToday=todays.length>0;
+  const list=isToday?todays:(upcoming.length?upcoming:matches.slice(0,6));
+  const lng=document.documentElement.lang||'es';
+  const tt=k=>(i18n[lng]&&i18n[lng][k])||(i18n.es&&i18n.es[k])||k;
+  const titleEl=document.getElementById('homeMatchesTitle');
+  if(titleEl) titleEl.textContent=isToday?tt('home.today'):tt('home.upcoming');
   el.innerHTML=list.map(m=>{
     const f1=flagByName[m.team1], f2=flagByName[m.team2];
     const fl=(n,f)=> (f?`<img src="https://flagcdn.com/w40/${f}.png">`:'')+ (isPh(n)?`<span style="color:var(--muted)">${esc(n||'—')}</span>`:esc(n));
@@ -266,7 +273,7 @@ const i18n={
     'hero.ctaPool':'🏆 Join the Pool','hero.ctaCal':'📅 Match Calendar','hero.ctaNews':'📰 News',
     'cd.days':'Days','cd.hours':'Hours','cd.mins':'Min','cd.secs':'Sec',
     'cd.cap':'Until kick-off · Mexico 🇲🇽 vs South Africa 🇿🇦 · Estadio Azteca',
-    'home.upcoming':'Upcoming matches','home.all104':'See all 104 →','home.explore':'Explore',
+    'home.upcoming':'Upcoming matches','home.today':"Today's matches",'home.all104':'See all 104 →','home.explore':'Explore',
     'home.qStand':'Standings','home.qStandSub':'group tables','home.qTeams':'Squads','home.qTeamsSub':'48 teams & players','home.qSedes':'16 venues','home.qSedesSub':'stadiums & maps',
     'home.qPool':'Pool','home.qPoolSub':'predict & compete','home.qCal':'Calendar','home.qCalSub':'104 matches, your time','home.qData':'Data','home.qDataSub':'rankings & facts','home.data':'Data','home.dataAll':'See all →','data.valTeams':'Most valuable squads','data.fifa':'FIFA ranking','data.scorers':'Top scorers','data.goals':'goals',
     'footer.built':'Built by'},
@@ -274,7 +281,7 @@ const i18n={
     'hero.ctaPool':'🏆 Entrar a la quiniela','hero.ctaCal':'📅 Ver calendario','hero.ctaNews':'📰 Noticias',
     'cd.days':'Días','cd.hours':'Horas','cd.mins':'Min','cd.secs':'Seg',
     'cd.cap':'Para el pitido inicial · México 🇲🇽 vs Sudáfrica 🇿🇦 · Estadio Azteca',
-    'home.upcoming':'Próximos partidos','home.all104':'Ver los 104 →','home.explore':'Explora',
+    'home.upcoming':'Próximos partidos','home.today':'Partidos de hoy','home.all104':'Ver los 104 →','home.explore':'Explora',
     'home.qStand':'Clasificación','home.qStandSub':'tablas de grupo','home.qTeams':'Plantillas','home.qTeamsSub':'48 selecciones y jugadores','home.qSedes':'16 sedes','home.qSedesSub':'estadios y mapas',
     'home.qPool':'Quiniela','home.qPoolSub':'predice y compite','home.qCal':'Calendario','home.qCalSub':'104 partidos, tu hora','home.qData':'Datos','home.qDataSub':'rankings y curiosidades','home.data':'Datos','home.dataAll':'Ver todos →','data.valTeams':'Selecciones más valiosas','data.fifa':'Ranking FIFA','data.scorers':'Máximos goleadores','data.goals':'goles',
     'footer.built':'Hecho por'},
@@ -282,7 +289,7 @@ const i18n={
     'hero.ctaPool':'🏆 Tahmin havuzu','hero.ctaCal':'📅 Maç takvimi','hero.ctaNews':'📰 Haberler',
     'cd.days':'Gün','cd.hours':'Saat','cd.mins':'Dk','cd.secs':'Sn',
     'cd.cap':'Açılış maçına · Meksika 🇲🇽 vs Güney Afrika 🇿🇦 · Estadio Azteca',
-    'home.upcoming':'Yaklaşan maçlar','home.all104':'104 maçın tümü →','home.explore':'Keşfet',
+    'home.upcoming':'Yaklaşan maçlar','home.today':'Bugünkü maçlar','home.all104':'104 maçın tümü →','home.explore':'Keşfet',
     'home.qStand':'Puan durumu','home.qStandSub':'grup tabloları','home.qTeams':'Kadrolar','home.qTeamsSub':'48 takım & oyuncu','home.qSedes':'16 saha','home.qSedesSub':'stadyumlar & haritalar',
     'home.qPool':'Tahmin','home.qPoolSub':'tahmin et & yarış','home.qCal':'Takvim','home.qCalSub':'104 maç, senin saatin','home.qData':'Veriler','home.qDataSub':'sıralamalar & bilgiler','home.data':'Veriler','home.dataAll':'Tümü →','data.valTeams':'En değerli kadrolar','data.fifa':'FIFA sıralaması','data.scorers':'Gol kralları','data.goals':'gol',
     'footer.built':'Geliştiren'}
