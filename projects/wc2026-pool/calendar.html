@@ -781,6 +781,26 @@ async function loadResults(){
   }catch(e){ /* no results yet → standings stay at zero */ }
 }
 
+/* Live group standings straight from ESPN (free, no key) — auto-updates as matches finish */
+let __espnStand = null;
+const SALIAS = {czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
+function snrm(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return SALIAS[x]||x; }
+async function loadEspnStandings(){
+  try{
+    const d = await fetch('https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings',{cache:'no-store'}).then(r=>r.json());
+    const out = {};
+    (d.children||[]).forEach(g=>{
+      const letter = (((g.name||'').match(/Group\s+([A-L])/i))||[])[1]; if(!letter) return;
+      out[letter] = {};
+      ((g.standings&&g.standings.entries)||[]).forEach(e=>{
+        const sm={}; (e.stats||[]).forEach(s=>{ sm[s.name]=parseFloat(s.displayValue)||0; });
+        out[letter][snrm((e.team||{}).displayName)] = {pj:sm.gamesPlayed||0,w:sm.wins||0,d:sm.ties||0,l:sm.losses||0,gf:sm.pointsFor||0,ga:sm.pointsAgainst||0};
+      });
+    });
+    if(Object.keys(out).length){ __espnStand=out; if(document.getElementById('standings') && document.getElementById('standings').style.display!=='none') buildStandings(); }
+  }catch(e){ /* ESPN unavailable → fall back to results.json */ }
+}
+
 function buildStandings(){
   const el = document.getElementById("standings-grid");
   if(!el || !MATCHES.length) return;
@@ -791,15 +811,26 @@ function buildStandings(){
     [m.team1, m.team2].forEach(tn => {
       if(tn && !isPlaceholderTeam(tn) && !groups[g][tn]) groups[g][tn] = {team:tn, pj:0, w:0, d:0, l:0, gf:0, ga:0};
     });
-    const key = (m.num != null) ? String(m.num) : String(m.idx);
-    const sc = RESULTS[key];
-    if(Array.isArray(sc) && sc.length === 2 && groups[g][m.team1] && groups[g][m.team2]){
-      const a = +sc[0], b = +sc[1];
-      const A = groups[g][m.team1], B = groups[g][m.team2];
-      A.pj++; B.pj++; A.gf += a; A.ga += b; B.gf += b; B.ga += a;
-      if(a > b){ A.w++; B.l++; } else if(a < b){ B.w++; A.l++; } else { A.d++; B.d++; }
+    if(!__espnStand){   /* compute from results.json only when ESPN standings aren't available */
+      const key = (m.num != null) ? String(m.num) : String(m.idx);
+      const sc = RESULTS[key];
+      if(Array.isArray(sc) && sc.length === 2 && groups[g][m.team1] && groups[g][m.team2]){
+        const a = +sc[0], b = +sc[1];
+        const A = groups[g][m.team1], B = groups[g][m.team2];
+        A.pj++; B.pj++; A.gf += a; A.ga += b; B.gf += b; B.ga += a;
+        if(a > b){ A.w++; B.l++; } else if(a < b){ B.w++; A.l++; } else { A.d++; B.d++; }
+      }
     }
   });
+  if(__espnStand){    /* overlay live ESPN standings (matched by normalised team name) */
+    Object.keys(groups).forEach(g=>{
+      const eg = __espnStand[g]; if(!eg) return;
+      Object.values(groups[g]).forEach(r=>{
+        const e = eg[snrm(r.team)];
+        if(e){ r.pj=e.pj; r.w=e.w; r.d=e.d; r.l=e.l; r.gf=e.gf; r.ga=e.ga; }
+      });
+    });
+  }
   const gids = Object.keys(groups).sort();
   el.innerHTML = gids.map(g => {
     const rows = Object.values(groups[g])
@@ -836,6 +867,7 @@ document.querySelectorAll(".view-toggle button").forEach(b =>
   b.addEventListener("click", () => setView(b.dataset.view)));
 
 loadResults();
+loadEspnStandings();
 loadSchedule();
 </script>
 <script src="assets/search.js" defer></script>
