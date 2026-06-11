@@ -53,6 +53,15 @@
   .cd-unit .lbl{font-size:.62em;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
   .cd-cap{font-size:.78em;color:var(--muted);margin-top:12px}
   .cd-cap b{color:var(--ink-2);font-weight:600}
+  /* live state */
+  .live-hero{display:inline-flex;align-items:center;gap:9px;background:rgba(224,70,74,.14);border:1px solid rgba(224,70,74,.5);color:#ff7a7d;font-weight:800;font-size:1.05em;padding:9px 18px;border-radius:99px}
+  .live-hero img{width:21px;height:15px;border-radius:2px;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.3);vertical-align:-2px}
+  .live-hero .lh-vs{opacity:.55;font-weight:600;font-size:.82em;margin:0 1px}
+  .lh-dot{width:10px;height:10px;border-radius:50%;background:#ff3b3b;flex-shrink:0;animation:lhpulse 1.4s infinite}
+  @keyframes lhpulse{0%{box-shadow:0 0 0 0 rgba(255,59,59,.55)}70%{box-shadow:0 0 0 9px rgba(255,59,59,0)}100%{box-shadow:0 0 0 0 rgba(255,59,59,0)}}
+  .hm-m.live{border-color:rgba(224,70,74,.55)!important;box-shadow:0 0 0 1px rgba(224,70,74,.25)}
+  .hm-m .live-badge{color:#ff5a5d;font-weight:800;display:inline-flex;align-items:center;gap:4px}
+  .hm-m .live-badge .lh-dot{width:7px;height:7px}
 
   .cta-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:22px}
   .cta{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:99px;font-weight:700;font-size:.98em;transition:transform .2s,box-shadow .2s,background .2s;border:1px solid transparent;cursor:pointer}
@@ -203,6 +212,15 @@ try {
   loop();
 } catch(e){ console.info('[globe] disabled:', e.message); }
 
+// ===== Live-match detection (from the schedule kick-off time) =====
+function matchStart(m){
+  const mm=(m.time||'').match(/(\d{1,2}):(\d{2})\s*UTC([+-]\d+)/);
+  if(!m.date||!mm) return null;
+  const p=m.date.split('-').map(Number);
+  return Date.UTC(p[0],p[1]-1,p[2], parseInt(mm[1],10)-parseInt(mm[3],10), parseInt(mm[2],10));
+}
+function isLive(m){ const s=matchStart(m); if(s==null) return false; const n=Date.now(); return n>=s && n<s+2*3600*1000; }
+
 // ===== Próximos partidos =====
 async function buildHome(){
   const el=document.getElementById('homeMatches'); if(!el) return;
@@ -212,11 +230,13 @@ async function buildHome(){
     fetch('data/teams/index.json').then(r=>r.json()).catch(()=>({teams:[]})),
   ]); }catch(e){ el.innerHTML=''; return; }
   const flagByName={}; (idx.teams||[]).forEach(t=>flagByName[t.name]=t.flag);
+  window.__flagByName=flagByName;
   const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
   const isPh=n=>!n||/^([12][A-L]|W\d+|L\d+|RU|3[A-L])/i.test(n)||/\bB$/.test(n);
   const loc=(document.documentElement.lang==='en')?'en-GB':(document.documentElement.lang==='tr'?'tr-TR':'es-ES');
   const fmt=iso=>{ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); return d.toLocaleDateString(loc,{weekday:'short',day:'numeric',month:'short'}); };
   const matches=(sched.matches||[]).map((m,i)=>({...m,idx:i}));
+  window.__matchesAll=matches;
   const now=Date.now();
   const todayStr=new Date().toLocaleDateString('en-CA');   // YYYY-MM-DD in the visitor's local timezone
   const todays=matches.filter(m=>m.date===todayStr);
@@ -230,11 +250,12 @@ async function buildHome(){
   el.innerHTML=list.map(m=>{
     const f1=flagByName[m.team1], f2=flagByName[m.team2];
     const fl=(n,f)=> (f?`<img src="https://flagcdn.com/w40/${f}.png">`:'')+ (isPh(n)?`<span style="color:var(--muted)">${esc(n||'—')}</span>`:esc(n));
-    return `<a class="hm-m" href="match.html?m=${m.idx}">
-      <div class="top"><span>${esc(m.group||m.round||'')}</span><span>${esc((m.ground||'').replace(/\s*\(.*\)/,''))}</span></div>
+    const live=isLive(m);
+    return `<a class="hm-m ${live?'live':''}" href="match.html?m=${m.idx}">
+      <div class="top"><span>${esc(m.group||m.round||'')}</span>${live?'<span class="live-badge"><span class="lh-dot"></span>EN VIVO</span>':`<span>${esc((m.ground||'').replace(/\s*\(.*\)/,''))}</span>`}</div>
       <div class="tm">${fl(m.team1,f1)}</div>
       <div class="tm">${fl(m.team2,f2)}</div>
-      <div class="when">${fmt(m.date)} · ${m.time||''}</div></a>`;
+      <div class="when">${live?'<b style="color:#ff5a5d">● En juego ahora</b>':fmt(m.date)+' · '+(m.time||'')}</div></a>`;
   }).join('');
 }
 
@@ -261,7 +282,20 @@ async function buildData(){
 // ===== Countdown =====
 const KICK=new Date('2026-06-11T19:00:00Z').getTime();
 function tick(){const diff=KICK-Date.now();
-  if(diff<=0){document.getElementById('countdown').innerHTML='<div class="cd-unit"><div class="num" style="font-size:1.1em">⚽ ¡En juego!</div></div>';return;}
+  if(diff<=0){
+    const cdEl=document.getElementById('countdown'), cap=document.querySelector('.cd-cap');
+    const live=(window.__matchesAll||[]).find(isLive);
+    const fb=window.__flagByName||{};
+    const flg=n=>fb[n]?`<img src="https://flagcdn.com/w40/${fb[n]}.png" alt="">`:'';
+    if(live){
+      cdEl.innerHTML=`<div class="live-hero"><span class="lh-dot"></span> EN VIVO · ${flg(live.team1)} ${live.team1} <span class="lh-vs">vs</span> ${live.team2} ${flg(live.team2)}</div>`;
+      if(cap) cap.innerHTML='🔴 El Mundial está en juego';
+    } else {
+      cdEl.innerHTML='<div class="cd-unit"><div class="num" style="font-size:1.05em">⚽ ¡El Mundial está en marcha!</div></div>';
+      if(cap) cap.textContent='11 jun – 19 jul 2026';
+    }
+    return;
+  }
   const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
   cd('cd-days',d);cd('cd-hours',String(h).padStart(2,'0'));cd('cd-mins',String(m).padStart(2,'0'));cd('cd-secs',String(s).padStart(2,'0'));}
 function cd(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
