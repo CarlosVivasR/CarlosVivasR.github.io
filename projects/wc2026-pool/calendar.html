@@ -868,10 +868,11 @@ document.querySelectorAll(".view-toggle button").forEach(b =>
 
 loadResults();
 loadEspnStandings();
+setInterval(loadEspnStandings, 60000);   /* keep standings live as matches finish */
 loadSchedule();
 </script>
 <script src="assets/search.js" defer></script>
-<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").then(function(r){r&&r.update()}).catch(function(){})})}</script>
 <script>window.PAGE={active:"calendar"};</script>
 <script src="assets/nav.js" defer></script>
 </body>

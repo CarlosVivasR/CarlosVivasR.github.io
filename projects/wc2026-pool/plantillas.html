@@ -57,6 +57,6 @@ async function main(){
 }
 main();
 </script>
-<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").then(function(r){r&&r.update()}).catch(function(){})})}</script>
 </body>
 </html>

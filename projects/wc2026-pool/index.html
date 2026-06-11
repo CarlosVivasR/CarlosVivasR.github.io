@@ -305,17 +305,17 @@ function renderHomeCards(){
   const fmt=iso=>{ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); return d.toLocaleDateString(loc,{weekday:'short',day:'numeric',month:'short'}); };
   el.innerHTML=list.map(m=>{
     const f1=flagByName[m.team1], f2=flagByName[m.team2];
-    const live=isLive(m), lv=live?liveFor(m):null;
-    const sc=lv?(nrmTeam(lv.hName)===nrmTeam(m.team1)?[lv.hs,lv.as]:[lv.as,lv.hs]):null;
+    const lv=liveFor(m);
+    const inPlay=!!(lv&&lv.state==='in'), done=!!(lv&&lv.state==='post'), showSc=inPlay||done;
+    const sc=showSc?(nrmTeam(lv.hName)===nrmTeam(m.team1)?[lv.hs,lv.as]:[lv.as,lv.hs]):null;
     const fl=(n,f,s)=> (f?`<img src="https://flagcdn.com/w40/${f}.png">`:'')+ (isPh(n)?`<span style="color:var(--muted)">${esc(n||'—')}</span>`:esc(n)) + (s!=null?`<span class="hm-sc">${esc(String(s))}</span>`:'');
     let when;
-    if(lv && lv.state==='in') when=`<b style="color:#ff5a5d">🔴 ${esc(lv.clock||lv.short||'En juego')}</b>`;
-    else if(lv && lv.state==='post') when='<b>Final</b>';
-    else if(live) when='<b style="color:#ff5a5d">● En juego</b>';
+    if(inPlay) when=`<b style="color:#ff5a5d">🔴 ${esc(lv.clock||lv.short||'En juego')}</b>`;
+    else if(done) when='<b>Final</b>';
     else when=fmt(m.date)+' · '+(m.time||'');
-    const goalsHtml=(lv&&lv.goals&&lv.goals.length)?`<div class="hm-goals">${lv.goals.map(g=>`⚽ ${esc(g.clock)} ${esc(g.who)}${g.pen?' (p)':''}${g.og?' (pp)':''}`).join(' · ')}</div>`:'';
-    return `<a class="hm-m ${live?'live':''}" href="match.html?m=${m.idx}">
-      <div class="top"><span>${esc(m.group||m.round||'')}</span>${live?'<span class="live-badge"><span class="lh-dot"></span>EN VIVO</span>':`<span>${esc((m.ground||'').replace(/\s*\(.*\)/,''))}</span>`}</div>
+    const goalsHtml=(showSc&&lv.goals&&lv.goals.length)?`<div class="hm-goals">${lv.goals.map(g=>`⚽ ${esc(g.clock)} ${esc(g.who)}${g.pen?' (p)':''}${g.og?' (pp)':''}`).join(' · ')}</div>`:'';
+    return `<a class="hm-m ${inPlay?'live':''}" href="match.html?m=${m.idx}">
+      <div class="top"><span>${esc(m.group||m.round||'')}</span>${inPlay?'<span class="live-badge"><span class="lh-dot"></span>EN VIVO</span>':`<span>${esc((m.ground||'').replace(/\s*\(.*\)/,''))}</span>`}</div>
       <div class="tm">${fl(m.team1,f1,sc?sc[0]:null)}</div>
       <div class="tm">${fl(m.team2,f2,sc?sc[1]:null)}</div>
       <div class="when">${when}</div>${goalsHtml}</a>`;
@@ -347,7 +347,7 @@ const KICK=new Date('2026-06-11T19:00:00Z').getTime();
 function tick(){const diff=KICK-Date.now();
   if(diff<=0){
     const cdEl=document.getElementById('countdown'), cap=document.querySelector('.cd-cap');
-    const live=(window.__matchesAll||[]).find(isLive);
+    const live=(window.__matchesAll||[]).find(m=>{const lv=liveFor(m);return lv&&lv.state==='in';}) || (window.__matchesAll||[]).find(isLive);
     const fb=window.__flagByName||{};
     const flg=n=>fb[n]?`<img src="https://flagcdn.com/w40/${fb[n]}.png" alt="">`:'';
     if(live){
@@ -407,7 +407,7 @@ document.querySelectorAll('.lang-toggle button').forEach(b=>b.addEventListener('
   const n=(navigator.language||'es').toLowerCase();setLang(n.startsWith('tr')?'tr':n.startsWith('en')?'en':'es');})();
 </script>
 <script src="assets/search.js" defer></script>
-<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").then(function(r){r&&r.update()}).catch(function(){})})}</script>
 <script>window.PAGE={active:"home"};</script>
 <script src="assets/nav.js" defer></script>
 </body>
