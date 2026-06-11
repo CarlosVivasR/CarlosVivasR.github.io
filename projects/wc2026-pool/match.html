@@ -308,7 +308,8 @@ function last2(l){ return `${esc(l.home)} ${l.hs}-${l.as} ${esc(l.away)}`; }
 /* ===== LIVE match data from ESPN (free, CORS-enabled) ===== */
 const ESPN_SB='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const ESPN_SUM='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=';
-function nrmt(s){ let x=(s||'').toLowerCase().replace(/[^a-z]/g,''); if(x==='czechrepublic')x='czechia'; return x; }
+const TEAM_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
+function nrmt(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return TEAM_ALIAS[x]||x; }
 function mlPct(ml){ ml=parseFloat(ml); if(isNaN(ml)) return null; return ml<0 ? (-ml)/((-ml)+100) : 100/(ml+100); }
 function FLAG(name){ const t=(window.__teamByName||{})[name]; return t?`https://flagcdn.com/w40/${t.flag}.png`:''; }
 const STAT_ES={'possession':'Posesión','shots':'Tiros','on goal':'Tiros a puerta','fouls':'Faltas','yellow cards':'T. amarillas','red cards':'T. rojas','offsides':'Fueras de juego','corner kicks':'Córners','saves':'Paradas','passes':'Pases','accurate passes':'Pases acertados','pass completion %':'% acierto pase','on target %':'% a puerta','accurate crosses':'Centros acertados','crosses':'Centros','penalty goals':'Goles de penalti','penalty kicks taken':'Penaltis lanzados','total shots':'Tiros','shots on target':'Tiros a puerta'};
@@ -339,7 +340,11 @@ function renderLive(ev,sum,m){
   const st=(ev.status||{}).type||{}; const clk=(ev.status||{}).displayClock||'';
   const homeIsT1=nrmt((home.team||{}).displayName)===nrmt(m.team1);
   const s1=homeIsT1?home.score:away.score, s2=homeIsT1?away.score:home.score;
-  const statusTx = st.state==='in' ? ('🔴 '+(clk||st.shortDetail||'')) : st.state==='post' ? 'Final' : esc(st.shortDetail||st.detail||'Por jugar');
+  const isEs=((document.documentElement.lang)||'es')==='es';
+  let statusTx;
+  if(st.state==='post') statusTx = isEs?'Final':'Full Time';
+  else if(st.state==='pre') statusTx = isEs?'Por jugar':esc(st.shortDetail||'Scheduled');
+  else { let raw=(clk||st.shortDetail||st.detail||'').trim(); if(isEs && /half|^ht$/i.test(raw) && !/\d/.test(raw)) raw='Descanso'; statusTx='🔴 '+esc(raw); }
   const head=`<div class="lv-head ${st.state==='in'?'in':''}">
     <div class="lv-t"><img src="${FLAG(m.team1)}" alt=""><span>${esc(m.team1)}</span></div>
     <div class="lv-sc">${s1==null?'-':esc(String(s1))} <span>–</span> ${s2==null?'-':esc(String(s2))}<div class="lv-st">${statusTx}</div></div>
@@ -376,7 +381,9 @@ function renderLive(ev,sum,m){
     const t1b=bt.find(t=>nrmt((t.team||{}).displayName)===nrmt(m.team1))||bt[0];
     const t2b=bt.find(t=>nrmt((t.team||{}).displayName)===nrmt(m.team2))||bt[1];
     const map2={}; (t2b.statistics||[]).forEach(s=>map2[s.name]=s);
-    const rows=(t1b.statistics||[]).map(a=>{
+    const ORDER=['possession','shots','on goal','shots on target','on target %','corner kicks','fouls','offsides','yellow cards','red cards','saves','accurate passes','passes','pass completion %','accurate crosses','crosses'];
+    const oi=s=>{ const i=ORDER.indexOf((s.label||s.name||'').toLowerCase()); return i<0?99:i; };
+    const rows=(t1b.statistics||[]).slice().sort((x,y)=>oi(x)-oi(y)).map(a=>{
       const b=map2[a.name]; if(!b) return '';
       const v1=parseFloat(a.displayValue)||0, v2=parseFloat(b.displayValue)||0, tot=v1+v2||1;
       return `<div class="stat-row"><div class="stat-top"><span class="sv">${esc(a.displayValue)}</span><span class="sk">${esc(statLabel(a))}</span><span class="sv">${esc(b.displayValue)}</span></div>

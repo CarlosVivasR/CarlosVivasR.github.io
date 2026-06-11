@@ -228,7 +228,8 @@ function isLive(m){ const s=matchStart(m); if(s==null) return false; const n=Dat
 
 // ===== Live scores from ESPN (free, no key, CORS-enabled → fetched directly) =====
 const ESPN_LIVE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
-function nrmTeam(s){ let x=(s||'').toLowerCase().replace(/[^a-z]/g,''); if(x==='czechrepublic')x='czechia'; return x; }
+const TEAM_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
+function nrmTeam(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return TEAM_ALIAS[x]||x; }
 async function fetchLiveScores(){
   try{
     const r=await fetch(ESPN_LIVE,{cache:'no-store'});
@@ -248,8 +249,10 @@ async function fetchLiveScores(){
         hs:home.score, as:away.score, state:st.state, clock:(e.status||{}).displayClock||'', short:st.shortDetail||'', goals });
     });
     window.__liveData=recs;
+    try{ localStorage.setItem('wc26live', JSON.stringify(recs)); }catch(e){}
   }catch(e){}
 }
+try{ window.__liveData=JSON.parse(localStorage.getItem('wc26live'))||window.__liveData; }catch(e){}
 function liveFor(m){
   const recs=window.__liveData||[]; const t1=nrmTeam(m.team1), t2=nrmTeam(m.team2);
   for(const r of recs){ const s=[nrmTeam(r.hName),nrmTeam(r.aName)]; if(s.includes(t1)&&s.includes(t2)) return r; }
