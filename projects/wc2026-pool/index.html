@@ -62,6 +62,11 @@
   .hm-m.live{border-color:rgba(224,70,74,.55)!important;box-shadow:0 0 0 1px rgba(224,70,74,.25)}
   .hm-m .live-badge{color:#ff5a5d;font-weight:800;display:inline-flex;align-items:center;gap:4px}
   .hm-m .live-badge .lh-dot{width:7px;height:7px}
+  .hm-m .hm-sc{margin-left:auto;font-weight:800;font-size:1.1em;color:var(--ink);font-variant-numeric:tabular-nums}
+  .hm-m .tm{display:flex;align-items:center;gap:8px}
+  .live-hero .lh-vs{font-weight:900;font-size:1.05em;color:#fff;margin:0 3px}
+  .live-hero .lh-min{background:rgba(255,255,255,.15);border-radius:99px;padding:1px 8px;font-size:.78em;margin-left:4px}
+  .hm-m .hm-goals{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:.8em;color:var(--ink-2);line-height:1.5}
 
   .cta-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:22px}
   .cta{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:99px;font-weight:700;font-size:.98em;transition:transform .2s,box-shadow .2s,background .2s;border:1px solid transparent;cursor:pointer}
@@ -221,6 +226,43 @@ function matchStart(m){
 }
 function isLive(m){ const s=matchStart(m); if(s==null) return false; const n=Date.now(); return n>=s && n<s+2*3600*1000; }
 
+// ===== Live scores from ESPN (free, no key, CORS-enabled → fetched directly) =====
+const ESPN_LIVE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+function nrmTeam(s){ let x=(s||'').toLowerCase().replace(/[^a-z]/g,''); if(x==='czechrepublic')x='czechia'; return x; }
+async function fetchLiveScores(){
+  try{
+    const r=await fetch(ESPN_LIVE,{cache:'no-store'});
+    if(!r.ok) return;
+    const d=await r.json();
+    const recs=[];
+    (d.events||[]).forEach(e=>{
+      const c=(e.competitions||[])[0]||{}; const cs=c.competitors||[];
+      const home=cs.find(x=>x.homeAway==='home'), away=cs.find(x=>x.homeAway==='away');
+      if(!home||!away) return;
+      const st=(e.status||{}).type||{};
+      const goals=(c.details||[]).filter(x=> x.scoringPlay || (((x.type||{}).text||'')+'').toLowerCase().includes('goal')).map(x=>({
+        teamId:(x.team||{}).id, who:(((x.athletesInvolved||[])[0]||{}).displayName)||'', clock:((x.clock||{}).displayValue)||'',
+        og:(((x.type||{}).text||'').toLowerCase().includes('own')), pen:(((x.type||{}).text||'').toLowerCase().includes('penalty'))
+      }));
+      recs.push({ hName:home.team.displayName, aName:away.team.displayName, hId:String(home.team.id), aId:String(away.team.id),
+        hs:home.score, as:away.score, state:st.state, clock:(e.status||{}).displayClock||'', short:st.shortDetail||'', goals });
+    });
+    window.__liveData=recs;
+  }catch(e){}
+}
+function liveFor(m){
+  const recs=window.__liveData||[]; const t1=nrmTeam(m.team1), t2=nrmTeam(m.team2);
+  for(const r of recs){ const s=[nrmTeam(r.hName),nrmTeam(r.aName)]; if(s.includes(t1)&&s.includes(t2)) return r; }
+  return null;
+}
+async function pollLive(){
+  const near=(window.__matchesAll||[]).some(m=>{ const s=matchStart(m); return s!=null && Date.now()>=s-15*60000 && Date.now()<s+2.5*3600000; });
+  if(!near) return;
+  await fetchLiveScores();
+  if(typeof renderHomeCards==='function') renderHomeCards();
+}
+setInterval(pollLive, 30000);
+
 // ===== Próximos partidos =====
 async function buildHome(){
   const el=document.getElementById('homeMatches'); if(!el) return;
@@ -247,15 +289,33 @@ async function buildHome(){
   const tt=k=>(i18n[lng]&&i18n[lng][k])||(i18n.es&&i18n.es[k])||k;
   const titleEl=document.getElementById('homeMatchesTitle');
   if(titleEl) titleEl.textContent=isToday?tt('home.today'):tt('home.upcoming');
+  window.__homeList=list; window.__homeFlags=flagByName;
+  renderHomeCards();
+  pollLive();
+}
+function renderHomeCards(){
+  const el=document.getElementById('homeMatches'); if(!el) return;
+  const list=window.__homeList||[], flagByName=window.__homeFlags||{};
+  const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const isPh=n=>!n||/^([12][A-L]|W\d+|L\d+|RU|3[A-L])/i.test(n)||/\bB$/.test(n);
+  const loc=(document.documentElement.lang==='en')?'en-GB':(document.documentElement.lang==='tr'?'tr-TR':'es-ES');
+  const fmt=iso=>{ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); return d.toLocaleDateString(loc,{weekday:'short',day:'numeric',month:'short'}); };
   el.innerHTML=list.map(m=>{
     const f1=flagByName[m.team1], f2=flagByName[m.team2];
-    const fl=(n,f)=> (f?`<img src="https://flagcdn.com/w40/${f}.png">`:'')+ (isPh(n)?`<span style="color:var(--muted)">${esc(n||'—')}</span>`:esc(n));
-    const live=isLive(m);
+    const live=isLive(m), lv=live?liveFor(m):null;
+    const sc=lv?(nrmTeam(lv.hName)===nrmTeam(m.team1)?[lv.hs,lv.as]:[lv.as,lv.hs]):null;
+    const fl=(n,f,s)=> (f?`<img src="https://flagcdn.com/w40/${f}.png">`:'')+ (isPh(n)?`<span style="color:var(--muted)">${esc(n||'—')}</span>`:esc(n)) + (s!=null?`<span class="hm-sc">${esc(String(s))}</span>`:'');
+    let when;
+    if(lv && lv.state==='in') when=`<b style="color:#ff5a5d">🔴 ${esc(lv.clock||lv.short||'En juego')}</b>`;
+    else if(lv && lv.state==='post') when='<b>Final</b>';
+    else if(live) when='<b style="color:#ff5a5d">● En juego</b>';
+    else when=fmt(m.date)+' · '+(m.time||'');
+    const goalsHtml=(lv&&lv.goals&&lv.goals.length)?`<div class="hm-goals">${lv.goals.map(g=>`⚽ ${esc(g.clock)} ${esc(g.who)}${g.pen?' (p)':''}${g.og?' (pp)':''}`).join(' · ')}</div>`:'';
     return `<a class="hm-m ${live?'live':''}" href="match.html?m=${m.idx}">
       <div class="top"><span>${esc(m.group||m.round||'')}</span>${live?'<span class="live-badge"><span class="lh-dot"></span>EN VIVO</span>':`<span>${esc((m.ground||'').replace(/\s*\(.*\)/,''))}</span>`}</div>
-      <div class="tm">${fl(m.team1,f1)}</div>
-      <div class="tm">${fl(m.team2,f2)}</div>
-      <div class="when">${live?'<b style="color:#ff5a5d">● En juego ahora</b>':fmt(m.date)+' · '+(m.time||'')}</div></a>`;
+      <div class="tm">${fl(m.team1,f1,sc?sc[0]:null)}</div>
+      <div class="tm">${fl(m.team2,f2,sc?sc[1]:null)}</div>
+      <div class="when">${when}</div>${goalsHtml}</a>`;
   }).join('');
 }
 
@@ -288,7 +348,10 @@ function tick(){const diff=KICK-Date.now();
     const fb=window.__flagByName||{};
     const flg=n=>fb[n]?`<img src="https://flagcdn.com/w40/${fb[n]}.png" alt="">`:'';
     if(live){
-      cdEl.innerHTML=`<div class="live-hero"><span class="lh-dot"></span> EN VIVO · ${flg(live.team1)} ${live.team1} <span class="lh-vs">vs</span> ${live.team2} ${flg(live.team2)}</div>`;
+      const lv=(typeof liveFor==='function')?liveFor(live):null;
+      const mid=lv?(nrmTeam(lv.hName)===nrmTeam(live.team1)?`${lv.hs} – ${lv.as}`:`${lv.as} – ${lv.hs}`):'vs';
+      const min=(lv&&lv.state==='in'&&lv.clock)?` <span class="lh-min">${lv.clock}</span>`:'';
+      cdEl.innerHTML=`<div class="live-hero"><span class="lh-dot"></span> EN VIVO · ${flg(live.team1)} ${live.team1} <span class="lh-vs">${mid}</span> ${live.team2} ${flg(live.team2)}${min}</div>`;
       if(cap) cap.innerHTML='🔴 El Mundial está en juego';
     } else {
       cdEl.innerHTML='<div class="cd-unit"><div class="num" style="font-size:1.05em">⚽ ¡El Mundial está en marcha!</div></div>';
