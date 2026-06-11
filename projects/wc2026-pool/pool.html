@@ -811,6 +811,48 @@
   .cmp2br-team.win.hit{background:rgba(46,194,126,.16)}
   .cmp2br-team.win.hit b{color:#0e7a45}
 
+  /* ===== Full picks in leaderboard expand (group standings + bracket), light theme ===== */
+  .fp-sect{margin-top:16px}
+  .fp-sect:first-child{margin-top:0}
+  .fp-sect h5{font-size:.66em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6b7280;margin:0 0 10px}
+  /* grid; JS sets column count + height so groups end exactly where the bracket does */
+  .fp-ggrid{display:grid;grid-auto-rows:1fr;gap:9px;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .fp-gcard{background:#fff;border:1px solid #e3e8ef;border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+  .fp-ghd{font-size:.63em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9aa3af;padding:5px 9px;border-bottom:1px solid #eef2f7;background:#f7f8fa}
+  .fp-grow{flex:1;display:flex;align-items:center;gap:7px;padding:5px 9px;font-size:.8em;font-weight:600;border-bottom:1px solid #f1f4f8}
+  .fp-grow:last-child{border-bottom:0}
+  .fp-grow img{width:18px;height:13px;border-radius:2px;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
+  .fp-grow .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#0a0a0a}
+  .fp-pos{flex-shrink:0;width:22px;height:18px;border-radius:5px;display:grid;place-items:center;font-size:.65em;font-weight:900;font-family:ui-monospace,Menlo,monospace}
+  .fp-grow.p1 .fp-pos{background:rgba(232,194,71,.18);color:#9a7400;border:1px solid rgba(232,194,71,.45)}
+  .fp-grow.p2 .fp-pos{background:rgba(23,168,159,.12);color:#0f7b74;border:1px solid rgba(23,168,159,.32)}
+  .fp-grow.p3 .fp-pos{background:rgba(240,163,60,.16);color:#a9690f;border:1px solid rgba(240,163,60,.4)}
+  .fp-grow.p4 .fp-pos{background:#eef0f3;color:#9aa3af;border:1px solid #e1e5ea}
+  .fp-grow.p4 .nm{color:#9aa3af}
+  .fp-grow.q{background:rgba(46,194,126,.09)}
+  .fp-tag{flex-shrink:0;color:#0e7a45;font-size:.82em}
+  .fp-brk-wrap{overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+  .fp-brk{display:flex;gap:13px;align-items:stretch;min-width:max-content;--cc:#d1d5db}
+  .fp-col{display:grid;grid-template-rows:auto repeat(16,1fr);gap:0;min-width:66px}
+  .fp-lbl{grid-row:1;font-size:.54em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9aa3af;text-align:center;margin-bottom:5px}
+  .fp-col.r0 .fp-cell{grid-row-end:span 1}.fp-col.r1 .fp-cell{grid-row-end:span 2}.fp-col.r2 .fp-cell{grid-row-end:span 4}.fp-col.r3 .fp-cell{grid-row-end:span 8}.fp-col.r4 .fp-cell{grid-row-end:span 16}
+  .fp-cell{position:relative;display:flex;align-items:center}
+  .fp-col:not(.r0) .fp-cell::before{content:"";position:absolute;left:-7px;top:25%;height:50%;width:1px;background:var(--cc)}
+  .fp-col:not(.r0) .fp-cell::after{content:"";position:absolute;left:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
+  .fp-win{flex:1;position:relative;display:flex;align-items:center;gap:5px;justify-content:center;background:#fff;border:1px solid #e3e8ef;border-radius:6px;padding:4px 5px;box-shadow:0 1px 1px rgba(0,0,0,.04)}
+  .fp-col:not(.r4) .fp-match::after{content:"";position:absolute;right:-7px;top:50%;height:1px;width:7px;background:var(--cc)}
+  .fp-win img,.fp-team img{width:15px;height:11px;border-radius:2px;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
+  .fp-win b,.fp-team b{font-size:.7em;font-family:ui-monospace,Menlo,monospace;font-weight:800;color:#0a0a0a}
+  .fp-win b.ph,.fp-team b.ph{color:#c0c6cf}
+  .fp-win.fin{border:2px solid #e8c247}
+  .fp-match{flex:1;position:relative;display:flex;flex-direction:column;gap:2px;background:#fff;border:1px solid #e3e8ef;border-radius:6px;padding:2px;box-shadow:0 1px 1px rgba(0,0,0,.04)}
+  .fp-match.fin{border:2px solid #e8c247}
+  .fp-team{display:flex;align-items:center;gap:5px;justify-content:center;padding:2px 4px;border-radius:4px;background:#f7f8fa}
+  .fp-team b{color:#9aa3af}
+  .fp-team.w{background:#eceff3}
+  .fp-team.w b{color:#0a0a0a}
+  .fp-empty{color:#6b7280;font-size:.86em;padding:10px 0}
+
   @media (max-width:680px){
     .cmp-selectors{grid-template-columns:1fr;gap:10px}
     .cmp-vs{display:none}
@@ -822,6 +864,7 @@
     /* stack the two brackets; each one scrolls horizontally inside its box */
     .cmp2br-wrap{flex-direction:column;gap:18px;overflow-x:visible}
     .cmp2br-side{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+    .fp-ggrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto}
   }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -1282,6 +1325,8 @@ const I18N = {
     "cmp.advances": "team that advances in bold",
     "cmp.greenMeans": "green = same pick as",
     "cmp.greenSame": "Green = both send the same team through that match.",
+    "fp.groups": "Group stage · predicted position",
+    "fp.bracket": "Their knockout bracket",
     "cmp.gWinners": "Group winners",
     "cmp.gRunnersUp": "Group runners-up",
     "cmp.thirds": "Starred 3rd-placed (qualified)",
@@ -1474,6 +1519,8 @@ const I18N = {
     "cmp.advances": "el que pasa, en negrita",
     "cmp.greenMeans": "verde = mismo que pasa para",
     "cmp.greenSame": "Verde = los dos pasáis al mismo equipo en ese partido.",
+    "fp.groups": "Fase de grupos · posición prevista",
+    "fp.bracket": "Su cuadro de eliminatorias",
     "cmp.gWinners": "1.º de grupo",
     "cmp.gRunnersUp": "2.º de grupo",
     "cmp.thirds": "Mejores 3.os (clasificados)",
@@ -1666,6 +1713,8 @@ const I18N = {
     "cmp.advances": "geçen takım kalın",
     "cmp.greenMeans": "yeşil = aynı seçim:",
     "cmp.greenSame": "Yeşil = ikiniz de o maçta aynı takımı geçiriyorsunuz.",
+    "fp.groups": "Grup aşaması · tahmini sıralama",
+    "fp.bracket": "Eleme tablosu",
     "cmp.gWinners": "Grup birincileri",
     "cmp.gRunnersUp": "Grup ikincileri",
     "cmp.thirds": "İşaretli üçüncüler (geçenler)",
@@ -2829,6 +2878,56 @@ function userFullTree(picks){
   });
 }
 
+/* Full picks view for one participant: group standings (with positions) + their knockout bracket */
+const FP_ABBR = { mx:'MEX', za:'RSA', kr:'KOR', cz:'CZE', ca:'CAN', ch:'SUI', qa:'QAT', ba:'BIH', br:'BRA', ma:'MAR', ht:'HAI', 'gb-sct':'SCO', us:'USA', py:'PAR', au:'AUS', tr:'TUR', de:'GER', cw:'CUW', ci:'CIV', ec:'ECU', nl:'NED', jp:'JPN', se:'SWE', tn:'TUN', be:'BEL', eg:'EGY', ir:'IRN', nz:'NZL', es:'ESP', cv:'CPV', sa:'KSA', uy:'URU', fr:'FRA', sn:'SEN', no:'NOR', iq:'IRQ', ar:'ARG', dz:'ALG', at:'AUT', jo:'JOR', pt:'POR', cd:'COD', uz:'UZB', co:'COL', 'gb-eng':'ENG', hr:'CRO', gh:'GHA', pa:'PAN' };
+function renderFullPicks(picks){
+  const abbr = tm => tm ? (FP_ABBR[tm.code] || (tm.name||'').slice(0,3).toUpperCase()) : '';
+  const flag = (tm,w) => tm ? `<img src="https://flagcdn.com/w20/${tm.code}.png" alt="">` : '';
+  /* ---- group standings ---- */
+  const groups = Object.keys(GROUPS).map(g => {
+    const starred = (picks.starred||[]).includes(g);
+    const rows = [1,2,3,4].map(pos => {
+      const tm = withPicks(picks, () => teamByPos(g, pos));
+      const q = pos===3 && starred;
+      return `<div class="fp-grow p${pos} ${q?'q':''}"><span class="fp-pos">${pos}º</span>${tm?`<img src="https://flagcdn.com/w20/${tm.code}.png" alt="">`:''}<span class="nm">${tm?escapeHtml(tm.name):'—'}</span>${q?'<span class="fp-tag">★</span>':''}</div>`;
+    }).join("");
+    return `<div class="fp-gcard"><div class="fp-ghd">${g}</div>${rows}</div>`;
+  }).join("");
+  /* ---- knockout bracket (R32 = fixture, then winner advancing) ---- */
+  const tree = userFullTree(picks);
+  let bracket = `<div class="fp-empty">${t("cmp.empty")}</div>`;
+  if (tree){
+    const chip = tm => tm ? `<img src="https://flagcdn.com/w20/${tm.code}.png" alt=""><b>${abbr(tm)}</b>` : '<b class="ph">—</b>';
+    const RNDS = [['r32','round.r32'],['r16','round.r16'],['qf','round.qf'],['sf','round.sf'],['f','round.final']];
+    const cols = RNDS.map(([rk,lbl], ri) => {
+      const cells = tree[rk].map(m => {
+        const slot = tm => `<div class="fp-team ${tm && m.w && tm.name===m.w.name ? 'w':''}">${chip(tm)}</div>`;
+        return `<div class="fp-cell"><div class="fp-match ${rk==='f'?'fin':''}">${slot(m.a)}${slot(m.b)}</div></div>`;
+      }).join("");
+      return `<div class="fp-col r${ri}"><div class="fp-lbl">${(rk==='f'?'🏆 ':'')+t(lbl)}</div>${cells}</div>`;
+    }).join("");
+    bracket = `<div class="fp-brk-wrap"><div class="fp-brk">${cols}</div></div>`;
+  }
+  return `
+    <div class="fp-sect"><h5>${t("fp.groups")}</h5><div class="fp-ggrid">${groups}</div></div>
+    <div class="fp-sect"><h5>${t("fp.bracket")}</h5>${bracket}</div>`;
+}
+
+/* Make the group-standings column exactly as tall as the bracket beside it (desktop only) */
+function fpEqualize(root){
+  const grid = root.querySelector(".fp-ggrid");
+  const brk  = root.querySelector(".fp-brk-wrap");
+  if (!grid || !brk) return;
+  if (window.matchMedia("(max-width:680px)").matches){ grid.style.height = ""; grid.style.gridTemplateColumns = ""; return; }  /* stacked on mobile → natural height */
+  grid.style.height = "";                       /* reset before measuring */
+  const C = Math.max(3, Math.floor(grid.getBoundingClientRect().width / 170));   /* columns that fit (≥3 so rows stay tall enough) */
+  grid.style.gridTemplateColumns = `repeat(${C}, minmax(0,1fr))`;
+  grid.style.height = Math.round(brk.getBoundingClientRect().height) + "px";
+}
+window.addEventListener("resize", () => {
+  document.querySelectorAll(".lb-detail-row:not(.hidden) .lb-detail").forEach(d => fpEqualize(d));
+});
+
 function renderUserPicksSummary(entry, myEntry){
   const summary = extractBracketSummary(entry.picks);
   const champ = entry.champion;
@@ -3052,9 +3151,9 @@ async function loadLeaderboard(){
             row.classList.add("expanded");
             const target = detail.querySelector(".lb-detail");
             if (!target.dataset.rendered){
-              const myEntry = ranked.find(r => r.isMe) || null;
-              target.innerHTML = renderUserPicksSummary(ranked[idx], myEntry);
+              target.innerHTML = renderFullPicks(ranked[idx].picks);
               target.dataset.rendered = "1";
+              requestAnimationFrame(() => fpEqualize(target));
             }
           }
         });
