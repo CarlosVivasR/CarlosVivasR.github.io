@@ -355,7 +355,14 @@ async function main(){
   const m=matches[MIDX];
   if(!m){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">Partido no encontrado.</p>'; return; }
 
-  const teamByName={}; teams.teams.forEach(t=>teamByName[t.name]=t);
+  /* Robust team resolver: schedule names (e.g. "Bosnia & Herzegovina", "USA") must map to
+     index entries ("Bosnia and Herzegovina", "United States") — exact → normalized → alias. */
+  const teamByName={}, teamByNorm={};
+  const NAME_ALIAS={usa:'unitedstates',us:'unitedstates',uae:'unitedarabemirates',southkorea:'southkorea',czechrepublic:'czechrepublic'};
+  const tnorm=s=>(s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,'');
+  teams.teams.forEach(t=>{ teamByName[t.name]=t; teamByNorm[tnorm(t.name)]=t; });
+  function teamOf(name){ if(!name) return null; if(teamByName[name]) return teamByName[name]; const n=tnorm(name); return teamByNorm[n]||teamByNorm[NAME_ALIAS[n]]||null; }
+  window.__teamOf=teamOf;
   window.__agg=agg||{}; window.__prev=(prev.previews||[])[MIDX]||null;
   // venue lookup
   let venue=null, vcountry=null;
@@ -370,7 +377,7 @@ async function main(){
 
 function sideHTML(name,teamByName){
   if(isPlaceholder(name)) return `<div class="side tbd"><div class="flag-ph"></div><div class="nm">${name||'Por definir'}</div></div>`;
-  const t=teamByName[name];
+  const t=(window.__teamOf?window.__teamOf(name):teamByName[name]);
   const flag=t?`<img class="flag" src="https://flagcdn.com/w160/${t.flag}.png" alt="${name}">`:`<div class="flag-ph"></div>`;
   if(t) return `<a class="side" href="team.html?code=${t.code}">${flag}<div class="nm">${name}</div><div class="lk">Ver plantilla →</div></a>`;
   return `<div class="side"><div class="flag-ph"></div><div class="nm">${name}</div></div>`;
@@ -397,7 +404,7 @@ function render(m,teamByName,venue,vcountry,maps){
   const localStr = dt ? dt.toLocaleString(LOC,{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}) : m.date;
   const roundTxt = m.group ? `${m.group} · ${m.round}` : m.round;
   const cap = venue&&venue.capacity ? venue.capacity.toLocaleString(LOC) : null;
-  const t1=teamByName[m.team1], t2=teamByName[m.team2];
+  const t1=(window.__teamOf?window.__teamOf(m.team1):teamByName[m.team1]), t2=(window.__teamOf?window.__teamOf(m.team2):teamByName[m.team2]);
 
   const venueHTML = venue ? `
     <div class="venue">
@@ -597,7 +604,7 @@ const ESPN_SUM='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/
 const TEAM_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
 function nrmt(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return TEAM_ALIAS[x]||x; }
 function mlPct(ml){ ml=parseFloat(ml); if(isNaN(ml)) return null; return ml<0 ? (-ml)/((-ml)+100) : 100/(ml+100); }
-function FLAG(name){ const t=(window.__teamByName||{})[name]; return t?`https://flagcdn.com/w40/${t.flag}.png`:''; }
+function FLAG(name){ const t=(window.__teamOf?window.__teamOf(name):(window.__teamByName||{})[name]); return t?`https://flagcdn.com/w40/${t.flag}.png`:''; }
 const STAT_ES={'possession':'Posesión','shots':'Tiros','on goal':'Tiros a puerta','fouls':'Faltas','yellow cards':'T. amarillas','red cards':'T. rojas','offsides':'Fueras de juego','corner kicks':'Córners','saves':'Paradas','passes':'Pases','accurate passes':'Pases acertados','pass completion %':'% acierto pase','on target %':'% a puerta','accurate crosses':'Centros acertados','crosses':'Centros','penalty goals':'Goles de penalti','penalty kicks taken':'Penaltis lanzados','total shots':'Tiros','shots on target':'Tiros a puerta','tackles':'Entradas','effective tackles':'Entradas efectivas','tackle %':'% entradas','interceptions':'Intercepciones','clearances':'Despejes','effective clearances':'Despejes efectivos','blocked shots':'Tiros bloqueados','long balls':'Balones largos','accurate long balls':'Balones largos acertados','long balls %':'% balones largos','cross %':'% centros'};
 const STAT_TR={'possession':'Topa sahip olma','shots':'Şutlar','on goal':'İsabetli şut','fouls':'Fauller','yellow cards':'Sarı kart','red cards':'Kırmızı kart','offsides':'Ofsayt','corner kicks':'Korner','saves':'Kurtarış','passes':'Pas','accurate passes':'İsabetli pas','pass completion %':'Pas isabeti %','on target %':'İsabet %','accurate crosses':'İsabetli orta','crosses':'Orta','penalty goals':'Penaltı golü','penalty kicks taken':'Kullanılan penaltı','total shots':'Şutlar','shots on target':'İsabetli şut','tackles':'Müdahaleler','effective tackles':'Etkili müdahaleler','tackle %':'Müdahale %','interceptions':'Top kapmalar','clearances':'Uzaklaştırmalar','effective clearances':'Etkili uzaklaştırmalar','blocked shots':'Bloklanan şutlar','long balls':'Uzun toplar','accurate long balls':'İsabetli uzun toplar','long balls %':'Uzun top %','cross %':'Orta %'};
 function statLabel(s){ const lang=(document.documentElement.lang)||'es'; const raw=s.label||s.name||''; const k=raw.toLowerCase(); if(lang==='es') return STAT_ES[k]||raw; if(lang==='tr') return STAT_TR[k]||raw; return raw; }
@@ -911,8 +918,8 @@ function registerCoreTabs(){
     if(mc.lineupsHTML) return mc.lineupsHTML;          // live/post confirmed XI
     // pre-match predicted XI (C9b)
     const m=mc.m;
-    const t1=Object.values(window.__teamByName||{}).find(x=>x.name===m.team1);
-    const t2=Object.values(window.__teamByName||{}).find(x=>x.name===m.team2);
+    const t1=(window.__teamOf?window.__teamOf(m.team1):Object.values(window.__teamByName||{}).find(x=>x.name===m.team1));
+    const t2=(window.__teamOf?window.__teamOf(m.team2):Object.values(window.__teamByName||{}).find(x=>x.name===m.team2));
     const c1=t1&&predXICard(t1.code,m.team1), c2=t2&&predXICard(t2.code,m.team2);
     if(c1||c2) return `<div class="lv-block"><h4>${L('predXI')}</h4><div class="predxi">${c1||''}${c2||''}</div></div>`;
     return `<div class="mc-empty">${L('confirmedSoon')}</div>`;
@@ -968,7 +975,7 @@ function mcRepaintStandingsIfActive(){
 }
 /* group letter from match.html schedule shape: m.group = "Group A" → "A" (calendar used m.groupId) */
 function mcGroupId(m){ const g=m.group||m.groupId||''; const mm=g.match(/^([A-L])$/i)||g.match(/Group\s+([A-L])/i); return mm?mm[1].toUpperCase():null; }
-function mcFlagCode(name){ const t=(window.__teamByName||{})[name]; return t?t.flag:null; }
+function mcFlagCode(name){ const t=(window.__teamOf?window.__teamOf(name):(window.__teamByName||{})[name]); return t?t.flag:null; }
 
 /* buildStandings — returns an HTML string for the panel (calendar wrote to #standings-grid).
    Reads window.__schedMatches (full fixture) + MC_RESULTS + __mcEspnStand. */

@@ -98,11 +98,19 @@ async function main(){
   const flag=d.flag?`<img class="flag" src="https://flagcdn.com/w80/${d.flag}.png">`:'';
   const groups={}; d.players.forEach(p=>{const g=posGroup(p.pos);(groups[g]=groups[g]||[]).push(p);});
   // fixtures for this team
-  const flagByName={}; (idx.teams||[]).forEach(t=>flagByName[t.name]=t.flag);
+  /* Robust name matching: team-file name ("United States"/"Bosnia and Herzegovina") vs schedule
+     name ("USA"/"Bosnia & Herzegovina") — normalise (& -> and) + alias, else fixtures go empty. */
+  const tnorm=s=>(s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,'');
+  const TALIAS={usa:'unitedstates',us:'unitedstates',uae:'unitedarabemirates'};
+  const tkey=s=>{const n=tnorm(s);return TALIAS[n]||n;};
+  const flagByName={}, flagByNorm={};
+  (idx.teams||[]).forEach(t=>{ flagByName[t.name]=t.flag; flagByNorm[tkey(t.name)]=t.flag; });
+  const flagOf=name=>flagByName[name]||flagByNorm[tkey(name)]||null;
   const matches=sched.matches||[];
   const fixtures=[];
-  matches.forEach((m,i)=>{ if(m.team1===d.team||m.team2===d.team){
-    const opp = m.team1===d.team ? m.team2 : m.team1;
+  const myKey=tkey(d.team);
+  matches.forEach((m,i)=>{ const k1=tkey(m.team1),k2=tkey(m.team2); if(k1===myKey||k2===myKey){
+    const opp = k1===myKey ? m.team2 : m.team1;
     fixtures.push({i,opp,date:m.date,round:m.group||m.round,venue:m.ground});
   }});
   let html=`<div class="thead">${flag}<h1>${esc(d.team)}</h1></div>
@@ -120,7 +128,7 @@ async function main(){
   if(fixtures.length){
     html+=`<div class="fixtures glass"><h2>${L('fixtures')}</h2>`;
     fixtures.forEach(f=>{
-      const of=flagByName[f.opp]; const ofimg=of?`<img src="https://flagcdn.com/w40/${of}.png">`:'';
+      const of=flagOf(f.opp); const ofimg=of?`<img src="https://flagcdn.com/w40/${of}.png">`:'';
       html+=`<a class="fix" href="match.html?m=${f.i}">
         <span class="dt">${fmtD(f.date)}</span>
         <span class="opp">${L('vs')} ${ofimg}${esc(f.opp)}</span>

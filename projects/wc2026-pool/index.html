@@ -389,13 +389,15 @@ const KICK=new Date('2026-06-11T19:00:00Z').getTime();
 function spL(k){ const lng=document.documentElement.lang||'es'; return (i18n[lng]&&i18n[lng][k])||(i18n.es&&i18n.es[k])||k; }
 function spEsc(s){ return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 function spNorm(s){ return (s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,''); }
+const SP_ALIAS={usa:'unitedstates',us:'unitedstates',uae:'unitedarabemirates'};
 let __spFlagNorm=null;
 function spFlagCode(name){
   const f=window.__flagByName||window.__homeFlags||{};
   if(f[name]) return f[name];
   const keys=Object.keys(f);
   if(!__spFlagNorm || __spFlagNorm.__n!==keys.length){ __spFlagNorm={__n:keys.length}; keys.forEach(k=>{ __spFlagNorm[spNorm(k)]=f[k]; }); }
-  return __spFlagNorm[spNorm(name)]||null;
+  const n=spNorm(name);
+  return __spFlagNorm[n]||__spFlagNorm[SP_ALIAS[n]]||null;
 }
 function spFlagBig(n){ const f=spFlagCode(n); return f?`<img class="sp-flag" src="https://flagcdn.com/w160/${f}.png" alt="">`:'<span class="sp-flag ph"></span>'; }
 function spFlagSm(n){ const f=spFlagCode(n); return f?`<img src="https://flagcdn.com/w40/${f}.png" alt="">`:''; }
