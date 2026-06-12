@@ -146,6 +146,7 @@
   .mc-score b.win{color:var(--ink)}
   .mc-score .dash{color:var(--muted);font-weight:600;font-size:.8em}
   .mc-score.live b{color:var(--red)}
+  .mc-pen{font-size:.6em;font-weight:700;color:var(--gold-2);margin-left:5px;letter-spacing:.01em}
 
   .mc-time{
     display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums;
@@ -729,8 +730,9 @@ function renderCard(m){
   const groupTag = m.groupId ? `${t("round.shortGroup")} ${m.groupId}` : rd;
   const roundChipClass = m.isKnockout ? "round ko" : "round";
 
+  const penW = sc && sc.pen ? (sc.pen[0]>sc.pen[1]?1:2) : 0;   // shootout winner when match level
   const mid = sc
-    ? `<span class="mc-score ${status==='live'?'live':''}"><b class="${sc.t1>sc.t2?'win':''}">${sc.t1}</b><span class="dash">–</span><b class="${sc.t2>sc.t1?'win':''}">${sc.t2}</b></span>`
+    ? `<span class="mc-score ${status==='live'?'live':''}"><b class="${(sc.t1>sc.t2||penW===1)?'win':''}">${sc.t1}</b><span class="dash">–</span><b class="${(sc.t2>sc.t1||penW===2)?'win':''}">${sc.t2}</b>${sc.pen?`<span class="mc-pen">(${sc.pen[0]}–${sc.pen[1]} pen.)</span>`:''}</span>`
     : `<span class="mc-vs">vs</span>`;
 
   return `
@@ -800,6 +802,7 @@ let __espnStand = null;
 const SALIAS = {czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
 function snrm(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return SALIAS[x]||x; }
 async function loadEspnStandings(){
+  if(document.hidden) return;            // don't poll while tab is hidden
   try{
     const d = await fetch('https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings',{cache:'no-store'}).then(r=>r.json());
     const out = {};
@@ -818,6 +821,7 @@ async function loadEspnStandings(){
 /* Live per-match scores straight from ESPN scoreboard (full tournament range in one call) */
 let __espnScores = null;
 async function loadEspnScores(){
+  if(document.hidden) return;            // don't poll while tab is hidden
   try{
     const d = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719',{cache:'no-store'}).then(r=>r.json());
     const out = {};
@@ -825,10 +829,10 @@ async function loadEspnScores(){
       const c = (e.competitions||[])[0]; if(!c) return;
       const cs = c.competitors||[]; if(cs.length!==2) return;
       const st = (e.status||{}).type||{};
-      const byTeam = {};
-      cs.forEach(x=>{ byTeam[snrm((x.team||{}).displayName)] = (x.score!=null && x.score!=='') ? +x.score : null; });
+      const byTeam = {}, pen = {};
+      cs.forEach(x=>{ const k=snrm((x.team||{}).displayName); byTeam[k] = (x.score!=null && x.score!=='') ? +x.score : null; pen[k] = (x.shootoutScore!=null) ? +x.shootoutScore : null; });
       const key = Object.keys(byTeam).sort().join('|');
-      out[key] = { byTeam, state: st.state||'pre', detail: st.shortDetail||'', clock:(e.status||{}).displayClock||'' };
+      out[key] = { byTeam, pen, state: st.state||'pre', detail: st.shortDetail||'', clock:(e.status||{}).displayClock||'' };
     });
     if(Object.keys(out).length){ __espnScores = out; render(); }
   }catch(e){ /* ESPN unavailable → schedule shows times only */ }
@@ -840,7 +844,8 @@ function scoreFor(m){
   if(!e || e.state==='pre') return null;
   const t1 = e.byTeam[k1], t2 = e.byTeam[k2];
   if(t1==null || t2==null) return null;
-  return { t1, t2, state:e.state, clock:e.clock, detail:e.detail };
+  const p1 = e.pen&&e.pen[k1], p2 = e.pen&&e.pen[k2];
+  return { t1, t2, state:e.state, clock:e.clock, detail:e.detail, pen:(p1!=null&&p2!=null)?[p1,p2]:null };
 }
 
 function buildStandings(){
@@ -913,6 +918,7 @@ loadEspnStandings();
 loadEspnScores();
 setInterval(loadEspnStandings, 60000);   /* keep standings live as matches finish */
 setInterval(loadEspnScores, 60000);      /* keep schedule scores live */
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ loadEspnStandings(); loadEspnScores(); } });  /* refresh on tab return */
 loadSchedule();
 </script>
 <script src="assets/search.js" defer></script>
