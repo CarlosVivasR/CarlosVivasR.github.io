@@ -11,7 +11,12 @@
 <link rel="stylesheet" href="assets/theme.css">
 <style>
   :root{--bg:#04060f;--bg-2:#0a0e22;--ink:#fff;--ink-2:rgba(255,255,255,.9);--muted:rgba(255,255,255,.55);
-    --gold:#e8c247;--gold-2:#f4d76b;--line:rgba(255,255,255,.10);--line-strong:rgba(255,255,255,.22);}
+    --gold:#e8c247;--gold-2:#f4d76b;--line:rgba(255,255,255,.10);--line-strong:rgba(255,255,255,.22);
+    /* §3.1 match-center tokens */
+    --mc-home:#5b9bff;--mc-away:#35e0d8;
+    --win:#2ec27e;--draw:#9aa0aa;--loss:#ff5a5f;
+    --q-auto:#2ec27e;--q-play:#e8c247;--q-out:rgba(255,255,255,.10);
+    --mc-tab-h:46px;--mc-head-h:96px;--mc-topbar-h:50px;}
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
   a{color:var(--gold);text-decoration:none}
@@ -145,6 +150,134 @@
   .cm-min{color:var(--gold);font-weight:800;min-width:34px;font-variant-numeric:tabular-nums;flex-shrink:0}
   .cm-tx{color:var(--ink-2);line-height:1.45}
   @media(max-width:640px){ .lineups,.subs{grid-template-columns:1fr} .lv-sc{font-size:1.8em;min-width:80px} .fnm{font-size:.52em} .fdot{width:23px;height:23px} }
+
+  /* ================= MATCH CENTER SHELL (C1/C2/C3 · §3.4/§3.5) ================= */
+  /* sticky score header — lifted lv-head, survives tab switches, fixed height */
+  #mc-header{position:sticky;top:var(--mc-topbar-h);z-index:40;background:rgba(4,6,15,.92);backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  #mc-header .mch-inner{max-width:920px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:14px}
+  #mc-header .lv-head{background:transparent;border:0;border-radius:0;padding:0;flex:1;box-shadow:none}
+  #mc-header .lv-head.in{border:0;box-shadow:none}
+  #mc-header .lv-head.in .lv-sc{position:relative}
+  #mc-header .lv-head.in .lv-sc::before{content:"";position:absolute;left:-14px;top:6px;width:8px;height:8px;border-radius:50%;
+    background:#ff5a5f;box-shadow:0 0 0 4px rgba(255,90,95,.18);animation:mcpulse 1.6s ease-in-out infinite}
+  @keyframes mcpulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .mc-goalflash{animation:mcgoal .9s ease-out}
+  @keyframes mcgoal{0%{color:var(--gold-2);text-shadow:0 0 14px rgba(244,215,107,.8)}100%{color:var(--ink);text-shadow:none}}
+
+  /* tab strip — sticky under header */
+  #mc-tabs{position:sticky;top:calc(var(--mc-topbar-h) + var(--mc-head-h));z-index:39;background:rgba(4,6,15,.92);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  #mc-tabs .mct-inner{max-width:920px;margin:0 auto;padding:0 22px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;
+    scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  #mc-tabs .mct-inner::-webkit-scrollbar{display:none}
+  .mc-tab{position:relative;flex:0 0 auto;scroll-snap-align:center;background:none;border:0;cursor:pointer;
+    height:var(--mc-tab-h);min-height:44px;padding:0 14px;color:var(--muted);font-family:inherit;font-weight:700;font-size:.86em;
+    letter-spacing:.01em;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+  .mc-tab[aria-selected="true"]{color:var(--ink)}
+  .mc-tab::after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;border-radius:2px;background:var(--gold);
+    transform:scaleX(0);transform-origin:center;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  .mc-tab[aria-selected="true"]::after{transform:scaleX(1)}
+  .mc-tab[hidden]{display:none}
+  .mc-tab .mc-livedot{width:7px;height:7px;border-radius:50%;background:#ff5a5f;animation:mcpulse 1.6s ease-in-out infinite}
+
+  /* panel — swaps with cross-fade */
+  #mc-panel{max-width:920px;margin:0 auto;padding:22px 22px 80px}
+  #mc-panel .mc-tabpane{animation:mcfade .12s ease-out}
+  @keyframes mcfade{from{opacity:0}to{opacity:1}}
+  .mc-empty{color:var(--muted);text-align:center;padding:34px 10px;font-size:.9em}
+
+  /* ===== C4 win-prob disclosure ===== */
+  .pred-note{font-size:.72em;color:var(--muted);margin-top:9px;line-height:1.45}
+  .pred-note b{color:var(--ink-2);font-weight:700}
+
+  /* ===== C5 mirrored timeline (§3.3) ===== */
+  .mc-tl{position:relative;padding:4px 0}
+  .mc-tl.mirror::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--gold),transparent);transform:translateX(-.5px)}
+  .mc-tl-row{display:grid;grid-template-columns:1fr 46px 1fr;align-items:center;gap:6px;padding:5px 0}
+  .mc-tl-side{display:flex;align-items:center;gap:8px;font-size:.86em;color:var(--ink-2);min-width:0}
+  .mc-tl-side.h{justify-content:flex-end;text-align:right}
+  .mc-tl-side.a{justify-content:flex-start;text-align:left}
+  .mc-tl-side .ev-ic{font-size:1.05em;flex-shrink:0}
+  .mc-tl-side .who{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mc-tl-min{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.78em;color:var(--gold);text-align:center;
+    font-variant-numeric:tabular-nums}
+  .mc-tl-row.goal .ev-ic{animation:mcpop .5s cubic-bezier(.2,1.4,.5,1)}
+  @keyframes mcpop{0%{transform:scale(.3)}100%{transform:scale(1)}}
+  /* flat fallback reuses .ev-row */
+
+  /* ===== C7 twin-bar stats — 3 paths (§3.2) ===== */
+  .mc-stat{margin-bottom:15px}.mc-stat:last-child{margin-bottom:0}
+  .mc-stat-top{display:flex;justify-content:space-between;align-items:center;font-size:.84em;margin-bottom:6px}
+  .mc-stat-top .sv{font-weight:800;min-width:46px;font-variant-numeric:tabular-nums}
+  .mc-stat-top .sv:last-child{text-align:right}
+  .mc-stat-top .sk{color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-size:.84em;font-weight:700;text-align:center}
+  /* SHARE_OF_TOTAL — single track, two fills cross-normalised to 100 */
+  .mc-share{display:flex;height:6px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.06)}
+  .mc-share .l{background:var(--mc-home);transition:width .45s cubic-bezier(.4,0,.2,1)}
+  .mc-share .r{background:var(--mc-away);transition:width .45s cubic-bezier(.4,0,.2,1)}
+  /* INDEPENDENT_PCT — two separate 0-100 fills, never summed */
+  .mc-pcts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .mc-pct-track{height:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+  .mc-pct-track .fill{height:100%;border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1)}
+  .mc-pct-track.h .fill{background:var(--mc-home)} .mc-pct-track.a .fill{background:var(--mc-away);margin-left:auto}
+  .mc-pct-cap{display:flex;justify-content:space-between;font-size:.7em;color:var(--muted);margin-top:3px}
+  /* NUMBER_PAIR — no bar */
+  .mc-numpair{font-size:.7em;color:var(--muted);text-align:center;letter-spacing:.04em}
+
+  /* ===== C9b predicted XI ===== */
+  .predxi{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:640px){.predxi{grid-template-columns:1fr}}
+  .predxi .pxc h5{font-size:.86em;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .predxi .pxc h5 img{width:24px;height:17px;border-radius:3px;object-fit:cover}
+  .predxi .pxc .pxsub{font-size:.7em;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:9px}
+  .predxi .pxline{font-size:.66em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:800;margin:11px 0 5px}
+  .predxi .pxp{display:flex;align-items:center;gap:8px;font-size:.84em;padding:2px 0;color:var(--ink-2)}
+  .predxi .pxp .pos{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:.78em;min-width:24px}
+
+  /* ===== qualification bands (§3.6) — owned/applied by standings (Agent-Data) but tokens+legend here ===== */
+  .mc-qlegend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:14px;font-size:.74em;color:var(--muted)}
+  .mc-qlegend .qc{display:inline-flex;align-items:center;gap:6px}
+  .mc-qlegend .qc i{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .mc-qlegend .qc.auto i{background:var(--q-auto)} .mc-qlegend .qc.play i{background:var(--q-play)}
+  .mc-qlegend .qc.out i{background:rgba(255,255,255,.22)}
+
+  /* ===== C14/C15 standings table (Agent-Data; duplicated logic from calendar.html) ===== */
+  .mc-stand-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .mc-stand-card{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:14px;padding:14px 12px}
+  .mc-stand-card h3{font-size:.92em;font-weight:800;margin:0 0 10px;letter-spacing:.01em}
+  .mc-stand-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .mc-stand-table{width:100%;border-collapse:collapse;font-size:.8em;min-width:260px}
+  .mc-stand-table th{font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-size:.82em;padding:4px 5px;text-align:center;border-bottom:1px solid var(--line)}
+  .mc-stand-table th.lt{text-align:left}
+  .mc-stand-table td{padding:6px 5px;text-align:center;font-variant-numeric:tabular-nums;border-bottom:1px solid rgba(255,255,255,.04)}
+  .mc-stand-table tr:last-child td{border-bottom:none}
+  .mc-stand-table td.pos{color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.86em}
+  .mc-stand-table td.team{text-align:left;white-space:nowrap;font-weight:600;position:sticky;left:0;background:linear-gradient(90deg,#0a0c18 70%,transparent)}
+  .mc-stand-table td.team img{width:20px;height:14px;border-radius:2px;object-fit:cover;vertical-align:middle;margin-right:7px}
+  .mc-stand-table td.pts{font-weight:800;color:var(--ink)}
+  .mc-stand-table td.opt{color:var(--ink-2)}
+  .mc-stand-table tr.q-auto td.pos{box-shadow:inset 3px 0 0 var(--q-auto)} .mc-stand-table tr.q-auto td.team{background:linear-gradient(90deg,rgba(46,194,126,.12),transparent 70%)}
+  .mc-stand-table tr.q-play td.pos{box-shadow:inset 3px 0 0 var(--q-play)} .mc-stand-table tr.q-play td.team{background:linear-gradient(90deg,rgba(232,194,71,.12),transparent 70%)}
+  .mc-stand-table tr.q-out td.pos{box-shadow:inset 3px 0 0 rgba(255,255,255,.12)}
+  .mc-stand-note{color:var(--muted);text-align:center;font-size:.78em;margin-top:14px;line-height:1.5}
+  @media(max-width:640px){.mc-stand-grid{grid-template-columns:1fr}.mc-stand-table th.opt,.mc-stand-table td.opt{display:none}}
+
+  @media(max-width:640px){
+    #mc-header .mch-inner{padding:10px 16px} #mc-tabs .mct-inner{padding:0 12px} #mc-panel{padding:18px 16px 80px}
+    /* mirrored timeline → single left rail with flag chip */
+    .mc-tl.mirror::before{display:none}
+    .mc-tl-row{grid-template-columns:38px 26px 1fr;text-align:left}
+    .mc-tl-side.h{justify-content:flex-start;text-align:left;order:3}
+    .mc-tl-side.a{order:3} .mc-tl-side.empty{display:none}
+    .mc-tl-min{order:1} .mc-tl-row .mc-flagchip{order:2}
+  }
+  .mc-flagchip{display:none}
+  @media(max-width:640px){.mc-flagchip{display:block;width:18px;height:13px;border-radius:2px;object-fit:cover}}
+  @media(prefers-reduced-motion:reduce){
+    .mc-share .l,.mc-share .r,.mc-pct-track .fill,.mc-tab::after,#mc-panel .mc-tabpane{transition:none;animation:none}
+    .mc-tl-row.goal .ev-ic,#mc-header .lv-head.in .lv-sc::before,.mc-tab .mc-livedot,.mc-goalflash{animation:none}
+  }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
 </head>
@@ -158,9 +291,36 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario',lvPred:'Predicción',lvStats:'Estadísticas',lvLineups:'Alineaciones',lvEvents:'Eventos',lvComm:'Comentario en directo',lvSubs:'Suplentes',lvDraw:'Empate',lvToPlay:'Por jugar',lvFinal:'Final',lvHT:'Descanso',lvPens:'pen.',lvPenEnd:'Final (pen.)',liveData:'Datos en vivo: ESPN'},
-  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar',lvPred:'Prediction',lvStats:'Stats',lvLineups:'Lineups',lvEvents:'Events',lvComm:'Live commentary',lvSubs:'Substitutes',lvDraw:'Draw',lvToPlay:'Scheduled',lvFinal:'Full Time',lvHT:'Half-time',lvPens:'pens',lvPenEnd:'Full Time (pens)',liveData:'Live data: ESPN'},
-  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim',lvPred:'Tahmin',lvStats:'İstatistikler',lvLineups:'Kadrolar',lvEvents:'Olaylar',lvComm:'Canlı anlatım',lvSubs:'Yedekler',lvDraw:'Beraberlik',lvToPlay:'Programlandı',lvFinal:'Maç sonu',lvHT:'Devre arası',lvPens:'pen.',lvPenEnd:'Maç sonu (pen.)',liveData:'Canlı veri: ESPN'}
+  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario',lvPred:'Predicción',lvStats:'Estadísticas',lvLineups:'Alineaciones',lvEvents:'Eventos',lvComm:'Comentario en directo',lvSubs:'Suplentes',lvDraw:'Empate',lvToPlay:'Por jugar',lvFinal:'Final',lvHT:'Descanso',lvPens:'pen.',lvPenEnd:'Final (pen.)',liveData:'Datos en vivo: ESPN',
+    tabDetails:'Detalles',tabComm:'Comentario',tabLineups:'Alineaciones',tabStats:'Estadísticas',tabH2H:'Cara a cara',tabTable:'Clasificación',tabBracket:'Eliminatorias',
+    bracketSoon:'Eliminatorias disponibles cuando se definan',topPerf:'Mejores actuaciones',goals:'goles',assists:'asistencias',
+    firstHalf:'1ª parte',secondHalf:'2ª parte',fullMatch:'Partido completo',
+    played:'PJ',won:'G',drawn:'E',lost:'P',gf:'GF',ga:'GC',gd:'DG',pts:'Pts',
+    qualifies:'Clasifica',qPossible:'Posible 3º',eliminated:'Eliminado',
+    predXI:'XI probable',confirmedSoon:'XI confirmado ~1h antes',minutes:'Minutos',tapPlayer:'Toca un jugador',
+    lastMeeting:'Último enfrentamiento',noStats:'Sin estadísticas aún',
+    stNote:'1º y 2º clasifican a Dieciseisavos · los 8 mejores 3.º también pasan',
+    winprobNote:'Prob. derivadas de cuotas (método proporcional): tiende a subestimar al favorito y sobreestimar empate/no-favorito.'},
+  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar',lvPred:'Prediction',lvStats:'Stats',lvLineups:'Lineups',lvEvents:'Events',lvComm:'Live commentary',lvSubs:'Substitutes',lvDraw:'Draw',lvToPlay:'Scheduled',lvFinal:'Full Time',lvHT:'Half-time',lvPens:'pens',lvPenEnd:'Full Time (pens)',liveData:'Live data: ESPN',
+    tabDetails:'Details',tabComm:'Commentary',tabLineups:'Lineups',tabStats:'Statistics',tabH2H:'Head-to-head',tabTable:'Table',tabBracket:'Bracket',
+    bracketSoon:'Bracket available once knockouts are set',topPerf:'Top performers',goals:'goals',assists:'assists',
+    firstHalf:'1st half',secondHalf:'2nd half',fullMatch:'Full match',
+    played:'P',won:'W',drawn:'D',lost:'L',gf:'GF',ga:'GA',gd:'GD',pts:'Pts',
+    qualifies:'Qualifies',qPossible:'Best-third',eliminated:'Out',
+    predXI:'Predicted XI',confirmedSoon:'Lineup confirmed ~1h before KO',minutes:'Minutes',tapPlayer:'Tap a player',
+    lastMeeting:'Last meeting',noStats:'No stats yet',
+    stNote:'Top 2 advance to the Round of 32 · the 8 best 3rd-placed teams also qualify',
+    winprobNote:'Odds-implied (proportional de-vig): tends to understate the favourite, overstate draw/underdog.'},
+  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim',lvPred:'Tahmin',lvStats:'İstatistikler',lvLineups:'Kadrolar',lvEvents:'Olaylar',lvComm:'Canlı anlatım',lvSubs:'Yedekler',lvDraw:'Beraberlik',lvToPlay:'Programlandı',lvFinal:'Maç sonu',lvHT:'Devre arası',lvPens:'pen.',lvPenEnd:'Maç sonu (pen.)',liveData:'Canlı veri: ESPN',
+    tabDetails:'Detaylar',tabComm:'Anlatım',tabLineups:'Kadrolar',tabStats:'İstatistikler',tabH2H:'Karşılıklı',tabTable:'Puan durumu',tabBracket:'Eleme',
+    bracketSoon:'Eşleşmeler belirlenince hazır',topPerf:'Öne çıkanlar',goals:'gol',assists:'asist',
+    firstHalf:'İlk yarı',secondHalf:'İkinci yarı',fullMatch:'Tüm maç',
+    played:'O',won:'G',drawn:'B',lost:'M',gf:'AG',ga:'YG',gd:'AV',pts:'P',
+    qualifies:'Geçer',qPossible:'Olası 3.',eliminated:'Elendi',
+    predXI:'Olası 11',confirmedSoon:'Kadro maçtan ~1s önce',minutes:'Dakika',tapPlayer:'Oyuncuya dokun',
+    lastMeeting:'Son karşılaşma',noStats:'Henüz istatistik yok',
+    stNote:'İlk 2 son 32\'ye yükselir · en iyi 8 üçüncü de geçer',
+    winprobNote:'Oranlardan türetilmiş (orantısal): favoriyi olduğundan düşük, beraberlik/zayıfı yüksek gösterir.'}
 };
 const L=k=>wcT(T,k);
 const LOC=L('locale');
@@ -177,17 +337,21 @@ function parseKick(date,time){
 function isPlaceholder(n){ return !n || /^([12][A-L]|W\d+|L\d+|RU|3[A-L])/i.test(n) || /\bB$/.test(n); }
 
 async function main(){
-  let sched,teams,maps,agg,prev;
+  let sched,teams,maps,agg,prev,txi,xov;
   try{
-    [sched,teams,maps,agg,prev]=await Promise.all([
+    [sched,teams,maps,agg,prev,txi,xov]=await Promise.all([
       fetch('data/schedule.json').then(r=>r.json()),
       fetch('data/teams/index.json').then(r=>r.json()),
       fetch('data/host_maps.json').then(r=>r.json()),
       fetch('data/teams/aggregates.json').then(r=>r.json()).catch(()=>({})),
       fetch('data/match_previews.json').then(r=>r.json()).catch(()=>({previews:[]})),
+      fetch('data/team_xi.json').then(r=>r.json()).catch(()=>({})),
+      fetch('data/xi_overrides.json').then(r=>r.json()).catch(()=>({})),
     ]);
   }catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
+  window.__teamXI=txi||{}; window.__xiOverrides=xov||{};
   const matches=sched.matches||sched;
+  window.__schedMatches=matches;        // full schedule for the standings tab (Agent-Data C14)
   const m=matches[MIDX];
   if(!m){ document.getElementById('wrap').innerHTML='<p style="color:var(--muted)">Partido no encontrado.</p>'; return; }
 
@@ -291,6 +455,18 @@ function render(m,teamByName,venue,vcountry,maps){
 
   const squadLinks = [t1,t2].filter(Boolean).map(t=>`<a href="team.html?code=${t.code}"><img src="https://flagcdn.com/w40/${t.flag}.png" style="width:22px;height:16px;border-radius:3px;object-fit:cover"> ${L('squadOf')} ${t.name}</a>`).join('');
 
+  /* ===== C1: build the tabbed shell. Static preview content is captured into __mc.staticDetails
+     (C17 venue, C18 squad-compare, C19 climate, the score line) and rendered inside the Details tab
+     so it survives the live engine. H2H (C12) and form (C13) become their own panes. ===== */
+  const detailsStatic = venueHTML + cmpHTML + formHTML + climHTML + scoreHTML
+    + (squadLinks?`<div class="squads">${squadLinks}</div>`:'')
+    + `<div class="note">${L('note')}</div>`;
+
+  window.__mc = {
+    ev:null, sum:null, m, state:'pre', activeTab:null,
+    staticDetails: detailsStatic, h2hHTML, scoreHeaderShown:false, headHTML:'', lastScore:''
+  };
+
   document.getElementById('wrap').innerHTML = `
     <div class="eyebrow">${roundTxt}</div>
     <div class="vs">
@@ -302,18 +478,104 @@ function render(m,teamByName,venue,vcountry,maps){
       <div class="big">${dt?dt.toLocaleDateString(LOC,{day:'numeric',month:'short'}):''} · ${dt?dt.toLocaleTimeString(LOC,{hour:'2-digit',minute:'2-digit'}):m.time}</div>
       <div class="local">${localStr} <span style="opacity:.6">${L('localTime')}</span></div>
       <div class="venuetime">${L('venueTime')} ${m.time||'—'}</div>
-    </div>
-    <div id="live-box"></div>
-    ${venueHTML}
-    ${cmpHTML}
-    ${h2hHTML}
-    ${formHTML}
-    ${climHTML}
-    ${scoreHTML}
-    ${squadLinks?`<div class="squads">${squadLinks}</div>`:''}
-    <div class="note">${L('note')}</div>`;
+    </div>`;
+  /* mount the shell OUTSIDE .wrap so the sticky header/tabs span full-width under the topbar */
+  let shell=document.getElementById('mc-shell');
+  if(!shell){
+    shell=document.createElement('div'); shell.id='mc-shell';
+    shell.innerHTML=`<div id="mc-header"></div><div id="mc-tabs"><div class="mct-inner"></div></div><div id="mc-panel"></div>`;
+    document.getElementById('wrap').after(shell);
+  }
+  buildTabStrip();
   document.title = `${m.team1} vs ${m.team2} · WC 2026`;
   const cb=document.querySelector('.sn-crumbs'); if(cb) cb.innerHTML=`<a href="calendar.html">${L('cal')}</a><span class="sep">›</span><span class="cur">${esc(m.team1)} ${L('vs')} ${esc(m.team2)}</span>`;
+
+  /* register the tabs Agent-Core owns (Agent-Data calls registerTab for standings/bracket bodies) */
+  registerCoreTabs();
+  /* pre-match: no ESPN event yet → paint the shell from static content immediately */
+  paintHeader(); paintActive();
+}
+
+/* ================= C1 TAB STATE MACHINE ================= */
+/* tab spec: id, label-key, and a visibility predicate over state (pre/in/post) */
+const MC_TAB_SPEC=[
+  {id:'details',  key:'tabDetails',  vis:()=>true},
+  {id:'comm',     key:'tabComm',     vis:s=>s==='in'||s==='post', live:true},
+  {id:'lineups',  key:'tabLineups',  vis:()=>true},
+  {id:'stats',    key:'tabStats',    vis:s=>s==='in'||s==='post'},
+  {id:'h2h',      key:'tabH2H',      vis:()=>true},
+  {id:'standings',key:s=>tableTabKey(), vis:()=>true},
+];
+function tableTabKey(){ const m=(window.__mc||{}).m||{}; return (m.group||m.groupId) ? 'tabTable' : 'tabBracket'; }
+/* registry consumed by registerTab(id,fn). paintTab dispatches here. Agent-Data calls registerTab. */
+const __mcTabs={};
+function registerTab(id,renderFn){ __mcTabs[id]=renderFn; }
+window.registerTab=registerTab; window.__mcTabs=__mcTabs;
+
+function buildTabStrip(){
+  const strip=document.querySelector('#mc-tabs .mct-inner'); if(!strip) return;
+  strip.innerHTML=MC_TAB_SPEC.map(t=>{
+    const label = typeof t.key==='function' ? L(t.key()) : L(t.key);
+    return `<button class="mc-tab" role="tab" id="mctab-${t.id}" data-tab="${t.id}" aria-selected="false">`
+      +`<span class="mc-tab-label">${label}</span>`
+      +(t.live?`<span class="mc-livedot" hidden></span>`:'')+`</button>`;
+  }).join('');
+  strip.querySelectorAll('.mc-tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+}
+/* apply per-state visibility (§2.2) and refresh dynamic labels (Table↔Bracket) */
+function applyTabVisibility(){
+  const mc=window.__mc||{}, st=mc.state||'pre';
+  MC_TAB_SPEC.forEach(t=>{
+    const btn=document.getElementById('mctab-'+t.id); if(!btn) return;
+    btn.hidden = !t.vis(st);
+    const lbl=btn.querySelector('.mc-tab-label');
+    if(lbl) lbl.textContent = typeof t.key==='function' ? L(t.key()) : L(t.key);
+    const dot=btn.querySelector('.mc-livedot'); if(dot) dot.hidden = !(t.live && st==='in');
+  });
+  /* default-tab logic: if active tab is now hidden or unset, fall back to Details */
+  const cur=mc.activeTab, curBtn=cur&&document.getElementById('mctab-'+cur);
+  if(!cur || !curBtn || curBtn.hidden){ mc.activeTab='details'; }
+}
+function switchTab(tab){
+  const mc=window.__mc; if(!mc) return;
+  const btn=document.getElementById('mctab-'+tab); if(!btn||btn.hidden) return;
+  mc.activeTab=tab;
+  document.querySelectorAll('.mc-tab').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===tab?'true':'false'));
+  btn.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  paintTab(tab);                       // §5.4 — zero network; render from cache only
+}
+/* paintActive: ensure visibility + indicator correct, then paint the live panel */
+function paintActive(){
+  const mc=window.__mc; if(!mc) return;
+  applyTabVisibility();
+  document.querySelectorAll('.mc-tab').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===mc.activeTab?'true':'false'));
+  paintTab(mc.activeTab);
+}
+/* paintTab: dispatch table. Renders ONLY the visible panel from __mc.
+   The single 'standings' tab button dispatches to the 'bracket' renderer in knockout
+   rounds (m.group absent) and to 'standings' in the group stage — both are Agent-Data's
+   deliverables, registered via registerTab; Agent-Core only wires the dispatch. */
+function paintTab(tab){
+  const panel=document.getElementById('mc-panel'); if(!panel) return;
+  let key=tab;
+  if(tab==='standings'){ const m=(window.__mc||{}).m||{}; key=(m.group||m.groupId)?'standings':'bracket'; }
+  const fn=__mcTabs[key];
+  const html = fn ? fn(window.__mc) : `<div class="mc-empty">${L('noStats')}</div>`;
+  panel.innerHTML=`<div class="mc-tabpane">${html}</div>`;
+  if(tab==='comm') mountCommentaryScroll();
+}
+/* paintHeader: cheap, every poll. Lifts renderLive's head template into #mc-header. */
+function paintHeader(){
+  const mc=window.__mc; if(!mc) return;
+  const host=document.getElementById('mc-header'); if(!host) return;
+  const html=mc.headHTML || prePlaceholderHead(mc.m);
+  host.innerHTML=`<div class="mch-inner">${html}</div>`;
+}
+function prePlaceholderHead(m){
+  return `<div class="lv-head">
+    <div class="lv-t"><img src="${FLAG(m.team1)}" alt=""><span>${esc(m.team1)}</span></div>
+    <div class="lv-sc">- <span>–</span> -<div class="lv-st" style="color:var(--muted)">${L('lvToPlay')}</div></div>
+    <div class="lv-t r"><span>${esc(m.team2)}</span><img src="${FLAG(m.team2)}" alt=""></div></div>`;
 }
 function esc(s){ return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 function cmpRow(label,v1,v2,fmt,lowerBetter){
@@ -363,6 +625,12 @@ async function loadMatchLive(m){
   renderLive(ev,sum,m);
   if(!window.__lvTick) window.__lvTick=setInterval(lvTickClock,1000);  // live minute ticks between polls
   if((((ev.status||{}).type||{}).state)==='in' && !window.__lvT) window.__lvT=setInterval(refreshLive, 30000);
+  // §5.3 force-refresh on returning to a live tab
+  if(!window.__lvVis){ window.__lvVis=true; document.addEventListener('visibilitychange',()=>{
+    if(document.hidden) return;
+    if(((window.__mc||{}).state)==='in') refreshLive();          // live match data
+    if(typeof mcLoadEspnStandings==='function') mcLoadEspnStandings();  // recover standings if first-loaded in a background tab
+  }); }
 }
 async function refreshLive(){
   if(!__evId||!__mref||__lvBusy||document.hidden) return;   // skip overlap + work while tab hidden
@@ -371,8 +639,13 @@ async function refreshLive(){
     let sb; try{ sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
     const ev=sb&&(sb.events||[]).find(e=>String(e.id)===String(__evId));
     if(!ev) return;
-    // Heavy summary (stats/lineups/commentary) at most every 90s; light scoreboard drives score+clock every 30s
-    if(Date.now()-__sumAt>90000){
+    // §5.3 tab-aware cadence: light scoreboard drives score+clock every 30s.
+    // Heavy summary (stats/lineups/commentary) refreshes at most every 60s when a summary-backed
+    // tab is active (details/stats/lineups/comm); paused on standings/h2h/bracket (90s when inactive).
+    const at=((window.__mc||{}).activeTab)||'details';
+    const summaryTab=['details','stats','lineups','comm'].includes(at);
+    const heavyEvery=summaryTab?60000:90000;
+    if(Date.now()-__sumAt>heavyEvery){
       try{ const sum=await fetch(ESPN_SUM+__evId,{cache:'no-store'}).then(r=>r.json()); if(sum){ __lastSum=sum; __sumAt=Date.now(); } }catch(e){}
     }
     renderLive(ev,__lastSum,__mref);
@@ -382,16 +655,101 @@ async function refreshLive(){
 /* Interpolate the live minute locally between 30s polls (re-synced on every refresh). */
 function lvTickClock(){
   const c=window.__lvClock; if(!c||c.state!=='in'||c.plus||document.hidden) return;
-  const stEl=document.querySelector('#live-box .lv-st'); if(!stEl) return;
+  const stEl=document.querySelector('#mc-header .lv-st'); if(!stEl) return;
   const min=Math.floor((c.sec+(Date.now()-c.at)/1000)/60);
   stEl.textContent='🔴 '+min+"'";
 }
+/* ====================================================================
+   C4 — largest-remainder (Hamilton) de-vig. Replaces A=100-H-D.
+   Input: three raw implied probs (any scale). Output: [H,D,A] ints summing to 100.
+   ==================================================================== */
+function devig3(hp,ap,dp){            // returns [H,D,A] ints summing to 100
+  const s=hp+ap+dp, raw=[hp/s*100, dp/s*100, ap/s*100]; // order: H,D,A
+  const fl=raw.map(Math.floor), rem=100-fl.reduce((a,b)=>a+b,0);
+  const order=raw.map((v,i)=>[v-fl[i],i]).sort((a,b)=>b[0]-a[0]);
+  for(let k=0;k<rem;k++) fl[order[k][1]]++;
+  return fl;                          // [H,D,A], D=index 1 matches bar markup
+}
+/* ====================================================================
+   C7 — twin-bar 3-way classification (module-level). Dispatch on the
+   normalised metric name (trailing % stripped). ESPN labels seen in the
+   fixture: Possession, SHOTS, ON GOAL, On Target %, Pass Completion %,
+   Corner Kicks, Fouls, Offsides, Yellow/Red Cards, Saves, Accurate Passes…
+   ==================================================================== */
+const SHARE_OF_TOTAL  = new Set(['possession','total shots','shots','shots on target','on goal',
+                                 'total passes','passes','accurate passes','corner kicks',
+                                 'attacks','dangerous attacks','crosses','accurate crosses']);
+const INDEPENDENT_PCT = new Set(['pass accuracy','pass completion','save percentage',
+                                 'tackle success','on-target','on target','cross','long balls']);
+const NUMBER_PAIR     = new Set(['fouls','yellow cards','red cards','saves','offsides',
+                                 'throw ins','interceptions','blocked shots','clearances',
+                                 'effective clearances','tackles','long balls','penalty goals',
+                                 'penalty kicks taken','effective tackles','accurate long balls']);
+/* raw label (incl. trailing %) drives a deterministic %→PCT route before set lookup,
+   so "Long Balls" (count→SHARE/PAIR) and "Long Balls %" (→PCT) never collide on the stripped key */
+function statKeyNorm(s){ return (s.label||s.name||'').toLowerCase().replace(/\s*%\s*$/,'').trim(); }
+function classifyStat(rawLabel,n){
+  if(/%\s*$/.test((rawLabel||'').trim())) return 'PCT';   // any explicit percentage → independent fill
+  if(SHARE_OF_TOTAL.has(n)) return 'SHARE';
+  if(INDEPENDENT_PCT.has(n)) return 'PCT';
+  if(NUMBER_PAIR.has(n)) return 'PAIR';
+  return 'PAIR';                      // unknown → fail-safe (number pair, never misleading bar)
+}
+
+/* ====================================================================
+   C5 — mirrored event timeline with ALL-OR-NOTHING degrade.
+   Resolve each side-bearing event against the two competitor ids; if any
+   one fails, fall back to the flat single-column list. Match-flow markers
+   (Kickoff/Halftime/…) carry no team and are NOT counted against resolution.
+   ==================================================================== */
+function evIcon(t){ return t.includes('goal')?'⚽':t.includes('yellow')?'🟨':t.includes('red')?'🟥':t.includes('substitut')?'🔄':t.includes('penal')?'🎯':'•'; }
+function evWho(e,t){
+  let who=((e.participants||[]).map(p=>(p.athlete||{}).displayName).filter(Boolean).join(' / '))||((e.team||{}).displayName||'');
+  const isPenGoal=t.includes('goal')&&(t.includes('penalt')||e.penaltyKick);
+  if(t.includes('goal')&&e.ownGoal) who+=' (OG)'; else if(isPenGoal) who+=' (P)';
+  return who;
+}
+function buildTimeline(sum,homeId,awayId,homeIsT1,m){
+  const ke=(sum&&sum.keyEvents)||[];
+  const side=e=>{ const id=String((e.team||{}).id||''); if(id===String(homeId)) return 'home'; if(id===String(awayId)) return 'away'; return null; };
+  const rows=ke.filter(e=>/goal|card|substitut|penal/.test(((e.type||{}).text||'').toLowerCase())).slice().reverse();
+  if(!rows.length) return '';
+  // attempt mirror only if RF1 c5=yes AND every side-bearing event resolves
+  const allResolve = rows.every(e=>side(e)!==null);
+  if(allResolve){
+    const body=rows.map(e=>{
+      const t=((e.type||{}).text||'').toLowerCase(), cl=((e.clock||{}).displayValue)||'';
+      const ic=evIcon(t), who=esc(evWho(e,t)), sd=side(e);
+      // home id is competitor 'home'; map to t1/t2 via homeIsT1 so left rail = team1 visually
+      const isT1 = homeIsT1 ? (sd==='home') : (sd==='away');
+      const chip=`<img class="mc-flagchip" src="${FLAG(isT1?m.team1:m.team2)}" alt="">`;
+      const cell=`<span class="mc-tl-side ${isT1?'h':'a'}"><span class="ev-ic">${ic}</span><span class="who">${who}</span></span>`;
+      const empty=`<span class="mc-tl-side empty"></span>`;
+      const goalCls=t.includes('goal')?' goal':'';
+      return `<div class="mc-tl-row${goalCls}">${isT1?cell:empty}<span class="mc-tl-min">${chip}${esc(cl)}</span>${isT1?empty:cell}</div>`;
+    }).join('');
+    return `<div class="mc-tl mirror">${body}</div>`;
+  }
+  // degrade — flat single column (current behaviour), never half-mirror
+  const body=rows.map(e=>{
+    const t=((e.type||{}).text||'').toLowerCase(), cl=((e.clock||{}).displayValue)||'';
+    return `<div class="ev-row"><span class="ev-min">${esc(cl)}</span><span class="ev-ic">${evIcon(t)}</span><span class="ev-tx">${esc(evWho(e,t))}</span></div>`;
+  }).join('');
+  return `<div class="mc-tl">${body}</div>`;
+}
+
+/* ====================================================================
+   renderLive — now updates window.__mc then repaints. Does NOT write a
+   monolithic #live-box; the component HTML is computed and cached on __mc
+   so paintTab() can render the active panel with zero refetch.
+   ==================================================================== */
 function renderLive(ev,sum,m){
-  const box=document.getElementById('live-box'); if(!box) return;
+  const mc=window.__mc; if(!mc) return;
   const c=(ev.competitions||[])[0]||{}; const cs=c.competitors||[];
   const home=cs.find(x=>x.homeAway==='home')||{}, away=cs.find(x=>x.homeAway==='away')||{};
   const st=(ev.status||{}).type||{}; const clk=(ev.status||{}).displayClock||'';
   const homeIsT1=nrmt((home.team||{}).displayName)===nrmt(m.team1);
+  const homeId=(home.team||{}).id, awayId=(away.team||{}).id;
   const pre=st.state==='pre';
   const s1=pre?null:(homeIsT1?home.score:away.score), s2=pre?null:(homeIsT1?away.score:home.score);
   /* penalty shootout (knockout only) */
@@ -404,38 +762,37 @@ function renderLive(ev,sum,m){
   if(st.state==='post') statusTx = (sh1!=null?L('lvPenEnd'):L('lvFinal'));
   else if(st.state==='pre') statusTx = L('lvToPlay');
   else { let raw=(clk||st.shortDetail||st.detail||'').trim(); if(/half|^ht$/i.test(raw) && !/\d/.test(raw)) raw=L('lvHT'); statusTx='🔴 '+esc(raw); }
-  const head=`<div class="lv-head ${st.state==='in'?'in':''}">
+  const scoreNow = `${s1==null?'-':s1}-${s2==null?'-':s2}`;
+  const goalFlash = (mc.lastScore && mc.lastScore!==scoreNow && !pre) ? ' mc-goalflash' : '';
+  mc.headHTML=`<div class="lv-head ${st.state==='in'?'in':''}">
     <div class="lv-t"><img src="${FLAG(m.team1)}" alt=""><span>${esc(m.team1)}</span></div>
-    <div class="lv-sc">${s1==null?'-':esc(String(s1))} <span>–</span> ${s2==null?'-':esc(String(s2))}${penTx?'<br>'+penTx:''}<div class="lv-st">${statusTx}</div></div>
+    <div class="lv-sc${goalFlash}">${s1==null?'-':esc(String(s1))} <span>–</span> ${s2==null?'-':esc(String(s2))}${penTx?'<br>'+penTx:''}<div class="lv-st">${statusTx}</div></div>
     <div class="lv-t r"><span>${esc(m.team2)}</span><img src="${FLAG(m.team2)}" alt=""></div></div>`;
-  /* prediction */
+  mc.lastScore=scoreNow;
+
+  /* === C4: win-prob — devig3 + directed disclosure === */
   let pred='';
   const pc=((sum&&sum.pickcenter)||[])[0];
   if(pc){
     const hp=mlPct((pc.homeTeamOdds||{}).moneyLine), ap=mlPct((pc.awayTeamOdds||{}).moneyLine), dp=mlPct((pc.drawOdds||{}).moneyLine);
     if(hp!=null&&ap!=null&&dp!=null){
-      const sum3=hp+ap+dp; let H=Math.round(hp/sum3*100), D=Math.round(dp/sum3*100), A=100-H-D;
+      const [H,D,A]=devig3(hp,ap,dp);
       const pcHomeIsT1=nrmt((pc.homeTeamOdds.team||{}).displayName)===nrmt(m.team1);
       const p1=pcHomeIsT1?H:A, p2=pcHomeIsT1?A:H;
       pred=`<div class="lv-block"><h4>${L('lvPred')}</h4>
         <div class="pred"><div class="pb t1" style="width:${p1}%">${p1}%</div><div class="pb dr" style="width:${D}%">${D>7?D+'%':''}</div><div class="pb t2" style="width:${p2}%">${p2}%</div></div>
-        <div class="pred-lbl"><span>${esc(m.team1)}</span><span>${L('lvDraw')}</span><span>${esc(m.team2)}</span></div></div>`;
+        <div class="pred-lbl"><span>${esc(m.team1)}</span><span>${L('lvDraw')}</span><span>${esc(m.team2)}</span></div>
+        <div class="pred-note">${L('winprobNote')}</div></div>`;
     }
   }
-  /* events (icon + minute + player — language-neutral) */
-  let events='';
-  const ke=(sum&&sum.keyEvents)||[];
-  const evRows=ke.filter(e=>/goal|card|substitut|penal/.test(((e.type||{}).text||'').toLowerCase())).slice().reverse().map(e=>{
-    const cl=((e.clock||{}).displayValue)||''; const t=((e.type||{}).text||'').toLowerCase();
-    const isPenGoal=t.includes('goal')&&(t.includes('penalt')||e.penaltyKick);
-    const ic=t.includes('goal')?'⚽':t.includes('yellow')?'🟨':t.includes('red')?'🟥':t.includes('substitut')?'🔄':t.includes('penal')?'🎯':'•';
-    let who=((e.participants||[]).map(p=>(p.athlete||{}).displayName).filter(Boolean).join(' / '))||((e.team||{}).displayName||'');
-    if(t.includes('goal')&&e.ownGoal) who+=' (OG)'; else if(isPenGoal) who+=' (P)';
-    return `<div class="ev-row"><span class="ev-min">${esc(cl)}</span><span class="ev-ic">${ic}</span><span class="ev-tx">${esc(who)}</span></div>`;
-  }).join('');
-  if(evRows) events=`<div class="lv-block"><h4>${L('lvEvents')}</h4>${evRows}</div>`;
-  /* stats */
-  let stats='';
+  mc.predHTML=pred;
+
+  /* === C5: timeline (mirror or flat) === */
+  const tl=buildTimeline(sum,homeId,awayId,homeIsT1,m);
+  mc.eventsHTML = tl ? `<div class="lv-block"><h4>${L('lvEvents')}</h4>${tl}</div>` : '';
+
+  /* === C7: twin-bar stats, 3-way classified === */
+  mc.statsHTML='';
   const bt=((sum&&sum.boxscore)||{}).teams||[];
   if(bt.length===2){
     const t1b=bt.find(t=>nrmt((t.team||{}).displayName)===nrmt(m.team1))||bt[0];
@@ -445,14 +802,29 @@ function renderLive(ev,sum,m){
     const oi=s=>{ const i=ORDER.indexOf((s.label||s.name||'').toLowerCase()); return i<0?99:i; };
     const rows=(t1b.statistics||[]).slice().sort((x,y)=>oi(x)-oi(y)).map(a=>{
       const b=map2[a.name]; if(!b) return '';
-      const v1=parseFloat(a.displayValue)||0, v2=parseFloat(b.displayValue)||0, tot=v1+v2||1;
-      return `<div class="stat-row"><div class="stat-top"><span class="sv">${esc(a.displayValue)}</span><span class="sk">${esc(statLabel(a))}</span><span class="sv">${esc(b.displayValue)}</span></div>
-        <div class="stat-bar"><div class="l" style="width:${Math.round(v1/tot*100)}%"></div><div class="r" style="width:${Math.round(v2/tot*100)}%"></div></div></div>`;
+      const v1=parseFloat(a.displayValue)||0, v2=parseFloat(b.displayValue)||0;
+      const n=statKeyNorm(a), cls=classifyStat(a.label||a.name||'',n);
+      const headHTML=(d1,d2)=>`<div class="mc-stat-top"><span class="sv">${esc(d1)}</span><span class="sk">${esc(statLabel(a))}</span><span class="sv">${esc(d2)}</span></div>`;
+      if(cls==='SHARE'){
+        const tot=v1+v2||1;                       // zero-guard on share path only
+        return `<div class="mc-stat">${headHTML(a.displayValue,b.displayValue)}<div class="mc-share"><div class="l" style="width:${(v1/tot*100).toFixed(1)}%"></div><div class="r" style="width:${(v2/tot*100).toFixed(1)}%"></div></div></div>`;
+      }
+      if(cls==='PCT'){
+        // ESPN gives these as fractions (e.g. "0.9" = 90%) or already 0-100; normalise to 0-100. Never summed.
+        const f1=v1<=1?v1*100:v1, f2=v2<=1?v2*100:v2;
+        return `<div class="mc-stat">${headHTML(Math.round(f1)+'%',Math.round(f2)+'%')}<div class="mc-pcts">
+          <div><div class="mc-pct-track h"><div class="fill" style="width:${Math.min(100,f1).toFixed(0)}%"></div></div><div class="mc-pct-cap"><span>${esc(m.team1)}</span><span>${Math.round(f1)}%</span></div></div>
+          <div><div class="mc-pct-track a"><div class="fill" style="width:${Math.min(100,f2).toFixed(0)}%"></div></div><div class="mc-pct-cap"><span>${Math.round(f2)}%</span><span>${esc(m.team2)}</span></div></div>
+        </div></div>`;
+      }
+      // PAIR (and unknown) — plain numbers, no bar (non-zero-sum counts never get a misleading share)
+      return `<div class="mc-stat">${headHTML(a.displayValue,b.displayValue)}<div class="mc-numpair">${esc(a.displayValue)} — ${esc(b.displayValue)}</div></div>`;
     }).join('');
-    if(rows.replace(/\s/g,'')) stats=`<div class="lv-block"><h4>${L('lvStats')}</h4>${rows}</div>`;
+    if(rows.replace(/\s/g,'')) mc.statsHTML=`<div class="lv-block"><h4>${L('lvStats')}</h4>${rows}</div>`;
   }
-  /* lineups → formation pitch + substitutes (only once a confirmed XI exists) */
-  let lineups='';
+
+  /* === C9: lineups (live/post) — confirmed-XI guard retained === */
+  mc.lineupsHTML='';
   const ros=(sum&&sum.rosters)||[];
   if(ros.length===2 && ros.every(r=>r && r.formation && (r.roster||[]).length)){
     const r1=ros.find(t=>nrmt((t.team||{}).displayName)===nrmt(m.team1))||ros[0];
@@ -465,21 +837,222 @@ function renderLive(ev,sum,m){
       <div class="pline"></div>
       <div class="pteam">${f1.rows.slice().reverse().map(rowH).join('')}${rowH([f1.gk])}</div></div>`;
     const subEl=t=>{ const s=(t.roster||[]).filter(p=>!p.starter); return s.length?`<div class="subs-col"><b>${esc((t.team||{}).displayName)}</b>${s.map(p=>`<span class="sub-pl"><i>${esc(String(p.jersey||''))}</i> ${esc((p.athlete||{}).displayName||'')}</span>`).join('')}</div>`:''; };
-    lineups=`<div class="lv-block"><h4>${L('lvLineups')}</h4>
+    mc.lineupsHTML=`<div class="lv-block"><h4>${L('lvLineups')}</h4>
       <div class="pf"><span>${esc(m.team1)} · ${esc(r1.formation||'')}</span><span>${esc(r2.formation||'')} · ${esc(m.team2)}</span></div>
       ${pitch}
       <div class="lu-h2">${L('lvSubs')}</div><div class="subs">${subEl(r1)}${subEl(r2)}</div></div>`;
   }
-  /* live commentary (text comes from ESPN in English) */
-  let comm='';
+
+  /* === C11: commentary (own tab) === */
+  mc.commHTML='';
   const cm=(sum&&sum.commentary)||[];
   if(cm.length){
     const rows=cm.slice().reverse().slice(0,50).map(x=>{ const tm=((x.time||{}).displayValue)||''; return `<div class="cm-row"><span class="cm-min">${esc(tm)}</span><span class="cm-tx">${esc(x.text||'')}</span></div>`; }).join('');
-    comm=`<div class="lv-block"><h4>${L('lvComm')}</h4><div class="cm-list">${rows}</div></div>`;
+    mc.commHTML=`<div class="lv-block"><h4>${L('lvComm')}</h4><div class="cm-list">${rows}</div></div>`;
   }
-  const prevCm=box.querySelector('.cm-list'); const prevScroll=prevCm?prevCm.scrollTop:0;   // preserve commentary scroll
-  box.innerHTML = head + events + pred + stats + lineups + comm;
-  if(prevScroll){ const newCm=box.querySelector('.cm-list'); if(newCm) newCm.scrollTop=prevScroll; }
+
+  /* commit state + repaint */
+  mc.ev=ev; mc.sum=sum; mc.m=m; mc.state=st.state;
+  paintHeader();
+  paintActive();
+}
+
+/* ====================================================================
+   C9b — predicted-XI render path (pre-match). team_xi.json buckets;
+   xi_overrides.json wins per team-code. Neither → confirmedSoon.
+   ==================================================================== */
+function predXICard(code,teamName){
+  const base=(window.__teamXI||{})[code], ov=(window.__xiOverrides||{})[code];
+  const POS=['GK','DF','MF','FW'];
+  if(!base && !ov) return null;
+  const flag=(()=>{ const t=Object.values(window.__teamByName||{}).find(x=>x.code===code); return t?`https://flagcdn.com/w40/${t.flag}.png`:''; })();
+  let lines='';
+  POS.forEach(pk=>{
+    let names;
+    if(ov && ov[pk]) names=ov[pk].slice();                       // override wins, names are strings
+    else if(base && base[pk]) names=base[pk].map(p=>p.name||p);  // base entries are {name,...}
+    else names=[];
+    if(!names.length) return;
+    lines+=`<div class="pxline">${pk}</div>`+names.map(n=>`<div class="pxp"><span class="pos">${pk}</span><span>${esc(n)}</span></div>`).join('');
+  });
+  if(!lines) return null;
+  return `<div class="pxc"><h5>${flag?`<img src="${flag}" alt="">`:''}${esc(teamName)}</h5><div class="pxsub">${L('predXI')}</div>${lines}</div>`;
+}
+
+/* ====================================================================
+   C12 — H2H single-meeting card (h2h.last is a single dict; no list).
+   ==================================================================== */
+function h2hPaneHTML(mc){
+  const m=mc.m, prev=window.__prev;
+  if(prev&&prev.h2h&&prev.h2h.played>0){
+    const h=prev.h2h;
+    const last=h.last?`<div class="h2h-last"><span style="color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.85em">${L('lastMeeting')}</span><br>${last2(h.last)} <span style="opacity:.6">(${esc(h.last.date)})</span></div>`:'';
+    return `<div class="block"><h3>${L('tabH2H')} · ${h.played} ${L('matchups')}</h3>
+      <div class="h2h-score">
+        <div style="text-align:center"><div class="n ${h.w1>h.w2?'w':''}">${h.w1}</div><div class="mid">${esc(m.team1)}</div></div>
+        <div class="mid">${h.d} ${L('draws')}</div>
+        <div style="text-align:center"><div class="n ${h.w2>h.w1?'w':''}">${h.w2}</div><div class="mid">${esc(m.team2)}</div></div>
+      </div>${last}</div>`;
+  }
+  return mc.h2hHTML || `<div class="mc-empty">${L('noStats')}</div>`;
+}
+
+/* ====================================================================
+   registerCoreTabs — Agent-Core's panel renderers, wired via registerTab.
+   Agent-Data later registers 'standings' / 'bracket' bodies the same way.
+   ==================================================================== */
+function registerCoreTabs(){
+  registerTab('details', mc=>{
+    const tl = mc.eventsHTML||''; const pred=mc.predHTML||'';
+    return (tl||pred) ? (tl+pred+mc.staticDetails) : mc.staticDetails;
+  });
+  registerTab('comm', mc=> mc.commHTML || `<div class="mc-empty">${L('noStats')}</div>`);
+  registerTab('lineups', mc=>{
+    if(mc.lineupsHTML) return mc.lineupsHTML;          // live/post confirmed XI
+    // pre-match predicted XI (C9b)
+    const m=mc.m;
+    const t1=Object.values(window.__teamByName||{}).find(x=>x.name===m.team1);
+    const t2=Object.values(window.__teamByName||{}).find(x=>x.name===m.team2);
+    const c1=t1&&predXICard(t1.code,m.team1), c2=t2&&predXICard(t2.code,m.team2);
+    if(c1||c2) return `<div class="lv-block"><h4>${L('predXI')}</h4><div class="predxi">${c1||''}${c2||''}</div></div>`;
+    return `<div class="mc-empty">${L('confirmedSoon')}</div>`;
+  });
+  registerTab('stats', mc=> mc.statsHTML || `<div class="mc-empty">${L('noStats')}</div>`);
+  registerTab('h2h', mc=> h2hPaneHTML(mc));
+  // 'standings' and 'bracket' bodies are Agent-Data's deliverable (registered later via registerTab).
+  // Provide a transient placeholder so the tab is never blank before Agent-Data lands.
+  if(!__mcTabs.standings) registerTab('standings', ()=> `<div class="mc-empty">${L('noStats')}</div>`);
+  if(!__mcTabs.bracket)   registerTab('bracket',   ()=> `<div class="mc-empty">${L('bracketSoon')}</div>`);
+}
+
+/* ====================================================================
+   C14 / C15 / C16 — STANDINGS + QUALIFICATION BANDS + BRACKET (Agent-Data)
+   ==================================================================== */
+/* ----- C14 standings via DOCUMENTED DUPLICATION -----
+   DUPLICATED FROM calendar.html (consensus). Keep in sync.
+   buildStandings + loadEspnStandings + snrm/SALIAS copied verbatim into
+   match-center scope (renamed mc*). snrm is brought VERBATIM and is NOT
+   replaced by match.html's nrmt — using nrmt for the ESPN overlay key would
+   render every team 0-0-0. results.json path handles the !__mcEspnStand fallback. */
+let MC_RESULTS={};
+async function mcLoadResults(){
+  try{
+    const r=await fetch('data/results.json',{cache:'no-store'});
+    if(r.ok){ const j=await r.json(); MC_RESULTS=j.matches||{}; }
+  }catch(e){ /* no results yet → standings stay at zero */ }
+}
+let __mcEspnStand=null;
+const MC_SALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
+function mcSnrm(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return MC_SALIAS[x]||x; }
+async function mcLoadEspnStandings(){
+  if(document.hidden) return;            // don't poll while tab is hidden
+  try{
+    const d=await fetch('https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings',{cache:'no-store'}).then(r=>r.json());
+    const out={};
+    (d.children||[]).forEach(g=>{
+      const letter=(((g.name||'').match(/Group\s+([A-L])/i))||[])[1]; if(!letter) return;
+      out[letter]={};
+      ((g.standings&&g.standings.entries)||[]).forEach(e=>{
+        const sm={}; (e.stats||[]).forEach(s=>{ sm[s.name]=parseFloat(s.displayValue)||0; });
+        out[letter][mcSnrm((e.team||{}).displayName)]={pj:sm.gamesPlayed||0,w:sm.wins||0,d:sm.ties||0,l:sm.losses||0,gf:sm.pointsFor||0,ga:sm.pointsAgainst||0};
+      });
+    });
+    if(Object.keys(out).length){ __mcEspnStand=out; mcRepaintStandingsIfActive(); }
+  }catch(e){ /* ESPN unavailable → fall back to results.json */ }
+}
+/* repaint the standings panel only if it's the active tab (zero-network for other tabs) */
+function mcRepaintStandingsIfActive(){
+  const mc=window.__mc; if(!mc||mc.activeTab!=='standings') return;
+  const m=mc.m||{}; if(!(m.group||m.groupId)) return;   // bracket view: nothing to repaint
+  paintTab('standings');
+}
+/* group letter from match.html schedule shape: m.group = "Group A" → "A" (calendar used m.groupId) */
+function mcGroupId(m){ const g=m.group||m.groupId||''; const mm=g.match(/^([A-L])$/i)||g.match(/Group\s+([A-L])/i); return mm?mm[1].toUpperCase():null; }
+function mcFlagCode(name){ const t=(window.__teamByName||{})[name]; return t?t.flag:null; }
+
+/* buildStandings — returns an HTML string for the panel (calendar wrote to #standings-grid).
+   Reads window.__schedMatches (full fixture) + MC_RESULTS + __mcEspnStand. */
+function mcBuildStandings(){
+  const MATCHES=window.__schedMatches||[];
+  if(!MATCHES.length) return `<div class="mc-empty">${L('noStats')}</div>`;
+  const groups={};
+  MATCHES.forEach((m,idx)=>{
+    const g=mcGroupId(m); if(!g) return;
+    (groups[g]||(groups[g]={}));
+    [m.team1,m.team2].forEach(tn=>{
+      if(tn && !isPlaceholder(tn) && !groups[g][tn]) groups[g][tn]={team:tn,pj:0,w:0,d:0,l:0,gf:0,ga:0};
+    });
+    if(!__mcEspnStand){   /* compute from results.json only when ESPN standings aren't available */
+      const key=String(idx);   // results.json key = 0-based index into schedule.matches[]
+      const sc=MC_RESULTS[key];
+      if(Array.isArray(sc) && sc.length===2 && groups[g][m.team1] && groups[g][m.team2]){
+        const a=+sc[0], b=+sc[1];
+        const A=groups[g][m.team1], B=groups[g][m.team2];
+        A.pj++; B.pj++; A.gf+=a; A.ga+=b; B.gf+=b; B.ga+=a;
+        if(a>b){ A.w++; B.l++; } else if(a<b){ B.w++; A.l++; } else { A.d++; B.d++; }
+      }
+    }
+  });
+  if(__mcEspnStand){    /* overlay live ESPN standings (matched by normalised team name via mcSnrm) */
+    Object.keys(groups).forEach(g=>{
+      const eg=__mcEspnStand[g]; if(!eg) return;
+      Object.values(groups[g]).forEach(r=>{
+        const e=eg[mcSnrm(r.team)];
+        if(e){ r.pj=e.pj; r.w=e.w; r.d=e.d; r.l=e.l; r.gf=e.gf; r.ga=e.ga; }
+      });
+    });
+  }
+  const gids=Object.keys(groups).sort();
+  if(!gids.length) return `<div class="mc-empty">${L('noStats')}</div>`;
+  const cards=gids.map(g=>{
+    const rows=Object.values(groups[g])
+      .map(r=>({...r,pts:r.w*3+r.d,dg:r.gf-r.ga}))
+      .sort((x,y)=>y.pts-x.pts||y.dg-x.dg||y.gf-x.gf||x.team.localeCompare(y.team));
+    const body=rows.map((r,i)=>{
+      const code=mcFlagCode(r.team);
+      const flag=code?`<img src="https://flagcdn.com/w40/${code}.png" alt="">`:'';
+      /* C15 — qualification bands STATIC BY RANK (no live possible-third computation) */
+      const cls=i===0?'q-auto':i===1?'q-auto':i===2?'q-play':'q-out';
+      return `<tr class="${cls}"><td class="pos">${i+1}</td>`
+        +`<td class="team">${flag}${esc(r.team)}</td>`
+        +`<td>${r.pj}</td><td class="opt">${r.w}</td><td class="opt">${r.d}</td><td class="opt">${r.l}</td>`
+        +`<td class="opt">${r.gf}</td><td class="opt">${r.ga}</td><td>${r.dg>0?'+':''}${r.dg}</td>`
+        +`<td class="pts">${r.pts}</td></tr>`;
+    }).join('');
+    return `<div class="mc-stand-card"><h3>${L('tabTable')} ${g}</h3>`
+      +`<div class="mc-stand-scroll"><table class="mc-stand-table"><thead><tr>`
+      +`<th></th><th class="lt">${cmpTeamHdr()}</th><th>${L('played')}</th>`
+      +`<th class="opt">${L('won')}</th><th class="opt">${L('drawn')}</th><th class="opt">${L('lost')}</th>`
+      +`<th class="opt">${L('gf')}</th><th class="opt">${L('ga')}</th><th>${L('gd')}</th><th>${L('pts')}</th>`
+      +`</tr></thead><tbody>${body}</tbody></table></div></div>`;
+  }).join('');
+  /* C15 legend + best-8-of-12-thirds disclaimer (reuses calendar's st.note wording) */
+  const legend=`<div class="mc-qlegend">`
+    +`<span class="qc auto"><i></i>${L('qualifies')}</span>`
+    +`<span class="qc play"><i></i>${L('qPossible')}</span>`
+    +`<span class="qc out"><i></i>${L('eliminated')}</span></div>`
+    +`<p class="mc-stand-note">${L('stNote')}</p>`;
+  return `<div class="mc-stand-grid">${cards}</div>${legend}`;
+}
+/* team-column header label (reuse the calendar "Team" sense via squadOf? use a neutral label) */
+function cmpTeamHdr(){ const lang=document.documentElement.lang||'es'; return lang==='en'?'Team':lang==='tr'?'Takım':'Equipo'; }
+
+/* C16 — knockout bracket → static trilingual placeholder (shown when m has no group) */
+function mcBracketPane(){ return `<div class="mc-empty">${L('bracketSoon')}</div>`; }
+
+/* mount Agent-Data panels via the registerTab seam (overrides Agent-Core's transient placeholders) */
+registerTab('standings', ()=> mcBuildStandings());
+registerTab('bracket',   ()=> mcBracketPane());
+/* kick off standings data load + live refresh (calendar parity: 60s) */
+mcLoadResults();
+mcLoadEspnStandings();
+setInterval(mcLoadEspnStandings, 60000);
+
+/* commentary scroll-preservation — only when the Commentary tab is active (§5.2) */
+function mountCommentaryScroll(){
+  const list=document.querySelector('#mc-panel .cm-list'); if(!list) return;
+  const saved=window.__commScroll; if(saved) list.scrollTop=saved;
+  list.addEventListener('scroll',()=>{ window.__commScroll=list.scrollTop; },{passive:true});
 }
 
 main();
