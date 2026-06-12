@@ -246,7 +246,7 @@ async function fetchLiveScores(){
         og:(((x.type||{}).text||'').toLowerCase().includes('own')), pen:(((x.type||{}).text||'').toLowerCase().includes('penalty'))
       }));
       recs.push({ hName:home.team.displayName, aName:away.team.displayName, hId:String(home.team.id), aId:String(away.team.id),
-        hs:home.score, as:away.score, state:st.state, clock:(e.status||{}).displayClock||'', short:st.shortDetail||'', goals });
+        hs:home.score, as:away.score, hsh:home.shootoutScore, ash:away.shootoutScore, state:st.state, clock:(e.status||{}).displayClock||'', short:st.shortDetail||'', goals });
     });
     window.__liveData=recs;
     try{ localStorage.setItem('wc26live', JSON.stringify(recs)); }catch(e){}
@@ -258,13 +258,17 @@ function liveFor(m){
   for(const r of recs){ const s=[nrmTeam(r.hName),nrmTeam(r.aName)]; if(s.includes(t1)&&s.includes(t2)) return r; }
   return null;
 }
+let __pollBusy=false;
 async function pollLive(){
+  if(__pollBusy||document.hidden) return;                 // skip overlap + work while tab hidden
   const near=(window.__matchesAll||[]).some(m=>{ const s=matchStart(m); return s!=null && Date.now()>=s-15*60000 && Date.now()<s+2.5*3600000; });
   if(!near) return;
-  await fetchLiveScores();
-  if(typeof renderHomeCards==='function') renderHomeCards();
+  __pollBusy=true;
+  try{ await fetchLiveScores(); if(typeof renderHomeCards==='function') renderHomeCards(); }
+  finally{ __pollBusy=false; }
 }
 setInterval(pollLive, 30000);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) pollLive(); });   // refresh immediately on return
 
 // ===== Próximos partidos =====
 async function buildHome(){
@@ -309,9 +313,10 @@ function renderHomeCards(){
     const inPlay=!!(lv&&lv.state==='in'), done=!!(lv&&lv.state==='post'), showSc=inPlay||done;
     const sc=showSc?(nrmTeam(lv.hName)===nrmTeam(m.team1)?[lv.hs,lv.as]:[lv.as,lv.hs]):null;
     const fl=(n,f,s)=> (f?`<img src="https://flagcdn.com/w40/${f}.png">`:'')+ (isPh(n)?`<span style="color:var(--muted)">${esc(n||'—')}</span>`:esc(n)) + (s!=null?`<span class="hm-sc">${esc(String(s))}</span>`:'');
+    const penTx=(showSc&&lv.hsh!=null&&lv.ash!=null)?(nrmTeam(lv.hName)===nrmTeam(m.team1)?`${lv.hsh}–${lv.ash}`:`${lv.ash}–${lv.hsh}`):null;
     let when;
     if(inPlay) when=`<b style="color:#ff5a5d">🔴 ${esc(lv.clock||lv.short||'En juego')}</b>`;
-    else if(done) when='<b>Final</b>';
+    else if(done) when=penTx?`<b>Final · ${esc(penTx)} pen.</b>`:'<b>Final</b>';
     else when=fmt(m.date)+' · '+(m.time||'');
     const goalsHtml=(showSc&&lv.goals&&lv.goals.length)?`<div class="hm-goals">${lv.goals.map(g=>`⚽ ${esc(g.clock)} ${esc(g.who)}${g.pen?' (p)':''}${g.og?' (pp)':''}`).join(' · ')}</div>`:'';
     return `<a class="hm-m ${inPlay?'live':''}" href="match.html?m=${m.idx}">
@@ -353,7 +358,8 @@ function tick(){const diff=KICK-Date.now();
     if(live){
       const lv=(typeof liveFor==='function')?liveFor(live):null;
       const mid=lv?(nrmTeam(lv.hName)===nrmTeam(live.team1)?`${lv.hs} – ${lv.as}`:`${lv.as} – ${lv.hs}`):'vs';
-      const min=(lv&&lv.state==='in'&&lv.clock)?` <span class="lh-min">${lv.clock}</span>`:'';
+      const penTx=(lv&&lv.hsh!=null&&lv.ash!=null)?(nrmTeam(lv.hName)===nrmTeam(live.team1)?` (${lv.hsh}–${lv.ash} pen.)`:` (${lv.ash}–${lv.hsh} pen.)`):'';
+      const min=penTx?`<span class="lh-min">${penTx}</span>`:((lv&&lv.state==='in'&&lv.clock)?` <span class="lh-min">${lv.clock}</span>`:'');
       cdEl.innerHTML=`<div class="live-hero"><span class="lh-dot"></span> EN VIVO · ${flg(live.team1)} ${live.team1} <span class="lh-vs">${mid}</span> ${live.team2} ${flg(live.team2)}${min}</div>`;
       if(cap) cap.innerHTML='🔴 El Mundial está en juego';
     } else {

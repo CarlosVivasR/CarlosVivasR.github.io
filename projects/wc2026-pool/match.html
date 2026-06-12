@@ -95,6 +95,7 @@
   .lv-sc{font-size:2.1em;font-weight:900;font-variant-numeric:tabular-nums;text-align:center;min-width:96px;line-height:1}
   .lv-sc>span{opacity:.4;font-weight:600}
   .lv-st{font-size:.34em;font-weight:800;color:#ff7a7d;margin-top:5px;letter-spacing:.02em}
+  .lv-pen{font-size:.4em;font-weight:800;color:var(--gold-2,#f4d76b);letter-spacing:.02em}
   .lv-block{margin-top:14px;background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
   .lv-block h4{margin:0 0 12px;font-size:.7em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
   .pred{display:flex;height:26px;border-radius:7px;overflow:hidden;font-size:.76em;font-weight:800}
@@ -157,9 +158,9 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario',lvPred:'Predicción',lvStats:'Estadísticas',lvLineups:'Alineaciones',lvEvents:'Eventos',lvComm:'Comentario en directo',lvSubs:'Suplentes',lvDraw:'Empate',lvToPlay:'Por jugar',lvFinal:'Final',lvHT:'Descanso',liveData:'Datos en vivo: ESPN'},
-  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar',lvPred:'Prediction',lvStats:'Stats',lvLineups:'Lineups',lvEvents:'Events',lvComm:'Live commentary',lvSubs:'Substitutes',lvDraw:'Draw',lvToPlay:'Scheduled',lvFinal:'Full Time',lvHT:'Half-time',liveData:'Live data: ESPN'},
-  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim',lvPred:'Tahmin',lvStats:'İstatistikler',lvLineups:'Kadrolar',lvEvents:'Olaylar',lvComm:'Canlı anlatım',lvSubs:'Yedekler',lvDraw:'Beraberlik',lvToPlay:'Programlandı',lvFinal:'Maç sonu',lvHT:'Devre arası',liveData:'Canlı veri: ESPN'}
+  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario',lvPred:'Predicción',lvStats:'Estadísticas',lvLineups:'Alineaciones',lvEvents:'Eventos',lvComm:'Comentario en directo',lvSubs:'Suplentes',lvDraw:'Empate',lvToPlay:'Por jugar',lvFinal:'Final',lvHT:'Descanso',lvPens:'pen.',lvPenEnd:'Final (pen.)',liveData:'Datos en vivo: ESPN'},
+  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar',lvPred:'Prediction',lvStats:'Stats',lvLineups:'Lineups',lvEvents:'Events',lvComm:'Live commentary',lvSubs:'Substitutes',lvDraw:'Draw',lvToPlay:'Scheduled',lvFinal:'Full Time',lvHT:'Half-time',lvPens:'pens',lvPenEnd:'Full Time (pens)',liveData:'Live data: ESPN'},
+  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim',lvPred:'Tahmin',lvStats:'İstatistikler',lvLineups:'Kadrolar',lvEvents:'Olaylar',lvComm:'Canlı anlatım',lvSubs:'Yedekler',lvDraw:'Beraberlik',lvToPlay:'Programlandı',lvFinal:'Maç sonu',lvHT:'Devre arası',lvPens:'pen.',lvPenEnd:'Maç sonu (pen.)',liveData:'Canlı veri: ESPN'}
 };
 const L=k=>wcT(T,k);
 const LOC=L('locale');
@@ -350,7 +351,7 @@ function formationRows(team){
   if(i<rest.length) rows.push(rest.slice(i));
   return {gk, rows};
 }
-let __evId=null, __mref=null;
+let __evId=null, __mref=null, __lastSum=null, __sumAt=0, __lvBusy=false;
 async function loadMatchLive(m){
   __mref=m;
   let sb; try{ sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json()); }catch(e){ return; }
@@ -358,16 +359,32 @@ async function loadMatchLive(m){
   if(!ev) return;                       // not in ESPN feed → keep the static preview
   __evId=ev.id;
   let sum=null; try{ sum=await fetch(ESPN_SUM+ev.id,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
+  __lastSum=sum; __sumAt=Date.now();
   renderLive(ev,sum,m);
+  if(!window.__lvTick) window.__lvTick=setInterval(lvTickClock,1000);  // live minute ticks between polls
   if((((ev.status||{}).type||{}).state)==='in' && !window.__lvT) window.__lvT=setInterval(refreshLive, 30000);
 }
 async function refreshLive(){
-  if(!__evId||!__mref) return;
-  let sb,sum;
-  try{ sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
-  const ev=sb&&(sb.events||[]).find(e=>String(e.id)===String(__evId));
-  try{ sum=await fetch(ESPN_SUM+__evId,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
-  if(ev){ renderLive(ev,sum,__mref); if((((ev.status||{}).type||{}).state)==='post' && window.__lvT){ clearInterval(window.__lvT); window.__lvT=null; } }
+  if(!__evId||!__mref||__lvBusy||document.hidden) return;   // skip overlap + work while tab hidden
+  __lvBusy=true;
+  try{
+    let sb; try{ sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
+    const ev=sb&&(sb.events||[]).find(e=>String(e.id)===String(__evId));
+    if(!ev) return;
+    // Heavy summary (stats/lineups/commentary) at most every 90s; light scoreboard drives score+clock every 30s
+    if(Date.now()-__sumAt>90000){
+      try{ const sum=await fetch(ESPN_SUM+__evId,{cache:'no-store'}).then(r=>r.json()); if(sum){ __lastSum=sum; __sumAt=Date.now(); } }catch(e){}
+    }
+    renderLive(ev,__lastSum,__mref);
+    if((((ev.status||{}).type||{}).state)==='post' && window.__lvT){ clearInterval(window.__lvT); window.__lvT=null; }
+  } finally { __lvBusy=false; }
+}
+/* Interpolate the live minute locally between 30s polls (re-synced on every refresh). */
+function lvTickClock(){
+  const c=window.__lvClock; if(!c||c.state!=='in'||c.plus||document.hidden) return;
+  const stEl=document.querySelector('#live-box .lv-st'); if(!stEl) return;
+  const min=Math.floor((c.sec+(Date.now()-c.at)/1000)/60);
+  stEl.textContent='🔴 '+min+"'";
 }
 function renderLive(ev,sum,m){
   const box=document.getElementById('live-box'); if(!box) return;
@@ -375,14 +392,21 @@ function renderLive(ev,sum,m){
   const home=cs.find(x=>x.homeAway==='home')||{}, away=cs.find(x=>x.homeAway==='away')||{};
   const st=(ev.status||{}).type||{}; const clk=(ev.status||{}).displayClock||'';
   const homeIsT1=nrmt((home.team||{}).displayName)===nrmt(m.team1);
-  const s1=homeIsT1?home.score:away.score, s2=homeIsT1?away.score:home.score;
+  const pre=st.state==='pre';
+  const s1=pre?null:(homeIsT1?home.score:away.score), s2=pre?null:(homeIsT1?away.score:home.score);
+  /* penalty shootout (knockout only) */
+  const sh1=homeIsT1?home.shootoutScore:away.shootoutScore, sh2=homeIsT1?away.shootoutScore:home.shootoutScore;
+  const penTx=(sh1!=null&&sh2!=null)?`<span class="lv-pen">(${esc(String(sh1))}–${esc(String(sh2))} ${L('lvPens')})</span>`:'';
+  /* store clock base for local interpolation between polls */
+  const plus=/\+/.test(clk) || /half|^ht$/i.test(clk);
+  window.__lvClock={ sec:((ev.status||{}).clock)||0, at:Date.now(), state:st.state, plus };
   let statusTx;
-  if(st.state==='post') statusTx = L('lvFinal');
+  if(st.state==='post') statusTx = (sh1!=null?L('lvPenEnd'):L('lvFinal'));
   else if(st.state==='pre') statusTx = L('lvToPlay');
   else { let raw=(clk||st.shortDetail||st.detail||'').trim(); if(/half|^ht$/i.test(raw) && !/\d/.test(raw)) raw=L('lvHT'); statusTx='🔴 '+esc(raw); }
   const head=`<div class="lv-head ${st.state==='in'?'in':''}">
     <div class="lv-t"><img src="${FLAG(m.team1)}" alt=""><span>${esc(m.team1)}</span></div>
-    <div class="lv-sc">${s1==null?'-':esc(String(s1))} <span>–</span> ${s2==null?'-':esc(String(s2))}<div class="lv-st">${statusTx}</div></div>
+    <div class="lv-sc">${s1==null?'-':esc(String(s1))} <span>–</span> ${s2==null?'-':esc(String(s2))}${penTx?'<br>'+penTx:''}<div class="lv-st">${statusTx}</div></div>
     <div class="lv-t r"><span>${esc(m.team2)}</span><img src="${FLAG(m.team2)}" alt=""></div></div>`;
   /* prediction */
   let pred='';
@@ -403,8 +427,10 @@ function renderLive(ev,sum,m){
   const ke=(sum&&sum.keyEvents)||[];
   const evRows=ke.filter(e=>/goal|card|substitut|penal/.test(((e.type||{}).text||'').toLowerCase())).slice().reverse().map(e=>{
     const cl=((e.clock||{}).displayValue)||''; const t=((e.type||{}).text||'').toLowerCase();
-    const ic=t.includes('goal')?(e.ownGoal?'⚽':'⚽'):t.includes('yellow')?'🟨':t.includes('red')?'🟥':t.includes('substitut')?'🔄':t.includes('penal')?'🎯':'•';
-    const who=((e.participants||[]).map(p=>(p.athlete||{}).displayName).filter(Boolean).join(' / '))||((e.team||{}).displayName||'');
+    const isPenGoal=t.includes('goal')&&(t.includes('penalt')||e.penaltyKick);
+    const ic=t.includes('goal')?'⚽':t.includes('yellow')?'🟨':t.includes('red')?'🟥':t.includes('substitut')?'🔄':t.includes('penal')?'🎯':'•';
+    let who=((e.participants||[]).map(p=>(p.athlete||{}).displayName).filter(Boolean).join(' / '))||((e.team||{}).displayName||'');
+    if(t.includes('goal')&&e.ownGoal) who+=' (OG)'; else if(isPenGoal) who+=' (P)';
     return `<div class="ev-row"><span class="ev-min">${esc(cl)}</span><span class="ev-ic">${ic}</span><span class="ev-tx">${esc(who)}</span></div>`;
   }).join('');
   if(evRows) events=`<div class="lv-block"><h4>${L('lvEvents')}</h4>${evRows}</div>`;
@@ -425,10 +451,10 @@ function renderLive(ev,sum,m){
     }).join('');
     if(rows.replace(/\s/g,'')) stats=`<div class="lv-block"><h4>${L('lvStats')}</h4>${rows}</div>`;
   }
-  /* lineups → formation pitch + substitutes */
+  /* lineups → formation pitch + substitutes (only once a confirmed XI exists) */
   let lineups='';
   const ros=(sum&&sum.rosters)||[];
-  if(ros.length===2){
+  if(ros.length===2 && ros.every(r=>r && r.formation && (r.roster||[]).length)){
     const r1=ros.find(t=>nrmt((t.team||{}).displayName)===nrmt(m.team1))||ros[0];
     const r2=ros.find(t=>nrmt((t.team||{}).displayName)===nrmt(m.team2))||ros[1];
     const dot=p=>`<div class="fpos"><div class="fdot">${esc(String(p.jersey||''))}</div><div class="fnm">${esc(lastName((p.athlete||{}).displayName))}</div></div>`;
@@ -451,7 +477,9 @@ function renderLive(ev,sum,m){
     const rows=cm.slice().reverse().slice(0,50).map(x=>{ const tm=((x.time||{}).displayValue)||''; return `<div class="cm-row"><span class="cm-min">${esc(tm)}</span><span class="cm-tx">${esc(x.text||'')}</span></div>`; }).join('');
     comm=`<div class="lv-block"><h4>${L('lvComm')}</h4><div class="cm-list">${rows}</div></div>`;
   }
+  const prevCm=box.querySelector('.cm-list'); const prevScroll=prevCm?prevCm.scrollTop:0;   // preserve commentary scroll
   box.innerHTML = head + events + pred + stats + lineups + comm;
+  if(prevScroll){ const newCm=box.querySelector('.cm-list'); if(newCm) newCm.scrollTop=prevScroll; }
 }
 
 main();
