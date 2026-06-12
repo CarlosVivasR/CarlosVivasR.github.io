@@ -137,7 +137,15 @@
   }
   .match-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
   .match-card.live{border-color:var(--red);box-shadow:0 0 0 2px rgba(193,39,45,.12),0 1px 2px rgba(0,0,0,.03)}
-  .match-card.finished{opacity:.6}
+  .match-card.finished{opacity:.62}
+  .match-card.finished.hasresult{opacity:.9}
+
+  .mc-score{display:inline-flex;align-items:center;gap:7px;font-variant-numeric:tabular-nums;
+    font-size:1.18em;font-weight:800;color:var(--muted);padding:1px 4px;letter-spacing:.01em}
+  .mc-score b{color:var(--ink-2);font-weight:800;min-width:14px;text-align:center}
+  .mc-score b.win{color:var(--ink)}
+  .mc-score .dash{color:var(--muted);font-weight:600;font-size:.8em}
+  .mc-score.live b{color:var(--red)}
 
   .mc-time{
     display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums;
@@ -706,11 +714,13 @@ function render(){
 }
 
 function renderCard(m){
-  const status = statusOf(m.datetime);
+  const sc = scoreFor(m);
+  let status = statusOf(m.datetime);
+  if (sc) status = sc.state === 'in' ? 'live' : sc.state === 'post' ? 'finished' : status;
   const isToday = sameLocalDay(m.datetime, state.tz);
   const time = formatTime(m.datetime, state.tz);
   let badge = "";
-  if (status === "live") badge = `<span class="badge live">${t("badge.live")}</span>`;
+  if (status === "live") badge = `<span class="badge live">${sc && sc.clock ? '🔴 '+sc.clock : t("badge.live")}</span>`;
   else if (status === "finished") badge = `<span class="badge finished">${t("badge.finished")}</span>`;
   else if (isToday) badge = `<span class="badge today">${t("badge.today")}</span>`;
   else badge = `<span class="badge upcoming">${t("badge.upcoming")}</span>`;
@@ -719,16 +729,20 @@ function renderCard(m){
   const groupTag = m.groupId ? `${t("round.shortGroup")} ${m.groupId}` : rd;
   const roundChipClass = m.isKnockout ? "round ko" : "round";
 
+  const mid = sc
+    ? `<span class="mc-score ${status==='live'?'live':''}"><b class="${sc.t1>sc.t2?'win':''}">${sc.t1}</b><span class="dash">–</span><b class="${sc.t2>sc.t1?'win':''}">${sc.t2}</b></span>`
+    : `<span class="mc-vs">vs</span>`;
+
   return `
     <a class="match-card-link" href="match.html?m=${m.idx}" style="text-decoration:none;color:inherit;display:block">
-    <article class="match-card ${status}">
+    <article class="match-card ${status}${sc?' hasresult':''}">
       <div class="mc-time">
         <span class="hhmm">${time}</span>
         ${badge}
       </div>
       <div class="mc-teams">
         ${teamHTML(m.team1)}
-        <span class="mc-vs">vs</span>
+        ${mid}
         ${teamHTML(m.team2)}
       </div>
       <div class="mc-meta">
@@ -801,6 +815,34 @@ async function loadEspnStandings(){
   }catch(e){ /* ESPN unavailable → fall back to results.json */ }
 }
 
+/* Live per-match scores straight from ESPN scoreboard (full tournament range in one call) */
+let __espnScores = null;
+async function loadEspnScores(){
+  try{
+    const d = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719',{cache:'no-store'}).then(r=>r.json());
+    const out = {};
+    (d.events||[]).forEach(e=>{
+      const c = (e.competitions||[])[0]; if(!c) return;
+      const cs = c.competitors||[]; if(cs.length!==2) return;
+      const st = (e.status||{}).type||{};
+      const byTeam = {};
+      cs.forEach(x=>{ byTeam[snrm((x.team||{}).displayName)] = (x.score!=null && x.score!=='') ? +x.score : null; });
+      const key = Object.keys(byTeam).sort().join('|');
+      out[key] = { byTeam, state: st.state||'pre', detail: st.shortDetail||'', clock:(e.status||{}).displayClock||'' };
+    });
+    if(Object.keys(out).length){ __espnScores = out; render(); }
+  }catch(e){ /* ESPN unavailable → schedule shows times only */ }
+}
+function scoreFor(m){
+  if(!__espnScores || !m.team1 || !m.team2 || isPlaceholderTeam(m.team1) || isPlaceholderTeam(m.team2)) return null;
+  const k1 = snrm(m.team1), k2 = snrm(m.team2);
+  const e = __espnScores[[k1,k2].sort().join('|')];
+  if(!e || e.state==='pre') return null;
+  const t1 = e.byTeam[k1], t2 = e.byTeam[k2];
+  if(t1==null || t2==null) return null;
+  return { t1, t2, state:e.state, clock:e.clock, detail:e.detail };
+}
+
 function buildStandings(){
   const el = document.getElementById("standings-grid");
   if(!el || !MATCHES.length) return;
@@ -868,7 +910,9 @@ document.querySelectorAll(".view-toggle button").forEach(b =>
 
 loadResults();
 loadEspnStandings();
+loadEspnScores();
 setInterval(loadEspnStandings, 60000);   /* keep standings live as matches finish */
+setInterval(loadEspnScores, 60000);      /* keep schedule scores live */
 loadSchedule();
 </script>
 <script src="assets/search.js" defer></script>
