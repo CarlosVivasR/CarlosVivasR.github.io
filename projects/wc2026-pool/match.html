@@ -621,10 +621,18 @@ function formationRows(team){
   return {gk, rows};
 }
 let __evId=null, __mref=null, __lastSum=null, __sumAt=0, __lvBusy=false;
+const matchEvent=(sb,m)=>(sb&&sb.events||[]).find(e=>{ const cs=((e.competitions||[])[0]||{}).competitors||[]; const ns=cs.map(c=>nrmt((c.team||{}).displayName)); return ns.includes(nrmt(m.team1))&&ns.includes(nrmt(m.team2)); });
 async function loadMatchLive(m){
   __mref=m;
-  let sb; try{ sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json()); }catch(e){ return; }
-  const ev=(sb.events||[]).find(e=>{ const cs=((e.competitions||[])[0]||{}).competitors||[]; const ns=cs.map(c=>nrmt((c.team||{}).displayName)); return ns.includes(nrmt(m.team1))&&ns.includes(nrmt(m.team2)); });
+  // Find the event by the match's OWN date (so FINISHED/past matches resolve, not just today),
+  // with a day's slack for timezone edges, and the full tournament range as a final fallback.
+  const dp=(m.date||'').replace(/-/g,'');
+  const day=(off)=>{ if(!dp) return null; const d=new Date(Date.UTC(+dp.slice(0,4),+dp.slice(4,6)-1,+dp.slice(6,8)+off)); return d.toISOString().slice(0,10).replace(/-/g,''); };
+  const urls=[];
+  if(dp) urls.push(ESPN_SB+'?dates='+day(-1)+'-'+day(1));
+  urls.push(ESPN_SB+'?dates=20260611-20260719', ESPN_SB);
+  let ev=null;
+  for(const u of urls){ let sb; try{ sb=await fetch(u,{cache:'no-store'}).then(r=>r.json()); }catch(e){ continue; } ev=matchEvent(sb,m); if(ev) break; }
   if(!ev) return;                       // not in ESPN feed → keep the static preview
   __evId=ev.id;
   let sum=null; try{ sum=await fetch(ESPN_SUM+ev.id,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
