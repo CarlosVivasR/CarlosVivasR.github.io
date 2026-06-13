@@ -486,9 +486,10 @@ function mtL(k){ const lng=document.documentElement.lang||'es'; return (i18n[lng
 function mtPois(l){ const v=[]; let p=Math.exp(-l); for(let k=0;k<=8;k++){ v.push(p); p*=l/(k+1); } return v; }
 function mtTau(i,j,l1,l2,r){ if(i==0&&j==0)return 1-l1*l2*r; if(i==0&&j==1)return 1+l1*r; if(i==1&&j==0)return 1+l2*r; if(i==1&&j==1)return 1-r; return 1; }
 function mtHost(n){ const k=nrmTeam(n); return k==='unitedstates'||k==='mexico'||k==='canada'; }   // host nations (home at their own venue)
+function mtTilt(t1,t2){ const v=__rbase&&__rbase.value; if(!v||!v.logV) return 0; const a=v.logV[nrmTeam(t1)],b=v.logV[nrmTeam(t2)]; if(a==null||b==null) return 0; return (v.beta||0)*(a-b); }
 function mtProbs(t1,t2,hostAdv){ const R=__rbase; if(!R||!R.dc) return null; const a=R.dc.teams[nrmTeam(t1)], b=R.dc.teams[nrmTeam(t2)]; if(!a||!b) return null;
-  const G=R.dc.gamma||0, g1=hostAdv===1?G:0;   // host advantage applied to the home (team1) side when it's a host nation
-  const l1=Math.exp(R.dc.mu+a.atk-b.def+g1), l2=Math.exp(R.dc.mu+b.atk-a.def), rho=R.dc.rho;
+  const G=R.dc.gamma||0, g1=hostAdv===1?G:0, h=mtTilt(t1,t2)*0.5;   // host advantage (home host) + squad-value tilt
+  const l1=Math.exp(R.dc.mu+a.atk-b.def+g1+h), l2=Math.exp(R.dc.mu+b.atk-a.def-h), rho=R.dc.rho;
   const A=mtPois(l1), B=mtPois(l2); let h=0,d=0,w=0,s=0;
   for(let i=0;i<=8;i++)for(let j=0;j<=8;j++){ let pp=A[i]*B[j]*mtTau(i,j,l1,l2,rho); if(pp<0)pp=0; s+=pp; if(i>j)h+=pp; else if(i==j)d+=pp; else w+=pp; }
   return s>0?[h/s,d/s,w/s]:null; }
