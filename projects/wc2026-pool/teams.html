@@ -52,16 +52,51 @@ const T={
   tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P'}
 };
 const L=k=>wcT(T,k);
+const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
+const norm=n=>(n||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,'').replace(/^usa$/,'unitedstates');
+/* ESPN name aliases so schedule names match the live feed (e.g. "Czech Republic"→"Czechia") */
+const T_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',unitedstatesofamerica:'unitedstates'};
+const nrm2=n=>{ const x=norm(n); return T_ALIAS[x]||x; };
+const ESPN_SB='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719';
+/* Pull FINISHED results live from ESPN and key them by the pair of teams, so the table
+   updates itself during the tournament instead of waiting on the static results.json. */
+async function fetchEspnResults(){
+  const byPair={}; const pk=(a,b)=>[nrm2(a),nrm2(b)].sort().join('__');
+  try{
+    const sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json());
+    (sb.events||[]).forEach(ev=>{
+      const cs=(((ev.competitions||[])[0])||{}).competitors||[];
+      const st=(((ev.status||{}).type||{}).state)||'';
+      if(st!=='post'||cs.length!==2) return;                 // only count finished matches
+      const h=cs.find(x=>x.homeAway==='home')||cs[0], a=cs.find(x=>x.homeAway==='away')||cs[1];
+      const hn=(h.team||{}).displayName, an=(a.team||{}).displayName, hs=+h.score, as=+a.score;
+      if(isNaN(hs)||isNaN(as)) return;
+      byPair[pk(hn,an)]={[nrm2(hn)]:hs,[nrm2(an)]:as};
+    });
+  }catch(e){}
+  return byPair;
+}
+let __idx, __sched={matches:[]}, __staticResults={}, __fifa={};
 async function main(){
-  let idx, sched={matches:[]}, results={};
-  try{ idx=await (await fetch('data/teams/index.json')).json(); }
+  try{ __idx=await (await fetch('data/teams/index.json')).json(); }
   catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
-  try{ sched=await (await fetch('data/schedule.json')).json(); }catch(e){}
-  try{ const r=await fetch('data/results.json',{cache:'no-store'}); if(r.ok){ results=(await r.json()).matches||{}; } }catch(e){}
-  let fifa={}; try{ fifa=(await (await fetch('data/fifa_ranking.json')).json()).ranks||{}; }catch(e){}
-
-  const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
-  const norm=n=>(n||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,'').replace(/^usa$/,'unitedstates');
+  try{ __sched=await (await fetch('data/schedule.json')).json(); }catch(e){}
+  try{ const r=await fetch('data/results.json',{cache:'no-store'}); if(r.ok){ __staticResults=(await r.json()).matches||{}; } }catch(e){}
+  try{ __fifa=(await (await fetch('data/fifa_ranking.json')).json()).ranks||{}; }catch(e){}
+  await render();
+  /* keep it live: re-pull ESPN every 90s while the tab is visible */
+  setInterval(()=>{ if(!document.hidden) render(); }, 90000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) render(); });
+}
+async function render(){
+  const idx=__idx, sched=__sched, fifa=__fifa;
+  const results={...__staticResults};                 // static file as the base
+  const espn=await fetchEspnResults();                // live finished results override/fill
+  (sched.matches||[]).forEach((m,i)=>{
+    if(!m.group||isPh(m.team1)||isPh(m.team2)) return;
+    const rec=espn[[nrm2(m.team1),nrm2(m.team2)].sort().join('__')];
+    if(rec){ const s1=rec[nrm2(m.team1)], s2=rec[nrm2(m.team2)]; if(s1!=null&&s2!=null) results[String(i)]=[s1,s2]; }
+  });
   // flag + code by normalised name (from index.json)
   const meta={}; idx.teams.forEach(t=>{ meta[norm(t.name)]={code:t.code,flag:t.flag,name:t.name,group:t.group}; });
 
