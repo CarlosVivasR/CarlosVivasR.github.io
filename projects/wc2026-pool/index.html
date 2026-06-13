@@ -181,7 +181,7 @@
       <span class="host-flags"><img src="https://flagcdn.com/w40/us.png" alt="USA"><img src="https://flagcdn.com/w40/mx.png" alt="México"><img src="https://flagcdn.com/w40/ca.png" alt="Canadá"></span>
     </p>
     <div class="spotlight" id="spotlight" aria-live="polite"></div>
-    <div class="model-track" id="modelTrack"></div>
+    <!-- model-accuracy card removed from the home; it lives in each match's Prediction tab -->
     <!-- legacy countdown nodes kept hidden for the pre-tournament code path -->
     <div class="countdown" id="countdown" hidden></div>
     <div class="cta-row">
@@ -315,7 +315,7 @@ let __pollBusy=false;
 async function pollLive(){
   if(__pollBusy||document.hidden) return;                 // skip overlap + work while tab hidden
   __pollBusy=true;
-  try{ await fetchLiveScores(); if(typeof renderHomeCards==='function') renderHomeCards(); if(typeof renderSpotlight==='function') renderSpotlight(true); if(typeof renderModelTrack==='function') renderModelTrack(); }
+  try{ await fetchLiveScores(); if(typeof renderHomeCards==='function') renderHomeCards(); if(typeof renderSpotlight==='function') renderSpotlight(true); }
   finally{ __pollBusy=false; }
 }
 setInterval(pollLive, 45000);
