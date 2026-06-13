@@ -396,6 +396,7 @@ async function main(){
     if(c){ venue=c; vcountry=code; break; }
   }
   window.__teamByName=teamByName;
+  window.__vcountry=vcountry;                 // venue country (USA/CAN/MEX) → host-advantage detection
   render(m,teamByName,venue,vcountry,maps);
   loadMatchLive(m);
 }
@@ -749,12 +750,16 @@ function topScorelines(l1,l2,n,rho){ const M=scoreGrid(l1,l2,rho),arr=[]; for(le
    ==================================================================== */
 let __ratings=null;
 async function loadRatings(){ if(__ratings!==null) return __ratings; try{ __ratings=await fetch('data/ratings.json',{cache:'no-store'}).then(r=>r.json()); }catch(e){ __ratings=false; } return __ratings; }
-function dcLambdas(t1,t2,neutral){
+/* hostAdv: 0 = neutral (default), 1 = team1 plays at home, 2 = team2 — applies the fitted
+   home-advantage γ to the host side. WC2026 is neutral EXCEPT host nations at their own venue
+   (validated: the all-neutral assumption under-predicted host wins by ~19pp). */
+function dcLambdas(t1,t2,hostAdv){
   const R=__ratings; if(!R||!R.dc) return null;
   const a=R.dc.teams[nrmt(t1)], b=R.dc.teams[nrmt(t2)]; if(!a||!b) return null;   // nrmt keys match ratings.json
-  const g = neutral ? 0 : (R.dc.gamma||0);
-  return [ Math.exp(R.dc.mu + a.atk - b.def + g), Math.exp(R.dc.mu + b.atk - a.def) ];
+  const G=R.dc.gamma||0, g1=hostAdv===1?G:0, g2=hostAdv===2?G:0;
+  return [ Math.exp(R.dc.mu + a.atk - b.def + g1), Math.exp(R.dc.mu + b.atk - a.def + g2) ];
 }
+function teamHostCode(name){ const k=nrmt(name); return k==='unitedstates'?'USA':k==='mexico'?'MEX':k==='canada'?'CAN':null; }
 function modelRho(){ const R=__ratings; return (R&&R.dc&&typeof R.dc.rho==='number')?R.dc.rho:DC_RHO; }
 function logPool(model,market,w){ const o=[0,1,2].map(i=>Math.pow(Math.max(model[i],1e-9),w)*Math.pow(Math.max(market[i],1e-9),1-w)); const s=o[0]+o[1]+o[2]; return o.map(x=>x/s); }
 /* keep the model's total goals (data-driven level), fit only the supremacy to a target 1X2 */
@@ -869,7 +874,9 @@ function renderLive(ev,sum,m){
     const hp=mlPct((pcb.homeTeamOdds||{}).moneyLine), ap=mlPct((pcb.awayTeamOdds||{}).moneyLine), dp=mlPct((pcb.drawOdds||{}).moneyLine);
     if(hp>0&&ap>0&&dp>0){ const [H,D,A]=devig3(hp,ap,dp); const oddsHomeIsT1=nrmt((pcb.homeTeamOdds.team||{}).displayName)===nrmt(m.team1); mkt=oddsHomeIsT1?[H/100,D/100,A/100]:[A/100,D/100,H/100]; }
   }
-  const dcL=dcLambdas(m.team1, m.team2, true);             // WC venues are neutral → home advantage off
+  const vc=window.__vcountry||null;                        // host advantage only for a host nation at its own venue
+  const hostAdv=(teamHostCode(m.team1)&&teamHostCode(m.team1)===vc)?1:(teamHostCode(m.team2)&&teamHostCode(m.team2)===vc)?2:0;
+  const dcL=dcLambdas(m.team1, m.team2, hostAdv);
   if(dcL || mkt){
     try{
       const rho=modelRho(); let L1,L2,probs,source;
