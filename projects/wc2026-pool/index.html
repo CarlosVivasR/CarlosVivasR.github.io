@@ -485,8 +485,10 @@ async function loadBaseline(){ if(__rbase!==null) return __rbase; try{ __rbase=a
 function mtL(k){ const lng=document.documentElement.lang||'es'; return (i18n[lng]&&i18n[lng][k])||(i18n.es&&i18n.es[k])||k; }
 function mtPois(l){ const v=[]; let p=Math.exp(-l); for(let k=0;k<=8;k++){ v.push(p); p*=l/(k+1); } return v; }
 function mtTau(i,j,l1,l2,r){ if(i==0&&j==0)return 1-l1*l2*r; if(i==0&&j==1)return 1+l1*r; if(i==1&&j==0)return 1+l2*r; if(i==1&&j==1)return 1-r; return 1; }
-function mtProbs(t1,t2){ const R=__rbase; if(!R||!R.dc) return null; const a=R.dc.teams[nrmTeam(t1)], b=R.dc.teams[nrmTeam(t2)]; if(!a||!b) return null;
-  const l1=Math.exp(R.dc.mu+a.atk-b.def), l2=Math.exp(R.dc.mu+b.atk-a.def), rho=R.dc.rho;   // neutral venue → no home edge
+function mtHost(n){ const k=nrmTeam(n); return k==='unitedstates'||k==='mexico'||k==='canada'; }   // host nations (home at their own venue)
+function mtProbs(t1,t2,hostAdv){ const R=__rbase; if(!R||!R.dc) return null; const a=R.dc.teams[nrmTeam(t1)], b=R.dc.teams[nrmTeam(t2)]; if(!a||!b) return null;
+  const G=R.dc.gamma||0, g1=hostAdv===1?G:0;   // host advantage applied to the home (team1) side when it's a host nation
+  const l1=Math.exp(R.dc.mu+a.atk-b.def+g1), l2=Math.exp(R.dc.mu+b.atk-a.def), rho=R.dc.rho;
   const A=mtPois(l1), B=mtPois(l2); let h=0,d=0,w=0,s=0;
   for(let i=0;i<=8;i++)for(let j=0;j<=8;j++){ let pp=A[i]*B[j]*mtTau(i,j,l1,l2,rho); if(pp<0)pp=0; s+=pp; if(i>j)h+=pp; else if(i==j)d+=pp; else w+=pp; }
   return s>0?[h/s,d/s,w/s]:null; }
@@ -497,7 +499,7 @@ async function renderModelTrack(){
   const bt=__rbase.backtest||{}; const histTx=mtL('mt.hist').replace('{acc}',Math.round((bt.acc||0)*100)).replace('{rps}',(+(bt.rps||0)).toFixed(3));
   const recs=(window.__liveData||[]).filter(r=>r.state==='post' && r.hs!=null && r.as!=null);
   let n=0,hits=0,rsum=0;
-  recs.forEach(r=>{ const p=mtProbs(r.hName,r.aName); if(!p) return; const hs=+r.hs,as=+r.as; const act=hs>as?0:hs==as?1:2; const pred=p.indexOf(Math.max(p[0],p[1],p[2])); n++; if(pred===act)hits++; rsum+=mtRps(p,act); });
+  recs.forEach(r=>{ const p=mtProbs(r.hName,r.aName, mtHost(r.hName)?1:0); if(!p) return; const hs=+r.hs,as=+r.as; const act=hs>as?0:hs==as?1:2; const pred=p.indexOf(Math.max(p[0],p[1],p[2])); n++; if(pred===act)hits++; rsum+=mtRps(p,act); });
   if(!n){ el.innerHTML=`<div class="mt-card"><span class="mt-h">🎯 ${mtL('mt.title')}</span><span class="mt-sub">${mtL('mt.none')}</span><span class="mt-bt">${histTx}</span></div>`; return; }
   const small = n<20 ? ` · ${mtL('mt.small')}` : '';
   el.innerHTML=`<div class="mt-card"><span class="mt-h">🎯 ${mtL('mt.title')}</span>`
