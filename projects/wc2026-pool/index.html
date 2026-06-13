@@ -490,9 +490,9 @@ function mtTilt(t1,t2){ const v=__rbase&&__rbase.value; if(!v||!v.logV) return 0
 function mtProbs(t1,t2,hostAdv){ const R=__rbase; if(!R||!R.dc) return null; const a=R.dc.teams[nrmTeam(t1)], b=R.dc.teams[nrmTeam(t2)]; if(!a||!b) return null;
   const G=R.dc.gamma||0, g1=hostAdv===1?G:0, h=mtTilt(t1,t2)*0.5;   // host advantage (home host) + squad-value tilt
   const l1=Math.exp(R.dc.mu+a.atk-b.def+g1+h), l2=Math.exp(R.dc.mu+b.atk-a.def-h), rho=R.dc.rho;
-  const A=mtPois(l1), B=mtPois(l2); let h=0,d=0,w=0,s=0;
-  for(let i=0;i<=8;i++)for(let j=0;j<=8;j++){ let pp=A[i]*B[j]*mtTau(i,j,l1,l2,rho); if(pp<0)pp=0; s+=pp; if(i>j)h+=pp; else if(i==j)d+=pp; else w+=pp; }
-  return s>0?[h/s,d/s,w/s]:null; }
+  const A=mtPois(l1), B=mtPois(l2); let hw=0,d=0,w=0,s=0;
+  for(let i=0;i<=8;i++)for(let j=0;j<=8;j++){ let pp=A[i]*B[j]*mtTau(i,j,l1,l2,rho); if(pp<0)pp=0; s+=pp; if(i>j)hw+=pp; else if(i==j)d+=pp; else w+=pp; }
+  return s>0?[hw/s,d/s,w/s]:null; }
 function mtRps(p,act){ const o=[0,0,0]; o[act]=1; let cp=0,co=0,s=0; for(let i=0;i<2;i++){ cp+=p[i]; co+=o[i]; s+=(cp-co)*(cp-co); } return s/2; }
 async function renderModelTrack(){
   const el=document.getElementById('modelTrack'); if(!el) return;
