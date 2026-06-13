@@ -43,6 +43,7 @@ Reproducible: python3 + numpy/scipy/pandas only. Run to completion:
 """
 
 import json
+import os
 import re
 import sys
 import time
@@ -60,7 +61,8 @@ from scipy.stats import poisson
 ROOT = Path(__file__).resolve().parent.parent            # projects/wc2026-pool
 DATA = ROOT / "scripts" / "results.csv"                  # martj42 raw CSV (auto-downloaded if missing)
 WC2026_INDEX = ROOT / "data" / "teams" / "index.json"
-OUT_LOCAL = ROOT / "data" / "ratings.json"
+_OUTNAME = "ratings_baseline.json" if os.environ.get("WC_CUTOFF") else "ratings.json"
+OUT_LOCAL = ROOT / "data" / _OUTNAME
 OUT_SHIPPED = OUT_LOCAL                                   # single shipped output
 # Auto-download the public CC0 dataset if absent (CI). The fit only reads
 # date,home_team,away_team,home_score,away_score,tournament,neutral — all in the raw CSV.
@@ -123,6 +125,11 @@ ALIASES = {
 def load():
     df = pd.read_csv(DATA, parse_dates=["date"])
     df = df.dropna(subset=["home_score", "away_score"]).copy()
+    # Optional frozen-baseline cutoff (env WC_CUTOFF=YYYY-MM-DD): fit only on matches strictly
+    # before the date — used to build a pre-tournament snapshot for the leakage-free live tracker.
+    _cut = os.environ.get("WC_CUTOFF")
+    if _cut:
+        df = df[df["date"] < pd.Timestamp(_cut)].copy()
     df["home_score"] = df["home_score"].astype(int)
     df["away_score"] = df["away_score"].astype(int)
     df["neutral"] = df["neutral"].astype(bool)
