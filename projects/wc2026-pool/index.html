@@ -262,7 +262,9 @@ function matchStart(m){
 function isLive(m){ const s=matchStart(m); if(s==null) return false; const n=Date.now(); return n>=s && n<s+2*3600*1000; }
 
 // ===== Live scores from ESPN (free, no key, CORS-enabled → fetched directly) =====
-const ESPN_LIVE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+/* Whole-tournament scoreboard: real states for ALL matches (finished results, live, upcoming)
+   in one call — so the home never gets stuck on a stale cached "live" match. */
+const ESPN_LIVE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719';
 const TEAM_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
 function nrmTeam(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return TEAM_ALIAS[x]||x; }
 async function fetchLiveScores(){
@@ -293,16 +295,22 @@ function liveFor(m){
   for(const r of recs){ const s=[nrmTeam(r.hName),nrmTeam(r.aName)]; if(s.includes(t1)&&s.includes(t2)) return r; }
   return null;
 }
+/* A cached "in" record is only trusted as live within a sane window around kickoff —
+   otherwise it's stale (match already finished while the tab was closed) → treat as 'post'. */
+function effState(m){
+  const lv=liveFor(m); const st=matchStart(m); const now=Date.now();
+  if(lv && lv.state==='in'){ if(st!=null && (now < st-20*60000 || now > st+3.6*3600000)) return 'post'; return 'in'; }
+  if(lv) return lv.state;
+  return null;
+}
 let __pollBusy=false;
 async function pollLive(){
   if(__pollBusy||document.hidden) return;                 // skip overlap + work while tab hidden
-  const near=(window.__matchesAll||[]).some(m=>{ const s=matchStart(m); return s!=null && Date.now()>=s-15*60000 && Date.now()<s+2.5*3600000; });
-  if(!near) return;
   __pollBusy=true;
   try{ await fetchLiveScores(); if(typeof renderHomeCards==='function') renderHomeCards(); if(typeof renderSpotlight==='function') renderSpotlight(true); }
   finally{ __pollBusy=false; }
 }
-setInterval(pollLive, 30000);
+setInterval(pollLive, 45000);
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden) pollLive(); });   // refresh immediately on return
 
 // ===== Próximos partidos =====
@@ -345,8 +353,8 @@ function renderHomeCards(){
   const fmt=iso=>{ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); return d.toLocaleDateString(loc,{weekday:'short',day:'numeric',month:'short'}); };
   el.innerHTML=list.map(m=>{
     const f1=(typeof spFlagCode==='function'?spFlagCode(m.team1):flagByName[m.team1]), f2=(typeof spFlagCode==='function'?spFlagCode(m.team2):flagByName[m.team2]);
-    const lv=liveFor(m);
-    const inPlay=!!(lv&&lv.state==='in'), done=!!(lv&&lv.state==='post'), showSc=inPlay||done;
+    const lv=liveFor(m); const stt=(typeof effState==='function')?effState(m):(lv&&lv.state);
+    const inPlay=stt==='in', done=stt==='post', showSc=(inPlay||done)&&!!lv;
     const sc=showSc?(nrmTeam(lv.hName)===nrmTeam(m.team1)?[lv.hs,lv.as]:[lv.as,lv.hs]):null;
     const fl=(n,f,s)=> (f?`<img src="https://flagcdn.com/w40/${f}.png">`:'')+ (isPh(n)?`<span style="color:var(--muted)">${esc(n||'—')}</span>`:esc(n)) + (s!=null?`<span class="hm-sc">${esc(String(s))}</span>`:'');
     const penTx=(showSc&&lv.hsh!=null&&lv.ash!=null)?(nrmTeam(lv.hName)===nrmTeam(m.team1)?`${lv.hsh}–${lv.ash}`:`${lv.ash}–${lv.hsh}`):null;
@@ -406,17 +414,18 @@ function spLoc(){ const l=document.documentElement.lang; return l==='en'?'en-GB'
 function spKick(m){ const st=matchStart(m); return st==null?'':new Date(st).toLocaleTimeString(spLoc(),{hour:'2-digit',minute:'2-digit'}); }
 function spDate(m){ const st=matchStart(m); return st==null?'':new Date(st).toLocaleDateString(spLoc(),{weekday:'short',day:'numeric',month:'short'}); }
 function spIsToday(m){ const st=matchStart(m); return st!=null && new Date(st).toLocaleDateString('en-CA')===new Date().toLocaleDateString('en-CA'); }
+function spReal(m){ const ph=n=>!n||/^([12][A-L]|W\d+|L\d+|RU|3[A-L])/i.test(n)||/\bB$/.test(n); return !ph(m&&m.team1)&&!ph(m&&m.team2); }
+function spScore(m,lv){ const h1=nrmTeam(lv.hName)===nrmTeam(m.team1); return [h1?lv.hs:lv.as, h1?lv.as:lv.hs, h1?lv.hsh:lv.ash, h1?lv.ash:lv.hsh]; }
 function spotlightCard(m){
-  const lv=(typeof liveFor==='function')?liveFor(m):null;
-  const inPlay=!!(lv&&lv.state==='in'), done=!!(lv&&lv.state==='post');
+  const lv=(typeof liveFor==='function')?liveFor(m):null; const stt=effState(m);
+  const inPlay=stt==='in', done=stt==='post';
   let mid,status,scorers='',pillCls,pillTx,ctaTx;
-  if(inPlay||done){
-    const h1=nrmTeam(lv.hName)===nrmTeam(m.team1); const s1=h1?lv.hs:lv.as,s2=h1?lv.as:lv.hs;
-    let pen='';
-    if(lv.hsh!=null&&lv.ash!=null){ const p1=h1?lv.hsh:lv.ash,p2=h1?lv.ash:lv.hsh; pen=` <small style="font-size:.4em;color:#f4d76b;font-weight:800">(${p1}–${p2} pen.)</small>`; }
-    mid=`<span class="sp-score">${s1}<i>–</i>${s2}${pen}</span>`;
+  if((inPlay||done)&&lv){
+    const sc=spScore(m,lv), s1=sc[0],s2=sc[1],p1=sc[2],p2=sc[3];
+    let pen=''; if(p1!=null&&p2!=null) pen=` <small style="font-size:.4em;color:#f4d76b;font-weight:800">(${p1}–${p2} pen.)</small>`;
+    mid=`<span class="sp-score">${s1==null?'-':s1}<i>–</i>${s2==null?'-':s2}${pen}</span>`;
     if(inPlay){ pillCls='live';pillTx=spL('sp.live'); const c=lv.clock||''; const ht=/half|ht/i.test(c)&&!/\d/.test(c); status=`<span class="sp-min live">🔴 ${spEsc(ht?spL('sp.ht'):(c||spL('sp.live')))}</span>`; ctaTx=spL('sp.watchLive'); }
-    else { pillCls='done';pillTx=spL('sp.final'); status=`<span class="sp-min">${spL('sp.final')}</span>`; ctaTx=spL('sp.summary'); }
+    else { pillCls='done';pillTx=spL('sp.final'); status=`<span class="sp-min">${spL('sp.final')} · ${spDate(m)}</span>`; ctaTx=spL('sp.summary'); }
     if(lv.goals&&lv.goals.length) scorers=`<div class="sp-scorers">${lv.goals.slice(0,6).map(g=>`⚽ ${spEsc(g.clock)} ${spEsc(g.who)}${g.pen?' (p)':''}${g.og?' (pp)':''}`).join(' · ')}</div>`;
   } else {
     mid='<span class="sp-vs">VS</span>';
@@ -433,33 +442,32 @@ function spotlightCard(m){
     <div class="sp-cta">${ctaTx} →</div></a>`;
 }
 function spotlightChip(m){
-  const lv=(typeof liveFor==='function')?liveFor(m):null; const inPlay=!!(lv&&lv.state==='in'),done=!!(lv&&lv.state==='post');
+  const lv=(typeof liveFor==='function')?liveFor(m):null; const stt=effState(m); const inPlay=stt==='in',done=stt==='post';
   let midd;
-  if(inPlay||done){ const h1=nrmTeam(lv.hName)===nrmTeam(m.team1); const s1=h1?lv.hs:lv.as,s2=h1?lv.as:lv.hs; midd=`<span class="sc ${inPlay?'live':''}">${s1}–${s2}</span>`; }
+  if((inPlay||done)&&lv){ const sc=spScore(m,lv); midd=`<span class="sc ${inPlay?'live':''}">${sc[0]==null?'-':sc[0]}–${sc[1]==null?'-':sc[1]}</span>`; }
   else midd=`<span class="sc">${spKick(m)}</span>`;
-  return `<a class="sp-chip" href="match.html?m=${m.idx}">${spFlagSm(m.team1)}${midd}${spFlagSm(m.team2)}</a>`;
+  return `<a class="sp-chip" href="match.html?m=${m.idx}" title="${spEsc(m.team1)} – ${spEsc(m.team2)}">${spFlagSm(m.team1)}${midd}${spFlagSm(m.team2)}</a>`;
 }
 let __spSig=null;
 function renderSpotlight(force){
   const el=document.getElementById('spotlight'); if(!el) return;
-  const all=window.__matchesAll||[]; if(!all.length) return;
+  const all=(window.__matchesAll||[]).filter(spReal); if(!all.length) return;
   const now=Date.now();
-  const live=all.filter(m=>{const lv=liveFor(m);return lv&&lv.state==='in';});
-  const todayStr=new Date().toLocaleDateString('en-CA');
-  const today=all.filter(m=>m.date===todayStr);
-  const upToday=today.filter(m=>{const st=matchStart(m),lv=liveFor(m);return st!=null&&st>now&&!(lv&&lv.state==='in');}).sort((a,b)=>matchStart(a)-matchStart(b));
-  const doneToday=today.filter(m=>{const lv=liveFor(m);return lv&&lv.state==='post';});
-  let primary,others;
-  if(live.length){ primary=live[0]; others=live.slice(1).concat(upToday); }
-  else if(upToday.length){ primary=upToday[0]; others=upToday.slice(1).concat(doneToday); }
-  else if(doneToday.length){ primary=doneToday[doneToday.length-1]; others=doneToday.slice(0,-1); }
-  else { primary=all.filter(m=>{const st=matchStart(m);return st!=null&&st>now;}).sort((a,b)=>matchStart(a)-matchStart(b))[0]; others=[]; }
-  if(!primary){ el.innerHTML=''; return; }
-  others=(others||[]).filter(Boolean).slice(0,3);
-  const sig=primary.idx+'|'+(()=>{const lv=liveFor(primary);return lv?lv.state+lv.hs+'-'+lv.as+lv.clock:'';})()+'|'+others.map(o=>{const lv=liveFor(o);return o.idx+(lv?lv.state+lv.hs+lv.as:'');}).join(',')+'|'+document.documentElement.lang;
+  const ws=all.map(m=>({m,st:matchStart(m),s:effState(m)})).filter(x=>x.st!=null);
+  const liveOnes=ws.filter(x=>x.s==='in').sort((a,b)=>a.st-b.st);
+  const upcoming=ws.filter(x=>x.s!=='in'&&x.s!=='post'&&x.st>now).sort((a,b)=>a.st-b.st);
+  const finished=ws.filter(x=>x.s==='post'||(x.s!=='in'&&x.st<=now)).sort((a,b)=>b.st-a.st);   // most recent first
+  const primary=(liveOnes[0]||upcoming[0]||finished[0]); if(!primary){ el.innerHTML=''; return; }
+  const pm=primary.m;
+  // chips: a small window around "now" — recent results + what's coming, so anteriores AND siguientes are visible
+  const recent=finished.filter(x=>x.m!==pm).slice(0,2).reverse();
+  const nextUp=upcoming.filter(x=>x.m!==pm).slice(0,3);
+  const chips=recent.concat(nextUp).map(x=>x.m).slice(0,4);
+  const sigOf=m=>{const lv=liveFor(m);return m.idx+'|'+(lv?lv.state+lv.hs+'-'+lv.as+lv.clock:'')};
+  const sig=sigOf(pm)+'#'+chips.map(sigOf).join(',')+'#'+document.documentElement.lang;
   if(!force && sig===__spSig){ el.querySelectorAll('[data-start]').forEach(s=>{const st=+s.getAttribute('data-start'); if(st>Date.now()) s.textContent='⏱ '+spL('sp.starts')+' '+spFmt(st-Date.now()); else renderSpotlight(true);}); return; }
   __spSig=sig;
-  el.innerHTML=spotlightCard(primary)+(others.length?`<div class="sp-row">${others.map(spotlightChip).join('')}</div>`:'');
+  el.innerHTML=spotlightCard(pm)+(chips.length?`<div class="sp-row">${chips.map(spotlightChip).join('')}</div>`:'');
 }
 function tick(){ if(KICK-Date.now()>0){ return; } renderSpotlight(); }
 function cd(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
