@@ -249,6 +249,18 @@
   .pred-verdict.ok .pv-ic{color:#2ec27e} .pred-verdict.miss .pv-ic{color:var(--muted)}
   .pred-verdict .pv-tx{color:var(--ink-2)} .pred-verdict .pv-ex{color:var(--muted);white-space:nowrap}
   .lv-block.is-post{opacity:.96}
+  /* score-matrix heatmap — the full joint distribution P(team1=i, team2=j), not one scoreline */
+  .hm-wrap{margin:8px 0 2px}
+  .hm-axes{display:flex;align-items:center;gap:6px;font-size:.74em;color:var(--muted);margin-bottom:8px;flex-wrap:wrap}
+  .hm-axes img{width:18px;height:13px;border-radius:2px;object-fit:cover;vertical-align:middle}
+  .hm-grid{display:grid;grid-template-columns:1.5em repeat(var(--n),1fr);gap:3px}
+  .hm-cell{display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+  .hm-head{color:var(--muted);font-weight:800;font-size:.7em}
+  .hm-data{aspect-ratio:1;border-radius:5px;font-size:.72em;font-weight:700;color:var(--ink);border:1px solid rgba(255,255,255,.05);min-height:24px}
+  .hm-data.hm-top{outline:2px solid var(--gold);outline-offset:-2px;font-weight:900;color:#fff}
+  .hm-legend{display:flex;gap:13px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:.72em;color:var(--muted)}
+  .hm-lg{display:inline-flex;align-items:center;gap:5px}
+  .hm-lg i{width:10px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0}
 
   /* ===== C7 twin-bar stats — 3 paths (§3.2) ===== */
   .mc-stat{margin-bottom:15px}.mc-stat:last-child{margin-bottom:0}
@@ -337,7 +349,7 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario',lvPred:'Predicción',lvStats:'Estadísticas',lvLineups:'Alineaciones',lvEvents:'Eventos',lvComm:'Comentario en directo',lvSubs:'Suplentes',lvDraw:'Empate',lvToPlay:'Por jugar',lvFinal:'Final',lvHT:'Descanso',lvPens:'pen.',lvPenEnd:'Final (pen.)',lvLikely:'Resultado más probable',scoreModel:'Modelo de Poisson ajustado al 1X2 — no es una cuota directa.',lvPredPre:'Predicción (previa al partido)',lvActual:'Resultado real:',lvSrcBlend:'Mercado + modelo',lvSrcModel:'Solo modelo',lvSrcMarket:'Mercado',lvBacktest:'Backtest del modelo: RPS {rps} · {acc}% aciertos · {n} partidos (sin asomarse al futuro)',modelNote:'Modelo Dixon-Coles (ajustado a 49.000 partidos internacionales) combinado con las cuotas. No bate al mercado, pero da cobertura total y marcador. Son probabilidades, no certezas.',lvXg:'Goles esperados (modelo)',lvMarkets:'Mercados derivados',lvBtts:'Ambos marcan',lvOver25:'Más de 2.5 goles',lvCs:'Portería a cero',lvDouble:'Doble oportunidad',noEventsYet:'Aún no hay goles ni tarjetas',lvScoreOdds:'(le dábamos un {p}% a este marcador exacto)',lvHit:'Acertamos el 1X2: dábamos un {p}% a «{out}», y fue lo que pasó.',lvMiss:'No acertamos el 1X2: a «{out}» solo le dábamos un {p}%.',lvPredPostNote:'Esto es lo que pensábamos ANTES del partido — congelado, sin tocar tras el resultado. Lo mostramos para rendir cuentas: el modelo da probabilidades, no certezas.',liveData:'Datos en vivo: ESPN',
+  es:{fail:'No se pudo cargar el partido.',cap:'aforo',opened:'inaugurado',cmp:'Comparativa de plantillas',valTotal:'Valor total',ageAvg:'Edad media',years:'años',caps:'Internacionalidades',inj:'Lesiones acumuladas',h2h:'Cara a cara',matchups:'enfrentamientos',last:'Último',draws:'emp.',form:'Forma reciente',cond:'Condiciones de la sede',temp:'temp. típica jun-jul',alt:'altitud',score:'Marcador',toPlay:'Por jugar',vs:'vs',localTime:'(tu hora local)',venueTime:'Hora local de la sede:',squadOf:'Plantilla de',note:'Fotos: Wikimedia Commons (CC BY-SA) · resultados históricos: martj42 (CC0) · datos del proyecto',locale:'es-ES',cal:'Calendario',lvPred:'Predicción',lvStats:'Estadísticas',lvLineups:'Alineaciones',lvEvents:'Eventos',lvComm:'Comentario en directo',lvSubs:'Suplentes',lvDraw:'Empate',lvToPlay:'Por jugar',lvFinal:'Final',lvHT:'Descanso',lvPens:'pen.',lvPenEnd:'Final (pen.)',lvLikely:'Más probable',lvHeatTitle:'Todos los marcadores · probabilidad',hmHint:'cuanto más intenso, más probable',scoreModel:'Modelo de Poisson ajustado al 1X2 — no es una cuota directa.',lvPredPre:'Predicción (previa al partido)',lvActual:'Resultado real:',lvSrcBlend:'Mercado + modelo',lvSrcModel:'Solo modelo',lvSrcMarket:'Mercado',lvBacktest:'Backtest del modelo: RPS {rps} · {acc}% aciertos · {n} partidos (sin asomarse al futuro)',modelNote:'Modelo Dixon-Coles (ajustado a 49.000 partidos internacionales) combinado con las cuotas. No bate al mercado, pero da cobertura total y marcador. Son probabilidades, no certezas.',lvXg:'Goles esperados (modelo)',lvMarkets:'Mercados derivados',lvBtts:'Ambos marcan',lvOver25:'Más de 2.5 goles',lvCs:'Portería a cero',lvDouble:'Doble oportunidad',noEventsYet:'Aún no hay goles ni tarjetas',lvScoreOdds:'(le dábamos un {p}% a este marcador exacto)',lvHit:'Acertamos el 1X2: dábamos un {p}% a «{out}», y fue lo que pasó.',lvMiss:'No acertamos el 1X2: a «{out}» solo le dábamos un {p}%.',lvPredPostNote:'Esto es lo que pensábamos ANTES del partido — congelado, sin tocar tras el resultado. Lo mostramos para rendir cuentas: el modelo da probabilidades, no certezas.',liveData:'Datos en vivo: ESPN',
     tabDetails:'Detalles',tabPredict:'Predicción',tabComm:'Comentario',tabLineups:'Alineaciones',tabStats:'Estadísticas',tabH2H:'Cara a cara',tabTable:'Clasificación',tabBracket:'Eliminatorias',
     bracketSoon:'Eliminatorias disponibles cuando se definan',topPerf:'Mejores actuaciones',goals:'goles',assists:'asistencias',
     firstHalf:'1ª parte',secondHalf:'2ª parte',fullMatch:'Partido completo',
@@ -347,7 +359,7 @@ const T={
     lastMeeting:'Último enfrentamiento',noStats:'Sin estadísticas aún',
     stNote:'1º y 2º clasifican a Dieciseisavos · los 8 mejores 3.º también pasan',
     winprobNote:'Prob. derivadas de las cuotas (de-vig de Shin, corrige el sesgo favorito-no favorito).'},
-  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar',lvPred:'Prediction',lvStats:'Stats',lvLineups:'Lineups',lvEvents:'Events',lvComm:'Live commentary',lvSubs:'Substitutes',lvDraw:'Draw',lvToPlay:'Scheduled',lvFinal:'Full Time',lvHT:'Half-time',lvPens:'pens',lvPenEnd:'Full Time (pens)',lvLikely:'Most likely score',scoreModel:'Poisson model fitted to the 1X2 — not a direct market price.',lvPredPre:'Prediction (pre-match)',lvActual:'Final result:',lvSrcBlend:'Market + model',lvSrcModel:'Model only',lvSrcMarket:'Market',lvBacktest:'Model backtest: RPS {rps} · {acc}% correct · {n} matches (no future peeking)',modelNote:'Dixon-Coles model (fitted on 49,000 internationals) blended with the odds. It does not beat the market, but gives full coverage and a scoreline. Probabilities, not certainties.',lvXg:'Expected goals (model)',lvMarkets:'Derived markets',lvBtts:'Both teams to score',lvOver25:'Over 2.5 goals',lvCs:'Clean sheet',lvDouble:'Double chance',noEventsYet:'No goals or cards yet',lvScoreOdds:'(we gave this exact scoreline a {p}% chance)',lvHit:'We called the 1X2: we gave “{out}” a {p}% chance, and that is what happened.',lvMiss:'We missed the 1X2: we only gave “{out}” a {p}% chance.',lvPredPostNote:'This is what we thought BEFORE kickoff — frozen, untouched after the result. Shown to keep us honest: the model gives probabilities, not certainties.',liveData:'Live data: ESPN',
+  en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar',lvPred:'Prediction',lvStats:'Stats',lvLineups:'Lineups',lvEvents:'Events',lvComm:'Live commentary',lvSubs:'Substitutes',lvDraw:'Draw',lvToPlay:'Scheduled',lvFinal:'Full Time',lvHT:'Half-time',lvPens:'pens',lvPenEnd:'Full Time (pens)',lvLikely:'Most likely',lvHeatTitle:'Every scoreline · probability',hmHint:'darker = more likely',scoreModel:'Poisson model fitted to the 1X2 — not a direct market price.',lvPredPre:'Prediction (pre-match)',lvActual:'Final result:',lvSrcBlend:'Market + model',lvSrcModel:'Model only',lvSrcMarket:'Market',lvBacktest:'Model backtest: RPS {rps} · {acc}% correct · {n} matches (no future peeking)',modelNote:'Dixon-Coles model (fitted on 49,000 internationals) blended with the odds. It does not beat the market, but gives full coverage and a scoreline. Probabilities, not certainties.',lvXg:'Expected goals (model)',lvMarkets:'Derived markets',lvBtts:'Both teams to score',lvOver25:'Over 2.5 goals',lvCs:'Clean sheet',lvDouble:'Double chance',noEventsYet:'No goals or cards yet',lvScoreOdds:'(we gave this exact scoreline a {p}% chance)',lvHit:'We called the 1X2: we gave “{out}” a {p}% chance, and that is what happened.',lvMiss:'We missed the 1X2: we only gave “{out}” a {p}% chance.',lvPredPostNote:'This is what we thought BEFORE kickoff — frozen, untouched after the result. Shown to keep us honest: the model gives probabilities, not certainties.',liveData:'Live data: ESPN',
     tabDetails:'Details',tabPredict:'Prediction',tabComm:'Commentary',tabLineups:'Lineups',tabStats:'Statistics',tabH2H:'Head-to-head',tabTable:'Table',tabBracket:'Bracket',
     bracketSoon:'Bracket available once knockouts are set',topPerf:'Top performers',goals:'goals',assists:'assists',
     firstHalf:'1st half',secondHalf:'2nd half',fullMatch:'Full match',
@@ -357,7 +369,7 @@ const T={
     lastMeeting:'Last meeting',noStats:'No stats yet',
     stNote:'Top 2 advance to the Round of 32 · the 8 best 3rd-placed teams also qualify',
     winprobNote:'Odds-implied (Shin de-vig, corrects favourite–longshot bias).'},
-  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim',lvPred:'Tahmin',lvStats:'İstatistikler',lvLineups:'Kadrolar',lvEvents:'Olaylar',lvComm:'Canlı anlatım',lvSubs:'Yedekler',lvDraw:'Beraberlik',lvToPlay:'Programlandı',lvFinal:'Maç sonu',lvHT:'Devre arası',lvPens:'pen.',lvPenEnd:'Maç sonu (pen.)',lvLikely:'En olası skor',scoreModel:'1X2\'e uyarlanmış Poisson modeli — doğrudan oran değil.',lvPredPre:'Tahmin (maç öncesi)',lvActual:'Sonuç:',lvSrcBlend:'Piyasa + model',lvSrcModel:'Sadece model',lvSrcMarket:'Piyasa',lvBacktest:'Model backtest: RPS {rps} · %{acc} doğru · {n} maç',modelNote:'Dixon-Coles modeli (49.000 maça göre) oranlarla birleştirildi. Piyasayı yenmez ama tam kapsama ve skor verir. Olasılıklar, kesinlik değil.',lvXg:'Beklenen gol (model)',lvMarkets:'Türetilmiş marketler',lvBtts:'Karşılıklı gol',lvOver25:'2.5 üstü gol',lvCs:'Gol yememe',lvDouble:'Çifte şans',noEventsYet:'Henüz gol veya kart yok',lvScoreOdds:'(bu skora %{p} ihtimal vermiştik)',lvHit:'1X2 doğru: «{out}» için %{p} vermiştik ve öyle oldu.',lvMiss:'1X2 yanlış: «{out}» için yalnızca %{p} vermiştik.',lvPredPostNote:'Bu, maç öncesi düşüncemiz — donduruldu, sonuçtan sonra değiştirilmedi. Dürüstlük için gösteriliyor: model olasılık verir, kesinlik değil.',liveData:'Canlı veri: ESPN',
+  tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim',lvPred:'Tahmin',lvStats:'İstatistikler',lvLineups:'Kadrolar',lvEvents:'Olaylar',lvComm:'Canlı anlatım',lvSubs:'Yedekler',lvDraw:'Beraberlik',lvToPlay:'Programlandı',lvFinal:'Maç sonu',lvHT:'Devre arası',lvPens:'pen.',lvPenEnd:'Maç sonu (pen.)',lvLikely:'En olası',lvHeatTitle:'Tüm skorlar · olasılık',hmHint:'koyu = daha olası',scoreModel:'1X2\'e uyarlanmış Poisson modeli — doğrudan oran değil.',lvPredPre:'Tahmin (maç öncesi)',lvActual:'Sonuç:',lvSrcBlend:'Piyasa + model',lvSrcModel:'Sadece model',lvSrcMarket:'Piyasa',lvBacktest:'Model backtest: RPS {rps} · %{acc} doğru · {n} maç',modelNote:'Dixon-Coles modeli (49.000 maça göre) oranlarla birleştirildi. Piyasayı yenmez ama tam kapsama ve skor verir. Olasılıklar, kesinlik değil.',lvXg:'Beklenen gol (model)',lvMarkets:'Türetilmiş marketler',lvBtts:'Karşılıklı gol',lvOver25:'2.5 üstü gol',lvCs:'Gol yememe',lvDouble:'Çifte şans',noEventsYet:'Henüz gol veya kart yok',lvScoreOdds:'(bu skora %{p} ihtimal vermiştik)',lvHit:'1X2 doğru: «{out}» için %{p} vermiştik ve öyle oldu.',lvMiss:'1X2 yanlış: «{out}» için yalnızca %{p} vermiştik.',lvPredPostNote:'Bu, maç öncesi düşüncemiz — donduruldu, sonuçtan sonra değiştirilmedi. Dürüstlük için gösteriliyor: model olasılık verir, kesinlik değil.',liveData:'Canlı veri: ESPN',
     tabDetails:'Detaylar',tabPredict:'Tahmin',tabComm:'Anlatım',tabLineups:'Kadrolar',tabStats:'İstatistikler',tabH2H:'Karşılıklı',tabTable:'Puan durumu',tabBracket:'Eleme',
     bracketSoon:'Eşleşmeler belirlenince hazır',topPerf:'Öne çıkanlar',goals:'gol',assists:'asist',
     firstHalf:'İlk yarı',secondHalf:'İkinci yarı',fullMatch:'Tüm maç',
@@ -880,6 +892,37 @@ function buildTimeline(sum,homeId,awayId,homeIsT1,m){
    monolithic #live-box; the component HTML is computed and cached on __mc
    so paintTab() can render the active panel with zero refetch.
    ==================================================================== */
+/* Score-matrix heatmap: render the model's FULL joint distribution P(team1=i, team2=j)
+   as a coloured grid (rows = team1 goals ↓, cols = team2 goals →). Cell colour = which
+   side that scoreline favours (team1 win / draw / team2 win), intensity = probability.
+   This replaces the single "predicted scoreline" with the whole landscape of outcomes. */
+function scoreHeat(M, m){
+  const N=Math.min(6, (M&&M.length)||0); if(!N) return '';
+  let maxP=0, mi=0, mj=0;
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++){ const p=M[i][j]||0; if(p>maxP){maxP=p;mi=i;mj=j;} }
+  const RGB={h:'232,194,71',a:'53,224,216',d:'154,163,178'};   // team1 / team2 / draw
+  let cells=`<div class="hm-cell hm-corner"></div>`;
+  for(let j=0;j<N;j++) cells+=`<div class="hm-cell hm-head">${j}</div>`;
+  for(let i=0;i<N;i++){
+    cells+=`<div class="hm-cell hm-head row">${i}</div>`;
+    for(let j=0;j<N;j++){
+      const p=M[i][j]||0, pct=p*100, reg=i>j?'h':i<j?'a':'d';
+      const al=maxP>0?Math.pow(p/maxP,0.55):0;            // perceptual intensity so small cells stay visible
+      const txt=pct>=0.5?Math.round(pct):'';
+      const top=(i===mi&&j===mj)?' hm-top':'';
+      cells+=`<div class="hm-cell hm-data${top}" style="background:rgba(${RGB[reg]},${al.toFixed(3)})" title="${esc(m.team1)} ${i}–${j} ${esc(m.team2)} · ${pct.toFixed(1)}%">${txt}</div>`;
+    }
+  }
+  return `<div class="hm-wrap">
+    <div class="hm-axes"><img src="${FLAG(m.team1)}" alt="">${esc(m.team1)} ↓ &nbsp;·&nbsp; <img src="${FLAG(m.team2)}" alt="">${esc(m.team2)} →</div>
+    <div class="hm-grid" style="--n:${N}">${cells}</div>
+    <div class="hm-legend">
+      <span class="hm-lg"><i style="background:rgb(232,194,71)"></i>${esc(m.team1)}</span>
+      <span class="hm-lg"><i style="background:rgb(154,163,178)"></i>${L('lvDraw')}</span>
+      <span class="hm-lg"><i style="background:rgb(53,224,216)"></i>${esc(m.team2)}</span>
+      <span class="hm-lg">${L('hmHint')}</span>
+    </div></div>`;
+}
 function renderLive(ev,sum,m){
   const mc=window.__mc; if(!mc) return;
   const c=(ev.competitions||[])[0]||{}; const cs=c.competitors||[];
@@ -934,9 +977,11 @@ function renderLive(ev,sum,m){
       const pp=pct100(probs), p1=pp[0], D=pp[1], p2=pp[2];
       const post=st.state==='post';
       const tops=topScorelines(L1,L2,5,rho).filter(t=>t.p>=0.01);
-      let scoreBlock='';
-      if(tops.length){ const chips=tops.map((t,k)=>`<span class="ps${k===0?' top':''}">${t.i}<i>–</i>${t.j}<b>${Math.round(t.p*100)}%</b></span>`).join(''); scoreBlock=`<div class="pred-score"><span class="ps-h">${L('lvLikely')}</span><div class="ps-row">${chips}</div><span class="ps-cap">${L('scoreModel')}</span></div>`; }
-      const M=scoreGrid(L1,L2,rho); let btts=0,ov25=0,csH=0,csA=0;
+      const M=scoreGrid(L1,L2,rho);
+      const modal=tops[0];
+      const heatCap = modal ? `${L('lvLikely')}: <b>${modal.i}–${modal.j}</b> ${Math.round(modal.p*100)}% · ` : '';
+      const scoreBlock=`<div class="pred-score"><span class="ps-h">${L('lvHeatTitle')}</span>${scoreHeat(M,m)}<span class="ps-cap">${heatCap}${L('scoreModel')}</span></div>`;
+      let btts=0,ov25=0,csH=0,csA=0;
       for(let i=0;i<M.length;i++)for(let j=0;j<M.length;j++){ const p=M[i][j]; if(i>=1&&j>=1)btts+=p; if(i+j>=3)ov25+=p; if(j===0)csH+=p; if(i===0)csA+=p; }
       const fp=x=>Math.round(x*100)+'%';
       const xg=`<div class="pred-xg"><span class="pxg-k">${L('lvXg')}</span><span class="pxg-v"><b>${L1.toFixed(1)}</b> ${esc(m.team1)} · ${esc(m.team2)} <b>${L2.toFixed(1)}</b></span></div>`;
