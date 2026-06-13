@@ -77,6 +77,13 @@
 
   /* === Match Spotlight hero === */
   .spotlight{margin:22px auto 6px;max-width:560px;display:flex;flex-direction:column;gap:10px}
+  .model-track{max-width:560px;margin:0 auto 4px}
+  .mt-card{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;padding:11px 16px;border-radius:14px;
+    background:linear-gradient(160deg,rgba(53,224,216,.08),rgba(255,255,255,.02));border:1px solid rgba(53,224,216,.28)}
+  .mt-card .mt-h{font-size:.72em;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#35e0d8}
+  .mt-card .mt-stat{font-size:.98em;color:var(--ink-2);font-variant-numeric:tabular-nums} .mt-card .mt-stat b{color:var(--ink);font-weight:800}
+  .mt-card .mt-sub{font-size:.84em;color:var(--muted)}
+  .mt-card .mt-bt{font-size:.72em;color:var(--muted)}
   .sp-card{position:relative;display:block;text-align:center;border-radius:20px;padding:22px 20px 18px;
     background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
     border:1px solid var(--line-strong);box-shadow:0 14px 40px rgba(0,0,0,.45);
@@ -174,6 +181,7 @@
       <span class="host-flags"><img src="https://flagcdn.com/w40/us.png" alt="USA"><img src="https://flagcdn.com/w40/mx.png" alt="México"><img src="https://flagcdn.com/w40/ca.png" alt="Canadá"></span>
     </p>
     <div class="spotlight" id="spotlight" aria-live="polite"></div>
+    <div class="model-track" id="modelTrack"></div>
     <!-- legacy countdown nodes kept hidden for the pre-tournament code path -->
     <div class="countdown" id="countdown" hidden></div>
     <div class="cta-row">
@@ -307,7 +315,7 @@ let __pollBusy=false;
 async function pollLive(){
   if(__pollBusy||document.hidden) return;                 // skip overlap + work while tab hidden
   __pollBusy=true;
-  try{ await fetchLiveScores(); if(typeof renderHomeCards==='function') renderHomeCards(); if(typeof renderSpotlight==='function') renderSpotlight(true); }
+  try{ await fetchLiveScores(); if(typeof renderHomeCards==='function') renderHomeCards(); if(typeof renderSpotlight==='function') renderSpotlight(true); if(typeof renderModelTrack==='function') renderModelTrack(); }
   finally{ __pollBusy=false; }
 }
 setInterval(pollLive, 45000);
@@ -469,6 +477,33 @@ function renderSpotlight(force){
   __spSig=sig;
   el.innerHTML=spotlightCard(pm)+(chips.length?`<div class="sp-row">${chips.map(spotlightChip).join('')}</div>`:'');
 }
+/* ===== Live model self-test: score the FROZEN pre-tournament model on finished WC matches =====
+   No leakage — ratings_baseline.json is fitted on data BEFORE 11 Jun 2026, so every WC match is a
+   genuine forward test. Model-only (independent of the odds) = "our model"'s real track record. */
+let __rbase=null;
+async function loadBaseline(){ if(__rbase!==null) return __rbase; try{ __rbase=await fetch('data/ratings_baseline.json',{cache:'no-store'}).then(r=>r.json()); }catch(e){ __rbase=false; } return __rbase; }
+function mtL(k){ const lng=document.documentElement.lang||'es'; return (i18n[lng]&&i18n[lng][k])||(i18n.es&&i18n.es[k])||k; }
+function mtPois(l){ const v=[]; let p=Math.exp(-l); for(let k=0;k<=8;k++){ v.push(p); p*=l/(k+1); } return v; }
+function mtTau(i,j,l1,l2,r){ if(i==0&&j==0)return 1-l1*l2*r; if(i==0&&j==1)return 1+l1*r; if(i==1&&j==0)return 1+l2*r; if(i==1&&j==1)return 1-r; return 1; }
+function mtProbs(t1,t2){ const R=__rbase; if(!R||!R.dc) return null; const a=R.dc.teams[nrmTeam(t1)], b=R.dc.teams[nrmTeam(t2)]; if(!a||!b) return null;
+  const l1=Math.exp(R.dc.mu+a.atk-b.def), l2=Math.exp(R.dc.mu+b.atk-a.def), rho=R.dc.rho;   // neutral venue → no home edge
+  const A=mtPois(l1), B=mtPois(l2); let h=0,d=0,w=0,s=0;
+  for(let i=0;i<=8;i++)for(let j=0;j<=8;j++){ let pp=A[i]*B[j]*mtTau(i,j,l1,l2,rho); if(pp<0)pp=0; s+=pp; if(i>j)h+=pp; else if(i==j)d+=pp; else w+=pp; }
+  return s>0?[h/s,d/s,w/s]:null; }
+function mtRps(p,act){ const o=[0,0,0]; o[act]=1; let cp=0,co=0,s=0; for(let i=0;i<2;i++){ cp+=p[i]; co+=o[i]; s+=(cp-co)*(cp-co); } return s/2; }
+async function renderModelTrack(){
+  const el=document.getElementById('modelTrack'); if(!el) return;
+  await loadBaseline(); if(!__rbase||!__rbase.dc){ el.style.display='none'; return; }
+  const bt=__rbase.backtest||{}; const histTx=mtL('mt.hist').replace('{acc}',Math.round((bt.acc||0)*100)).replace('{rps}',(+(bt.rps||0)).toFixed(3));
+  const recs=(window.__liveData||[]).filter(r=>r.state==='post' && r.hs!=null && r.as!=null);
+  let n=0,hits=0,rsum=0;
+  recs.forEach(r=>{ const p=mtProbs(r.hName,r.aName); if(!p) return; const hs=+r.hs,as=+r.as; const act=hs>as?0:hs==as?1:2; const pred=p.indexOf(Math.max(p[0],p[1],p[2])); n++; if(pred===act)hits++; rsum+=mtRps(p,act); });
+  if(!n){ el.innerHTML=`<div class="mt-card"><span class="mt-h">🎯 ${mtL('mt.title')}</span><span class="mt-sub">${mtL('mt.none')}</span><span class="mt-bt">${histTx}</span></div>`; return; }
+  const small = n<20 ? ` · ${mtL('mt.small')}` : '';
+  el.innerHTML=`<div class="mt-card"><span class="mt-h">🎯 ${mtL('mt.title')}</span>`
+    +`<span class="mt-stat"><b>${hits}/${n}</b> ${mtL('mt.hits')} · <b>${Math.round(hits/n*100)}%</b> · RPS <b>${(rsum/n).toFixed(3)}</b>${small}</span>`
+    +`<span class="mt-bt">${histTx}</span></div>`;
+}
 function tick(){ if(KICK-Date.now()>0){ return; } renderSpotlight(); }
 function cd(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
 setInterval(tick,1000);
@@ -480,6 +515,7 @@ const i18n={
     'cd.days':'Days','cd.hours':'Hours','cd.mins':'Min','cd.secs':'Sec',
     'cd.cap':'Until kick-off · Mexico 🇲🇽 vs South Africa 🇿🇦 · Estadio Azteca',
     'sp.live':'LIVE','sp.today':'TODAY','sp.next':'UP NEXT','sp.final':'FULL TIME','sp.ht':'HALF-TIME','sp.watchLive':'Watch live','sp.watch':'Match details','sp.summary':'Match summary','sp.starts':'Starts in','sp.alsoToday':'Also today','sp.alsoLive':'Also live',
+    'mt.title':'Model accuracy this World Cup','mt.hits':'correct','mt.hist':'Backtest: {acc}% · RPS {rps}','mt.none':'No matches played yet — backtest below','mt.small':'small sample',
     'home.upcoming':'Upcoming matches','home.today':"Today's matches",'home.all104':'See all 104 →','home.explore':'Explore',
     'home.qStand':'Standings','home.qStandSub':'group tables','home.qTeams':'Squads','home.qTeamsSub':'48 teams & players','home.qSedes':'16 venues','home.qSedesSub':'stadiums & maps',
     'home.qPool':'Pool','home.qPoolSub':'predict & compete','home.qCal':'Calendar','home.qCalSub':'104 matches, your time','home.qData':'Data','home.qDataSub':'rankings & facts','home.data':'Data','home.dataAll':'See all →','data.valTeams':'Most valuable squads','data.fifa':'FIFA ranking','data.scorers':'Top scorers','data.goals':'goals',
@@ -489,6 +525,7 @@ const i18n={
     'cd.days':'Días','cd.hours':'Horas','cd.mins':'Min','cd.secs':'Seg',
     'cd.cap':'Para el pitido inicial · México 🇲🇽 vs Sudáfrica 🇿🇦 · Estadio Azteca',
     'sp.live':'EN VIVO','sp.today':'HOY','sp.next':'PRÓXIMO','sp.final':'FINAL','sp.ht':'DESCANSO','sp.watchLive':'Ver en directo','sp.watch':'Ver partido','sp.summary':'Ver resumen','sp.starts':'Empieza en','sp.alsoToday':'También hoy','sp.alsoLive':'También en vivo',
+    'mt.title':'Precisión del modelo en el Mundial','mt.hits':'aciertos','mt.hist':'Histórico (backtest): {acc}% · RPS {rps}','mt.none':'Aún sin partidos jugados — abajo el histórico','mt.small':'muestra pequeña',
     'home.upcoming':'Próximos partidos','home.today':'Partidos de hoy','home.all104':'Ver los 104 →','home.explore':'Explora',
     'home.qStand':'Clasificación','home.qStandSub':'tablas de grupo','home.qTeams':'Plantillas','home.qTeamsSub':'48 selecciones y jugadores','home.qSedes':'16 sedes','home.qSedesSub':'estadios y mapas',
     'home.qPool':'Quiniela','home.qPoolSub':'predice y compite','home.qCal':'Calendario','home.qCalSub':'104 partidos, tu hora','home.qData':'Datos','home.qDataSub':'rankings y curiosidades','home.data':'Datos','home.dataAll':'Ver todos →','data.valTeams':'Selecciones más valiosas','data.fifa':'Ranking FIFA','data.scorers':'Máximos goleadores','data.goals':'goles',
@@ -498,6 +535,7 @@ const i18n={
     'cd.days':'Gün','cd.hours':'Saat','cd.mins':'Dk','cd.secs':'Sn',
     'cd.cap':'Açılış maçına · Meksika 🇲🇽 vs Güney Afrika 🇿🇦 · Estadio Azteca',
     'sp.live':'CANLI','sp.today':'BUGÜN','sp.next':'SIRADAKİ','sp.final':'MAÇ SONU','sp.ht':'DEVRE','sp.watchLive':'Canlı izle','sp.watch':'Maç detayı','sp.summary':'Maç özeti','sp.starts':'Başlıyor','sp.alsoToday':'Bugün ayrıca','sp.alsoLive':'Ayrıca canlı',
+    'mt.title':'Modelin Dünya Kupası isabeti','mt.hits':'doğru','mt.hist':'Backtest: %{acc} · RPS {rps}','mt.none':'Henüz maç yok — altta backtest','mt.small':'küçük örneklem',
     'home.upcoming':'Yaklaşan maçlar','home.today':'Bugünkü maçlar','home.all104':'104 maçın tümü →','home.explore':'Keşfet',
     'home.qStand':'Puan durumu','home.qStandSub':'grup tabloları','home.qTeams':'Kadrolar','home.qTeamsSub':'48 takım & oyuncu','home.qSedes':'16 saha','home.qSedesSub':'stadyumlar & haritalar',
     'home.qPool':'Tahmin','home.qPoolSub':'tahmin et & yarış','home.qCal':'Takvim','home.qCalSub':'104 maç, senin saatin','home.qData':'Veriler','home.qDataSub':'sıralamalar & bilgiler','home.data':'Veriler','home.dataAll':'Tümü →','data.valTeams':'En değerli kadrolar','data.fifa':'FIFA sıralaması','data.scorers':'Gol kralları','data.goals':'gol',
