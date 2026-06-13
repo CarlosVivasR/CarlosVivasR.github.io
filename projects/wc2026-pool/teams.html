@@ -32,6 +32,7 @@
   table.st tr.q1 td.pos{box-shadow:inset 3px 0 0 #2ec27e}
   table.st tr.q2 td.pos{box-shadow:inset 3px 0 0 #35e0d8}
   table.st tr.q3 td.pos{box-shadow:inset 3px 0 0 #f4d76b}
+  table.st td.qpct{font-weight:800;font-family:var(--mono);color:var(--ink);border-radius:6px;font-size:.92em}
   @media(max-width:560px){ table.st .opt{display:none} }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -47,9 +48,9 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts'},
-  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts'},
-  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P'}
+  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 4.000 mundiales)'},
+  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 4,000 World Cups)'},
+  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 4.000 Dünya Kupası)'}
 };
 const L=k=>wcT(T,k);
 const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
@@ -76,13 +77,43 @@ async function fetchEspnResults(){
   }catch(e){}
   return byPair;
 }
-let __idx, __sched={matches:[]}, __staticResults={}, __fifa={};
+let __idx, __sched={matches:[]}, __staticResults={}, __fifa={}, __rt=null;
+/* ===== model-based group-stage Monte Carlo (qualification probabilities) =====
+   Uses the same backtested Dixon-Coles params the match pages use (data/ratings.json):
+   simulate every unplayed group game thousands of times, rebuild all 12 tables, take the
+   top-2 of each group + the 8 best 3rd-placed, and tally how often each nation goes through. */
+const HOST3=new Set(['unitedstates','mexico','canada']);
+function fxLambdas(t1,t2){
+  const R=__rt; if(!R||!R.dc||!R.dc.teams) return [1.3,1.1];
+  const a=R.dc.teams[nrm2(t1)], b=R.dc.teams[nrm2(t2)]; if(!a||!b) return [1.3,1.1];
+  const mu=R.dc.mu||0, G=R.dc.gamma||0, g1=HOST3.has(nrm2(t1))?G:0, g2=HOST3.has(nrm2(t2))?G:0;
+  let tilt=0; const v=R.value; if(v&&v.logV){ const la=v.logV[nrm2(t1)], lb=v.logV[nrm2(t2)]; if(la!=null&&lb!=null) tilt=(v.beta||0)*(la-lb)*0.5; }
+  return [Math.exp(mu+a.atk-b.def+g1+tilt), Math.exp(mu+b.atk-a.def+g2-tilt)];
+}
+function samplePois(l){ const e=Math.exp(-Math.max(0,l)); let k=0,p=1; do{ k++; p*=Math.random(); }while(p>e); return k-1; }
+function simQualif(fx, baseRows, N){
+  const groups={}; for(const k in baseRows){ const g=baseRows[k].g; (groups[g]=groups[g]||[]).push(k); }
+  const gk=Object.keys(groups), cnt={}; for(const k in baseRows) cnt[k]={p1:0,p2:0,q:0};
+  for(let s=0;s<N;s++){
+    const T={}; for(const k in baseRows){ const r=baseRows[k]; T[k]={pts:r.pts,gd:r.gf-r.ga,gf:r.gf,rk:Math.random()}; }
+    for(const f of fx){ const a=samplePois(f.lam[0]), b=samplePois(f.lam[1]); const A=T[f.k1],B=T[f.k2]; if(!A||!B)continue;
+      A.gf+=a;A.gd+=(a-b);B.gf+=b;B.gd+=(b-a); if(a>b)A.pts+=3; else if(a<b)B.pts+=3; else {A.pts++;B.pts++;} }
+    const thirds=[];
+    for(const g of gk){ const ks=groups[g].slice().sort((x,y)=>(T[y].pts-T[x].pts)||(T[y].gd-T[x].gd)||(T[y].gf-T[x].gf)||(T[y].rk-T[x].rk));
+      if(ks[0]){cnt[ks[0]].p1++;cnt[ks[0]].q++;} if(ks[1]){cnt[ks[1]].p2++;cnt[ks[1]].q++;}
+      if(ks[2]) thirds.push({k:ks[2],pts:T[ks[2]].pts,gd:T[ks[2]].gd,gf:T[ks[2]].gf,rk:T[ks[2]].rk}); }
+    thirds.sort((x,y)=>(y.pts-x.pts)||(y.gd-x.gd)||(y.gf-x.gf)||(y.rk-x.rk));
+    for(let t=0;t<8&&t<thirds.length;t++) cnt[thirds[t].k].q++;
+  }
+  const out={}; for(const k in cnt) out[k]={p1:cnt[k].p1/N,p2:cnt[k].p2/N,q:cnt[k].q/N}; return out;
+}
 async function main(){
   try{ __idx=await (await fetch('data/teams/index.json')).json(); }
   catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--muted)">${L('fail')}</p>`; return; }
   try{ __sched=await (await fetch('data/schedule.json')).json(); }catch(e){}
   try{ const r=await fetch('data/results.json',{cache:'no-store'}); if(r.ok){ __staticResults=(await r.json()).matches||{}; } }catch(e){}
   try{ __fifa=(await (await fetch('data/fifa_ranking.json')).json()).ranks||{}; }catch(e){}
+  try{ __rt=await (await fetch('data/ratings.json',{cache:'no-store'})).json(); }catch(e){}
   await render();
   /* keep it live: re-pull ESPN every 90s while the tab is visible */
   setInterval(()=>{ if(!document.hidden) render(); }, 90000);
@@ -115,8 +146,17 @@ async function render(){
   });
 
   const groups=Object.keys(stats).sort();
+  /* qualification probabilities via the model Monte Carlo (only meaningful before the group stage ends) */
+  let qual=null;
+  if(__rt&&__rt.dc){
+    const baseRows={}; groups.forEach(g=>Object.values(stats[g]).forEach(r=>{ baseRows[r.key]={g, pts:r.w*3+r.d, gf:r.gf, ga:r.ga}; }));
+    const simFx=[]; (sched.matches||[]).forEach((mm,i)=>{ if(!mm.group||isPh(mm.team1)||isPh(mm.team2)||results[String(i)]) return;
+      const g=mm.group.replace(/^Group\s+/,''); if(stats[g]&&stats[g][norm(mm.team1)]&&stats[g][norm(mm.team2)]) simFx.push({g,k1:norm(mm.team1),k2:norm(mm.team2),lam:fxLambdas(mm.team1,mm.team2)}); });
+    try{ qual=simQualif(simFx, baseRows, 4000); }catch(e){ qual=null; }
+  }
+  const qCol = !!qual;
   let html=`<h1>${L('title')}</h1>
-    <div class="sub">${L('sub')}</div>
+    <div class="sub">${L('sub')}${qCol?` · <b>${L('cQual')}</b> ${L('qualSub')}`:''}</div>
     <div class="legend">
       <span><i style="background:#2ec27e"></i>${L('q1')}</span>
       <span><i style="background:#35e0d8"></i>${L('q2')}</span>
@@ -133,18 +173,21 @@ async function render(){
       const flag=m.flag?`<img src="https://flagcdn.com/w40/${m.flag}.png" alt="">`:'';
       const link=m.code?`team.html?code=${m.code}`:'#';
       const cls=i===0?'q1':i===1?'q2':i===2?'q3':'';
+      const q=qual?qual[r.key]:null, qv=q?q.q:0;
+      const qtxt=!q?'':qv>=0.995?'✓':qv<=0.005?'·':Math.round(qv*100)+'%';
+      const qcell=qCol?`<td class="qpct" style="background:rgba(46,194,126,${(qv*0.5).toFixed(3)})" title="${q?'P(1º) '+Math.round(q.p1*100)+'% · P(2º) '+Math.round(q.p2*100)+'%':''}">${qtxt}</td>`:'';
       body+=`<tr class="${cls}">
         <td class="pos">${i+1}</td>
         <td class="team"><a href="${link}">${flag}<span>${m.name}</span>${m.code&&fifa[m.code]?`<span class="fifa" title="Ranking FIFA">#${fifa[m.code]}</span>`:''}</a></td>
         <td class="opt">${r.w}</td><td class="opt">${r.d}</td><td class="opt">${r.l}</td>
         <td class="opt">${r.gf}</td><td class="opt">${r.ga}</td>
-        <td class="pts">${r.pts}</td></tr>`;
+        <td class="pts">${r.pts}</td>${qcell}</tr>`;
     });
     html+=`<div class="group glass glass-hover"><h2>${L('grp')} ${g}</h2>
       <table class="st"><thead><tr>
         <th></th><th class="lt">${L('team')}</th>
         <th class="opt">${L('cG')}</th><th class="opt">${L('cE')}</th><th class="opt">${L('cP')}</th>
-        <th class="opt">${L('cGF')}</th><th class="opt">${L('cGC')}</th><th>${L('cPts')}</th>
+        <th class="opt">${L('cGF')}</th><th class="opt">${L('cGC')}</th><th>${L('cPts')}</th>${qCol?`<th title="${L('qualSub')}">${L('cQual')}</th>`:''}
       </tr></thead><tbody>${body}</tbody></table></div>`;
   });
   document.getElementById('wrap').innerHTML=html+`</div>`;
