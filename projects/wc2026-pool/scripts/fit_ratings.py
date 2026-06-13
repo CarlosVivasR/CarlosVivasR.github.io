@@ -80,6 +80,16 @@ if not DATA.exists():
 HALF_LIFE_DAYS = 1460          # exponential time-decay half-life
 FRIENDLY_WEIGHT = 0.7          # friendly down-weight
 RIDGE = 0.03                   # attack/defence ridge shrinkage
+# Mild GLOBAL multiplicative spread on (atk, def), applied post-centre. Corrects the
+# heavy-mismatch under-dispersion (model under-called >0.75 favourites on the qualifier
+# slice by -0.05..-0.11). Selected on PRE-TEST validation (calib/ridge_tune.json); the
+# largest spread whose OOS overall RPS CI still includes 0 while priced-heavy CI excludes
+# it. Paired walk-forward OOS (calib/ship_confirm.json): priced market-fav>0.75 RPS
+# 0.05307->0.05103 (dRPS -0.00203, CI [-0.00303,-0.00099]); overall 0.1686->0.16881
+# (dRPS +0.00021, CI [-0.00010,+0.00053], NOT a significant regression). It is the only
+# client-compatible lever: the JS reads lambda=exp(mu+atk_i-def_j+...) from STATIC atk/def,
+# so an opponent-gated spread is NOT expressible without a client change; a global scalar IS.
+SPREAD = 1.10                  # global atk/def spread (1.0 = legacy off)
 MAX_GOALS = 10                 # scoreline grid truncation (11x11)
 XI = np.log(2) / HALF_LIFE_DAYS
 
@@ -167,7 +177,7 @@ def dc_tau(xs, ys, lh, la, rho):
 
 
 def fit_dixon_coles(d, ref_date, xi=XI, friendly_w=FRIENDLY_WEIGHT, ridge=RIDGE,
-                    rho_init=0.0, maxiter=400):
+                    rho_init=0.0, maxiter=400, spread=SPREAD):
     """Weighted Poisson MLE on matches strictly before ref_date.
     log lambda_h = mu + atk_i - def_j + gamma*home_adv ; log lambda_a = mu + atk_j - def_i.
     Sum-to-zero on atk/def (means absorbed into mu). rho fit on the four DC cells."""
@@ -222,6 +232,11 @@ def fit_dixon_coles(d, ref_date, xi=XI, friendly_w=FRIENDLY_WEIGHT, ridge=RIDGE,
     mu = mu + atk.mean() - dfn.mean()
     atk = atk - atk.mean()
     dfn = dfn - dfn.mean()
+    # mild global spread on the (centred) atk/def to correct heavy-mismatch under-dispersion
+    # (see SPREAD docstring). rho is then fit on the spread-adjusted lambdas.
+    if spread != 1.0:
+        atk = atk * spread
+        dfn = dfn * spread
 
     # fit rho on the four DC low-score cells
     lh_all = np.exp(np.clip(mu + atk[hi] - dfn[ai] + gamma * adv, -10, 4))
@@ -530,6 +545,7 @@ def main():
             "half_life_days": HALF_LIFE_DAYS,
             "friendly_weight": FRIENDLY_WEIGHT,
             "ridge": RIDGE,
+            "spread": SPREAD,
             "max_goals": MAX_GOALS,
         },
         "elo": {
