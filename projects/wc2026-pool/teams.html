@@ -33,6 +33,14 @@
   table.st tr.q2 td.pos{box-shadow:inset 3px 0 0 #35e0d8}
   table.st tr.q3 td.pos{box-shadow:inset 3px 0 0 #f4d76b}
   table.st td.qpct{font-weight:800;font-family:var(--mono);color:var(--ink);border-radius:6px;font-size:.92em}
+  /* #3 title favourites */
+  .champ{margin-top:22px;padding:16px 16px 12px}
+  .champ h2{font-size:1.05em;font-weight:800;margin-bottom:3px}
+  .champ-sub{color:var(--muted);font-size:.8em;margin-bottom:12px}
+  .champ-t td.ch{display:flex;align-items:center;gap:9px;min-width:120px}
+  .champ-t td.ch .chbar{flex:1;height:7px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
+  .champ-t td.ch .chbar span{display:block;height:100%;background:linear-gradient(90deg,#e8c247,#f4d76b);border-radius:99px}
+  .champ-t td.ch b{font-family:var(--mono);color:var(--ink);min-width:40px;text-align:right}
   @media(max-width:560px){ table.st .opt{display:none} }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -48,9 +56,9 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 4.000 mundiales)'},
-  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 4,000 World Cups)'},
-  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 4.000 Dünya Kupası)'}
+  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 4.000 mundiales)',champTitle:'Favoritos al título',champSub:'Simulación del torneo completo con el modelo (2.500 mundiales): grupos + cuadro de eliminatorias.',cSF:'Semis',cFin:'Final',cChamp:'Campeón'},
+  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 4,000 World Cups)',champTitle:'Title favourites',champSub:'Full-tournament model simulation (2,500 World Cups): groups + knockout bracket.',cSF:'Semis',cFin:'Final',cChamp:'Champion'},
+  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 4.000 Dünya Kupası)',champTitle:'Şampiyonluk favorileri',champSub:'Tüm turnuvanın model simülasyonu (2.500 Dünya Kupası): gruplar + eleme turu.',cSF:'Yarı',cFin:'Final',cChamp:'Şampiyon'}
 };
 const L=k=>wcT(T,k);
 const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
@@ -91,21 +99,48 @@ function fxLambdas(t1,t2){
   return [Math.exp(mu+a.atk-b.def+g1+tilt), Math.exp(mu+b.atk-a.def+g2-tilt)];
 }
 function samplePois(l){ const e=Math.exp(-Math.max(0,l)); let k=0,p=1; do{ k++; p*=Math.random(); }while(p>e); return k-1; }
-function simQualif(fx, baseRows, N){
+function parseThird(ref){ const m=(ref||'').match(/^3([A-L/]+)$/); return m?new Set(m[1].split('/')):null; }
+/* full-tournament Monte Carlo: group stage (→ qualification, #2) extended through the entire
+   knockout bracket (→ deep-run + champion probabilities, #3). The 8 best thirds are assigned
+   to their Round-of-32 slots by a constraint-respecting bipartite match (FIFA's mechanic). */
+function simAll(fx, baseRows, koList, N){
   const groups={}; for(const k in baseRows){ const g=baseRows[k].g; (groups[g]=groups[g]||[]).push(k); }
-  const gk=Object.keys(groups), cnt={}; for(const k in baseRows) cnt[k]={p1:0,p2:0,q:0};
+  const gk=Object.keys(groups);
+  const thirdSlots=[]; koList.forEach(ko=>{ const a=parseThird(ko.t1), b=parseThird(ko.t2); if(a)thirdSlots.push({mi:ko.i,side:'t1',allowed:a}); if(b)thirdSlots.push({mi:ko.i,side:'t2',allowed:b}); });
+  const finalIdx=(koList.find(k=>k.round==='Final')||{}).i;
+  const RL={'Round of 32':1,'Round of 16':2,'Quarter-final':3,'Semi-final':4,'Final':5};
+  const cnt={}; for(const k in baseRows) cnt[k]={p1:0,p2:0,q:0,r16:0,qf:0,sf:0,fin:0,ch:0};
   for(let s=0;s<N;s++){
     const T={}; for(const k in baseRows){ const r=baseRows[k]; T[k]={pts:r.pts,gd:r.gf-r.ga,gf:r.gf,rk:Math.random()}; }
     for(const f of fx){ const a=samplePois(f.lam[0]), b=samplePois(f.lam[1]); const A=T[f.k1],B=T[f.k2]; if(!A||!B)continue;
       A.gf+=a;A.gd+=(a-b);B.gf+=b;B.gd+=(b-a); if(a>b)A.pts+=3; else if(a<b)B.pts+=3; else {A.pts++;B.pts++;} }
-    const thirds=[];
-    for(const g of gk){ const ks=groups[g].slice().sort((x,y)=>(T[y].pts-T[x].pts)||(T[y].gd-T[x].gd)||(T[y].gf-T[x].gf)||(T[y].rk-T[x].rk));
+    const rank={}, thirds=[];
+    for(const g of gk){ const ks=groups[g].slice().sort((x,y)=>(T[y].pts-T[x].pts)||(T[y].gd-T[x].gd)||(T[y].gf-T[x].gf)||(T[y].rk-T[x].rk)); rank[g]=ks;
       if(ks[0]){cnt[ks[0]].p1++;cnt[ks[0]].q++;} if(ks[1]){cnt[ks[1]].p2++;cnt[ks[1]].q++;}
-      if(ks[2]) thirds.push({k:ks[2],pts:T[ks[2]].pts,gd:T[ks[2]].gd,gf:T[ks[2]].gf,rk:T[ks[2]].rk}); }
+      if(ks[2]) thirds.push({key:ks[2],g,pts:T[ks[2]].pts,gd:T[ks[2]].gd,gf:T[ks[2]].gf,rk:T[ks[2]].rk}); }
     thirds.sort((x,y)=>(y.pts-x.pts)||(y.gd-x.gd)||(y.gf-x.gf)||(y.rk-x.rk));
-    for(let t=0;t<8&&t<thirds.length;t++) cnt[thirds[t].k].q++;
+    const top8=thirds.slice(0,8); for(const t of top8) cnt[t.key].q++;
+    const assign={}, used=new Array(top8.length).fill(false);
+    (function bt(si){ if(si>=thirdSlots.length) return true; const sl=thirdSlots[si];
+      for(let ti=0;ti<top8.length;ti++){ if(used[ti])continue; if(sl.allowed.has(top8[ti].g)){ used[ti]=true; assign[sl.mi+'_'+sl.side]=top8[ti].key; if(bt(si+1))return true; used[ti]=false; } }
+      return false; })(0);
+    const win={}, los={}, reach={};
+    // W##/L## use 1-based FIFA match numbers; our koList/win/los are keyed by 0-based array index → −1
+    const ref=(r,mi,side)=>{ r=(r||'').trim(); let m; if(r[0]==='3') return assign[mi+'_'+side]||null;
+      if(m=r.match(/^([12])([A-L])$/)){ const arr=rank[m[2]]; return arr?arr[+m[1]-1]:null; }
+      if(m=r.match(/^W(\d+)$/)) return win[+m[1]-1]||null; if(m=r.match(/^L(\d+)$/)) return los[+m[1]-1]||null; return null; };
+    for(const ko of koList){ if(ko.round==='Match for third place') continue;
+      const a=ref(ko.t1,ko.i,'t1'), b=ref(ko.t2,ko.i,'t2'); if(!a||!b) continue;
+      const rl=RL[ko.round]||1; if(!reach[a]||reach[a]<rl)reach[a]=rl; if(!reach[b]||reach[b]<rl)reach[b]=rl;
+      const [l1,l2]=fxLambdas(a,b); const ga=samplePois(l1), gb=samplePois(l2);
+      let w,l; if(ga>gb){w=a;l=b;} else if(gb>ga){w=b;l=a;} else { if(Math.random()<0.5){w=a;l=b;}else{w=b;l=a;} }
+      win[ko.i]=w; los[ko.i]=l;
+    }
+    if(finalIdx!=null && win[finalIdx]){ cnt[win[finalIdx]].ch++; const wf=win[finalIdx]; if(!reach[wf]||reach[wf]<5)reach[wf]=5; }
+    for(const k in reach){ const r=reach[k]; if(r>=2)cnt[k].r16++; if(r>=3)cnt[k].qf++; if(r>=4)cnt[k].sf++; if(r>=5)cnt[k].fin++; }
   }
-  const out={}; for(const k in cnt) out[k]={p1:cnt[k].p1/N,p2:cnt[k].p2/N,q:cnt[k].q/N}; return out;
+  const out={}; for(const k in cnt){ const c=cnt[k]; out[k]={p1:c.p1/N,p2:c.p2/N,q:c.q/N,r16:c.r16/N,qf:c.qf/N,sf:c.sf/N,fin:c.fin/N,ch:c.ch/N}; }
+  return out;
 }
 async function main(){
   try{ __idx=await (await fetch('data/teams/index.json')).json(); }
@@ -152,9 +187,26 @@ async function render(){
     const baseRows={}; groups.forEach(g=>Object.values(stats[g]).forEach(r=>{ baseRows[r.key]={g, pts:r.w*3+r.d, gf:r.gf, ga:r.ga}; }));
     const simFx=[]; (sched.matches||[]).forEach((mm,i)=>{ if(!mm.group||isPh(mm.team1)||isPh(mm.team2)||results[String(i)]) return;
       const g=mm.group.replace(/^Group\s+/,''); if(stats[g]&&stats[g][norm(mm.team1)]&&stats[g][norm(mm.team2)]) simFx.push({g,k1:norm(mm.team1),k2:norm(mm.team2),lam:fxLambdas(mm.team1,mm.team2)}); });
-    try{ qual=simQualif(simFx, baseRows, 4000); }catch(e){ qual=null; }
+    const koList=(sched.matches||[]).map((mm,i)=>({i,t1:mm.team1,t2:mm.team2,round:mm.round})).filter(x=>{ const mm=sched.matches[x.i]; return !mm.group && /round of|final|quarter|semi|third/i.test(x.round||''); });
+    try{ qual=simAll(simFx, baseRows, koList, 2500); }catch(e){ qual=null; }
   }
   const qCol = !!qual;
+  /* #3 champion / deep-run section */
+  let champHTML='';
+  if(qual){
+    const meta2={}; idx.teams.forEach(t=>{ meta2[norm(t.name)]={code:t.code,flag:t.flag,name:t.name}; });
+    const ranked=Object.keys(qual).map(k=>({k,...qual[k],m:meta2[k]||{name:k}})).filter(x=>x.ch>0.002).sort((a,b)=>b.ch-a.ch).slice(0,16);
+    if(ranked.length){
+      const mx=ranked[0].ch||1; const pf=x=>x>=0.995?'✓':x<0.005?'<1%':Math.round(x*100)+'%';
+      const rows=ranked.map((r,i)=>`<tr>
+        <td class="pos">${i+1}</td>
+        <td class="team"><a href="${r.m.code?`team.html?code=${r.m.code}`:'#'}">${r.m.flag?`<img src="https://flagcdn.com/w40/${r.m.flag}.png" alt="">`:''}<span>${r.m.name}</span></a></td>
+        <td class="opt">${pf(r.sf)}</td><td class="opt">${pf(r.fin)}</td>
+        <td class="ch"><div class="chbar"><span style="width:${Math.round(r.ch/mx*100)}%"></span></div><b>${pf(r.ch)}</b></td></tr>`).join('');
+      champHTML=`<div class="champ glass"><h2>🏆 ${L('champTitle')}</h2><div class="champ-sub">${L('champSub')}</div>
+        <table class="st champ-t"><thead><tr><th></th><th class="lt">${L('team')}</th><th class="opt">${L('cSF')}</th><th class="opt">${L('cFin')}</th><th>${L('cChamp')}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    }
+  }
   let html=`<h1>${L('title')}</h1>
     <div class="sub">${L('sub')}${qCol?` · <b>${L('cQual')}</b> ${L('qualSub')}`:''}</div>
     <div class="legend">
@@ -190,7 +242,7 @@ async function render(){
         <th class="opt">${L('cGF')}</th><th class="opt">${L('cGC')}</th><th>${L('cPts')}</th>${qCol?`<th title="${L('qualSub')}">${L('cQual')}</th>`:''}
       </tr></thead><tbody>${body}</tbody></table></div>`;
   });
-  document.getElementById('wrap').innerHTML=html+`</div>`;
+  document.getElementById('wrap').innerHTML=html+`</div>`+champHTML;
 }
 main();
 </script>
