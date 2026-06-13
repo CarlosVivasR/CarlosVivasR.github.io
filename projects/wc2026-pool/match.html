@@ -325,7 +325,7 @@ const T={
     predXI:'XI probable',confirmedSoon:'XI confirmado ~1h antes',minutes:'Minutos',tapPlayer:'Toca un jugador',
     lastMeeting:'Último enfrentamiento',noStats:'Sin estadísticas aún',
     stNote:'1º y 2º clasifican a Dieciseisavos · los 8 mejores 3.º también pasan',
-    winprobNote:'Prob. derivadas de cuotas (método proporcional): tiende a subestimar al favorito y sobreestimar empate/no-favorito.'},
+    winprobNote:'Prob. derivadas de las cuotas (de-vig de Shin, corrige el sesgo favorito-no favorito).'},
   en:{fail:'Could not load the match.',cap:'capacity',opened:'opened',cmp:'Squad comparison',valTotal:'Total value',ageAvg:'Average age',years:'yrs',caps:'Caps',inj:'Career injuries',h2h:'Head to head',matchups:'meetings',last:'Last',draws:'draws',form:'Recent form',cond:'Venue conditions',temp:'typical temp Jun–Jul',alt:'altitude',score:'Score',toPlay:'To be played',vs:'vs',localTime:'(your local time)',venueTime:'Venue local time:',squadOf:'Squad of',note:'Photos: Wikimedia Commons (CC BY-SA) · historical results: martj42 (CC0) · project data',locale:'en-GB',cal:'Calendar',lvPred:'Prediction',lvStats:'Stats',lvLineups:'Lineups',lvEvents:'Events',lvComm:'Live commentary',lvSubs:'Substitutes',lvDraw:'Draw',lvToPlay:'Scheduled',lvFinal:'Full Time',lvHT:'Half-time',lvPens:'pens',lvPenEnd:'Full Time (pens)',lvLikely:'Most likely score',scoreModel:'Poisson model fitted to the 1X2 — not a direct market price.',lvPredPre:'Prediction (pre-match)',lvActual:'Final result:',lvSrcBlend:'Market + model',lvSrcModel:'Model only',lvSrcMarket:'Market',lvBacktest:'Model backtest: RPS {rps} · {acc}% correct · {n} matches (no future peeking)',modelNote:'Dixon-Coles model (fitted on 49,000 internationals) blended with the odds. It does not beat the market, but gives full coverage and a scoreline. Probabilities, not certainties.',lvXg:'Expected goals (model)',lvMarkets:'Derived markets',lvBtts:'Both teams to score',lvOver25:'Over 2.5 goals',lvCs:'Clean sheet',lvDouble:'Double chance',liveData:'Live data: ESPN',
     tabDetails:'Details',tabPredict:'Prediction',tabComm:'Commentary',tabLineups:'Lineups',tabStats:'Statistics',tabH2H:'Head-to-head',tabTable:'Table',tabBracket:'Bracket',
     bracketSoon:'Bracket available once knockouts are set',topPerf:'Top performers',goals:'goals',assists:'assists',
@@ -335,7 +335,7 @@ const T={
     predXI:'Predicted XI',confirmedSoon:'Lineup confirmed ~1h before KO',minutes:'Minutes',tapPlayer:'Tap a player',
     lastMeeting:'Last meeting',noStats:'No stats yet',
     stNote:'Top 2 advance to the Round of 32 · the 8 best 3rd-placed teams also qualify',
-    winprobNote:'Odds-implied (proportional de-vig): tends to understate the favourite, overstate draw/underdog.'},
+    winprobNote:'Odds-implied (Shin de-vig, corrects favourite–longshot bias).'},
   tr:{fail:'Maç yüklenemedi.',cap:'kapasite',opened:'açılış',cmp:'Kadro karşılaştırması',valTotal:'Toplam değer',ageAvg:'Yaş ortalaması',years:'yaş',caps:'Milli maç',inj:'Kariyer sakatlıkları',h2h:'Karşılıklı',matchups:'karşılaşma',last:'Son',draws:'berabere',form:'Son form',cond:'Saha koşulları',temp:'tipik sıcaklık Haz–Tem',alt:'rakım',score:'Skor',toPlay:'Oynanacak',vs:'-',localTime:'(senin yerel saatin)',venueTime:'Sahanın yerel saati:',squadOf:'Kadrosu:',note:'Fotoğraflar: Wikimedia Commons (CC BY-SA) · geçmiş sonuçlar: martj42 (CC0) · proje verisi',locale:'tr-TR',cal:'Takvim',lvPred:'Tahmin',lvStats:'İstatistikler',lvLineups:'Kadrolar',lvEvents:'Olaylar',lvComm:'Canlı anlatım',lvSubs:'Yedekler',lvDraw:'Beraberlik',lvToPlay:'Programlandı',lvFinal:'Maç sonu',lvHT:'Devre arası',lvPens:'pen.',lvPenEnd:'Maç sonu (pen.)',lvLikely:'En olası skor',scoreModel:'1X2\'e uyarlanmış Poisson modeli — doğrudan oran değil.',lvPredPre:'Tahmin (maç öncesi)',lvActual:'Sonuç:',lvSrcBlend:'Piyasa + model',lvSrcModel:'Sadece model',lvSrcMarket:'Piyasa',lvBacktest:'Model backtest: RPS {rps} · %{acc} doğru · {n} maç',modelNote:'Dixon-Coles modeli (49.000 maça göre) oranlarla birleştirildi. Piyasayı yenmez ama tam kapsama ve skor verir. Olasılıklar, kesinlik değil.',lvXg:'Beklenen gol (model)',lvMarkets:'Türetilmiş marketler',lvBtts:'Karşılıklı gol',lvOver25:'2.5 üstü gol',lvCs:'Gol yememe',lvDouble:'Çifte şans',liveData:'Canlı veri: ESPN',
     tabDetails:'Detaylar',tabPredict:'Tahmin',tabComm:'Anlatım',tabLineups:'Kadrolar',tabStats:'İstatistikler',tabH2H:'Karşılıklı',tabTable:'Puan durumu',tabBracket:'Eleme',
     bracketSoon:'Eşleşmeler belirlenince hazır',topPerf:'Öne çıkanlar',goals:'gol',assists:'asist',
@@ -345,7 +345,7 @@ const T={
     predXI:'Olası 11',confirmedSoon:'Kadro maçtan ~1s önce',minutes:'Dakika',tapPlayer:'Oyuncuya dokun',
     lastMeeting:'Son karşılaşma',noStats:'Henüz istatistik yok',
     stNote:'İlk 2 son 32\'ye yükselir · en iyi 8 üçüncü de geçer',
-    winprobNote:'Oranlardan türetilmiş (orantısal): favoriyi olduğundan düşük, beraberlik/zayıfı yüksek gösterir.'}
+    winprobNote:'Oranlardan türetilmiş (Shin de-vig, favori–zayıf yanlılığını düzeltir).'}
 };
 const L=k=>wcT(T,k);
 const LOC=L('locale');
@@ -706,8 +706,19 @@ function lvTickClock(){
    C4 — largest-remainder (Hamilton) de-vig. Replaces A=100-H-D.
    Input: three raw implied probs (any scale). Output: [H,D,A] ints summing to 100.
    ==================================================================== */
-function devig3(hp,ap,dp){            // returns [H,D,A] ints summing to 100
-  const s=hp+ap+dp, raw=[hp/s*100, dp/s*100, ap/s*100]; // order: H,D,A
+/* Shin (1991/93) de-vig: corrects the favourite–longshot bias that proportional de-vig
+   leaves in. z=0 reproduces proportional; z>0 shifts mass to the favourite. Bisection,
+   zero free params (z solved per-match). Literature-standard estimator. */
+function shinFair(r){ const B=r.reduce((a,b)=>a+b,0);
+  if(!(B>1)||r.some(x=>!(x>0))) return r.map(x=>x/B);
+  const p=z=>r.map(ri=>(Math.sqrt(z*z+4*(1-z)*ri*ri/B)-z)/(2*(1-z)));
+  const f=z=>p(z).reduce((a,b)=>a+b,0)-1;
+  let lo=0,hi=0.5; if(f(hi)>0) hi=0.99;
+  for(let it=0;it<60;it++){ const mid=(lo+hi)/2; if(f(mid)>0) lo=mid; else hi=mid; }
+  const out=p((lo+hi)/2), s=out.reduce((a,b)=>a+b,0); return out.map(x=>x/s);
+}
+function devig3(hp,ap,dp){            // returns [H,D,A] ints summing to 100 — Shin de-vig
+  const raw=shinFair([hp,dp,ap]).map(v=>v*100);   // shinFair internal order H,D,A
   const fl=raw.map(Math.floor), rem=100-fl.reduce((a,b)=>a+b,0);
   const order=raw.map((v,i)=>[v-fl[i],i]).sort((a,b)=>b[0]-a[0]);
   for(let k=0;k<rem;k++) fl[order[k][1]]++;
@@ -753,11 +764,14 @@ async function loadRatings(){ if(__ratings!==null) return __ratings; try{ __rati
 /* hostAdv: 0 = neutral (default), 1 = team1 plays at home, 2 = team2 — applies the fitted
    home-advantage γ to the host side. WC2026 is neutral EXCEPT host nations at their own venue
    (validated: the all-neutral assumption under-predicted host wins by ~19pp). */
+/* current-squad market-value tilt (validated OOS, ΔRPS-0.0009): shifts the goal rates
+   toward the better-valued squad. ±0.5·β·(logV_home − logV_away). Absent team → 0 (no harm). */
+function valTilt(t1,t2){ const v=__ratings&&__ratings.value; if(!v||!v.logV) return 0; const a=v.logV[nrmt(t1)], b=v.logV[nrmt(t2)]; if(a==null||b==null) return 0; return (v.beta||0)*(a-b); }
 function dcLambdas(t1,t2,hostAdv){
   const R=__ratings; if(!R||!R.dc) return null;
   const a=R.dc.teams[nrmt(t1)], b=R.dc.teams[nrmt(t2)]; if(!a||!b) return null;   // nrmt keys match ratings.json
-  const G=R.dc.gamma||0, g1=hostAdv===1?G:0, g2=hostAdv===2?G:0;
-  return [ Math.exp(R.dc.mu + a.atk - b.def + g1), Math.exp(R.dc.mu + b.atk - a.def + g2) ];
+  const G=R.dc.gamma||0, g1=hostAdv===1?G:0, g2=hostAdv===2?G:0, h=valTilt(t1,t2)*0.5;
+  return [ Math.exp(R.dc.mu + a.atk - b.def + g1 + h), Math.exp(R.dc.mu + b.atk - a.def + g2 - h) ];
 }
 function teamHostCode(name){ const k=nrmt(name); return k==='unitedstates'?'USA':k==='mexico'?'MEX':k==='canada'?'CAN':null; }
 function modelRho(){ const R=__ratings; return (R&&R.dc&&typeof R.dc.rho==='number')?R.dc.rho:DC_RHO; }

@@ -64,6 +64,10 @@ WC2026_INDEX = ROOT / "data" / "teams" / "index.json"
 _OUTNAME = "ratings_baseline.json" if os.environ.get("WC_CUTOFF") else "ratings.json"
 OUT_LOCAL = ROOT / "data" / _OUTNAME
 OUT_SHIPPED = OUT_LOCAL                                   # single shipped output
+# Squad-value tilt table (current-squad market value, top-23 citizenship rollup; CC0 source).
+# Validated OOS-robust: beta=0.06, paired walk-forward >=2022 ΔRPS -0.000877, CI [-0.001486,-0.00026], p=0.0044.
+# Pre-baked into ratings.json as a `value` block; client applies tilt at predict time only.
+VALUE_TABLE = ROOT / "data" / "value_logV.json"
 # Auto-download the public CC0 dataset if absent (CI). The fit only reads
 # date,home_team,away_team,home_score,away_score,tournament,neutral — all in the raw CSV.
 if not DATA.exists():
@@ -502,6 +506,19 @@ def main():
 
     shrunk_teams = sorted(set(n for n, _ in shrunk))
 
+    # ---------- squad-value tilt block (OOS-robust survivor; client applies at predict time) ----------
+    value_block = None
+    if VALUE_TABLE.exists():
+        vt = json.load(open(VALUE_TABLE))
+        value_block = {
+            "beta": float(vt["beta"]),
+            "apply": "tilt = beta*(logV[home] - logV[away]); +0.5*tilt to home log-rate, -0.5*tilt to away. Absent team -> 0.",
+            "logV": {k: round(float(v), 4) for k, v in vt["logV"].items()},
+        }
+        print(f"value tilt: beta={value_block['beta']} logV nations={len(value_block['logV'])}", file=sys.stderr)
+    else:
+        print(f"value tilt: table not found at {VALUE_TABLE} -> omitting value block", file=sys.stderr)
+
     # ---------- assemble ratings.json ----------
     out = {
         "snapshot_date": str(snapshot_date.date()),
@@ -523,6 +540,7 @@ def main():
             "tau": round(tau_hat, 4),
         },
         "blend": {"w_model": 0.30},
+        **({"value": value_block} if value_block else {}),
         "backtest": {
             "rps": overall["rps"],
             "rps_major": major.get("rps"),
