@@ -555,7 +555,7 @@ def main():
             "s": round(s_hat, 4),
             "tau": round(tau_hat, 4),
         },
-        "blend": {"w_model": 0.15},
+        "blend": {"w_model": 0.30},
         **({"value": value_block} if value_block else {}),
         "backtest": {
             "rps": overall["rps"],
