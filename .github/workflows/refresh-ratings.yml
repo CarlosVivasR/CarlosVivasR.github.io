@@ -1,0 +1,41 @@
+name: Refresh WC2026 prediction ratings
+
+# Re-fits the Dixon-Coles + Elo prediction model on the latest public international
+# results (martj42, CC0) and commits projects/wc2026-pool/data/ratings.json.
+# Runs daily during the tournament and on manual dispatch. No secrets needed.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'      # daily 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-ratings
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy pandas scipy
+      - name: Fit ratings on latest public results
+        run: python3 projects/wc2026-pool/scripts/fit_ratings.py
+      - name: Commit ratings.json if changed
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          if git diff --quiet -- projects/wc2026-pool/data/ratings.json; then
+            echo "ratings.json unchanged — nothing to commit."
+          else
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add projects/wc2026-pool/data/ratings.json
+            git commit -m "chore(model): auto-refresh ratings.json from latest results [skip ci]"
+            git push
+          fi
