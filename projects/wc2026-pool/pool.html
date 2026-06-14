@@ -906,6 +906,11 @@
     /* groups: max 3 rows, flow into columns, slide horizontally */
     .fp-ggrid{grid-auto-flow:column;grid-template-columns:none;grid-template-rows:repeat(3,auto);grid-auto-columns:150px;grid-auto-rows:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;height:auto!important;padding-bottom:6px}
   }
+  /* pool closed → the fill-in form is dead weight (every bracket is now visible in the
+     leaderboard). Hide the form + the fill-progress; lead with the live standings. */
+  body.pool-locked #groups,
+  body.pool-locked #bracket,
+  body.pool-locked #status-pill { display:none !important; }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
 </head>
@@ -1223,6 +1228,7 @@ const I18N = {
     "topbar.tabSchedule": "📅 Schedule",
     "hero.kicker": "World Cup 2026 · Private pool",
     "hero.title": "Fill out your World Cup bracket",
+    "hero.titleClosed": "Pool — live standings",
     "hero.sub": "Predict the final standing of all 12 groups, star your 8 best third-placed teams, and the bracket fills in automatically. After that, just click who you think will win each match.",
     "hero.date1": "Mexico vs South Africa",
     "hero.date2": "Final · MetLife Stadium",
@@ -1421,6 +1427,7 @@ const I18N = {
     "topbar.tabSchedule": "📅 Calendario",
     "hero.kicker": "Mundial 2026 · Quiniela privada",
     "hero.title": "Rellena tu cuadro del Mundial",
+    "hero.titleClosed": "Quiniela — clasificación en vivo",
     "hero.sub": "Predice el orden final de los 12 grupos, marca tus 8 mejores terceros y el bracket se rellena solo. Después, solo haz clic en quién crees que ganará cada partido.",
     "hero.date1": "México vs Sudáfrica",
     "hero.date2": "Final · MetLife Stadium",
@@ -1619,6 +1626,7 @@ const I18N = {
     "topbar.tabSchedule": "📅 Takvim",
     "hero.kicker": "Dünya Kupası 2026 · Özel tahmin havuzu",
     "hero.title": "Dünya Kupası tablonu doldur",
+    "hero.titleClosed": "Tahmin havuzu — canlı sıralama",
     "hero.sub": "12 grubun final sıralamasını tahmin et, en iyi 8 üçüncüyü işaretle ve eşleşme tablosu kendiliğinden oluşsun. Sonra her maçta kimin kazanacağını seç.",
     "hero.date1": "Meksika vs Güney Afrika",
     "hero.date2": "Final · MetLife Stadium",
@@ -3630,8 +3638,12 @@ function refreshDeadlineState(){
   if (closed && !state.submittedAt){
     document.querySelector(".submit-section").style.display = "none";
   }
-  /* Pool closed → lead with the LIVE leaderboard, not the (now inert) form */
+  /* Pool closed → hide the fill-in form entirely and lead with the LIVE leaderboard.
+     Every bracket is already visible in the leaderboard, so the form is just clutter. */
+  document.body.classList.toggle("pool-locked", closed);
   if (closed){
+    const h = document.querySelector(".hero-title");
+    if (h){ h.setAttribute("data-i18n","hero.titleClosed"); h.textContent = t("hero.titleClosed"); }
     const lb = document.getElementById("leaderboard");
     if (lb && !lb.open){ lb.open = true; if (typeof loadLeaderboard==="function") loadLeaderboard(); }
     document.querySelector(".standings-section")?.classList.add("lead");
