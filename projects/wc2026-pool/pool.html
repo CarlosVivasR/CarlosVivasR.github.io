@@ -586,10 +586,20 @@
   .lb-consensus .lbc-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #dfe2ea;border-radius:99px;padding:3px 10px;font-size:.84em;color:#2b2f3c;font-weight:600}
   .lb-consensus .lbc-chip img{width:18px;height:13px;border-radius:2px;object-fit:cover}
   .lb-consensus .lbc-chip b{font-family:var(--mono,monospace);color:#111}
-  /* the model contestant row */
-  .lb-table tr.lb-row.model{background:linear-gradient(90deg,#fff7e6,#fffdf7);cursor:default}
-  .lb-table tr.lb-row.model td{font-weight:700}
+  /* the model contestant row — clearly distinct (human-vs-AI angle) */
+  .lb-table tr.lb-row.model{background:linear-gradient(90deg,rgba(232,194,71,.22),rgba(232,194,71,.07))}
+  .lb-table tr.lb-row.model td{font-weight:800}
   .lb-table tr.lb-row.model .name{color:#9a6b00}
+  .lb-table tr.lb-row.model td.rank{box-shadow:inset 3px 0 0 var(--gold,#e8c247)}
+  /* "you" row — make it pop while scanning on mobile */
+  .lb-table tbody tr.lb-row.me{background:rgba(232,194,71,.28)}
+  .lb-table tbody tr.lb-row.me td.name{font-weight:800}
+  .lb-table tbody tr.lb-row.me td.rank{box-shadow:inset 4px 0 0 var(--primary,#e8c247)}
+  /* podium ranks — bolder medals */
+  .lb-table td.rank{font-size:1.05em}
+  .lb-table td.rank.gold,.lb-table td.rank.silver,.lb-table td.rank.bronze{font-weight:900}
+  /* consensus chips a touch louder */
+  .lb-consensus .lbc-chip{font-weight:700}
   .lb-table{width:100%;border-collapse:collapse;font-size:.9em;color:#2b2f3c;background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #dfe2ea}
   .lb-table th,.lb-table td{padding:9px 12px;text-align:left;border-bottom:1px solid #e6e8f0}
   .lb-table tbody tr:last-child td{border-bottom:none}
@@ -1391,6 +1401,7 @@ const I18N = {
     "lb.statusLiveProv": "🔴 {n} player{s} · LIVE & provisional — group standings still moving",
     "lb.model": "The Model 🤖",
     "lb.consensus": "Most-picked champions:",
+    "lb.updated": "updated",
     "lb.statusOrdered": "{n} player{s} · tournament hasn't started — sorted by submission order",
     "lb.thRank": "#",
     "lb.thPlayer": "Player",
@@ -1590,6 +1601,7 @@ const I18N = {
     "lb.statusLiveProv": "🔴 {n} jugador{s} · EN VIVO y provisional — la fase de grupos aún se mueve",
     "lb.model": "El Modelo 🤖",
     "lb.consensus": "Campeones más elegidos:",
+    "lb.updated": "actualizado",
     "lb.statusOrdered": "{n} jugador{s} · el torneo aún no ha empezado — ordenado por envío",
     "lb.thRank": "#",
     "lb.thPlayer": "Jugador",
@@ -1789,6 +1801,7 @@ const I18N = {
     "lb.statusLiveProv": "🔴 {n} oyuncu · CANLI ve geçici — grup sıralaması hâlâ değişiyor",
     "lb.model": "Model 🤖",
     "lb.consensus": "En çok seçilen şampiyonlar:",
+    "lb.updated": "güncellendi",
     "lb.statusOrdered": "{n} oyuncu · turnuva henüz başlamadı — gönderim sırasına göre",
     "lb.thRank": "#",
     "lb.thPlayer": "Oyuncu",
@@ -3322,7 +3335,7 @@ async function loadLeaderboard(){
               const isModel = r.isModel;
               return `
                 <tr class="lb-row ${r.isMe?'me':''} ${isModel?'model':''}" data-idx="${i}">
-                  <td class="rank ${rankClass}">${i+1}</td>
+                  <td class="rank ${rankClass}">${hasResults && i<3 ? ['🥇','🥈','🥉'][i] : (i+1)}</td>
                   <td class="name">${isModel?'🤖 ':''}${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}<span class="expand-icon">▸</span></td>
                   <td class="champ">${r.champion ? `<img src="https://flagcdn.com/w40/${r.champion.code}.png" alt=""><span>${escapeHtml(r.champion.name)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
                   ${hasResults ? `<td class="num">${r.score}</td>` : ''}
@@ -3360,10 +3373,12 @@ async function loadLeaderboard(){
           }
         });
       });
+      const updTime = new Date().toLocaleTimeString(LANG==="es"?"es-ES":(LANG==="tr"?"tr-TR":"en-GB"),{hour:"2-digit",minute:"2-digit"});
       statusEl.textContent = (liveMode ? (liveProvisional ? t("lb.statusLiveProv") : t("lb.statusLive"))
                                        : (hasResults ? t("lb.statusRanked") : t("lb.statusOrdered")))
-        .replace("{n}", ranked.length)
-        .replace("{s}", ranked.length===1?'':'s');
+        .replace("{n}", humanCount)
+        .replace("{s}", humanCount===1?'':'s')
+        + (liveMode ? ` · ${t("lb.updated")} ${updTime}` : "");
     }
   } catch (err){
     console.error("Leaderboard load error:", err);
@@ -3372,12 +3387,21 @@ async function loadLeaderboard(){
     contentEl.innerHTML = `<div class="lb-empty">${t("lb.netErr")}${escapeHtml(err.message||String(err))}</div>`;
   } finally {
     btn.classList.remove("loading");
+    __lbLastLoad = Date.now();
   }
 }
 
-document.getElementById("lb-refresh").addEventListener("click", loadLeaderboard);
+/* keep the live leaderboard fresh: auto-refresh every 90s while open & visible, on tab
+   return, and debounce manual refresh so it can't be spammed */
+let __lbLastLoad = 0, __lbAutoStarted = false;
+function startLeaderboardAuto(){
+  if (__lbAutoStarted) return; __lbAutoStarted = true;
+  setInterval(()=>{ const lb=document.getElementById("leaderboard"); if(lb&&lb.open&&!document.hidden) loadLeaderboard(); }, 90000);
+  document.addEventListener("visibilitychange", ()=>{ if(!document.hidden){ const lb=document.getElementById("leaderboard"); if(lb&&lb.open && Date.now()-__lbLastLoad>60000) loadLeaderboard(); } });
+}
+document.getElementById("lb-refresh").addEventListener("click", ()=>{ if(Date.now()-__lbLastLoad < 2500) return; loadLeaderboard(); });
 document.getElementById("leaderboard").addEventListener("toggle", function(){
-  if (this.open) loadLeaderboard();
+  if (this.open){ loadLeaderboard(); startLeaderboardAuto(); }
 });
 
 /* ============================================================
