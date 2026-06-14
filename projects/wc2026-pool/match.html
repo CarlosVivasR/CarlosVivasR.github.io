@@ -1012,7 +1012,12 @@ function renderLive(ev,sum,m){
   let mkt=null;                                            // de-vigged market 1X2 in team1 orientation
   if(pcb){
     const hp=mlPct((pcb.homeTeamOdds||{}).moneyLine), ap=mlPct((pcb.awayTeamOdds||{}).moneyLine), dp=mlPct((pcb.drawOdds||{}).moneyLine);
-    if(hp>0&&ap>0&&dp>0){ const [H,D,A]=devig3(hp,ap,dp); const oddsHomeIsT1=nrmt((pcb.homeTeamOdds.team||{}).displayName)===nrmt(m.team1); mkt=oddsHomeIsT1?[H/100,D/100,A/100]:[A/100,D/100,H/100]; }
+    if(hp>0&&ap>0&&dp>0){ const [H,D,A]=devig3(hp,ap,dp);
+      /* ESPN usually leaves pickcenter.*.team = null, so fall back to the event's home/away
+         orientation (homeIsT1). Relying on the (empty) team name flipped the favourite. */
+      const ot=nrmt(((pcb.homeTeamOdds||{}).team||{}).displayName);
+      const oddsHomeIsT1 = ot ? (ot===nrmt(m.team1)) : homeIsT1;
+      mkt=oddsHomeIsT1?[H/100,D/100,A/100]:[A/100,D/100,H/100]; }
   }
   const vc=window.__vcountry||null;                        // host advantage only for a host nation at its own venue
   const hostAdv=(teamHostCode(m.team1)&&teamHostCode(m.team1)===vc)?1:(teamHostCode(m.team2)&&teamHostCode(m.team2)===vc)?2:0;
