@@ -3334,10 +3334,55 @@
     "acc": 0.60127,
     "n": 4572,
     "baseline_climatology_rps": 0.22829,
-    "ece": 0.02897
+    "ece": 0.02897,
+    "brier": 0.50661,
+    "reliability": [
+      {
+        "lo": 0.333,
+        "hi": 0.4,
+        "pred": 0.3725,
+        "obs": 0.3575,
+        "n": 593
+      },
+      {
+        "lo": 0.4,
+        "hi": 0.5,
+        "pred": 0.4481,
+        "obs": 0.4564,
+        "n": 929
+      },
+      {
+        "lo": 0.5,
+        "hi": 0.6,
+        "pred": 0.5496,
+        "obs": 0.5054,
+        "n": 839
+      },
+      {
+        "lo": 0.6,
+        "hi": 0.7,
+        "pred": 0.6496,
+        "obs": 0.6365,
+        "n": 729
+      },
+      {
+        "lo": 0.7,
+        "hi": 0.8,
+        "pred": 0.7474,
+        "obs": 0.757,
+        "n": 609
+      },
+      {
+        "lo": 0.8,
+        "hi": 1.0,
+        "pred": 0.8994,
+        "obs": 0.8751,
+        "n": 873
+      }
+    ]
   },
   "_meta": {
-    "generated_utc": "2026-06-13T20:16:30.379654Z",
+    "generated_utc": "2026-06-14T00:12:26.277157Z",
     "fitter": "fit_ratings.py",
     "key_scheme": "lowercase, NFD accent-stripped, non-letters removed; aliases applied",
     "aliases": {

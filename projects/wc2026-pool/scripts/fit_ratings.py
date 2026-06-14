@@ -394,6 +394,23 @@ def ece_homewin(P, y, nb=10):
     return float(ece)
 
 
+def reliability(P, y, edges=(1/3, 0.40, 0.50, 0.60, 0.70, 0.80, 1.0001)):
+    """Confidence-reliability buckets for a reliability diagram: bin matches by the model's
+    top-pick probability (its confidence) and compare mean predicted vs observed accuracy."""
+    P = np.asarray(P); y = np.asarray(y)
+    conf = P.max(axis=1); pred = P.argmax(axis=1); correct = (pred == y).astype(float)
+    out = []
+    for i in range(len(edges) - 1):
+        lo, hi = edges[i], edges[i + 1]
+        m = (conf >= lo) & (conf < hi)
+        if m.sum() == 0:
+            continue
+        out.append({"lo": round(float(lo), 3), "hi": round(float(min(hi, 1.0)), 3),
+                    "pred": round(float(conf[m].mean()), 4),
+                    "obs": round(float(correct[m].mean()), 4), "n": int(m.sum())})
+    return out
+
+
 # ============================ BACKTEST ======================================
 def walk_forward_backtest(df):
     """No-leakage expanding-origin backtest of the SHIPPED Dixon-Coles core.
@@ -564,6 +581,8 @@ def main():
             "n": overall["n"],
             "baseline_climatology_rps": base_rps,
             "ece": overall["ece"],
+            "brier": overall.get("brier"),
+            "reliability": reliability(P, y),
         },
         "_meta": {
             "generated_utc": datetime.utcnow().isoformat() + "Z",
