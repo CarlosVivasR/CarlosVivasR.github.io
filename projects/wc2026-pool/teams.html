@@ -42,7 +42,13 @@
   .champ-t td.ch .chbar span{display:block;height:100%;background:linear-gradient(90deg,#e8c247,#f4d76b);border-radius:99px}
   .champ-t td.ch b{font-family:var(--mono);color:var(--ink);min-width:40px;text-align:right}
   .champ.card .card-ece{font-size:.82em;color:var(--ink-2);margin:8px 0 4px;line-height:1.5}
-  .champ.card .card-live{font-size:.86em;color:var(--cyan);font-weight:700;margin-top:8px}
+  .champ.card .card-live{font-size:.86em;color:var(--cyan);font-weight:700}
+  .champ.card .card-cols{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:12px}
+  .champ.card .card-reli{flex:0 0 auto}
+  .champ.card .reli-title{font-size:.78em;color:var(--muted);font-weight:700;margin-bottom:4px}
+  .champ.card .reli-svg{width:200px;height:200px;max-width:60vw}
+  .champ.card .reli-cap{font-size:.72em;color:var(--muted);margin-top:4px;max-width:220px;line-height:1.4}
+  .champ.card .card-livewrap{flex:1;min-width:180px}
   @media(max-width:560px){ table.st .opt{display:none} }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -58,9 +64,9 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 4.000 mundiales)',champTitle:'Favoritos al título',champSub:'Simulación del torneo completo con el modelo (2.500 mundiales): grupos + cuadro de eliminatorias.',cSF:'Semis',cFin:'Final',cChamp:'Campeón',cardTitle:'¿Cómo de fiable es el modelo?',cardBt:'Validado sin asomarse al futuro en {n} partidos internacionales: RPS {rps} (vs {base} prediciendo a ciegas) · acierta el {acc}% del 1X2 · calibración ECE {ece}.',cardEce:'Calibración: cuando el modelo dice 60%, ocurre ~60% de las veces (error medio ≈{ece} puntos).',cardLive:'En este Mundial: {n} partidos · acertó {hits} ({acc}%) · RPS {rps}',cardSmall:'muestra pequeña, se afina con el torneo',cardNone:'En este Mundial: aún sin partidos jugados.'},
-  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 4,000 World Cups)',champTitle:'Title favourites',champSub:'Full-tournament model simulation (2,500 World Cups): groups + knockout bracket.',cSF:'Semis',cFin:'Final',cChamp:'Champion',cardTitle:'How reliable is the model?',cardBt:'Validated with no future peeking on {n} internationals: RPS {rps} (vs {base} guessing blindly) · calls the 1X2 right {acc}% of the time · calibration ECE {ece}.',cardEce:'Calibration: when the model says 60%, it happens ~60% of the time (avg error ≈{ece} points).',cardLive:'This World Cup: {n} matches · {hits} correct ({acc}%) · RPS {rps}',cardSmall:'small sample, sharpens as the tournament goes',cardNone:'This World Cup: no matches played yet.'},
-  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 4.000 Dünya Kupası)',champTitle:'Şampiyonluk favorileri',champSub:'Tüm turnuvanın model simülasyonu (2.500 Dünya Kupası): gruplar + eleme turu.',cSF:'Yarı',cFin:'Final',cChamp:'Şampiyon',cardTitle:'Model ne kadar güvenilir?',cardBt:'Geleceğe bakmadan {n} milli maçta doğrulandı: RPS {rps} (körlemesine tahminde {base}) · 1X2\'yi %{acc} doğru biliyor · kalibrasyon ECE {ece}.',cardEce:'Kalibrasyon: model %60 dediğinde, ~%60 gerçekleşir (ortalama hata ≈{ece} puan).',cardLive:'Bu Dünya Kupası: {n} maç · {hits} doğru (%{acc}) · RPS {rps}',cardSmall:'küçük örneklem, turnuvayla netleşir',cardNone:'Bu Dünya Kupası: henüz maç oynanmadı.'}
+  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 4.000 mundiales)',champTitle:'Favoritos al título',champSub:'Simulación del torneo completo con el modelo (2.500 mundiales): grupos + cuadro de eliminatorias.',cSF:'Semis',cFin:'Final',cChamp:'Campeón',cardTitle:'¿Cómo de fiable es el modelo?',cardBt:'Validado sin asomarse al futuro en {n} partidos internacionales: RPS {rps} (vs {base} prediciendo a ciegas) · acierta el {acc}% del 1X2 · calibración ECE {ece}.',cardEce:'Calibración: cuando el modelo dice 60%, ocurre ~60% de las veces (error medio ≈{ece} puntos).',cardLive:'En este Mundial: {n} partidos · acertó {hits} ({acc}%) · RPS {rps}',cardSmall:'muestra pequeña, se afina con el torneo',cardNone:'En este Mundial: aún sin partidos jugados.',reliTitle:'Diagrama de fiabilidad',reliCap:'Puntos sobre la diagonal = bien calibrado (lo que dice = lo que pasa). Tamaño = nº de partidos.',reliX:'predicho %',reliY:'observado %'},
+  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 4,000 World Cups)',champTitle:'Title favourites',champSub:'Full-tournament model simulation (2,500 World Cups): groups + knockout bracket.',cSF:'Semis',cFin:'Final',cChamp:'Champion',cardTitle:'How reliable is the model?',cardBt:'Validated with no future peeking on {n} internationals: RPS {rps} (vs {base} guessing blindly) · calls the 1X2 right {acc}% of the time · calibration ECE {ece}.',cardEce:'Calibration: when the model says 60%, it happens ~60% of the time (avg error ≈{ece} points).',cardLive:'This World Cup: {n} matches · {hits} correct ({acc}%) · RPS {rps}',cardSmall:'small sample, sharpens as the tournament goes',cardNone:'This World Cup: no matches played yet.',reliTitle:'Reliability diagram',reliCap:'Dots on the diagonal = well calibrated (what it says = what happens). Size = number of matches.',reliX:'predicted %',reliY:'observed %'},
+  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 4.000 Dünya Kupası)',champTitle:'Şampiyonluk favorileri',champSub:'Tüm turnuvanın model simülasyonu (2.500 Dünya Kupası): gruplar + eleme turu.',cSF:'Yarı',cFin:'Final',cChamp:'Şampiyon',cardTitle:'Model ne kadar güvenilir?',cardBt:'Geleceğe bakmadan {n} milli maçta doğrulandı: RPS {rps} (körlemesine tahminde {base}) · 1X2\'yi %{acc} doğru biliyor · kalibrasyon ECE {ece}.',cardEce:'Kalibrasyon: model %60 dediğinde, ~%60 gerçekleşir (ortalama hata ≈{ece} puan).',cardLive:'Bu Dünya Kupası: {n} maç · {hits} doğru (%{acc}) · RPS {rps}',cardSmall:'küçük örneklem, turnuvayla netleşir',cardNone:'Bu Dünya Kupası: henüz maç oynanmadı.',reliTitle:'Güvenilirlik diyagramı',reliCap:'Köşegen üzerindeki noktalar = iyi kalibre (söylediği = olan). Boyut = maç sayısı.',reliX:'tahmin %',reliY:'gözlenen %'}
 };
 const L=k=>wcT(T,k);
 const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
@@ -104,6 +110,18 @@ function samplePois(l){ const e=Math.exp(-Math.max(0,l)); let k=0,p=1; do{ k++; 
 function poisArr(l){ const v=[]; let p=Math.exp(-Math.max(0,l)); for(let k=0;k<=8;k++){ v.push(p); p*=Math.max(0,l)/(k+1); } return v; }
 function probs1x2(l1,l2){ const A=poisArr(l1),B=poisArr(l2); let h=0,d=0,w=0; for(let i=0;i<A.length;i++)for(let j=0;j<B.length;j++){ const p=A[i]*B[j]; if(i>j)h+=p; else if(i===j)d+=p; else w+=p; } const s=h+d+w||1; return [h/s,d/s,w/s]; }
 function rps3(p,act){ const o=[0,0,0]; o[act]=1; let cp=0,co=0,s=0; for(let i=0;i<2;i++){ cp+=p[i]; co+=o[i]; s+=(cp-co)*(cp-co); } return s/2; }
+/* reliability diagram: predicted confidence (x) vs observed accuracy (y); dots on the dashed
+   diagonal = perfectly calibrated, dot size ∝ sample. From the backtest's reliability buckets. */
+function reliaSvg(buckets){
+  if(!buckets||buckets.length<2) return '';
+  const W=200,H=200,p=18,lo=0.3, x=v=>p+((v-lo)/(1-lo))*(W-2*p), y=v=>H-p-((v-lo)/(1-lo))*(H-2*p);
+  const grid=[0.4,0.6,0.8].map(v=>`<line x1="${x(v).toFixed(1)}" y1="${(H-p).toFixed(1)}" x2="${x(v).toFixed(1)}" y2="${p}" stroke="rgba(255,255,255,.05)"/><line x1="${p}" y1="${y(v).toFixed(1)}" x2="${(W-p).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="rgba(255,255,255,.05)"/>`).join('');
+  const diag=`<line x1="${x(lo).toFixed(1)}" y1="${y(lo).toFixed(1)}" x2="${x(1).toFixed(1)}" y2="${y(1).toFixed(1)}" stroke="rgba(255,255,255,.28)" stroke-dasharray="4 3"/>`;
+  const line=`<polyline points="${buckets.map(b=>`${x(b.pred).toFixed(1)},${y(b.obs).toFixed(1)}`).join(' ')}" fill="none" stroke="rgba(53,224,216,.5)" stroke-width="2"/>`;
+  const dots=buckets.map(b=>`<circle cx="${x(b.pred).toFixed(1)}" cy="${y(b.obs).toFixed(1)}" r="${(3.5+Math.sqrt(b.n)/14).toFixed(1)}" fill="rgba(53,224,216,.85)" stroke="#0a0c18" stroke-width="1.2"><title>dice ${Math.round(b.pred*100)}% → acierta ${Math.round(b.obs*100)}% (n=${b.n})</title></circle>`).join('');
+  const ax=`<text x="${W/2}" y="${H-3}" fill="var(--muted)" font-size="9" text-anchor="middle">${L('reliX')}</text><text x="6" y="${H/2}" fill="var(--muted)" font-size="9" text-anchor="middle" transform="rotate(-90 6 ${H/2})">${L('reliY')}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="reli-svg">${grid}${diag}${line}${dots}${ax}</svg>`;
+}
 function parseThird(ref){ const m=(ref||'').match(/^3([A-L/]+)$/); return m?new Set(m[1].split('/')):null; }
 /* full-tournament Monte Carlo: group stage (→ qualification, #2) extended through the entire
    knockout bracket (→ deep-run + champion probabilities, #3). The 8 best thirds are assigned
@@ -220,10 +238,11 @@ async function render(){
       const [l1,l2]=fxLambdas(mm.team1,mm.team2); const p=probs1x2(l1,l2); const a=+sc[0],b=+sc[1], oi=a>b?0:a<b?2:1;
       n++; if(p.indexOf(Math.max(p[0],p[1],p[2]))===oi)hits++; rps+=rps3(p,oi); });
     const liveLine = n ? L('cardLive').replace('{n}',n).replace('{hits}',hits).replace('{acc}',Math.round(hits/n*100)).replace('{rps}',(rps/n).toFixed(3))+(n<20?` · ${L('cardSmall')}`:'') : L('cardNone');
+    const reli = (bt.reliability&&bt.reliability.length) ? `<div class="card-reli"><div class="reli-title">${L('reliTitle')}</div>${reliaSvg(bt.reliability)}<div class="reli-cap">${L('reliCap')}</div></div>` : '';
     cardHTML=`<div class="champ glass card"><h2>🔬 ${L('cardTitle')}</h2>
       <div class="champ-sub">${L('cardBt').replace('{n}',(bt.n||0).toLocaleString()).replace('{rps}',(+bt.rps).toFixed(3)).replace('{base}',(+(bt.baseline_climatology_rps||0)).toFixed(3)).replace('{acc}',Math.round((bt.acc||0)*100)).replace('{ece}',(+(bt.ece||0)).toFixed(3))}</div>
       <div class="card-ece">${L('cardEce').replace('{ece}',Math.round((bt.ece||0)*100))}</div>
-      <div class="card-live">${liveLine}</div></div>`;
+      <div class="card-cols">${reli}<div class="card-livewrap"><div class="card-live">${liveLine}</div></div></div></div>`;
   }
   let html=`<h1>${L('title')}</h1>
     <div class="sub">${L('sub')}${qCol?` · <b>${L('cQual')}</b> ${L('qualSub')}`:''}</div>
