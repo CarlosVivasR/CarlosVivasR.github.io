@@ -3176,28 +3176,42 @@ function modelStrength(name){
   const v = R.value; if(v && v.logV){ const lv = v.logV[lbnorm(name)]; if(lv!=null) s += (v.beta||0)*lv; }
   return s;
 }
-function buildModelEntry(){
+/* Head-to-head from the full model (DC λ + squad-value tilt), neutral venue — the SAME
+   per-match engine the rest of the site uses. Returns P(team a advances incl. ET/pens). */
+function modelLambdas(aName,bName){
+  const R=__poolRatings, dc=R&&R.dc; if(!dc||!dc.teams) return null;
+  const a=dc.teams[lbnorm(aName)], b=dc.teams[lbnorm(bName)]; if(!a||!b) return null;
+  const mu=dc.mu||0; let tilt=0; const v=R.value;
+  if(v&&v.logV){ const la=v.logV[lbnorm(aName)], lb=v.logV[lbnorm(bName)]; if(la!=null&&lb!=null) tilt=(v.beta||0)*(la-lb)*0.5; }
+  return [Math.exp(mu+a.atk-b.def+tilt), Math.exp(mu+b.atk-a.def-tilt)];
+}
+function modelAdvance(aName,bName){
+  const L=modelLambdas(aName,bName); if(!L) return 0.5;
+  const pois=l=>{ const v=[]; let p=Math.exp(-Math.max(0,l)); for(let k=0;k<=10;k++){ v.push(p); p*=Math.max(0,l)/(k+1); } return v; };
+  const A=pois(L[0]), B=pois(L[1]); let h=0,d=0,w=0;
+  for(let i=0;i<11;i++)for(let j=0;j<11;j++){ const p=A[i]*B[j]; if(i>j)h+=p; else if(i===j)d+=p; else w+=p; }
+  const s=h+d+w||1; h/=s; d/=s; w/=s; const hw=h+w||1; return h + d*h/hw;   // knockout: draw → ET/pens by relative strength
+}
+/* The model's bracket IN THE EXACT PLAYER FORMAT (positions + 8 starred + a/b winners),
+   resolved through the same machinery as a player's, so it scores via computeScore and
+   expands via renderFullPicks identically. Each tie is decided by the real head-to-head
+   probability above (improvement over a static strength scalar). */
+function buildModelPicks(){
   if(!__poolRatings || !__poolRatings.dc) return null;
   const positions={}, thirds=[];
   Object.entries(GROUPS).forEach(([g,arr])=>{ const ranked=arr.map(([n])=>n).sort((a,b)=>modelStrength(b)-modelStrength(a));
     ranked.forEach((n,i)=>positions[`${g}-${n}`]=i+1); thirds.push({g, s:modelStrength(ranked[2])}); });
   thirds.sort((a,b)=>b.s-a.s); const starred=thirds.slice(0,8).map(t=>t.g);
-  const posTeam=(g,p)=>{ const e=Object.entries(positions).find(([k,v])=>k.startsWith(g+'-')&&v===p); return e?e[0].slice(g.length+1):null; };
-  const thirdSlots=[]; R32_SPEC.forEach(s=>{ if(s.a.type==='third')thirdSlots.push({id:s.id,side:'a',allowed:s.a.allowed}); if(s.b.type==='third')thirdSlots.push({id:s.id,side:'b',allowed:s.b.allowed}); });
-  const assign={}, used=new Array(starred.length).fill(false);
-  (function bt(i){ if(i>=thirdSlots.length)return true; const sl=thirdSlots[i]; for(let j=0;j<starred.length;j++){ if(used[j])continue; if(sl.allowed.includes(starred[j])){ used[j]=true; assign[sl.id+'_'+sl.side]=posTeam(starred[j],3); if(bt(i+1))return true; used[j]=false; } } return false; })(0);
-  const refTeam=(ref,id,side)=>ref.type==='pos'?posTeam(ref.group,ref.pos):(ref.type==='third'?assign[id+'_'+side]:null);
-  const winnersByName={}; const wn=id=>winnersByName[id]||null;
-  R32_SPEC.forEach(s=>{ const a=refTeam(s.a,s.id,'a'),b=refTeam(s.b,s.id,'b'); if(a&&b) winnersByName[s.id]=modelStrength(a)>=modelStrength(b)?a:b; });
-  [[R16_PAIRS,'R16'],[QF_PAIRS,'QF'],[SF_PAIRS,'SF'],[F_PAIRS,'F']].forEach(([pairs,pref])=>{ pairs.forEach((pr,i)=>{ const id=`${pref}-${i+1}`, a=wn(pr[0]),b=wn(pr[1]); if(a&&b) winnersByName[id]=modelStrength(a)>=modelStrength(b)?a:b; }); });
-  return {positions, starred, winnersByName, champion: winnersByName['F-1']||null};
-}
-function scoreModelEntry(m, official){
-  if(!official) return 0; let pts=0;
-  if(official.positions) Object.entries(m.positions).forEach(([k,p])=>{ if(official.positions[k]===p) pts+=POINTS.groupPos[p]||0; });
-  if((official.starred||[]).length) m.starred.forEach(g=>{ if(official.starred.includes(g)) pts+=POINTS.starredThird; });
-  if(official.winners) Object.entries(official.winners).forEach(([id,name])=>{ const p=POINTS.rounds[id.split('-')[0]]||0; if(p && m.winnersByName[id]===name) pts+=p; });
-  return pts;
+  const winners={};
+  const decide=slots=>Object.keys(slots).forEach(id=>{ const s=slots[id]; if(s&&s.a&&s.b) winners[id]=(modelAdvance(s.a.name,s.b.name)>=0.5?'a':'b'); });
+  withPicks({positions, starred, winners}, ()=>{
+    const r32=resolveR32(); decide(r32);
+    const r16=buildNextRound(R16_PAIRS,r32,'R32','R16'); decide(r16);
+    const qf=buildNextRound(QF_PAIRS,r16,'R16','QF'); decide(qf);
+    const sf=buildNextRound(SF_PAIRS,qf,'QF','SF'); decide(sf);
+    const fin=buildNextRound(F_PAIRS,sf,'SF','F'); decide(fin);
+  });
+  return {positions, starred, winners};
 }
 async function loadLeaderboard(){
   const statusEl = document.getElementById("lb-status");
@@ -3258,12 +3272,14 @@ async function loadLeaderboard(){
     ranked.forEach(r => { if(r.champion){ const k=r.champion.name; (champCounts[k] = champCounts[k] || {n:0, code:r.champion.code}); champCounts[k].n++; } });
     const champTop = Object.entries(champCounts).map(([name,v]) => ({name, ...v})).sort((a,b) => b.n - a.n);
 
-    /* the model joins as a guest contestant ("can you beat the model?") */
+    /* the model joins as a guest contestant ("can you beat the model?") — a real
+       player-format entry, so it scores + expands exactly like everyone else */
     await loadPoolRatings();
-    const me = buildModelEntry();
-    if (me){ ranked.push({ userId:'__model__', name: t('lb.model'), isModel:true,
-        champion: me.champion ? teamObjByName(me.champion) : null, score: scoreModelEntry(me, official),
-        submittedAt: '2026-06-11T00:00:00.000Z', isMe:false, picks:null }); }
+    const mp = buildModelPicks();
+    if (mp){ ranked.push({ userId:'__model__', name: t('lb.model'), isModel:true,
+        champion: getChampionTeam(mp), score: computeScore(mp, official),
+        submittedAt: '2026-06-11T00:00:00.000Z', isMe:false, picks: mp,
+        finalGoalsA:null, finalGoalsB:null, goldenBoot:null }); }
 
     const hasResults = !!official && (
       Object.keys(official.positions||{}).length ||
@@ -3307,16 +3323,16 @@ async function loadLeaderboard(){
               return `
                 <tr class="lb-row ${r.isMe?'me':''} ${isModel?'model':''}" data-idx="${i}">
                   <td class="rank ${rankClass}">${i+1}</td>
-                  <td class="name">${isModel?'🤖 ':''}${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}${isModel?'':'<span class="expand-icon">▸</span>'}</td>
+                  <td class="name">${isModel?'🤖 ':''}${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}<span class="expand-icon">▸</span></td>
                   <td class="champ">${r.champion ? `<img src="https://flagcdn.com/w40/${r.champion.code}.png" alt=""><span>${escapeHtml(r.champion.name)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
                   ${hasResults ? `<td class="num">${r.score}</td>` : ''}
                   <td style="color:#6b7280;font-size:.86em">${isModel?'🔮':tsStr}</td>
                 </tr>
-                ${isModel ? '' : `<tr class="lb-detail-row hidden" data-detail="${i}">
+                <tr class="lb-detail-row hidden" data-detail="${i}">
                   <td colspan="${colCount}">
                     <div class="lb-detail"></div>
                   </td>
-                </tr>`}
+                </tr>
               `;
             }).join("")}
           </tbody>
