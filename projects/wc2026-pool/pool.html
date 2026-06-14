@@ -1370,6 +1370,8 @@ const I18N = {
     "lb.failed": "Couldn't load leaderboard.",
     "lb.netErr": "Network error: ",
     "lb.statusRanked": "{n} player{s} · ranked by points",
+    "lb.statusLive": "🔴 {n} player{s} · LIVE — scored from real results",
+    "lb.statusLiveProv": "🔴 {n} player{s} · LIVE & provisional — group standings still moving",
     "lb.statusOrdered": "{n} player{s} · tournament hasn't started — sorted by submission order",
     "lb.thRank": "#",
     "lb.thPlayer": "Player",
@@ -1564,6 +1566,8 @@ const I18N = {
     "lb.failed": "No se pudo cargar la clasificación.",
     "lb.netErr": "Error de red: ",
     "lb.statusRanked": "{n} jugador{s} · ordenado por puntos",
+    "lb.statusLive": "🔴 {n} jugador{s} · EN VIVO — puntuado con resultados reales",
+    "lb.statusLiveProv": "🔴 {n} jugador{s} · EN VIVO y provisional — la fase de grupos aún se mueve",
     "lb.statusOrdered": "{n} jugador{s} · el torneo aún no ha empezado — ordenado por envío",
     "lb.thRank": "#",
     "lb.thPlayer": "Jugador",
@@ -1758,6 +1762,8 @@ const I18N = {
     "lb.failed": "Klasman yüklenemedi.",
     "lb.netErr": "Ağ hatası: ",
     "lb.statusRanked": "{n} oyuncu · puana göre sıralı",
+    "lb.statusLive": "🔴 {n} oyuncu · CANLI — gerçek sonuçlarla puanlandı",
+    "lb.statusLiveProv": "🔴 {n} oyuncu · CANLI ve geçici — grup sıralaması hâlâ değişiyor",
     "lb.statusOrdered": "{n} oyuncu · turnuva henüz başlamadı — gönderim sırasına göre",
     "lb.thRank": "#",
     "lb.thPlayer": "Oyuncu",
@@ -3073,6 +3079,57 @@ function renderUserPicksSummary(entry, myEntry){
   `;
 }
 
+/* ============================================================
+   LIVE OFFICIAL RESULTS (from ESPN) — scores the pool with NO admin entry.
+   Group positions update provisionally as matches finish; starred thirds + knockout
+   winners resolve automatically once the group stage is complete. Same shape as
+   official_results so the existing computeScore() works unchanged.
+   ============================================================ */
+const LB_ALIAS={czechrepublic:'czechia',turkey:'turkiye',usa:'unitedstates',unitedstatesofamerica:'unitedstates',
+  drcongo:'congodr',congodr:'congodr',bosniaandherzegovina:'bosniaherzegovina',cotedivoire:'ivorycoast',
+  caboverde:'capeverde',republicofireland:'ireland',korearepublic:'southkorea',irrussia:'iran'};
+function lbnorm(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return LB_ALIAS[x]||x; }
+const ESPN_STAND='https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings';
+const ESPN_SCORE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719';
+function lbKoWinners(positions, starredArr, scores, complete){
+  const winners={}; if(!complete||!scores) return winners;
+  const posTeam=(g,p)=>{ const e=Object.entries(positions).find(([k,v])=>k.startsWith(g+'-')&&v===p); return e?e[0].slice(g.length+1):null; };
+  const thirdSlots=[]; R32_SPEC.forEach(s=>{ if(s.a.type==='third') thirdSlots.push({id:s.id,side:'a',allowed:s.a.allowed}); if(s.b.type==='third') thirdSlots.push({id:s.id,side:'b',allowed:s.b.allowed}); });
+  const assign={}, used=new Array(starredArr.length).fill(false);
+  (function bt(i){ if(i>=thirdSlots.length) return true; const sl=thirdSlots[i]; for(let j=0;j<starredArr.length;j++){ if(used[j])continue; if(sl.allowed.includes(starredArr[j])){ used[j]=true; assign[sl.id+'_'+sl.side]=posTeam(starredArr[j],3); if(bt(i+1))return true; used[j]=false; } } return false; })(0);
+  const fin={}; (scores.events||[]).forEach(ev=>{ const c=(ev.competitions||[])[0]; if(!c)return; const cs=c.competitors||[]; if(cs.length!==2)return; if((((ev.status||{}).type||{}).state)!=='post')return;
+    const h=cs.find(x=>x.homeAway==='home')||cs[0], a=cs.find(x=>x.homeAway==='away')||cs[1]; const hn=lbnorm((h.team||{}).displayName), an=lbnorm((a.team||{}).displayName);
+    const hs=+h.score,as=+a.score,hsh=h.shootoutScore,ash=a.shootoutScore; let w=hs>as?hn:as>hs?an:((hsh!=null&&ash!=null)?(hsh>ash?hn:an):null); if(w) fin[[hn,an].sort().join('|')]=w; });
+  const refTeam=(ref,id,side)=>ref.type==='pos'?posTeam(ref.group,ref.pos):(ref.type==='third'?assign[id+'_'+side]:null);
+  const resolved={}; R32_SPEC.forEach(s=>resolved[s.id]={a:refTeam(s.a,s.id,'a'),b:refTeam(s.b,s.id,'b')});
+  const decide=(id,a,b)=>{ if(!a||!b)return; const w=fin[[lbnorm(a),lbnorm(b)].sort().join('|')]; if(w) winners[id]=(lbnorm(a)===w)?a:b; };
+  Object.entries(resolved).forEach(([id,t])=>decide(id,t.a,t.b));
+  const wn=id=>winners[id]||null;
+  [[R16_PAIRS,'R16'],[QF_PAIRS,'QF'],[SF_PAIRS,'SF'],[F_PAIRS,'F']].forEach(([pairs,pref])=>{ pairs.forEach((pr,i)=>{ const id=`${pref}-${i+1}`, a=wn(pr[0]), b=wn(pr[1]); decide(id,a,b); }); });
+  return winners;
+}
+async function buildLiveOfficial(){
+  let standings=null, scores=null;
+  try{ standings=await fetch(ESPN_STAND,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
+  try{ scores=await fetch(ESPN_SCORE,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
+  if(!standings) return null;
+  const positions={}, groupDone={}, thirdsStats=[];
+  (standings.children||[]).forEach(grp=>{
+    const L=((grp.name||'').match(/Group\s+([A-L])/i)||[])[1]; if(!L||!GROUPS[L]) return;
+    const ent={}; ((grp.standings&&grp.standings.entries)||[]).forEach(e=>{ const sm={}; (e.stats||[]).forEach(s=>sm[s.name]=parseFloat(s.displayValue)); ent[lbnorm((e.team||{}).displayName)]={pts:(sm.points!=null?sm.points:((sm.wins||0)*3+(sm.ties||0))),gd:(sm.pointsFor||0)-(sm.pointsAgainst||0),gf:(sm.pointsFor||0),pj:(sm.gamesPlayed||0)}; });
+    const rows=GROUPS[L].map(([name])=>({name, ...(ent[lbnorm(name)]||{pts:0,gd:0,gf:0,pj:0})}));
+    rows.sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf||a.name.localeCompare(b.name));
+    groupDone[L]=rows.every(r=>r.pj>=3);
+    /* only score a group once it has actually started — avoid alphabetical noise on 0-game groups */
+    if(rows.some(r=>r.pj>=1)){ rows.forEach((r,i)=>{ positions[`${L}-${r.name}`]=i+1; if(i===2) thirdsStats.push({g:L, pts:r.pts, gd:r.gd, gf:r.gf}); }); }
+  });
+  const allDone=Object.keys(GROUPS).every(g=>groupDone[g]);
+  let starred=[];
+  if(allDone){ thirdsStats.sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf); starred=thirdsStats.slice(0,8).map(t=>t.g); }
+  const winners=lbKoWinners(positions, starred, scores, allDone);
+  const anyPlayed=Object.values(groupDone).length>0 && Object.entries(positions).length>0;
+  return {positions, starred, winners, _live:true, _provisional:!allDone, _hasData:anyPlayed};
+}
 async function loadLeaderboard(){
   const statusEl = document.getElementById("lb-status");
   const contentEl = document.getElementById("lb-content");
@@ -3093,11 +3150,18 @@ async function loadLeaderboard(){
       .eq("id", 1)
       .maybeSingle();
 
-    const official = officialRow ? {
+    let official = (officialRow && (
+        Object.keys(officialRow.positions||{}).length || (officialRow.starred||[]).length || Object.keys(officialRow.winners||{}).length
+      )) ? {
       positions: officialRow.positions || {},
       starred: officialRow.starred || [],
       winners: officialRow.winners || {},
     } : null;
+    /* No admin-posted results yet → score LIVE from ESPN (provisional during group stage) */
+    let liveMode = false, liveProvisional = false;
+    if (!official){
+      try { const lo = await buildLiveOfficial(); if (lo && lo._hasData){ official = lo; liveMode = true; liveProvisional = !!lo._provisional; } } catch(e){}
+    }
 
     const ranked = (rows||[]).map(r => {
       const picks = {positions:r.positions, starred:r.starred, winners:r.winners};
@@ -3192,7 +3256,8 @@ async function loadLeaderboard(){
           }
         });
       });
-      statusEl.textContent = (hasResults ? t("lb.statusRanked") : t("lb.statusOrdered"))
+      statusEl.textContent = (liveMode ? (liveProvisional ? t("lb.statusLiveProv") : t("lb.statusLive"))
+                                       : (hasResults ? t("lb.statusRanked") : t("lb.statusOrdered")))
         .replace("{n}", ranked.length)
         .replace("{s}", ranked.length===1?'':'s');
     }
@@ -3492,6 +3557,12 @@ function refreshDeadlineState(){
   document.getElementById("pool-closed").classList.toggle("show", closed && !state.submittedAt);
   if (closed && !state.submittedAt){
     document.querySelector(".submit-section").style.display = "none";
+  }
+  /* Pool closed → lead with the LIVE leaderboard, not the (now inert) form */
+  if (closed){
+    const lb = document.getElementById("leaderboard");
+    if (lb && !lb.open){ lb.open = true; if (typeof loadLeaderboard==="function") loadLeaderboard(); }
+    document.querySelector(".standings-section")?.classList.add("lead");
   }
 }
 
