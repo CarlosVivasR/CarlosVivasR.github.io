@@ -3165,9 +3165,17 @@ const TEAM_CODE = {}, TEAM_DISP = {};
 Object.values(GROUPS).forEach(arr => arr.forEach(([n,c]) => { TEAM_CODE[lbnorm(n)] = c; TEAM_DISP[lbnorm(n)] = n; }));
 function teamObjByName(name){ const k = lbnorm(name); return TEAM_CODE[k] ? {name: TEAM_DISP[k]||name, code: TEAM_CODE[k]} : null; }
 async function loadPoolRatings(){ if(__poolRatings!==null) return; try{ __poolRatings = await (await fetch('data/ratings.json',{cache:'no-store'})).json(); }catch(e){ __poolRatings = false; } }
-/* DC parametrisation: lambda = exp(mu + atk_for - def_against), so a higher def means the
-   opponent scores LESS → def is a STRENGTH. Overall team strength = atk + def. */
-function modelStrength(name){ const R=__poolRatings; if(!R||!R.dc||!R.dc.teams) return -99; const t=R.dc.teams[lbnorm(name)]; return t ? (t.atk + t.def) : -99; }
+/* Full model strength = attack + defence + squad-value tilt — the SAME signals the rest of
+   the site uses (fxLambdas, the title-favourites Monte Carlo). Using only atk+def made the
+   bracket disagree with the favourites board (it crowned Argentina over Spain by 0.02);
+   adding the value term puts Spain marginally on top, consistent everywhere. */
+function modelStrength(name){
+  const R=__poolRatings; if(!R||!R.dc||!R.dc.teams) return -99;
+  const t=R.dc.teams[lbnorm(name)]; if(!t) return -99;
+  let s = t.atk + t.def;
+  const v = R.value; if(v && v.logV){ const lv = v.logV[lbnorm(name)]; if(lv!=null) s += (v.beta||0)*lv; }
+  return s;
+}
 function buildModelEntry(){
   if(!__poolRatings || !__poolRatings.dc) return null;
   const positions={}, thirds=[];
