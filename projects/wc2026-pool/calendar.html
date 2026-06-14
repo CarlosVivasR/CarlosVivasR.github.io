@@ -37,6 +37,22 @@
   .stand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
   .stand-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
   .stand-card h3{font-size:.92em;font-weight:800;padding:11px 14px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
+  /* knockout bracket */
+  .brk-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+  .brk-grid{display:flex;gap:14px;min-width:max-content;align-items:stretch}
+  .brk-col{display:flex;flex-direction:column;justify-content:space-around;gap:8px;min-width:172px}
+  .brk-rh{font-size:.7em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;padding:4px 0;position:sticky;top:0}
+  .brk-tie{display:flex;flex-direction:column;gap:1px;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;text-decoration:none;position:relative}
+  .brk-tie:hover{border-color:var(--primary)}
+  .brk-slot{display:flex;align-items:center;gap:7px;padding:7px 9px;font-size:.82em;color:var(--ink)}
+  .brk-slot+.brk-slot{border-top:1px solid var(--line)}
+  .brk-slot img{width:20px;height:14px;object-fit:cover;border-radius:2px;flex:none}
+  .brk-slot .brk-dot{width:20px;height:14px;border-radius:2px;background:rgba(255,255,255,.06);flex:none}
+  .brk-slot .brk-nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+  .brk-slot.ph .brk-nm{color:var(--muted);font-weight:500}
+  .brk-slot .brk-wp{font-family:var(--mono);font-size:.86em;color:var(--muted);font-weight:700}
+  .brk-slot.win{background:rgba(46,194,126,.12)} .brk-slot.win .brk-nm{color:#7fe0ad}
+  .brk-sc{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-weight:800;font-size:.8em;color:var(--ink);background:var(--bg);padding:2px 6px;border-radius:6px;border:1px solid var(--line)}
   .stand-table{width:100%;border-collapse:collapse;font-size:.84em}
   .stand-table th{font-size:.66em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:8px 5px;text-align:center}
   .stand-table th.lt{text-align:left;padding-left:12px}
@@ -221,6 +237,7 @@
   <div class="view-toggle" role="group" aria-label="Vista">
     <button type="button" data-view="matches" class="active" data-i18n="view.matches">Partidos</button>
     <button type="button" data-view="standings" data-i18n="view.standings">Clasificación</button>
+    <button type="button" data-view="bracket" data-i18n="view.bracket">Cuadro</button>
   </div>
 </div>
 
@@ -266,6 +283,10 @@
   <section id="standings" style="display:none">
     <p class="stand-note"><span data-i18n="st.note">1º y 2º clasifican a Dieciseisavos · los 8 mejores 3.º también pasan</span></p>
     <div class="stand-grid" id="standings-grid"></div>
+  </section>
+  <section id="bracket" style="display:none">
+    <p class="stand-note" id="bracket-note"></p>
+    <div class="brk-scroll"><div class="brk-grid" id="bracket-grid"></div></div>
   </section>
 </main>
 
@@ -326,7 +347,7 @@ const I18N = {
     "badge.live": "Live",
     "badge.finished": "Finished",
     "round.shortGroup": "Group",
-    "view.matches": "Matches","view.standings": "Standings","st.team": "Team","st.note": "Top 2 advance to the Round of 32 · the 8 best 3rd-placed teams also qualify",
+    "view.matches": "Matches","view.standings": "Standings","view.bracket": "Bracket","bracket.note": "Provisional projection: knockout slots filled from the current standings; win % is the model's head-to-head. Fills in for real as groups finish.","st.team": "Team","st.note": "Top 2 advance to the Round of 32 · the 8 best 3rd-placed teams also qualify",
     "empty": "No matches match your filters. Try resetting Today / Upcoming or selecting another team.",
     "footer.tag": "World Cup 2026 Schedule",
     "footer.dataNote": "Schedule data: <a href=\"https://github.com/openfootball/worldcup.json\" target=\"_blank\" rel=\"noopener\">openfootball · worldcup.json</a> (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\" rel=\"noopener\">CC0 1.0 Public Domain</a>). Cross-checked against the official <a href=\"https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026\" target=\"_blank\" rel=\"noopener\">FIFA WC 2026</a> schedule.",
@@ -371,7 +392,7 @@ const I18N = {
     "badge.live": "En vivo",
     "badge.finished": "Finalizado",
     "round.shortGroup": "Grupo",
-    "view.matches": "Partidos","view.standings": "Clasificación","st.team": "Equipo","st.note": "1º y 2º clasifican a Dieciseisavos · los 8 mejores 3.º también pasan",
+    "view.matches": "Partidos","view.standings": "Clasificación","view.bracket": "Cuadro","bracket.note": "Proyección provisional: las plazas se rellenan con la clasificación actual; el % es el cara a cara del modelo. Se concreta según acaben los grupos.","st.team": "Equipo","st.note": "1º y 2º clasifican a Dieciseisavos · los 8 mejores 3.º también pasan",
     "empty": "Ningún partido coincide con los filtros. Prueba a desactivar Hoy / Próximos o elige otro equipo.",
     "footer.tag": "Calendario Mundial 2026",
     "footer.dataNote": "Datos del calendario: <a href=\"https://github.com/openfootball/worldcup.json\" target=\"_blank\" rel=\"noopener\">openfootball · worldcup.json</a> (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\" rel=\"noopener\">CC0 1.0 Public Domain</a>). Contrastado con el calendario oficial de <a href=\"https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026\" target=\"_blank\" rel=\"noopener\">FIFA WC 2026</a>.",
@@ -416,7 +437,7 @@ const I18N = {
     "badge.live": "Canlı",
     "badge.finished": "Bitti",
     "round.shortGroup": "Grup",
-    "view.matches": "Maçlar","view.standings": "Puan durumu","st.team": "Takım","st.note": "İlk 2 son 32'ye yükselir · en iyi 8 üçüncü de geçer",
+    "view.matches": "Maçlar","view.standings": "Puan durumu","view.bracket": "Eşleşme","bracket.note": "Geçici projeksiyon: eleme yerleri mevcut puan durumuna göre dolduruldu; % modelin ikili karşılaştırması. Gruplar bittikçe netleşir.","st.team": "Takım","st.note": "İlk 2 son 32'ye yükselir · en iyi 8 üçüncü de geçer",
     "empty": "Filtrelerine uyan maç yok. Bugün / Yaklaşan seçimini kaldır ya da başka bir takım seç.",
     "footer.tag": "Dünya Kupası 2026 Takvimi",
     "footer.dataNote": "Takvim verileri: <a href=\"https://github.com/openfootball/worldcup.json\" target=\"_blank\" rel=\"noopener\">openfootball · worldcup.json</a> (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\" rel=\"noopener\">CC0 1.0 Public Domain</a>). Resmi <a href=\"https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026\" target=\"_blank\" rel=\"noopener\">FIFA WC 2026</a> takvimiyle karşılaştırılmıştır.",
@@ -902,13 +923,75 @@ function buildStandings(){
   }).join('');
 }
 
+/* ===================== KNOCKOUT BRACKET (provisional, model-aware) ===================== */
+let __bratings = null;
+async function loadBrRatings(){ if(__bratings!==null) return; try{ __bratings = await (await fetch('data/ratings.json',{cache:'no-store'})).json(); }catch(e){ __bratings=false; } }
+const BHOST = new Set(['unitedstates','mexico','canada']);
+function brLam(n1,n2){ const R=__bratings; if(!R||!R.dc||!R.dc.teams) return null; const a=R.dc.teams[snrm(n1)],b=R.dc.teams[snrm(n2)]; if(!a||!b) return null;
+  const mu=R.dc.mu||0,G=R.dc.gamma||0,g1=BHOST.has(snrm(n1))?G:0,g2=BHOST.has(snrm(n2))?G:0; let tl=0; const v=R.value;
+  if(v&&v.logV){ const la=v.logV[snrm(n1)],lb=v.logV[snrm(n2)]; if(la!=null&&lb!=null) tl=(v.beta||0)*(la-lb)*0.5; }
+  return [Math.exp(mu+a.atk-b.def+g1+tl), Math.exp(mu+b.atk-a.def+g2-tl)]; }
+function brPois(l){ const v=[]; let p=Math.exp(-Math.max(0,l)); for(let k=0;k<=8;k++){ v.push(p); p*=Math.max(0,l)/(k+1); } return v; }
+function brAdvance(n1,n2){ const L=brLam(n1,n2); if(!L) return null; const A=brPois(L[0]),B=brPois(L[1]); let h=0,d=0,w=0;
+  for(let i=0;i<9;i++)for(let j=0;j<9;j++){ const p=A[i]*B[j]; if(i>j)h+=p; else if(i===j)d+=p; else w+=p; } const s=h+d+w||1; h/=s;d/=s;w/=s;
+  const hw=h+w||1; return [h+d*h/hw, w+d*w/hw]; }   // knockout: draw decided by relative strength (ET/pens)
+function brProvisionalGroups(){
+  const groups={};
+  MATCHES.filter(m=>m.groupId).forEach(m=>{ const g=m.groupId; (groups[g]||(groups[g]={}));
+    [m.team1,m.team2].forEach(tn=>{ if(tn&&!isPlaceholderTeam(tn)&&!groups[g][tn]) groups[g][tn]={team:tn,pj:0,w:0,d:0,l:0,gf:0,ga:0}; });
+    if(!__espnStand){ const key=(m.num!=null)?String(m.num):String(m.idx); const sc=RESULTS[key];
+      if(Array.isArray(sc)&&sc.length===2&&groups[g][m.team1]&&groups[g][m.team2]){ const a=+sc[0],b=+sc[1],A=groups[g][m.team1],B=groups[g][m.team2];
+        A.pj++;B.pj++;A.gf+=a;A.ga+=b;B.gf+=b;B.ga+=a; if(a>b){A.w++;B.l++;}else if(a<b){B.w++;A.l++;}else{A.d++;B.d++;} } }
+  });
+  if(__espnStand){ Object.keys(groups).forEach(g=>{ const eg=__espnStand[g]; if(!eg) return; Object.values(groups[g]).forEach(r=>{ const e=eg[snrm(r.team)]; if(e){ r.pj=e.pj;r.w=e.w;r.d=e.d;r.l=e.l;r.gf=e.gf;r.ga=e.ga; } }); }); }
+  return groups;
+}
+async function buildBracket(){
+  const el=document.getElementById('bracket-grid'); if(!el||!MATCHES.length) return;
+  await loadBrRatings();
+  const groups=brProvisionalGroups(), rank={}, thirds=[];
+  Object.keys(groups).forEach(g=>{ const rows=Object.values(groups[g]).map(r=>({...r,pts:r.w*3+r.d,dg:r.gf-r.ga}))
+    .sort((x,y)=>y.pts-x.pts||y.dg-x.dg||y.gf-x.gf||x.team.localeCompare(y.team)); rank[g]=rows.map(r=>r.team);
+    if(rows[2]) thirds.push({g,team:rows[2].team,pts:rows[2].pts,dg:rows[2].dg,gf:rows[2].gf}); });
+  thirds.sort((x,y)=>y.pts-x.pts||y.dg-x.dg||y.gf-x.gf); const top8=thirds.slice(0,8);
+  const ko=MATCHES.filter(m=>m.isKnockout).sort((a,b)=>a.idx-b.idx);
+  const slots=[]; ko.forEach(m=>{ [['team1',m.team1],['team2',m.team2]].forEach(([side,ref])=>{ const mm=(ref||'').match(/^3([A-L\/]+)$/i); if(mm) slots.push({idx:m.idx,side,allowed:new Set(mm[1].toUpperCase().split('/'))}); }); });
+  const assign={}, used=new Array(top8.length).fill(false);
+  (function bt(si){ if(si>=slots.length) return true; const sl=slots[si];
+    for(let ti=0;ti<top8.length;ti++){ if(used[ti])continue; if(sl.allowed.has(top8[ti].g)){ used[ti]=true; assign[sl.idx+'_'+sl.side]=top8[ti].team; if(bt(si+1))return true; used[ti]=false; } } return false; })(0);
+  const winner={}, loser={};
+  const resolve=(ref,idx,side)=>{ if(!ref) return null; ref=ref.trim(); let m;
+    if(/^3/.test(ref)) return assign[idx+'_'+side]||null;
+    if(m=ref.match(/^([12])([A-L])$/i)){ const arr=rank[m[2].toUpperCase()]; return arr?arr[+m[1]-1]:null; }
+    if(m=ref.match(/^W(\d+)$/i)) return winner[+m[1]-1]||null;
+    if(m=ref.match(/^L(\d+)$/i)) return loser[+m[1]-1]||null; return null; };
+  ko.forEach(m=>{ const t1=resolve(m.team1,m.idx,'team1'), t2=resolve(m.team2,m.idx,'team2'); m.__t1=t1; m.__t2=t2;
+    if(t1&&t2){ const sc=scoreFor({team1:t1,team2:t2}); if(sc&&sc.state==='post'){ const w1=sc.t1>sc.t2||(sc.pen&&sc.pen[0]>sc.pen[1]); winner[m.idx]=w1?t1:t2; loser[m.idx]=w1?t2:t1; } }
+  });
+  const brSlot=(name,wp,won)=>{ const ph=!name||isPlaceholderTeam(name); const code=ph?null:teamFlag(name);
+    return `<div class="brk-slot${won?' win':''}${ph?' ph':''}">${code?`<img src="https://flagcdn.com/w40/${code}.png" alt="">`:'<span class="brk-dot"></span>'}<span class="brk-nm">${ph?(placeholderLabel(name)||name):name}</span>${wp!=null?`<span class="brk-wp">${Math.round(wp*100)}%</span>`:''}</div>`; };
+  const rounds=[['Round of 32',t('round.r32')],['Round of 16',t('round.r16')],['Quarter-final',t('round.qf')],['Semi-final',t('round.sf')],['Final',t('round.final')]];
+  el.innerHTML = rounds.map(([rd,label])=>{
+    const ms=ko.filter(m=>m.round===rd);
+    const ties=ms.map(m=>{ const t1=m.__t1,t2=m.__t2, sc=(t1&&t2)?scoreFor({team1:t1,team2:t2}):null;
+      let wp=null; if(t1&&t2&&!sc){ const a=brAdvance(t1,t2); if(a) wp=a; }
+      const w1=sc?(sc.t1>sc.t2||(sc.pen&&sc.pen[0]>sc.pen[1])):false, w2=sc?!w1:false;
+      const scTx=sc?`<span class="brk-sc">${sc.t1}–${sc.t2}${sc.pen?` (${sc.pen[0]}-${sc.pen[1]}p)`:''}</span>`:'';
+      return `<a class="brk-tie" href="match.html?m=${m.idx}">${brSlot(t1||m.team1,wp?wp[0]:null,w1)}${brSlot(t2||m.team2,wp?wp[1]:null,w2)}${scTx}</a>`;
+    }).join('');
+    return `<div class="brk-col"><div class="brk-rh">${label}</div>${ties}</div>`;
+  }).join('');
+  const note=document.getElementById('bracket-note'); if(note) note.textContent=t('bracket.note');
+}
 function setView(v){
-  const isStand = v === "standings";
-  document.getElementById("schedule").style.display = isStand ? "none" : "";
-  document.getElementById("standings").style.display = isStand ? "block" : "none";
-  document.querySelector(".controls").style.display = isStand ? "none" : "";
+  const sched=document.getElementById("schedule"), stand=document.getElementById("standings"), brk=document.getElementById("bracket");
+  sched.style.display = v==="matches" ? "" : "none";
+  stand.style.display = v==="standings" ? "block" : "none";
+  if(brk) brk.style.display = v==="bracket" ? "block" : "none";
+  document.querySelector(".controls").style.display = v==="matches" ? "" : "none";
   document.querySelectorAll(".view-toggle button").forEach(b => b.classList.toggle("active", b.dataset.view === v));
-  if(isStand) buildStandings();
+  if(v==="standings") buildStandings();
+  if(v==="bracket") buildBracket();
 }
 document.querySelectorAll(".view-toggle button").forEach(b =>
   b.addEventListener("click", () => setView(b.dataset.view)));
