@@ -646,7 +646,18 @@
   .lb-detail-block li .mismatch-mine img{width:14px;height:10px;vertical-align:middle;margin:0 2px 0 4px}
   .lb-empty{text-align:center;padding:24px;color:#4b5060;font-size:.92em;background:#ffffff;border:1px dashed #c9ccd6;border-radius:8px}
   @media (max-width:680px){
-    .lb-table th:nth-child(5),.lb-table td:nth-child(5){display:none}
+    .lb-table th:nth-child(5),.lb-table td:nth-child(5){display:none}   /* drop "submitted" */
+  }
+  @media (max-width:560px){
+    /* fit on a phone: tighter padding, champion = flag only (trophy header), points stay visible */
+    .lb-table th,.lb-table td{padding:8px 6px}
+    .lb-table td.champ span{display:none}
+    .lb-table th:nth-child(3){font-size:0;white-space:nowrap}
+    .lb-table th:nth-child(3)::after{content:"🏆";font-size:1rem}
+    .lb-table td.num{width:auto;min-width:30px;padding-right:8px}
+    .lb-table th:nth-child(4){text-align:right}
+    .lb-table td.rank{width:26px;padding-left:4px}
+    .lb-table td.name{font-size:.96em}
   }
 
   /* "New results" banner */
