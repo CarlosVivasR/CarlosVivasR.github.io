@@ -579,6 +579,17 @@
   .lb-refresh:hover{background:#e2e5ee;border-color:#4b5060}
   .lb-refresh.loading{pointer-events:none;opacity:.5}
   .lb-status{font-size:.82em;color:#4b5060}
+  /* consensus / reveal chips */
+  .lb-consensus{margin:0 0 12px;padding:10px 12px;background:#f4f6fb;border:1px solid #dfe2ea;border-radius:10px}
+  .lb-consensus .lbc-h{font-size:.78em;font-weight:800;color:#4b5060;display:block;margin-bottom:7px}
+  .lb-consensus .lbc-row{display:flex;flex-wrap:wrap;gap:8px}
+  .lb-consensus .lbc-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #dfe2ea;border-radius:99px;padding:3px 10px;font-size:.84em;color:#2b2f3c;font-weight:600}
+  .lb-consensus .lbc-chip img{width:18px;height:13px;border-radius:2px;object-fit:cover}
+  .lb-consensus .lbc-chip b{font-family:var(--mono,monospace);color:#111}
+  /* the model contestant row */
+  .lb-table tr.lb-row.model{background:linear-gradient(90deg,#fff7e6,#fffdf7);cursor:default}
+  .lb-table tr.lb-row.model td{font-weight:700}
+  .lb-table tr.lb-row.model .name{color:#9a6b00}
   .lb-table{width:100%;border-collapse:collapse;font-size:.9em;color:#2b2f3c;background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #dfe2ea}
   .lb-table th,.lb-table td{padding:9px 12px;text-align:left;border-bottom:1px solid #e6e8f0}
   .lb-table tbody tr:last-child td{border-bottom:none}
@@ -1372,6 +1383,8 @@ const I18N = {
     "lb.statusRanked": "{n} player{s} · ranked by points",
     "lb.statusLive": "🔴 {n} player{s} · LIVE — scored from real results",
     "lb.statusLiveProv": "🔴 {n} player{s} · LIVE & provisional — group standings still moving",
+    "lb.model": "The Model 🤖",
+    "lb.consensus": "Most-picked champions:",
     "lb.statusOrdered": "{n} player{s} · tournament hasn't started — sorted by submission order",
     "lb.thRank": "#",
     "lb.thPlayer": "Player",
@@ -1568,6 +1581,8 @@ const I18N = {
     "lb.statusRanked": "{n} jugador{s} · ordenado por puntos",
     "lb.statusLive": "🔴 {n} jugador{s} · EN VIVO — puntuado con resultados reales",
     "lb.statusLiveProv": "🔴 {n} jugador{s} · EN VIVO y provisional — la fase de grupos aún se mueve",
+    "lb.model": "El Modelo 🤖",
+    "lb.consensus": "Campeones más elegidos:",
     "lb.statusOrdered": "{n} jugador{s} · el torneo aún no ha empezado — ordenado por envío",
     "lb.thRank": "#",
     "lb.thPlayer": "Jugador",
@@ -1764,6 +1779,8 @@ const I18N = {
     "lb.statusRanked": "{n} oyuncu · puana göre sıralı",
     "lb.statusLive": "🔴 {n} oyuncu · CANLI — gerçek sonuçlarla puanlandı",
     "lb.statusLiveProv": "🔴 {n} oyuncu · CANLI ve geçici — grup sıralaması hâlâ değişiyor",
+    "lb.model": "Model 🤖",
+    "lb.consensus": "En çok seçilen şampiyonlar:",
     "lb.statusOrdered": "{n} oyuncu · turnuva henüz başlamadı — gönderim sırasına göre",
     "lb.thRank": "#",
     "lb.thPlayer": "Oyuncu",
@@ -3130,6 +3147,42 @@ async function buildLiveOfficial(){
   const anyPlayed=Object.values(groupDone).length>0 && Object.entries(positions).length>0;
   return {positions, starred, winners, _live:true, _provisional:!allDone, _hasData:anyPlayed};
 }
+/* ============================================================
+   THE MODEL AS A CONTESTANT — build the Dixon-Coles model's own bracket in the same
+   shape as a player's picks and score it identically, so it competes in the leaderboard.
+   Self-contained scoring (name-based) — no dependency on the user-bracket resolver.
+   ============================================================ */
+let __poolRatings = null;
+const TEAM_CODE = {}, TEAM_DISP = {};
+Object.values(GROUPS).forEach(arr => arr.forEach(([n,c]) => { TEAM_CODE[lbnorm(n)] = c; TEAM_DISP[lbnorm(n)] = n; }));
+function teamObjByName(name){ const k = lbnorm(name); return TEAM_CODE[k] ? {name: TEAM_DISP[k]||name, code: TEAM_CODE[k]} : null; }
+async function loadPoolRatings(){ if(__poolRatings!==null) return; try{ __poolRatings = await (await fetch('data/ratings.json',{cache:'no-store'})).json(); }catch(e){ __poolRatings = false; } }
+/* DC parametrisation: lambda = exp(mu + atk_for - def_against), so a higher def means the
+   opponent scores LESS → def is a STRENGTH. Overall team strength = atk + def. */
+function modelStrength(name){ const R=__poolRatings; if(!R||!R.dc||!R.dc.teams) return -99; const t=R.dc.teams[lbnorm(name)]; return t ? (t.atk + t.def) : -99; }
+function buildModelEntry(){
+  if(!__poolRatings || !__poolRatings.dc) return null;
+  const positions={}, thirds=[];
+  Object.entries(GROUPS).forEach(([g,arr])=>{ const ranked=arr.map(([n])=>n).sort((a,b)=>modelStrength(b)-modelStrength(a));
+    ranked.forEach((n,i)=>positions[`${g}-${n}`]=i+1); thirds.push({g, s:modelStrength(ranked[2])}); });
+  thirds.sort((a,b)=>b.s-a.s); const starred=thirds.slice(0,8).map(t=>t.g);
+  const posTeam=(g,p)=>{ const e=Object.entries(positions).find(([k,v])=>k.startsWith(g+'-')&&v===p); return e?e[0].slice(g.length+1):null; };
+  const thirdSlots=[]; R32_SPEC.forEach(s=>{ if(s.a.type==='third')thirdSlots.push({id:s.id,side:'a',allowed:s.a.allowed}); if(s.b.type==='third')thirdSlots.push({id:s.id,side:'b',allowed:s.b.allowed}); });
+  const assign={}, used=new Array(starred.length).fill(false);
+  (function bt(i){ if(i>=thirdSlots.length)return true; const sl=thirdSlots[i]; for(let j=0;j<starred.length;j++){ if(used[j])continue; if(sl.allowed.includes(starred[j])){ used[j]=true; assign[sl.id+'_'+sl.side]=posTeam(starred[j],3); if(bt(i+1))return true; used[j]=false; } } return false; })(0);
+  const refTeam=(ref,id,side)=>ref.type==='pos'?posTeam(ref.group,ref.pos):(ref.type==='third'?assign[id+'_'+side]:null);
+  const winnersByName={}; const wn=id=>winnersByName[id]||null;
+  R32_SPEC.forEach(s=>{ const a=refTeam(s.a,s.id,'a'),b=refTeam(s.b,s.id,'b'); if(a&&b) winnersByName[s.id]=modelStrength(a)>=modelStrength(b)?a:b; });
+  [[R16_PAIRS,'R16'],[QF_PAIRS,'QF'],[SF_PAIRS,'SF'],[F_PAIRS,'F']].forEach(([pairs,pref])=>{ pairs.forEach((pr,i)=>{ const id=`${pref}-${i+1}`, a=wn(pr[0]),b=wn(pr[1]); if(a&&b) winnersByName[id]=modelStrength(a)>=modelStrength(b)?a:b; }); });
+  return {positions, starred, winnersByName, champion: winnersByName['F-1']||null};
+}
+function scoreModelEntry(m, official){
+  if(!official) return 0; let pts=0;
+  if(official.positions) Object.entries(m.positions).forEach(([k,p])=>{ if(official.positions[k]===p) pts+=POINTS.groupPos[p]||0; });
+  if((official.starred||[]).length) m.starred.forEach(g=>{ if(official.starred.includes(g)) pts+=POINTS.starredThird; });
+  if(official.winners) Object.entries(official.winners).forEach(([id,name])=>{ const p=POINTS.rounds[id.split('-')[0]]||0; if(p && m.winnersByName[id]===name) pts+=p; });
+  return pts;
+}
 async function loadLeaderboard(){
   const statusEl = document.getElementById("lb-status");
   const contentEl = document.getElementById("lb-content");
@@ -3180,8 +3233,21 @@ async function loadLeaderboard(){
         goldenBoot: r.golden_boot,
       };
     });
-    window.__poolRanked = ranked;  /* expose for side-by-side comparator */
+    window.__poolRanked = ranked.slice();  /* humans only — for the side-by-side comparator */
     refreshCompareButton();
+    const humanCount = ranked.length;
+
+    /* consensus / reveal — most-picked champions (human picks only) */
+    const champCounts = {};
+    ranked.forEach(r => { if(r.champion){ const k=r.champion.name; (champCounts[k] = champCounts[k] || {n:0, code:r.champion.code}); champCounts[k].n++; } });
+    const champTop = Object.entries(champCounts).map(([name,v]) => ({name, ...v})).sort((a,b) => b.n - a.n);
+
+    /* the model joins as a guest contestant ("can you beat the model?") */
+    await loadPoolRatings();
+    const me = buildModelEntry();
+    if (me){ ranked.push({ userId:'__model__', name: t('lb.model'), isModel:true,
+        champion: me.champion ? teamObjByName(me.champion) : null, score: scoreModelEntry(me, official),
+        submittedAt: '2026-06-11T00:00:00.000Z', isMe:false, picks:null }); }
 
     const hasResults = !!official && (
       Object.keys(official.positions||{}).length ||
@@ -3190,17 +3256,21 @@ async function loadLeaderboard(){
     );
 
     if (hasResults){
-      ranked.sort((a,b) => b.score - a.score || a.submittedAt.localeCompare(b.submittedAt));
+      ranked.sort((a,b) => b.score - a.score || (a.submittedAt||'').localeCompare(b.submittedAt||''));
     }
 
-    document.getElementById("lb-count").textContent = `(${ranked.length})`;
+    document.getElementById("lb-count").textContent = `(${humanCount})`;
 
     if (ranked.length === 0){
       contentEl.innerHTML = `<div class="lb-empty">${t("lb.empty")}</div>`;
       statusEl.textContent = "";
     } else {
       const colCount = hasResults ? 5 : 4;
-      contentEl.innerHTML = `
+      const consensusHtml = champTop.length ? `<div class="lb-consensus">
+          <span class="lbc-h">${t("lb.consensus")}</span>
+          <div class="lbc-row">${champTop.slice(0,5).map(c => `<span class="lbc-chip"><img src="https://flagcdn.com/w20/${c.code}.png" alt=""> ${escapeHtml(c.name)} <b>${c.n}</b></span>`).join("")}</div>
+        </div>` : "";
+      contentEl.innerHTML = consensusHtml + `
         <table class="lb-table">
           <thead>
             <tr>
@@ -3217,19 +3287,20 @@ async function loadLeaderboard(){
               const ts = new Date(r.submittedAt);
               const locale = LANG === "es" ? "es-ES" : "en-GB";
               const tsStr = ts.toLocaleDateString(locale,{day:"2-digit",month:"short"}) + " " + ts.toLocaleTimeString(locale,{hour:"2-digit",minute:"2-digit"});
+              const isModel = r.isModel;
               return `
-                <tr class="lb-row ${r.isMe?'me':''}" data-idx="${i}">
+                <tr class="lb-row ${r.isMe?'me':''} ${isModel?'model':''}" data-idx="${i}">
                   <td class="rank ${rankClass}">${i+1}</td>
-                  <td class="name">${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}<span class="expand-icon">▸</span></td>
+                  <td class="name">${isModel?'🤖 ':''}${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}${isModel?'':'<span class="expand-icon">▸</span>'}</td>
                   <td class="champ">${r.champion ? `<img src="https://flagcdn.com/w40/${r.champion.code}.png" alt=""><span>${escapeHtml(r.champion.name)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
                   ${hasResults ? `<td class="num">${r.score}</td>` : ''}
-                  <td style="color:#6b7280;font-size:.86em">${tsStr}</td>
+                  <td style="color:#6b7280;font-size:.86em">${isModel?'🔮':tsStr}</td>
                 </tr>
-                <tr class="lb-detail-row hidden" data-detail="${i}">
+                ${isModel ? '' : `<tr class="lb-detail-row hidden" data-detail="${i}">
                   <td colspan="${colCount}">
                     <div class="lb-detail"></div>
                   </td>
-                </tr>
+                </tr>`}
               `;
             }).join("")}
           </tbody>
@@ -3240,6 +3311,7 @@ async function loadLeaderboard(){
         row.addEventListener("click",()=>{
           const idx = row.dataset.idx;
           const detail = contentEl.querySelector(`tr[data-detail="${idx}"]`);
+          if (!detail) return;   /* model row has no detail */
           const isOpen = !detail.classList.contains("hidden");
           /* Close any other open detail */
           contentEl.querySelectorAll(".lb-detail-row").forEach(d => d.classList.add("hidden"));
