@@ -820,7 +820,7 @@ async function loadResults(){
 
 /* Live group standings straight from ESPN (free, no key) — auto-updates as matches finish */
 let __espnStand = null;
-const SALIAS = {czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
+const SALIAS = {czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates',unitedstatesofamerica:'unitedstates',bosniaandherzegovina:'bosniaherzegovina',cotedivoire:'ivorycoast',caboverde:'capeverde'};
 function snrm(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return SALIAS[x]||x; }
 async function loadEspnStandings(){
   if(document.hidden) return;            // don't poll while tab is hidden
@@ -832,7 +832,7 @@ async function loadEspnStandings(){
       out[letter] = {};
       ((g.standings&&g.standings.entries)||[]).forEach(e=>{
         const sm={}; (e.stats||[]).forEach(s=>{ sm[s.name]=parseFloat(s.displayValue)||0; });
-        out[letter][snrm((e.team||{}).displayName)] = {pj:sm.gamesPlayed||0,w:sm.wins||0,d:sm.ties||0,l:sm.losses||0,gf:sm.pointsFor||0,ga:sm.pointsAgainst||0};
+        out[letter][snrm((e.team||{}).displayName)] = {pj:sm.gamesPlayed||0,w:sm.wins||0,d:sm.ties||0,l:sm.losses||0,gf:sm.pointsFor||0,ga:sm.pointsAgainst||0,rank:sm.rank};
       });
     });
     if(Object.keys(out).length){ __espnStand=out; if(document.getElementById('standings') && document.getElementById('standings').style.display!=='none') buildStandings(); }
@@ -895,15 +895,17 @@ function buildStandings(){
       const eg = __espnStand[g]; if(!eg) return;
       Object.values(groups[g]).forEach(r=>{
         const e = eg[snrm(r.team)];
-        if(e){ r.pj=e.pj; r.w=e.w; r.d=e.d; r.l=e.l; r.gf=e.gf; r.ga=e.ga; }
+        if(e){ r.pj=e.pj; r.w=e.w; r.d=e.d; r.l=e.l; r.gf=e.gf; r.ga=e.ga; r.rank=e.rank; }
       });
     });
   }
   const gids = Object.keys(groups).sort();
   el.innerHTML = gids.map(g => {
     const rows = Object.values(groups[g])
-      .map(r => ({...r, pts:r.w*3+r.d, dg:r.gf-r.ga}))
-      .sort((x,y) => y.pts-x.pts || y.dg-x.dg || y.gf-x.gf || x.team.localeCompare(y.team));
+      .map(r => ({...r, pts:r.w*3+r.d, dg:r.gf-r.ga}));
+    /* prefer ESPN's authoritative rank (FIFA tiebreakers); fall back to pts/gd/gf */
+    const haveRank = rows.length && rows.every(r=>r.rank!=null && !isNaN(r.rank));
+    rows.sort(haveRank ? (x,y)=>x.rank-y.rank : (x,y)=> y.pts-x.pts || y.dg-x.dg || y.gf-x.gf || x.team.localeCompare(y.team));
     const body = rows.map((r,i) => {
       const code = teamFlag(r.team);
       const flag = code ? `<img src="https://flagcdn.com/w40/${code}.png" alt="">` : '';
