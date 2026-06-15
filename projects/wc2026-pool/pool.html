@@ -3165,9 +3165,13 @@ async function buildLiveOfficial(){
   const positions={}, groupDone={}, thirdsStats=[];
   (standings.children||[]).forEach(grp=>{
     const L=((grp.name||'').match(/Group\s+([A-L])/i)||[])[1]; if(!L||!GROUPS[L]) return;
-    const ent={}; ((grp.standings&&grp.standings.entries)||[]).forEach(e=>{ const sm={}; (e.stats||[]).forEach(s=>sm[s.name]=parseFloat(s.displayValue)); ent[lbnorm((e.team||{}).displayName)]={pts:(sm.points!=null?sm.points:((sm.wins||0)*3+(sm.ties||0))),gd:(sm.pointsFor||0)-(sm.pointsAgainst||0),gf:(sm.pointsFor||0),pj:(sm.gamesPlayed||0)}; });
+    const ent={}; ((grp.standings&&grp.standings.entries)||[]).forEach(e=>{ const sm={}; (e.stats||[]).forEach(s=>sm[s.name]=parseFloat(s.displayValue)); ent[lbnorm((e.team||{}).displayName)]={pts:(sm.points!=null?sm.points:((sm.wins||0)*3+(sm.ties||0))),gd:(sm.pointsFor||0)-(sm.pointsAgainst||0),gf:(sm.pointsFor||0),pj:(sm.gamesPlayed||0),rank:sm.rank}; });
     const rows=GROUPS[L].map(([name])=>({name, ...(ent[lbnorm(name)]||{pts:0,gd:0,gf:0,pj:0})}));
-    rows.sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf||a.name.localeCompare(b.name));
+    /* order by ESPN's authoritative rank (carries FIFA head-to-head tiebreakers) — falling
+       back to pts/gd/gf only if rank is missing. Re-sorting by pts/gd/gf alone wrongly broke
+       ties alphabetically (e.g. Cape Verde above Spain, Bosnia above Switzerland). */
+    const haveRank=rows.every(r=>r.rank!=null && !isNaN(r.rank));
+    rows.sort(haveRank ? (a,b)=>a.rank-b.rank : (a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf||a.name.localeCompare(b.name));
     groupDone[L]=rows.every(r=>r.pj>=3);
     /* only score a group once it has actually started — avoid alphabetical noise on 0-game groups */
     if(rows.some(r=>r.pj>=1)){ rows.forEach((r,i)=>{ positions[`${L}-${r.name}`]=i+1; if(i===2) thirdsStats.push({g:L, pts:r.pts, gd:r.gd, gf:r.gf}); }); }
