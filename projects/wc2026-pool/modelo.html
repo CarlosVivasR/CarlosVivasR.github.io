@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El modelo · WC 2026</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  h1{font-size:clamp(1.9em,4vw,2.6em);font-weight:700;letter-spacing:-.02em;margin-bottom:4px;font-family:var(--disp)}
+  .sub{color:var(--ink-2);margin-bottom:30px;font-size:.96em;max-width:60ch}
+  h2.sec{font-size:1.4em;font-weight:700;margin:40px 0 8px;letter-spacing:-.01em;font-family:var(--disp)}
+  h2.sec .k{color:var(--gold)}
+  .secsub{color:var(--muted);font-size:.88em;margin-bottom:16px;max-width:64ch}
+  /* hero metric */
+  .hero{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 28px;padding:22px 22px 18px;margin-bottom:8px;
+    border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(232,194,71,.07),rgba(255,255,255,.012))}
+  .hero .big{font-family:var(--mono);font-weight:800;font-size:clamp(2.6em,8vw,3.6em);line-height:1;color:var(--gold)}
+  .hero .biglab{font-size:.78em;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+  .hero .skill{font-family:var(--mono);font-weight:800;font-size:1.5em;color:var(--green)}
+  .hero .skilllab{font-size:.8em;color:var(--ink-2);max-width:22ch}
+  /* metric cards */
+  .mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+  .mcard{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--glass)}
+  .mcard .v{font-family:var(--mono);font-weight:800;font-size:1.5em;color:var(--ink)}
+  .mcard .l{font-size:.78em;color:var(--muted);margin-top:3px}
+  .mcard .h{font-size:.74em;color:var(--ink-2);margin-top:7px;line-height:1.45}
+  /* reliability diagram */
+  .relwrap{display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+  .relsvg{flex:1 1 360px;min-width:300px;max-width:480px}
+  .rellegend{flex:1;min-width:220px;font-size:.86em;color:var(--ink-2);line-height:1.6}
+  .rellegend b{color:var(--ink)}
+  /* how it works steps */
+  .steps{display:grid;gap:10px;margin-top:6px}
+  .step{display:flex;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--glass)}
+  .step .n{font-family:var(--mono);font-weight:800;color:var(--gold);font-size:1.05em;flex:none;width:26px}
+  .step .t b{font-weight:700}
+  .step .t p{color:var(--muted);font-size:.86em;margin-top:3px;line-height:1.5}
+  .step .t code{font-family:var(--mono);font-size:.82em;color:var(--cyan);background:rgba(53,224,216,.08);padding:1px 6px;border-radius:5px}
+  /* scope / uncertainty lists */
+  .ulist{display:grid;gap:9px;margin-top:6px}
+  .uitem{display:flex;gap:12px;padding:12px 15px;border-left:3px solid var(--line-2);background:rgba(255,255,255,.018);border-radius:0 10px 10px 0}
+  .uitem.warn{border-left-color:var(--red)}
+  .uitem .em{font-size:1.1em;flex:none}
+  .uitem b{font-weight:700}.uitem p{color:var(--muted);font-size:.86em;margin-top:2px;line-height:1.5}
+  .lvl{font-family:var(--mono);font-weight:800;color:var(--gold);flex:none}
+  .note{margin:34px 0 10px;font-size:.8em;color:var(--muted);text-align:center;line-height:1.6}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
+</head>
+<body>
+<div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+<div class="grid-lines"></div>
+<script>window.PAGE={active:'modelo',crumbs:[{label:'Inicio',href:'index.html'},{label:'Modelo'}]};</script>
+<div id="site-nav"></div>
+<div class="wrap" id="wrap" aria-live="polite"><p style="color:var(--muted)">Cargando…</p></div>
+<script src="assets/nav.js" defer></script>
+<script src="assets/search.js" defer></script>
+<script src="assets/i18n.js"></script>
+<script>
+const T={
+  es:{
+    title:'El modelo, sin maquillaje', sub:'Una predicción es un número, no una certeza. Aquí está lo que el modelo acierta, lo que falla y cómo de seguro está de sí mismo.',
+    bigLab:'RPS en el Mundial', bigHelp:'menor = mejor', skillLab:'mejor que la base informada (climatología)',
+    mAccV:'acierto', mAcc:'Acierto del 1X2', mAccH:'partido a partido en la validación.',
+    mEce:'Calibración (ECE)', mEceH:'desvío medio entre lo que dice y lo que pasa. <3% = muy bien calibrado.',
+    mN:'Partidos validados', mNH:'walk-forward, sin mirar el futuro.',
+    secHow:'Cómo funciona', secHowSub:'Cuatro capas, todas auditables. El núcleo no inventa: estima goles esperados desde el historial.',
+    s1b:'Dixon-Coles', s1p:'Modela los goles de cada equipo como un proceso de Poisson (ataque, defensa, ventaja de local) con corrección para resultados bajos.',
+    s2b:'Decaimiento temporal', s2p:'Los partidos viejos pesan menos: vida media de 4 años. Un amistoso cuenta el 70% de un oficial.',
+    s3b:'Ajuste por valor de plantilla', s3p:'Un pequeño empujón según el valor de mercado del plantel — validado fuera de muestra (no es decorado).',
+    s4b:'Mezcla con el mercado', s4p:'Se combina con las cuotas (sin el margen de la casa). El mercado es el rival a batir, no la climatología.',
+    secRel:'¿Están calibradas las probabilidades?', secRelSub:'Cuando el modelo dice 60%, ¿pasa el 60% de las veces? Cada punto es un grupo de partidos: en la diagonal = perfecto.',
+    relPred:'probabilidad dicha', relObs:'frecuencia real', relPerfect:'calibración perfecta',
+    relBuckets:'grupos', relAria:'Los puntos cerca de la diagonal significan probabilidades honestas.', relSize:'el tamaño del punto = partidos en ese grupo',
+    relLeg:'<b>Los puntos pegados a la diagonal</b> significan que las probabilidades son honestas: cuando dice 70%, gana ~el 70%. El ECE resume el desvío medio.',
+    secScope:'Lo que NO es', secScopeSub:'Tan importante como lo que hace.',
+    sc1b:'No bate al mercado', sc1p:'Se mezcla con él porque las cuotas suelen saber más. Esto no es consejo de apuestas.',
+    sc2b:'Probabilidades, no certezas', sc2p:'Un 70% pierde 3 de cada 10 veces. Eso no es un fallo del modelo: es cómo funciona la probabilidad.',
+    sc3b:'No ve las sorpresas', sc3p:'Rojas, penaltis, días tontos del portero — el ruido irreducible de un partido no se predice.',
+    sc4b:'Muestra sesgada', sc4p:'Un Mundial son 104 partidos de élite. Las métricas vienen de ~4.600 internacionales; el torneo es un trozo pequeño y atípico.',
+    secUnc:'Tres incertidumbres distintas', secUncSub:'Se suelen meter todas en el saco de “confianza”. No son lo mismo.',
+    uAb:'Del partido (azar)', uAp:'Hasta el mejor favorito puede perder. Es la entropía del resultado — la mide el icono ⚖️ de cada partido.',
+    uBb:'Del modelo (calibración)', uBp:'¿Son honestos los porcentajes? Sí: ECE ~2,9%. Esta página lo demuestra con el diagrama de arriba.',
+    uCb:'De los parámetros', uCp:'¿Cómo de seguros son los propios ratings? Esta es la que aún no se propaga del todo — pronto, como banda en la probabilidad de campeón.',
+    note:'Modelo congelado el {date} · backtest walk-forward sin fuga de datos · probabilidades, no certezas.',
+    fail:'No se pudo cargar el modelo.'
+  },
+  en:{
+    title:'The model, no make-up', sub:'A forecast is a number, not a certainty. Here is what the model gets right, where it fails, and how sure it is of itself.',
+    bigLab:'RPS at the World Cup', bigHelp:'lower = better', skillLab:'better than the informed baseline (climatology)',
+    mAccV:'hit-rate', mAcc:'1X2 accuracy', mAccH:'match by match in validation.',
+    mEce:'Calibration (ECE)', mEceH:'mean gap between what it says and what happens. <3% = very well calibrated.',
+    mN:'Matches validated', mNH:'walk-forward, never peeking at the future.',
+    secHow:'How it works', secHowSub:'Four layers, all auditable. The core invents nothing: it estimates expected goals from history.',
+    s1b:'Dixon-Coles', s1p:'Models each team’s goals as a Poisson process (attack, defence, home edge) with a correction for low scores.',
+    s2b:'Time decay', s2p:'Old matches weigh less: a 4-year half-life. A friendly counts 70% of a competitive game.',
+    s3b:'Squad-value tilt', s3p:'A small nudge based on squad market value — validated out of sample (not decoration).',
+    s4b:'Market blend', s4p:'Blended with the odds (house margin removed). The market is the bar to beat, not climatology.',
+    secRel:'Are the probabilities calibrated?', secRelSub:'When the model says 60%, does it happen 60% of the time? Each dot is a bucket of matches: on the diagonal = perfect.',
+    relPred:'stated probability', relObs:'actual frequency', relPerfect:'perfect calibration',
+    relBuckets:'buckets', relAria:'Dots near the diagonal mean honest probabilities.', relSize:'dot size = matches in that bucket',
+    relLeg:'<b>Dots hugging the diagonal</b> mean the probabilities are honest: when it says 70%, ~70% win. ECE is the average gap.',
+    secScope:'What it is NOT', secScopeSub:'As important as what it does.',
+    sc1b:'It does not beat the market', sc1p:'It blends with it because the odds usually know more. This is not betting advice.',
+    sc2b:'Probabilities, not certainties', sc2p:'A 70% loses 3 in 10. That is not a model failure — it is how probability works.',
+    sc3b:'It can’t see upsets', sc3p:'Red cards, penalties, keeper howlers — the irreducible noise of a match isn’t predictable.',
+    sc4b:'Biased sample', sc4p:'A World Cup is 104 elite games. The metrics come from ~4,600 internationals; the tournament is a small, unusual slice.',
+    secUnc:'Three different uncertainties', secUncSub:'They usually get lumped into “confidence”. They are not the same.',
+    uAb:'Of the match (chance)', uAp:'Even the best favourite can lose. That is the entropy of the result — shown by the ⚖️ icon on each match.',
+    uBb:'Of the model (calibration)', uBp:'Are the percentages honest? Yes: ECE ~2.9%. This page proves it with the diagram above.',
+    uCb:'Of the parameters', uCp:'How sure are the ratings themselves? This is the one not yet fully propagated — coming soon, as a band on the champion probability.',
+    note:'Model frozen on {date} · leak-free walk-forward backtest · probabilities, not certainties.',
+    fail:'Could not load the model.'
+  },
+  tr:{
+    title:'Model, makyajsız', sub:'Tahmin bir sayıdır, kesinlik değil. Modelin neyi doğru bildiği, nerede yanıldığı ve kendinden ne kadar emin olduğu burada.',
+    bigLab:'Dünya Kupası RPS', bigHelp:'düşük = daha iyi', skillLab:'bilgi temelli referans çizgisinden (klimatoloji) daha iyi',
+    mAccV:'isabet', mAcc:'1X2 isabeti', mAccH:'doğrulamada maç maç.',
+    mEce:'Kalibrasyon (ECE)', mEceH:'söylediği ile olan arasındaki ortalama fark. <%3 = çok iyi kalibre.',
+    mN:'Doğrulanan maç', mNH:'walk-forward, geleceğe bakmadan.',
+    secHow:'Nasıl çalışır', secHowSub:'Dört katman, hepsi denetlenebilir. Çekirdek uydurmaz: beklenen golleri geçmişten tahmin eder.',
+    s1b:'Dixon-Coles', s1p:'Her takımın gollerini Poisson süreci olarak modeller (hücum, defans, ev avantajı), düşük skorlar için düzeltmeyle.',
+    s2b:'Zaman sönümü', s2p:'Eski maçlar daha az ağırlık taşır: 4 yıllık yarı ömür. Bir hazırlık maçı resmî maçın %70’i kadar sayar.',
+    s3b:'Kadro değeri ayarı', s3p:'Kadro piyasa değerine göre küçük bir itme — örneklem dışı doğrulandı (süs değil).',
+    s4b:'Piyasa karışımı', s4p:'Oranlarla harmanlanır (ev marjı çıkarılmış). Aşılacak çıta piyasadır, klimatoloji değil.',
+    secRel:'Olasılıklar kalibre mi?', secRelSub:'Model %60 dediğinde gerçekten %60 oluyor mu? Her nokta bir maç grubu: köşegende = mükemmel.',
+    relPred:'söylenen olasılık', relObs:'gerçek sıklık', relPerfect:'mükemmel kalibrasyon',
+    relBuckets:'grup', relAria:'Köşegene yakın noktalar dürüst olasılıklar demektir.', relSize:'nokta boyutu = o gruptaki maç sayısı',
+    relLeg:'<b>Köşegene yapışık noktalar</b> olasılıkların dürüst olduğunu gösterir: %70 dediğinde ~%70 kazanır. ECE ortalama farktır.',
+    secScope:'NE DEĞİLDİR', secScopeSub:'Ne yaptığı kadar önemli.',
+    sc1b:'Piyasayı yenmez', sc1p:'Onunla harmanlanır çünkü oranlar genelde daha çok bilir. Bu bahis tavsiyesi değildir.',
+    sc2b:'Olasılık, kesinlik değil', sc2p:'%70, 10’da 3 kaybeder. Bu modelin hatası değil — olasılık böyle çalışır.',
+    sc3b:'Sürprizleri göremez', sc3p:'Kırmızı kart, penaltı, kaleci hatası — bir maçın indirgenemez gürültüsü tahmin edilemez.',
+    sc4b:'Yanlı örneklem', sc4p:'Bir Dünya Kupası 104 elit maçtır. Metrikler ~4.600 millî maçtan gelir; turnuva küçük ve sıra dışı bir dilim.',
+    secUnc:'Üç farklı belirsizlik', secUncSub:'Genelde hepsi “güven” torbasına atılır. Aynı şey değiller.',
+    uAb:'Maçın (şans)', uAp:'En iyi favori bile kaybedebilir. Bu sonucun entropisidir — her maçtaki ⚖️ ikonu gösterir.',
+    uBb:'Modelin (kalibrasyon)', uBp:'Yüzdeler dürüst mü? Evet: ECE ~%2,9. Bu sayfa yukarıdaki diyagramla kanıtlıyor.',
+    uCb:'Parametrelerin', uCp:'Ratinglerin kendisi ne kadar kesin? Henüz tam yayılmayan bu — yakında, şampiyon olasılığında bir bant olarak.',
+    note:'Model {date} tarihinde donduruldu · sızıntısız walk-forward backtest · olasılıklar, kesinlik değil.',
+    fail:'Model yüklenemedi.'
+  }
+};
+const L=k=>wcT(T,k);
+const fmtPct=x=>Math.round(x*100)+'%';
+
+function reliabilitySVG(bins, ece){
+  bins=(bins||[]).filter(b=>b&&Number.isFinite(b.pred)&&Number.isFinite(b.obs));
+  if(!bins.length) return '<p style="color:var(--muted)">—</p>';
+  const W=420,H=420,pad=46, x0=pad,y0=H-pad,x1=W-16,y1=16;
+  const sx=p=>x0+p*(x1-x0), sy=p=>y0-p*(y0-y1);
+  const grid=[0,.25,.5,.75,1].map(t=>`<line x1="${sx(t)}" y1="${y0}" x2="${sx(t)}" y2="${y1}" stroke="rgba(255,255,255,.06)"/><line x1="${x0}" y1="${sy(t)}" x2="${x1}" y2="${sy(t)}" stroke="rgba(255,255,255,.06)"/>`).join('');
+  const diag=`<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(1)}" y2="${sy(1)}" stroke="var(--gold)" stroke-opacity=".5" stroke-dasharray="5 5"/>`;
+  const maxN=Math.max(...bins.map(b=>b.n||1),1);
+  const pts=bins.map(b=>{const r=(5+7*Math.sqrt((b.n||1)/maxN)).toFixed(1); const px=Math.round(b.pred*100), ox=Math.round(b.obs*100);
+    return `<circle cx="${sx(b.pred).toFixed(1)}" cy="${sy(b.obs).toFixed(1)}" r="${r}" fill="var(--cyan)" fill-opacity=".8" stroke="#03040c" stroke-width="1.2"><title>${px}% ${L('relPred')} → ${ox}% ${L('relObs')} · n=${b.n||0}</title></circle>`;}).join('');
+  const axis=`<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}" stroke="var(--line-2)"/><line x1="${x0}" y1="${y0}" x2="${x0}" y2="${y1}" stroke="var(--line-2)"/>`;
+  const ticks=[0,.5,1].map(t=>`<text x="${sx(t)}" y="${y0+19}" fill="var(--muted)" font-size="12" text-anchor="middle" style="font-family:var(--mono)">${Math.round(t*100)}%</text><text x="${x0-9}" y="${sy(t)+4}" fill="var(--muted)" font-size="12" text-anchor="end" style="font-family:var(--mono)">${Math.round(t*100)}%</text>`).join('');
+  const ariaTxt=`${L('secRel')} — ${bins.length} ${L('relBuckets')}, ECE ${ece!=null?(ece*100).toFixed(1)+'%':'—'}. ${L('relAria')}`;
+  return `<svg class="relsvg" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="relTitle relDesc">
+    <title id="relTitle">${L('secRel')}</title><desc id="relDesc">${ariaTxt}</desc>
+    ${grid}${diag}${axis}${ticks}${pts}
+    <text x="${(x0+x1)/2}" y="${H-8}" fill="var(--ink-2)" font-size="12.5" text-anchor="middle">${L('relPred')} →</text>
+    <text transform="rotate(-90 15 ${(y0+y1)/2})" x="15" y="${(y0+y1)/2}" fill="var(--ink-2)" font-size="12.5" text-anchor="middle">${L('relObs')} →</text>
+  </svg>`;
+}
+
+(async function(){
+  let r;
+  try{ r=await fetch('data/ratings.json',{cache:'no-store'}).then(x=>{if(!x.ok)throw new Error(x.status);return x.json();}); }
+  catch(e){ document.getElementById('wrap').innerHTML=`<p style="color:var(--red)">${L('fail')}</p>`; return; }
+  const b=r.backtest||{};
+  const rpsMajor=b.rps_major, base=b.baseline_climatology_rps, skill=base?Math.round((1-rpsMajor/base)*100):null;
+  const bins=Array.isArray(b.reliability)?b.reliability:[];
+  const step=(n,b_,p)=>`<div class="step"><div class="n">${n}</div><div class="t"><b>${b_}</b><p>${p}</p></div></div>`;
+  const uitem=(lvl,b_,p,warn)=>`<div class="uitem${warn?' warn':''}"><span class="lvl">${lvl}</span><div><b>${b_}</b><p>${p}</p></div></div>`;
+  const sc=(b_,p)=>`<div class="uitem"><span class="em" aria-hidden="true" style="color:var(--muted)">✕</span><div><b>${b_}</b><p>${p}</p></div></div>`;
+
+  document.getElementById('wrap').innerHTML=`
+    <h1>${L('title')}</h1>
+    <p class="sub">${L('sub')}</p>
+
+    <div class="hero">
+      <div><div class="biglab">${L('bigLab')} · ${L('bigHelp')}</div><div class="big">${rpsMajor!=null?rpsMajor.toFixed(3):'—'}</div></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="skill">${skill!=null?'+'+skill+'%':'—'}</div>
+        <div class="skilllab">${L('skillLab')}</div>
+      </div>
+    </div>
+
+    <div class="mcards">
+      <div class="mcard"><div class="v">${b.acc!=null?fmtPct(b.acc):'—'}</div><div class="l">${L('mAcc')}</div><div class="h">${L('mAccH')}</div></div>
+      <div class="mcard"><div class="v">${b.ece!=null?(b.ece*100).toFixed(1)+'%':'—'}</div><div class="l">${L('mEce')}</div><div class="h">${L('mEceH')}</div></div>
+      <div class="mcard"><div class="v">${b.n!=null?b.n.toLocaleString():'—'}</div><div class="l">${L('mN')}</div><div class="h">${L('mNH')}</div></div>
+    </div>
+
+    <h2 class="sec">${L('secRel')}</h2>
+    <p class="secsub">${L('secRelSub')}</p>
+    <div class="relwrap">
+      ${reliabilitySVG(bins, b.ece)}
+      <div class="rellegend">${L('relLeg')}<br><br><span style="color:var(--muted);font-size:.9em">${L('relSize')}.</span></div>
+    </div>
+
+    <h2 class="sec">${L('secHow')}</h2>
+    <p class="secsub">${L('secHowSub')}</p>
+    <div class="steps">
+      ${step(1,L('s1b'),L('s1p'))}${step(2,L('s2b'),L('s2p'))}${step(3,L('s3b'),L('s3p'))}${step(4,L('s4b'),L('s4p'))}
+    </div>
+
+    <h2 class="sec">${L('secScope')}</h2>
+    <p class="secsub">${L('secScopeSub')}</p>
+    <div class="ulist">
+      ${sc(L('sc1b'),L('sc1p'))}${sc(L('sc2b'),L('sc2p'))}${sc(L('sc3b'),L('sc3p'))}${sc(L('sc4b'),L('sc4p'))}
+    </div>
+
+    <h2 class="sec">${L('secUnc')}</h2>
+    <p class="secsub">${L('secUncSub')}</p>
+    <div class="ulist">
+      ${uitem('A',L('uAb'),L('uAp'))}${uitem('B',L('uBb'),L('uBp'))}${uitem('C',L('uCb'),L('uCp'))}
+    </div>
+
+    <p class="note">${L('note').replace('{date}', r.snapshot_date||'—')}</p>`;
+})();
+</script>
+</body>
+</html>
