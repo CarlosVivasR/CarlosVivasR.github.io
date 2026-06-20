@@ -2868,29 +2868,36 @@ function getChampionTeam(picks){
   return w["F-1"] || null;
 }
 
+/* Position keys are "<GroupLetter>-<TeamName>"; normalise only the team-name part
+   (lbnorm = accent-strip + alias map) so picks and official match across name
+   spellings (e.g. "Türkiye" vs "Turkiye", admin vs live source). */
+function normPosKey(k){ const i = String(k).indexOf("-"); return i < 0 ? lbnorm(k) : k.slice(0, i + 1) + lbnorm(k.slice(i + 1)); }
+
 function computeScore(picks, official){
   if (!official) return 0;
   let pts = 0;
-  /* Group positions (4/3/2/1) */
+  /* Group positions (4/3/2/1) — match on normalised key, not exact string */
   if (official.positions && picks.positions){
+    const offPos = {};
+    Object.entries(official.positions).forEach(([k, v]) => { offPos[normPosKey(k)] = v; });
     Object.entries(picks.positions).forEach(([key, pos]) => {
-      if (official.positions[key] === pos) pts += POINTS.groupPos[pos] || 0;
+      if (offPos[normPosKey(key)] === pos) pts += POINTS.groupPos[pos] || 0;
     });
   }
-  /* Starred thirds (2 each, max 16) */
+  /* Starred thirds (2 each, max 16) — starred are group letters, no normalisation needed */
   if (Array.isArray(official.starred) && official.starred.length){
     (picks.starred || []).forEach(g => {
       if (official.starred.includes(g)) pts += POINTS.starredThird;
     });
   }
-  /* Match winners (1/2/3/4/13) */
+  /* Match winners (1/2/3/4/13) — compare team names normalised */
   if (official.winners){
     const userWins = userMatchWinners(picks);
     Object.entries(official.winners).forEach(([matchId, officialTeamName]) => {
       const ut = userWins[matchId];
       const round = matchId.split("-")[0];
       const p = POINTS.rounds[round] || 0;
-      if (ut && p && ut.name === officialTeamName) pts += p;
+      if (ut && p && lbnorm(ut.name) === lbnorm(officialTeamName)) pts += p;
     });
   }
   return pts;

@@ -546,14 +546,14 @@ const i18n={
 };
 function setLang(l){
   if(!i18n[l]) l='es';
-  localStorage.setItem('wc26-lang',l);document.documentElement.lang=l;
+  localStorage.setItem('wc2026-lang',l);document.documentElement.lang=l;
   document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.getAttribute('data-i18n');if(i18n[l][k]!=null)e.textContent=i18n[l][k];});
   document.querySelectorAll('.lang-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
   buildHome();
   buildData();
 }
 document.querySelectorAll('.lang-toggle button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
-(function(){const s=localStorage.getItem('wc26-lang');if(s&&i18n[s])return setLang(s);
+(function(){const s=localStorage.getItem('wc2026-lang')||localStorage.getItem('wc26-lang');if(s&&i18n[s])return setLang(s);
   const n=(navigator.language||'es').toLowerCase();setLang(n.startsWith('tr')?'tr':n.startsWith('en')?'en':'es');})();
 </script>
 <script src="assets/search.js" defer></script>

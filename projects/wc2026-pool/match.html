@@ -1269,7 +1269,9 @@ async function mcLoadResults(){
   }catch(e){ /* no results yet → standings stay at zero */ }
 }
 let __mcEspnStand=null;
-const MC_SALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
+const MC_SALIAS={czechrepublic:'czechia',turkey:'turkiye',usa:'unitedstates',unitedstatesofamerica:'unitedstates',
+  drcongo:'congodr',congodr:'congodr',bosniaandherzegovina:'bosniaherzegovina',cotedivoire:'ivorycoast',
+  caboverde:'capeverde',republicofireland:'ireland',korearepublic:'southkorea',irrussia:'iran'};
 function mcSnrm(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return MC_SALIAS[x]||x; }
 async function mcLoadEspnStandings(){
   if(document.hidden) return;            // don't poll while tab is hidden
