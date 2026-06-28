@@ -3307,14 +3307,9 @@ async function loadLeaderboard(){
     ranked.forEach(r => { if(r.champion){ const k=r.champion.name; (champCounts[k] = champCounts[k] || {n:0, code:r.champion.code}); champCounts[k].n++; } });
     const champTop = Object.entries(champCounts).map(([name,v]) => ({name, ...v})).sort((a,b) => b.n - a.n);
 
-    /* the model joins as a guest contestant ("can you beat the model?") — a real
-       player-format entry, so it scores + expands exactly like everyone else */
+    /* Model ratings stay loaded (the bracket tools use them), but the model is NOT
+       shown as a leaderboard contestant — removed by request. */
     await loadPoolRatings();
-    const mp = buildModelPicks();
-    if (mp){ ranked.push({ userId:'__model__', name: t('lb.model'), isModel:true,
-        champion: getChampionTeam(mp), score: computeScore(mp, official),
-        submittedAt: '2026-06-11T00:00:00.000Z', isMe:false, picks: mp,
-        finalGoalsA:null, finalGoalsB:null, goldenBoot:null }); }
 
     const hasResults = !!official && (
       Object.keys(official.positions||{}).length ||
