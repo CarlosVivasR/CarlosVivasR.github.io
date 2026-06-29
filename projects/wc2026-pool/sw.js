@@ -1,6 +1,6 @@
 /* Service worker — network-first (always fresh while we iterate; cache = offline fallback).
    Bump CACHE to force clients to drop the old cache. */
-const CACHE = 'wc26-v91';
+const CACHE = 'wc26-v92';
 self.addEventListener('install', e=>{ self.skipWaiting(); });
 self.addEventListener('activate', e=>{
   e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));

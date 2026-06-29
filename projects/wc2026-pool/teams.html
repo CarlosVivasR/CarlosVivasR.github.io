@@ -49,6 +49,25 @@
   .champ.card .reli-svg{width:200px;height:200px;max-width:60vw}
   .champ.card .reli-cap{font-size:.72em;color:var(--muted);margin-top:4px;max-width:220px;line-height:1.4}
   .champ.card .card-livewrap{flex:1;min-width:180px}
+  /* knockout bracket (cuadro) — above the groups */
+  .brk-wrap{margin:4px 0 26px;padding:14px 14px 10px}
+  .brk-wrap h2{font-size:1.05em;font-weight:800;margin-bottom:3px}
+  .brk-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+  .brk-grid{display:flex;gap:12px;min-width:max-content;align-items:stretch}
+  .brk-col{display:flex;flex-direction:column;justify-content:space-around;gap:8px;min-width:164px}
+  .brk-rh{font-size:.68em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;padding:4px 0}
+  .brk-tie{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;overflow:hidden;text-decoration:none;position:relative}
+  .brk-tie:hover{border-color:var(--cyan)}
+  .brk-slot{display:flex;align-items:center;gap:7px;padding:7px 9px;font-size:.82em;color:var(--ink)}
+  .brk-slot+.brk-slot{border-top:1px solid var(--line)}
+  .brk-slot img{width:20px;height:14px;object-fit:cover;border-radius:2px;flex:none}
+  .brk-slot .brk-dot{width:20px;height:14px;border-radius:2px;background:rgba(255,255,255,.06);flex:none}
+  .brk-slot .brk-nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+  .brk-slot.ph .brk-nm{color:var(--muted);font-weight:500}
+  .brk-slot .brk-wp{font-family:var(--mono);font-size:.84em;color:var(--muted);font-weight:700}
+  .brk-slot.win{background:rgba(46,194,126,.14)} .brk-slot.win .brk-nm{color:#7fe0ad}
+  .brk-slot.pwin{box-shadow:inset 3px 0 0 var(--gold)} .brk-slot.pwin .brk-nm{color:var(--gold)} .brk-slot.pwin .brk-wp{color:var(--gold)}
+  .brk-sc{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-weight:800;font-size:.8em;color:var(--ink);background:#0b0e16;padding:2px 6px;border-radius:6px;border:1px solid var(--line)}
   @media(max-width:560px){ table.st .opt{display:none} }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -64,9 +83,9 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 8.000 mundiales)',champTitle:'Favoritos al título',champSub:'Simulación del torneo completo con el modelo (8.000 mundiales): grupos + cuadro de eliminatorias.',cSF:'Semis',cFin:'Final',cChamp:'Campeón',cardTitle:'¿Cómo de fiable es el modelo?',cardBt:'Validado sin asomarse al futuro en {n} partidos internacionales: RPS {rps} (vs {base} prediciendo a ciegas) · acierta el {acc}% del 1X2 · calibración ECE {ece}.',cardEce:'Calibración: cuando el modelo dice 60%, ocurre ~60% de las veces (error medio ≈{ece} puntos).',cardLive:'En este Mundial: {n} partidos · acertó {hits} ({acc}%) · RPS {rps}',cardSmall:'muestra pequeña, se afina con el torneo',cardNone:'En este Mundial: aún sin partidos jugados.',reliTitle:'Diagrama de fiabilidad',reliCap:'Puntos sobre la diagonal = bien calibrado (lo que dice = lo que pasa). Tamaño = nº de partidos.',reliX:'predicho %',reliY:'observado %'},
-  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 8,000 World Cups)',champTitle:'Title favourites',champSub:'Full-tournament model simulation (8,000 World Cups): groups + knockout bracket.',cSF:'Semis',cFin:'Final',cChamp:'Champion',cardTitle:'How reliable is the model?',cardBt:'Validated with no future peeking on {n} internationals: RPS {rps} (vs {base} guessing blindly) · calls the 1X2 right {acc}% of the time · calibration ECE {ece}.',cardEce:'Calibration: when the model says 60%, it happens ~60% of the time (avg error ≈{ece} points).',cardLive:'This World Cup: {n} matches · {hits} correct ({acc}%) · RPS {rps}',cardSmall:'small sample, sharpens as the tournament goes',cardNone:'This World Cup: no matches played yet.',reliTitle:'Reliability diagram',reliCap:'Dots on the diagonal = well calibrated (what it says = what happens). Size = number of matches.',reliX:'predicted %',reliY:'observed %'},
-  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 8.000 Dünya Kupası)',champTitle:'Şampiyonluk favorileri',champSub:'Tüm turnuvanın model simülasyonu (8.000 Dünya Kupası): gruplar + eleme turu.',cSF:'Yarı',cFin:'Final',cChamp:'Şampiyon',cardTitle:'Model ne kadar güvenilir?',cardBt:'Geleceğe bakmadan {n} milli maçta doğrulandı: RPS {rps} (körlemesine tahminde {base}) · 1X2\'yi %{acc} doğru biliyor · kalibrasyon ECE {ece}.',cardEce:'Kalibrasyon: model %60 dediğinde, ~%60 gerçekleşir (ortalama hata ≈{ece} puan).',cardLive:'Bu Dünya Kupası: {n} maç · {hits} doğru (%{acc}) · RPS {rps}',cardSmall:'küçük örneklem, turnuvayla netleşir',cardNone:'Bu Dünya Kupası: henüz maç oynanmadı.',reliTitle:'Güvenilirlik diyagramı',reliCap:'Köşegen üzerindeki noktalar = iyi kalibre (söylediği = olan). Boyut = maç sayısı.',reliX:'tahmin %',reliY:'gözlenen %'}
+  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 8.000 mundiales)',champTitle:'Favoritos al título',champSub:'Simulación del torneo completo con el modelo (8.000 mundiales): grupos + cuadro de eliminatorias.',cSF:'Semis',cFin:'Final',cChamp:'Campeón',cardTitle:'¿Cómo de fiable es el modelo?',cardBt:'Validado sin asomarse al futuro en {n} partidos internacionales: RPS {rps} (vs {base} prediciendo a ciegas) · acierta el {acc}% del 1X2 · calibración ECE {ece}.',cardEce:'Calibración: cuando el modelo dice 60%, ocurre ~60% de las veces (error medio ≈{ece} puntos).',cardLive:'En este Mundial: {n} partidos · acertó {hits} ({acc}%) · RPS {rps}',cardSmall:'muestra pequeña, se afina con el torneo',cardNone:'En este Mundial: aún sin partidos jugados.',reliTitle:'Diagrama de fiabilidad',reliCap:'Puntos sobre la diagonal = bien calibrado (lo que dice = lo que pasa). Tamaño = nº de partidos.',reliX:'predicho %',reliY:'observado %',brkTitle:'Cuadro completo',brkSub:'Eliminatorias con los equipos reales según la clasificación; el % es el cara a cara del modelo (los partidos por jugar se rellenan con su favorito). Se concreta con cada resultado.',brR32:'Dieciseisavos',brR16:'Octavos',brQF:'Cuartos',brSF:'Semis',brFinal:'Final'},
+  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 8,000 World Cups)',champTitle:'Title favourites',champSub:'Full-tournament model simulation (8,000 World Cups): groups + knockout bracket.',cSF:'Semis',cFin:'Final',cChamp:'Champion',cardTitle:'How reliable is the model?',cardBt:'Validated with no future peeking on {n} internationals: RPS {rps} (vs {base} guessing blindly) · calls the 1X2 right {acc}% of the time · calibration ECE {ece}.',cardEce:'Calibration: when the model says 60%, it happens ~60% of the time (avg error ≈{ece} points).',cardLive:'This World Cup: {n} matches · {hits} correct ({acc}%) · RPS {rps}',cardSmall:'small sample, sharpens as the tournament goes',cardNone:'This World Cup: no matches played yet.',reliTitle:'Reliability diagram',reliCap:'Dots on the diagonal = well calibrated (what it says = what happens). Size = number of matches.',reliX:'predicted %',reliY:'observed %',brkTitle:'Full bracket',brkSub:'Knockout with the real teams from the standings; the % is the model head-to-head (unplayed ties are filled with its pick). Firms up with every result.',brR32:'Round of 32',brR16:'Round of 16',brQF:'Quarters',brSF:'Semis',brFinal:'Final'},
+  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 8.000 Dünya Kupası)',champTitle:'Şampiyonluk favorileri',champSub:'Tüm turnuvanın model simülasyonu (8.000 Dünya Kupası): gruplar + eleme turu.',cSF:'Yarı',cFin:'Final',cChamp:'Şampiyon',cardTitle:'Model ne kadar güvenilir?',cardBt:'Geleceğe bakmadan {n} milli maçta doğrulandı: RPS {rps} (körlemesine tahminde {base}) · 1X2\'yi %{acc} doğru biliyor · kalibrasyon ECE {ece}.',cardEce:'Kalibrasyon: model %60 dediğinde, ~%60 gerçekleşir (ortalama hata ≈{ece} puan).',cardLive:'Bu Dünya Kupası: {n} maç · {hits} doğru (%{acc}) · RPS {rps}',cardSmall:'küçük örneklem, turnuvayla netleşir',cardNone:'Bu Dünya Kupası: henüz maç oynanmadı.',reliTitle:'Güvenilirlik diyagramı',reliCap:'Köşegen üzerindeki noktalar = iyi kalibre (söylediği = olan). Boyut = maç sayısı.',reliX:'tahmin %',reliY:'gözlenen %',brkTitle:'Tam eşleşme',brkSub:'Puan durumuna göre gerçek takımlarla eleme; % modelin ikili karşılaştırması (oynanmamış eşleşmeler favoriyle dolar). Her sonuçla netleşir.',brR32:'Son 32',brR16:'Son 16',brQF:'Çeyrek',brSF:'Yarı',brFinal:'Final'}
 };
 const L=k=>wcT(T,k);
 const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
@@ -130,6 +149,10 @@ function fxLambdas(t1,t2,venC){
 function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 let __rng = Math.random;
 function samplePois(l){ const e=Math.exp(-Math.max(0,l)); let k=0,p=1; do{ k++; p*=__rng(); }while(p>e); return k-1; }
+/* analytic knockout advance probabilities [pA,pB] from the model's Poisson means (draw → ET/pens by relative strength) — for the bracket display */
+function advPct(L){ if(!L||L[0]==null||isNaN(L[0])||isNaN(L[1])) return null; const po=l=>{ const v=[]; let p=Math.exp(-Math.max(0,l)); for(let k=0;k<=8;k++){ v.push(p); p*=Math.max(0,l)/(k+1); } return v; };
+  const A=po(L[0]),B=po(L[1]); let h=0,d=0,w=0; for(let i=0;i<9;i++)for(let j=0;j<9;j++){ const p=A[i]*B[j]; if(i>j)h+=p; else if(i===j)d+=p; else w+=p; }
+  const s=h+d+w||1; h/=s;d/=s;w/=s; const hw=h+w||1; return [h+d*h/hw, w+d*w/hw]; }
 function poisArr(l){ const v=[]; let p=Math.exp(-Math.max(0,l)); for(let k=0;k<=8;k++){ v.push(p); p*=Math.max(0,l)/(k+1); } return v; }
 function probs1x2(l1,l2){ const A=poisArr(l1),B=poisArr(l2); let h=0,d=0,w=0; for(let i=0;i<A.length;i++)for(let j=0;j<B.length;j++){ const p=A[i]*B[j]; if(i>j)h+=p; else if(i===j)d+=p; else w+=p; } const s=h+d+w||1; return [h/s,d/s,w/s]; }
 function rps3(p,act){ const o=[0,0,0]; o[act]=1; let cp=0,co=0,s=0; for(let i=0;i<2;i++){ cp+=p[i]; co+=o[i]; s+=(cp-co)*(cp-co); } return s/2; }
@@ -239,6 +262,52 @@ async function render(){
     const koList=(sched.matches||[]).map((mm,i)=>({i,t1:mm.team1,t2:mm.team2,round:mm.round,venC:venueHost(mm.ground)})).filter(x=>{ const mm=sched.matches[x.i]; return !mm.group && /round of|final|quarter|semi|third/i.test(x.round||''); });
     try{ qual=simAll(simFx, baseRows, koList, 8000); }catch(e){ qual=null; }
   }
+  /* ---- full knockout bracket (cuadro): real teams from the standings, forward-filled with the model's pick ---- */
+  let brkHTML='';
+  try{
+  if(__rt&&__rt.dc){
+    const rk={};
+    groups.forEach(g=>{ const er=espnRank[g]||{};
+      const rows=Object.values(stats[g]).map(r=>({...r,pts:r.w*3+r.d,dg:r.gf-r.ga,rkn:er[nrm2(r.name)]}));
+      const hr=rows.length&&rows.every(r=>r.rkn!=null&&!isNaN(r.rkn));
+      rows.sort(hr?(x,y)=>x.rkn-y.rkn:(x,y)=>y.pts-x.pts||y.dg-x.dg||y.gf-x.gf||x.name.localeCompare(y.name));
+      rk[g]=rows; });
+    const thirds=groups.map(g=>rk[g]&&rk[g][2]?{g,...rk[g][2]}:null).filter(Boolean)
+      .sort((x,y)=>y.pts-x.pts||y.dg-x.dg||y.gf-x.gf).slice(0,8);
+    const rn=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+    const ko=(sched.matches||[]).map((m,i)=>({i,m})).filter(x=>{ const r=x.m.round||''; return !x.m.group && /round of|quarter|semi|final/i.test(r) && !/third/i.test(r); })
+      .sort((a,b)=>{ const rr=s=>({roundof32:1,roundof16:2,quarterfinal:3,semifinal:4,final:5}[String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'')]||9); return rr(a.m.round)-rr(b.m.round)||(a.m.num||0)-(b.m.num||0); });
+    const tslots=[]; ko.forEach(x=>{ [['t1',x.m.team1],['t2',x.m.team2]].forEach(([side,ref])=>{ const mm=String(ref||'').match(/^3([A-L/]+)$/i); if(mm) tslots.push({num:x.m.num,side,allowed:new Set(mm[1].toUpperCase().split('/').filter(Boolean))}); }); });
+    const tA={}, usedT=new Array(thirds.length).fill(false);
+    (function bt(si){ if(si>=tslots.length) return true; const sl=tslots[si]; for(let ti=0;ti<thirds.length;ti++){ if(usedT[ti])continue; if(sl.allowed.has(thirds[ti].g)){ usedT[ti]=true; tA[sl.num+sl.side]=thirds[ti]; if(bt(si+1))return true; usedT[ti]=false; } } return false; })(0);
+    const tobj=name=>{ const mm=meta[norm(name)]||{}; return {name, code:mm.flag||''}; };
+    const winner={};
+    const resolveRef=(ref,num,side)=>{ ref=String(ref||'').trim(); let m;
+      if(/^3/.test(ref)){ const t=tA[num+side]; return t?tobj(t.name):null; }
+      if(m=ref.match(/^([12])([A-L])$/i)){ const arr=rk[m[2].toUpperCase()]; const row=arr&&arr[+m[1]-1]; return row?tobj(row.name):null; }
+      if(m=ref.match(/^W(\d+)$/i)) return winner[+m[1]]||null;
+      return null; };
+    const ties=ko.map(x=>{ const t1=resolveRef(x.m.team1,x.m.num,'t1'), t2=resolveRef(x.m.team2,x.m.num,'t2');
+      let sc=null, wn=null, pred=false, wp=null;
+      if(t1&&t2){ const rec=espn[[nrm2(t1.name),nrm2(t2.name)].sort().join('__')];
+        if(rec){ const s1=rec[nrm2(t1.name)], s2=rec[nrm2(t2.name)]; if(s1!=null&&s2!=null){ sc=[s1,s2]; if(s1!==s2) wn=(s1>s2?t1:t2); } }
+        wp=advPct(fxLambdas(t1.name,t2.name,venueHost(x.m.ground)));
+        if(!wn&&wp){ wn=(wp[0]>=wp[1]?t1:t2); pred=true; } }
+      winner[x.m.num]=wn||null;
+      return {i:x.i,round:x.m.round,t1,t2,sc,wn,pred,wp,ref1:x.m.team1,ref2:x.m.team2}; });
+    const slot=(team,ref,wp,kind)=>{ const ph=!team; const code=team&&team.code;
+      return `<div class="brk-slot ${kind} ${ph?'ph':''}">${code?`<img src="https://flagcdn.com/w40/${code}.png" alt="">`:'<span class="brk-dot"></span>'}<span class="brk-nm">${ph?ref:team.name}</span>${wp!=null?`<span class="brk-wp">${Math.round(wp*100)}%</span>`:''}</div>`; };
+    const tieHTML=t=>{ const w1=t.wn&&t.t1&&t.wn.name===t.t1.name, w2=t.wn&&t.t2&&t.wn.name===t.t2.name;
+      const k1=t.sc?(w1?'win':''):(t.pred&&w1?'pwin':''), k2=t.sc?(w2?'win':''):(t.pred&&w2?'pwin':'');
+      const wp1=t.sc?null:(t.wp?t.wp[0]:null), wp2=t.sc?null:(t.wp?t.wp[1]:null);
+      const scTx=t.sc?`<span class="brk-sc">${t.sc[0]}–${t.sc[1]}</span>`:'';
+      return `<a class="brk-tie" href="match.html?m=${t.i}">${slot(t.t1,t.ref1,wp1,k1)}${slot(t.t2,t.ref2,wp2,k2)}${scTx}</a>`; };
+    const cols=[['Round of 32',L('brR32')],['Round of 16',L('brR16')],['Quarter-final',L('brQF')],['Semi-final',L('brSF')],['Final',L('brFinal')]];
+    const grid=cols.map(([rd,lab])=>{ const ms=ties.filter(t=>rn(t.round)===rn(rd)); if(!ms.length) return '';
+      return `<div class="brk-col"><div class="brk-rh">${lab}</div>${ms.map(tieHTML).join('')}</div>`; }).join('');
+    if(grid) brkHTML=`<div class="brk-wrap glass"><h2>🏆 ${L('brkTitle')}</h2><div class="champ-sub">${L('brkSub')}</div><div class="brk-scroll"><div class="brk-grid">${grid}</div></div></div>`;
+  }
+  }catch(e){ brkHTML=''; }
   const qCol = !!qual;
   /* #3 champion / deep-run section */
   let champHTML='';
@@ -277,6 +346,7 @@ async function render(){
       <span><i style="background:#35e0d8"></i>${L('q2')}</span>
       <span><i style="background:#f4d76b"></i>${L('q3')}</span>
     </div>
+    ${brkHTML}
     <div class="groups">`;
   groups.forEach(g=>{
     const er=espnRank[g]||{};
