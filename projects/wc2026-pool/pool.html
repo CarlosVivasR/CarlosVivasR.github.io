@@ -24,6 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
 <style>
   :root{
     --bg:#03040c; --surface:rgba(255,255,255,.045); --surface-2:rgba(255,255,255,.07);
@@ -932,6 +933,52 @@
   body.pool-locked #groups,
   body.pool-locked #bracket,
   body.pool-locked #status-pill { display:none !important; }
+
+  /* ═══════════ Prediction-lab — dark skin + podium for the leaderboard ═══════════
+     Additive: re-skins the old hard-coded light island onto the page's dark tokens,
+     and adds a top-3 podium above the table. Overrides win by coming last in the cascade. */
+  .lb-consensus{background:var(--surface);border-color:var(--line)}
+  .lb-consensus .lbc-h{color:var(--muted)}
+  .lb-consensus .lbc-chip{background:rgba(255,255,255,.05);border-color:var(--line);color:var(--ink-2)}
+  .lb-consensus .lbc-chip b{color:var(--gold-2)}
+  .lb-table{background:var(--surface);color:var(--ink-2);border-color:var(--line)}
+  .lb-table th{background:rgba(255,255,255,.045);color:var(--muted);border-bottom-color:var(--line)}
+  .lb-table td{border-bottom-color:var(--line)}
+  .lb-table td.num,.lb-table td.name{color:var(--ink)}
+  .lb-table td.champ{color:var(--ink-2)}
+  .lb-table tr.lb-row.model .name{color:var(--gold-2)}
+  .lb-table tbody tr.lb-row:hover{background:rgba(255,255,255,.05)}
+  .lb-table tbody tr.lb-row.me{background:rgba(232,194,71,.16)}
+  .lb-detail-row{background:transparent}
+  .lb-detail{background:var(--surface-2);box-shadow:none;border-left-color:var(--gold)}
+  .lb-detail-block h5{color:var(--muted)}
+  .lb-empty{background:var(--surface);border-color:var(--line);color:var(--muted)}
+  /* the leaderboard card shell + header (was a light panel) */
+  .leaderboard{background:var(--surface);border-color:var(--line);box-shadow:0 10px 34px rgba(0,0,0,.38)}
+  .leaderboard > summary:hover{background:rgba(255,255,255,.03)}
+  .leaderboard-head .icon{background:var(--gold);color:#03040c}
+  .leaderboard-head h3{color:var(--ink)}
+  .leaderboard-head p,.leaderboard-head .count,.leaderboard .chevron,.lb-status{color:var(--muted)}
+  .lb-refresh{background:var(--surface);border-color:var(--line);color:var(--ink-2)}
+  .lb-refresh:hover{background:rgba(255,255,255,.06)}
+  .lb-compare-btn{background:#35e0d8;color:#03040c}
+  .lb-compare-btn:hover{box-shadow:0 4px 12px rgba(53,224,216,.3)}
+  /* podium */
+  .lb-podium{display:flex;align-items:flex-end;justify-content:center;gap:12px;margin:2px 0 20px;padding:0 6px}
+  .pod{flex:1;max-width:176px;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .pod-medal{font-size:1.55em;line-height:1;margin-bottom:5px}
+  .pod-flag{width:36px;height:25px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.22);margin-bottom:6px}
+  .pod-name{font-weight:700;font-size:.9em;color:var(--ink);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pod-pts{font-family:var(--mono,monospace);font-weight:800;font-size:1.3em;color:var(--gold-2);margin-top:1px;line-height:1.1}
+  .pod-pts .pod-u{font-size:.46em;font-weight:600;color:var(--muted);font-family:'Inter',sans-serif;margin-left:1px}
+  .pod-base{width:100%;margin-top:10px;border-radius:9px 9px 0 0;border:1px solid var(--line);border-bottom:none;background:linear-gradient(180deg,var(--surface-2),rgba(255,255,255,.01));transform-origin:bottom}
+  .pod-0 .pod-base{height:78px;border-top:3px solid #f4d76b;box-shadow:inset 0 1px 0 rgba(244,215,107,.35)}
+  .pod-1 .pod-base{height:56px;border-top:3px solid #cdd2dc}
+  .pod-2 .pod-base{height:42px;border-top:3px solid #cd8b50}
+  .pod-0 .pod-pts{font-size:1.55em}
+  .pod.me .pod-name{color:var(--gold-2)}
+  @media(max-width:560px){ .lb-podium{gap:7px} .pod-flag{width:30px;height:21px} .pod-name{font-size:.8em} .pod-0 .pod-pts{font-size:1.3em} }
+  @media(prefers-reduced-motion:reduce){ .pod,.lb-table tbody tr.lb-row{opacity:1!important;transform:none!important} }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
 </head>
@@ -3340,7 +3387,17 @@ async function loadLeaderboard(){
           <span class="lbc-h">${t("lb.consensus")}</span>
           <div class="lbc-row">${champTop.slice(0,5).map(c => `<span class="lbc-chip"><img src="https://flagcdn.com/w20/${c.code}.png" alt=""> ${escapeHtml(c.name)} <b>${c.n}</b></span>`).join("")}</div>
         </div>` : "";
-      contentEl.innerHTML = consensusHtml + `
+      /* top-3 podium (visual order 2-1-3, 1st tallest) — built from the same ranked data */
+      const podiumHtml = (hasResults && ranked.length>=3) ? '<div class="lb-podium">' + [1,0,2].map(function(ri){
+        var r=ranked[ri], medal=['🥇','🥈','🥉'][ri];
+        return '<div class="pod pod-'+ri+(r.isMe?' me':'')+'">'
+          +'<div class="pod-medal">'+medal+'</div>'
+          +(r.champion?'<img class="pod-flag" src="https://flagcdn.com/w40/'+r.champion.code+'.png" alt="">':'<div class="pod-flag" style="background:rgba(255,255,255,.08)"></div>')
+          +'<div class="pod-name" title="'+escapeHtml(r.name)+'">'+escapeHtml(r.name)+'</div>'
+          +'<div class="pod-pts">'+r.score+'<span class="pod-u">pts</span></div>'
+          +'<div class="pod-base"></div></div>';
+      }).join('') + '</div>' : "";
+      contentEl.innerHTML = podiumHtml + consensusHtml + `
         <table class="lb-table">
           <thead>
             <tr>
@@ -3386,6 +3443,15 @@ async function loadLeaderboard(){
           td.textContent = "0"; var s = null;
           requestAnimationFrame(function tick(t){ if(!s)s=t; var p=Math.min((t-s)/900,1); td.textContent=Math.round(to*(1-Math.pow(1-p,3))); if(p<1)requestAnimationFrame(tick); });
         });
+      }
+      /* premium entrance — anime.js stagger: podium pedestals rise, rows cascade in. Reduced-motion safe. */
+      /* Entrance animates TRANSFORM ONLY (never opacity) so content is never left invisible
+         if anime is paused (hidden tab) — at worst it's slightly offset, then the safety net settles it. */
+      if(window.anime && !matchMedia("(prefers-reduced-motion:reduce)").matches){
+        anime.suspendWhenDocumentHidden = false;
+        anime({targets:"#lb-content .pod", translateY:[20,0], delay:anime.stagger(90,{start:60}), duration:620, easing:"easeOutCubic"});
+        anime({targets:"#lb-content table.lb-table tbody tr.lb-row", translateX:[-10,0], delay:anime.stagger(26,{start:260}), duration:380, easing:"easeOutQuad"});
+        setTimeout(function(){ document.querySelectorAll("#lb-content .pod, #lb-content tr.lb-row").forEach(function(el){ el.style.transform=""; }); }, 1600);
       }
       /* Wire expand handlers */
       contentEl.querySelectorAll(".lb-row").forEach(row => {
