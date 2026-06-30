@@ -15,7 +15,7 @@
   .legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;font-size:.78em;color:var(--muted)}
   .legend span{display:inline-flex;align-items:center;gap:6px}
   .legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
-  .groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(370px,1fr));gap:16px;position:relative;left:50%;transform:translateX(-50%);width:min(96vw,1280px)}  /* same full-bleed width as the bracket */
   .group{padding:15px 16px 13px}
   .group h2{display:flex;align-items:center;gap:8px;font-size:.78em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:9px}
   .group h2 .gstatus{margin-left:auto;font-size:.8em;font-weight:700;letter-spacing:.02em;text-transform:none;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
@@ -119,6 +119,8 @@ const T={
 };
 const L=k=>wcT(T,k);
 const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
+const SHORT_NM={'Bosnia and Herzegovina':'Bosnia & Herz.'};   // long names → broadcast-style short form
+const shortNm=n=>SHORT_NM[n]||n;
 const norm=n=>(n||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,'').replace(/^usa$/,'unitedstates');
 /* ESPN name aliases so schedule names match the live feed (e.g. "Czech Republic"→"Czechia") */
 const T_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',unitedstatesofamerica:'unitedstates',usa:'unitedstates',bosniaandherzegovina:'bosniaherzegovina',cotedivoire:'ivorycoast',caboverde:'capeverde'};
@@ -367,7 +369,7 @@ async function render(){
       return {i:x.i,round:x.m.round,t1,t2,sc,wn,wp,pen,ref1:x.m.team1,ref2:x.m.team2}; });
     const plabel=ref=>{ const m=String(ref||'').match(/^W(\d+)$/i); return m?`${L('brWinner')} ${m[1]}`:ref; };
     const slot=(team,ref,wp,win)=>{ const ph=!team; const code=team&&team.code;
-      return `<div class="brk-slot ${win?'win':''} ${ph?'ph':''}">${code?`<img src="https://flagcdn.com/w40/${code}.png" alt="">`:'<span class="brk-dot"></span>'}<span class="brk-nm">${ph?plabel(ref):team.name}</span>${wp!=null?`<span class="brk-wp">${Math.round(wp*100)}%</span>`:''}</div>`; };
+      return `<div class="brk-slot ${win?'win':''} ${ph?'ph':''}">${code?`<img src="https://flagcdn.com/w40/${code}.png" alt="">`:'<span class="brk-dot"></span>'}<span class="brk-nm">${ph?plabel(ref):shortNm(team.name)}</span>${wp!=null?`<span class="brk-wp">${Math.round(wp*100)}%</span>`:''}</div>`; };
     const tieHTML=t=>{ const w1=t.sc&&t.wn&&t.t1&&t.wn.name===t.t1.name, w2=t.sc&&t.wn&&t.t2&&t.wn.name===t.t2.name;
       const known=t.t1&&t.t2&&!t.sc, wp1=(known&&t.wp)?t.wp[0]:null, wp2=(known&&t.wp)?t.wp[1]:null;
       const scTx=t.sc?`<span class="brk-sc">${t.sc[0]}–${t.sc[1]}</span>`:'';
@@ -416,7 +418,7 @@ async function render(){
       const mx=ranked[0].ch||1; const pf=x=>x>=0.995?'✓':x<0.005?'<1%':Math.round(x*100)+'%';
       const rows=ranked.map((r,i)=>`<tr>
         <td class="pos">${i+1}</td>
-        <td class="team"><a href="${r.m.code?`team.html?code=${r.m.code}`:'#'}">${r.m.flag?`<img src="https://flagcdn.com/w40/${r.m.flag}.png" alt="">`:''}<span>${r.m.name}</span></a></td>
+        <td class="team"><a href="${r.m.code?`team.html?code=${r.m.code}`:'#'}">${r.m.flag?`<img src="https://flagcdn.com/w40/${r.m.flag}.png" alt="">`:''}<span>${shortNm(r.m.name)}</span></a></td>
         <td class="opt">${pf(r.sf)}</td><td class="opt">${pf(r.fin)}</td>
         <td class="ch"><div class="chbar"><span style="width:${Math.round(r.ch/mx*100)}%"></span></div><b>${pf(r.ch)}</b></td></tr>`).join('');
       champHTML=`<div class="champ glass"><h2>🏆 ${L('champTitle')}</h2><div class="champ-sub">${L('champSub')}</div>
@@ -438,7 +440,7 @@ async function render(){
       <div class="card-cols">${reli}<div class="card-livewrap"><div class="card-live">${liveLine}</div></div></div></div>`;
   }
   let html=`<h1>${L('title')}</h1>
-    <div class="sub">${L('sub')}${qCol?` · <b>${L('cQual')}</b> ${L('qualSub')}`:''}</div>
+    <div class="sub">${L('sub')}</div>
     <div class="legend">
       <span><i style="background:#2ec27e"></i>${L('q1')}</span>
       <span><i style="background:#35e0d8"></i>${L('q2')}</span>
@@ -460,14 +462,12 @@ async function render(){
       const cls=i===0?'q1':i===1?'q2':i===2?'q3':'q4';
       const q=qual?qual[r.key]:null, qv=q?q.q:0;
       const dim=qCol?(qv<=0.05):(i===3);            // dim the eliminated (4th, or a 3rd that missed the best-thirds cut)
-      const qpv=!q?'':qv>=0.995?'✓':qv<=0.005?'·':Math.round(qv*100)+'%';
-      const qcell=qCol?`<td class="qpct" title="${q?'P(1º) '+Math.round(q.p1*100)+'% · P(2º) '+Math.round(q.p2*100)+'%':''}"><div class="qbar"><i style="width:${Math.round(qv*100)}%"></i></div><span class="qpv">${qpv}</span></td>`:'';
       body+=`<tr class="${cls}${dim?' dim':''}">
         <td class="pos"><span class="rk">${i+1}</span></td>
-        <td class="team"><a href="${link}">${flag}<span>${m.name}</span>${m.code&&fifa[m.code]?`<span class="fifa" title="Ranking FIFA">#${fifa[m.code]}</span>`:''}</a></td>
+        <td class="team"><a href="${link}">${flag}<span title="${m.name}">${shortNm(m.name)}</span>${m.code&&fifa[m.code]?`<span class="fifa" title="Ranking FIFA">#${fifa[m.code]}</span>`:''}</a></td>
         <td class="opt">${r.w}</td><td class="opt">${r.d}</td><td class="opt">${r.l}</td>
         <td class="opt dg">${r.dg>0?'+':''}${r.dg}</td>
-        <td class="pts">${r.pts}</td>${qcell}</tr>`;
+        <td class="pts">${r.pts}</td></tr>`;
     });
     const gst = played>=6 ? 'done' : played>0 ? 'live' : 'soon';
     const chip = gst==='soon' ? '' : `<span class="gstatus ${gst}">${L(gst==='done'?'gsDone':'gsLive')}</span>`;
@@ -475,7 +475,7 @@ async function render(){
       <table class="st"><thead><tr>
         <th></th><th class="lt">${L('team')}</th>
         <th class="opt">${L('cG')}</th><th class="opt">${L('cE')}</th><th class="opt">${L('cP')}</th>
-        <th class="opt">${L('cDG')}</th><th>${L('cPts')}</th>${qCol?`<th title="${L('qualSub')}">${L('cQual')}</th>`:''}
+        <th class="opt">${L('cDG')}</th><th>${L('cPts')}</th>
       </tr></thead><tbody>${body}</tbody></table></div>`;
   });
   document.getElementById('wrap').innerHTML=html+`</div>`+champHTML+cardHTML;
