@@ -1032,7 +1032,8 @@
           <tr><td data-i18n="scoring.r16">R16 match winner</td><td class="num">4</td><td class="num">32</td></tr>
           <tr><td data-i18n="scoring.qf">QF match winner</td><td class="num">6</td><td class="num">24</td></tr>
           <tr><td data-i18n="scoring.sf">SF match winner</td><td class="num">10</td><td class="num">20</td></tr>
-          <tr><td data-i18n="scoring.final">Final winner / Champion</td><td class="num">28</td><td class="num">28</td></tr>
+          <tr><td data-i18n="scoring.final">Final winner / Champion</td><td class="num">18</td><td class="num">18</td></tr>
+          <tr><td data-i18n="tb.goldenBoot">Golden Boot (top scorer)</td><td class="num">10</td><td class="num">10</td></tr>
           <tr class="total"><td data-i18n="scoring.maxRow">Maximum possible</td><td class="num">—</td><td class="num">272</td></tr>
         </tbody>
       </table>
@@ -1049,7 +1050,8 @@
           <li><span data-i18n="scoring.ex7">5 / 8 R16 winners</span> <span class="pts">20</span></li>
           <li><span data-i18n="scoring.ex8">2 / 4 QF winners</span> <span class="pts">12</span></li>
           <li><span data-i18n="scoring.ex9">1 / 2 SF winners</span> <span class="pts">10</span></li>
-          <li><span data-i18n="scoring.ex10">Picked Brazil to win the Final — Brazil wins</span> <span class="pts">28</span></li>
+          <li><span data-i18n="scoring.ex10">Picked Brazil to win the Final — Brazil wins</span> <span class="pts">18</span></li>
+          <li><span data-i18n="scoring.tb3">Golden Boot (top scorer) correctly predicted</span> <span class="pts">10</span></li>
         </ul>
         <div class="example-total">
           <span data-i18n="scoring.exTotal">Maria's total</span>
@@ -1063,7 +1065,6 @@
       <ol>
         <li data-i18n="scoring.tb1">Total goals scored in the Final — closest prediction wins</li>
         <li data-i18n="scoring.tb2">Exact Final score correct</li>
-        <li data-i18n="scoring.tb3">Golden Boot (top scorer) correctly predicted</li>
         <li data-i18n="scoring.tb4">Earliest submission timestamp</li>
       </ol>
     </div>
@@ -1914,7 +1915,8 @@ const poolIsOpen = () => Date.now() < POOL_DEADLINE.getTime();
 const POINTS = {
   groupPos: {1:4, 2:3, 3:2, 4:1},
   starredThird: 2,
-  rounds: {R32:2, R16:4, QF:6, SF:10, F:28},
+  rounds: {R32:2, R16:4, QF:6, SF:10, F:18},
+  goldenBoot: 10,
 };
 
 /* ============================================================
@@ -2873,6 +2875,9 @@ function getChampionTeam(picks){
    spellings (e.g. "Türkiye" vs "Turkiye", admin vs live source). */
 function normPosKey(k){ const i = String(k).indexOf("-"); return i < 0 ? lbnorm(k) : k.slice(0, i + 1) + lbnorm(k.slice(i + 1)); }
 
+/* Reduce a scorer name to its surname key (last token, accent/space/punct-stripped) so the
+   different spellings players typed ("Kylian Mbappé", "Kyliam Mbappe", "Mbappe") all match. */
+function gbKey(s){ const t = String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z ]/g,' ').trim().split(/\s+/).filter(Boolean); return t.length ? t[t.length-1] : ''; }
 function computeScore(picks, official){
   if (!official) return 0;
   let pts = 0;
@@ -2900,6 +2905,8 @@ function computeScore(picks, official){
       if (ut && p && lbnorm(ut.name) === lbnorm(officialTeamName)) pts += p;
     });
   }
+  /* Top scorer (golden boot) — surname-matched so spelling variants still count */
+  if (official.goldenBoot && picks.goldenBoot && gbKey(official.goldenBoot) && gbKey(official.goldenBoot) === gbKey(picks.goldenBoot)) pts += POINTS.goldenBoot;
   return pts;
 }
 
@@ -3274,6 +3281,7 @@ async function loadLeaderboard(){
       positions: officialRow.positions || {},
       starred: officialRow.starred || [],
       winners: officialRow.winners || {},
+      goldenBoot: officialRow.golden_boot || '',
     } : null;
     /* No admin-posted results yet → score LIVE from ESPN (provisional during group stage) */
     let liveMode = false, liveProvisional = false;
@@ -3282,7 +3290,7 @@ async function loadLeaderboard(){
     }
 
     const ranked = (rows||[]).map(r => {
-      const picks = {positions:r.positions, starred:r.starred, winners:r.winners};
+      const picks = {positions:r.positions, starred:r.starred, winners:r.winners, goldenBoot:r.golden_boot};
       const score = computeScore(picks, official);
       const champ = getChampionTeam(picks);
       return {
