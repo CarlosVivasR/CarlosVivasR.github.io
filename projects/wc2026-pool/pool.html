@@ -3447,31 +3447,55 @@ async function loadLeaderboard(){
       Object.values(itemBy).forEach(arr => { if(arr.length === 1) lone[arr[0]]++; });
     }
     ranked.forEach((r,i) => { r.__lone = lone[i]; });
-    /* ── Hall of Fame awards ── */
-    const HOF_LBL = {
-      es:{gap:'a {v} del líder', leaderS:'manda con {v} pts', visionary:'Esto solo lo viste tú', visionaryS:'{v} aciertos que nadie más tuvo', leader:'El líder', ace:'As de los grupos', aceS:'{v} posiciones de grupo clavadas', prophet:'El profeta', prophetS:'{v} grupos enteros bordados', maverick:'El valiente', maverickS:'el único que se la jugó por {c}', herd:'Favorito del grupo', herdS:'{v} eligieron a {c} campeón', red:'Farolillo rojo', redS:'a {v} del líder… alguien tenía que ir último'},
-      en:{gap:'{v} behind the leader', leaderS:'on top with {v} pts', visionary:'Only you saw this', visionaryS:'{v} picks nobody else got right', leader:'The leader', ace:'Group-stage ace', aceS:'{v} group positions nailed', prophet:'The prophet', prophetS:'{v} full groups predicted', maverick:'The brave one', maverickS:'the only one to back {c}', herd:'Crowd favourite', herdS:'{v} picked {c} as champion', red:'Red lantern', redS:'{v} behind the leader… someone had to be last'},
-      tr:{gap:'liderden {v} geride', leaderS:'{v} puanla zirvede', visionary:'Bunu sadece sen gördün', visionaryS:'kimsenin bilemediği {v} isabet', leader:'Lider', ace:'Grup ası', aceS:'{v} grup sırası tam', prophet:'Kâhin', prophetS:'{v} grubu tam bildi', maverick:'Cesur', maverickS:'{c} diyen tek kişi', herd:'Kalabalığın favorisi', herdS:'{v} kişi {c} dedi', red:'Kırmızı fener', redS:'liderden {v} geride… biri sonuncu olmalıydı'}
+    /* ── Hall of Fame awards — stats are FUNCTIONS so singular/plural is correct, with humour ── */
+    const pl = (n,s,p) => n===1 ? s : p;   // ES/EN pluralisation; TR strings stay singular by design
+    const HOF = {
+      es:{ gap:'a {v} del líder', title:'Salón de la fama', sub:'Los premios de la quiniela. El que se pique, que acierte.',
+        leader:{t:'El que va sobrado', s:v=>`Manda con ${v} ${pl(v,'punto','puntos')}. Os mira desde el palco.`},
+        visionary:{t:'Esto solo lo viste tú', s:v=>`${v} ${pl(v,'acierto','aciertos')} que NADIE más vio. ¿Crack o pájaro?`},
+        ace:{t:'El empollón', s:v=>`${v} ${pl(v,'posición','posiciones')} de grupo ${pl(v,'clavada','clavadas')}. Se lo estudió.`},
+        prophet:{t:'El profeta', s:v=>`${v} ${pl(v,'grupo','grupos')} ${pl(v,'entero','enteros')} ${pl(v,'bordado','bordados')}. Huele a bola de cristal.`},
+        maverick:{t:'El kamikaze', s:(v,c)=>`El único que se la jugó por ${c}. Si gana, os calláis todos.`},
+        herd:{t:'La oveja del rebaño', s:(v,c)=>`${v} os subisteis al carro de ${c}. Originalidad brillando por su ausencia.`},
+        red:{t:'El farolillo rojo', s:v=>`A ${v} del líder. Gracias por sujetar la tabla.`} },
+      en:{ gap:'{v} behind the leader', title:'Hall of fame', sub:"The pool awards. Don't get mad — get picking.",
+        leader:{t:'Top dog', s:v=>`On top with ${v} ${pl(v,'point','points')}. Looking down on the rest of you.`},
+        visionary:{t:'Only you saw this', s:v=>`${v} ${pl(v,'call','calls')} NOBODY else got right. Genius or fluke?`},
+        ace:{t:'The swot', s:v=>`${v} group ${pl(v,'position','positions')} nailed. Did the homework.`},
+        prophet:{t:'The prophet', s:v=>`${v} full ${pl(v,'group','groups')} called. Crystal-ball energy.`},
+        maverick:{t:'The kamikaze', s:(v,c)=>`The only soul who backed ${c}. If it wins, everyone goes quiet.`},
+        herd:{t:'Sheep of the flock', s:(v,c)=>`${v} of you jumped on the ${c} bandwagon. Bold. Original. Not.`},
+        red:{t:'Red lantern', s:v=>`${v} behind the leader. Thanks for holding up the table.`} },
+      tr:{ gap:'liderden {v} geride', title:'Şöhretler galerisi', sub:'Tahmin ödülleri. Kızma — doğru tahmin et.',
+        leader:{t:'Lider', s:v=>`${v} puanla zirvede. Hepinize tepeden bakıyor.`},
+        visionary:{t:'Bunu sadece sen gördün', s:v=>`Kimsenin bilemediği ${v} isabet. Dâhi mi, şanslı mı?`},
+        ace:{t:'İnek', s:v=>`${v} grup sırasını tam bildi. Dersine çalışmış.`},
+        prophet:{t:'Kâhin', s:v=>`${v} grubu tam bildi. Kristal küre kokuyor.`},
+        maverick:{t:'Kamikaze', s:(v,c)=>`${c} diyen tek kişi. Kazanırsa herkes susar.`},
+        herd:{t:'Sürünün koyunu', s:(v,c)=>`${v} kişi ${c} trenine bindi. Orijinallik: sıfır.`},
+        red:{t:'Kırmızı fener', s:v=>`Liderden ${v} geride. Tabloyu tuttuğun için sağ ol.`} }
     };
-    const HL = HOF_LBL[LANG] || HOF_LBL.es;
-    { const _ht=document.getElementById('hof-title-h'); if(_ht) _ht.textContent={es:'Salón de la fama',en:'Hall of fame',tr:'Şöhretler galerisi'}[LANG]||'Salón de la fama';
-      const _hs=document.getElementById('hof-sub'); if(_hs) _hs.textContent={es:'Premios de la quiniela — clica para abrir',en:'Pool awards — click to open',tr:'Tahmin ödülleri — açmak için tıkla'}[LANG]||''; }
+    const HL = HOF[LANG] || HOF.es;
+    { const _ht=document.getElementById('hof-title-h'); if(_ht) _ht.textContent=HL.title;
+      const _hs=document.getElementById('hof-sub'); if(_hs) _hs.textContent=HL.sub; }
     const hofEl = document.getElementById('hof-content');
     const hofSec = document.getElementById('hall-of-fame');
     if(hasResults && hofEl){
       const topBy = fn => ranked.reduce((best,r) => (fn(r) > (best?fn(best):-1)) ? r : best, null);
-      const win = (r,tpl,v,c) => r ? '<div class="hof-win">'+escapeHtml(r.name)+(r.isMe?' <span class="hof-you">tú</span>':'')+'</div><div class="hof-stat">'+tpl.replace('{v}',v).replace('{c}',c||'')+'</div>' : '';
       const cards = [];
-      const leader = ranked[0];
-      cards.push(['👑', HL.leader, win(leader, HL.leaderS, leader.score), leader.isMe]);
-      const vis = topBy(r=>r.__lone); if(vis && vis.__lone>0) cards.push(['🔮', HL.visionary, win(vis, HL.visionaryS, vis.__lone), vis.isMe]);
-      const ace = topBy(r=>r.__gh); if(ace && ace.__gh>0) cards.push(['🧮', HL.ace, win(ace, HL.aceS, ace.__gh), ace.isMe]);
-      const prophet = topBy(r=>r.__full); if(prophet && prophet.__full>0) cards.push(['🎯', HL.prophet, win(prophet, HL.prophetS, prophet.__full), prophet.isMe]);
+      const add = (ico, aw, r, v, c) => {
+        const winName = r ? '<div class="hof-win">'+escapeHtml(r.name)+(r.isMe?' <span class="hof-you">tú</span>':'')+'</div>' : '';
+        cards.push('<div class="hof-card'+(r&&r.isMe?' me':'')+'"><div class="hof-ico">'+ico+'</div><div class="hof-b"><div class="hof-title">'+HL[aw].t+'</div>'+winName+'<div class="hof-stat">'+HL[aw].s(v,c)+'</div></div></div>');
+      };
+      add('👑','leader', ranked[0], ranked[0].score);
+      const vis = topBy(r=>r.__lone); if(vis && vis.__lone>0) add('🔮','visionary', vis, vis.__lone);
+      const ace = topBy(r=>r.__gh); if(ace && ace.__gh>0) add('🧮','ace', ace, ace.__gh);
+      const prophet = topBy(r=>r.__full); if(prophet && prophet.__full>0) add('🎯','prophet', prophet, prophet.__full);
       let mav = null; ranked.forEach(r => { if(!mav){ const cn = r.champion?r.champion.name:null; if(cn && champCounts[cn] && champCounts[cn].n===1) mav = r; } });
-      if(mav) cards.push(['🐴', HL.maverick, win(mav, HL.maverickS, '', mav.champion?mav.champion.name:''), mav.isMe]);
-      const pop = champTop[0]; if(pop) cards.push(['🏰', HL.herd, '<div class="hof-stat">'+HL.herdS.replace('{v}',pop.n).replace('{c}',escapeHtml(pop.name))+'</div>', false]);
-      const last = ranked[ranked.length-1]; if(last && last.__gap>0) cards.push(['🧊', HL.red, win(last, HL.redS, last.__gap), last.isMe]);
-      hofEl.innerHTML = '<div class="hof-grid">' + cards.map(c => '<div class="hof-card'+(c[3]?' me':'')+'"><div class="hof-ico">'+c[0]+'</div><div class="hof-b"><div class="hof-title">'+c[1]+'</div>'+c[2]+'</div></div>').join('') + '</div>';
+      if(mav) add('🐴','maverick', mav, 0, escapeHtml(mav.champion?mav.champion.name:''));
+      const pop = champTop[0]; if(pop && pop.n>=2) add('🏰','herd', null, pop.n, escapeHtml(pop.name));
+      const last = ranked[ranked.length-1]; if(last && last.__gap>0 && ranked.length>3) add('🧊','red', last, last.__gap);
+      hofEl.innerHTML = '<div class="hof-grid">' + cards.join('') + '</div>';
       if(hofSec) hofSec.style.display = '';
     } else if(hofSec){ hofSec.style.display = 'none'; }
 
