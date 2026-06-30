@@ -126,6 +126,34 @@ async function fetchEspnResults(){
   }catch(e){}
   return byPair;
 }
+/* Kickoff time (UTC ms) from "2026-06-29" + "16:30 UTC-4" — used to match a schedule
+   knockout fixture to its real ESPN event. */
+function parseKick(date,time){
+  const m=(time||'').match(/(\d{1,2}):(\d{2})\s*UTC([+-]\d{1,2})/); if(!m) return null;
+  const sign=m[3][0], hrs=String(Math.abs(+m[3])).padStart(2,'0');
+  const t=+new Date(`${date}T${m[1].padStart(2,'0')}:${m[2]}:00${sign}${hrs}:00`); return isNaN(t)?null:t;
+}
+/* The REAL knockout matchups straight from ESPN, keyed by schedule match number. The bracket's
+   standings-based seeding (esp. the 3rd-place matrix) can mis-pair ties, so for the Round of 32
+   we trust the actual draw ESPN reports (matched by kickoff time) instead. */
+async function fetchEspnKo(matches){
+  const out={}; const real=n=>!!n&&!/round of|winner|loser|runner|tbd|to be|quarter-?final|semi-?final|\bfinal\b|third place|group [a-l]\b/i.test(n);
+  try{
+    const sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json());
+    const evs=(sb.events||[]).map(e=>{ const c=(e.competitions||[])[0]; if(!c||!e.date) return null;
+      const cs=c.competitors||[]; const h=cs.find(x=>x.homeAway==='home')||cs[0], a=cs.find(x=>x.homeAway==='away')||cs[1]; if(!h||!a) return null;
+      const st=(((e.status||{}).type||{}).state)||'';
+      return {ts:+new Date(e.date), h:(h.team||{}).displayName, a:(a.team||{}).displayName, hs:+h.score, as:+a.score,
+              hp:(h.shootoutScore!=null?+h.shootoutScore:NaN), ap:(a.shootoutScore!=null?+a.shootoutScore:NaN), post:st==='post'};
+    }).filter(Boolean);
+    (matches||[]).forEach(m=>{ if(m.group) return; const k=parseKick(m.date,m.time); if(k==null) return;
+      const day=new Date(k).toISOString().slice(0,10); let best=null,bd=Infinity;
+      evs.forEach(ev=>{ if(new Date(ev.ts).toISOString().slice(0,10)!==day) return; const dd=Math.abs(ev.ts-k); if(dd<bd){bd=dd;best=ev;} });
+      if(best && bd<4*3600*1000 && real(best.h) && real(best.a)) out[m.num]={a:best.h,b:best.a,post:best.post,hs:best.hs,as:best.as,hp:best.hp,ap:best.ap};
+    });
+  }catch(e){}
+  return out;
+}
 /* ESPN's authoritative group rank (carries FIFA tiebreakers) → {groupLetter:{normTeam:rank}}.
    Re-sorting by pts/gd/gf alone broke ties alphabetically (e.g. Cape Verde above Spain). */
 async function fetchEspnRank(){
@@ -244,6 +272,7 @@ async function render(){
   const results={...__staticResults};                 // static file as the base
   const espn=await fetchEspnResults();                // live finished results override/fill
   const espnRank=await fetchEspnRank();               // authoritative group order (tiebreakers)
+  const espnKo=await fetchEspnKo(sched.matches);      // real R32 matchups from the actual draw
   (sched.matches||[]).forEach((m,i)=>{
     if(!m.group||isPh(m.team1)||isPh(m.team2)) return;
     const rec=espn[[nrm2(m.team1),nrm2(m.team2)].sort().join('__')];
@@ -295,19 +324,31 @@ async function render(){
     const tA={}, usedT=new Array(thirds.length).fill(false);
     (function bt(si){ if(si>=tslots.length) return true; const sl=tslots[si]; for(let ti=0;ti<thirds.length;ti++){ if(usedT[ti])continue; if(sl.allowed.has(thirds[ti].g)){ usedT[ti]=true; tA[sl.num+sl.side]=thirds[ti]; if(bt(si+1))return true; usedT[ti]=false; } } return false; })(0);
     const tobj=name=>{ const mm=meta[norm(name)]||{}; return {name, code:mm.flag||''}; };
+    const metaByNrm2={}; idx.teams.forEach(t=>{ metaByNrm2[nrm2(t.name)]=t; });
+    const canonTeam=name=>{ const t=metaByNrm2[nrm2(name)]; return t?{name:t.name,code:t.flag}:tobj(name); };
     const winner={};
     const resolveRef=(ref,num,side)=>{ ref=String(ref||'').trim(); let m;
       if(/^3/.test(ref)){ const t=tA[num+side]; return t?tobj(t.name):null; }
       if(m=ref.match(/^([12])([A-L])$/i)){ const arr=rk[m[2].toUpperCase()]; const row=arr&&arr[+m[1]-1]; return row?tobj(row.name):null; }
       if(m=ref.match(/^W(\d+)$/i)) return winner[+m[1]]||null;
       return null; };
-    const ties=ko.map(x=>{ const t1=resolveRef(x.m.team1,x.m.num,'t1'), t2=resolveRef(x.m.team2,x.m.num,'t2');
-      let sc=null, wn=null, wp=null;
-      if(t1&&t2){ const rec=espn[[nrm2(t1.name),nrm2(t2.name)].sort().join('__')];
-        if(rec){ const s1=rec[nrm2(t1.name)], s2=rec[nrm2(t2.name)]; if(s1!=null&&s2!=null){ sc=[s1,s2]; if(s1!==s2) wn=(s1>s2?t1:t2); } }
-        if(!sc) wp=advPct(fxLambdas(t1.name,t2.name,venueHost(x.m.ground))); }
+    const ties=ko.map(x=>{
+      const ek=espnKo[x.m.num];                   // real teams from the actual draw (ESPN), any KO round
+      let t1,t2,sc=null,wn=null,wp=null,pen=null;
+      if(ek){
+        t1=canonTeam(ek.a); t2=canonTeam(ek.b);
+        if(ek.post&&!isNaN(ek.hs)&&!isNaN(ek.as)){ sc=[ek.hs,ek.as];
+          if(ek.hs!==ek.as) wn=(ek.hs>ek.as?t1:t2);
+          else if(!isNaN(ek.hp)&&!isNaN(ek.ap)&&ek.hp!==ek.ap){ wn=(ek.hp>ek.ap?t1:t2); pen=[ek.hp,ek.ap]; }   // decided on penalties
+        } else wp=advPct(fxLambdas(t1.name,t2.name,venueHost(x.m.ground)));
+      } else {                                    // teams not drawn yet → winner-driven placeholders
+        t1=resolveRef(x.m.team1,x.m.num,'t1'); t2=resolveRef(x.m.team2,x.m.num,'t2');
+        if(t1&&t2){ const rec=espn[[nrm2(t1.name),nrm2(t2.name)].sort().join('__')];
+          if(rec){ const s1=rec[nrm2(t1.name)], s2=rec[nrm2(t2.name)]; if(s1!=null&&s2!=null){ sc=[s1,s2]; if(s1!==s2) wn=(s1>s2?t1:t2); } }
+          if(!sc) wp=advPct(fxLambdas(t1.name,t2.name,venueHost(x.m.ground))); }
+      }
       winner[x.m.num]=wn||null;   // only advance a team from a REAL result — never predict who'll meet whom
-      return {i:x.i,round:x.m.round,t1,t2,sc,wn,wp,ref1:x.m.team1,ref2:x.m.team2}; });
+      return {i:x.i,round:x.m.round,t1,t2,sc,wn,wp,pen,ref1:x.m.team1,ref2:x.m.team2}; });
     const plabel=ref=>{ const m=String(ref||'').match(/^W(\d+)$/i); return m?`${L('brWinner')} ${m[1]}`:ref; };
     const slot=(team,ref,wp,win)=>{ const ph=!team; const code=team&&team.code;
       return `<div class="brk-slot ${win?'win':''} ${ph?'ph':''}">${code?`<img src="https://flagcdn.com/w40/${code}.png" alt="">`:'<span class="brk-dot"></span>'}<span class="brk-nm">${ph?plabel(ref):team.name}</span>${wp!=null?`<span class="brk-wp">${Math.round(wp*100)}%</span>`:''}</div>`; };
