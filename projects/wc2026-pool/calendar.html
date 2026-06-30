@@ -274,6 +274,7 @@
     </div>
     <button class="ctrl-chip" id="chip-today" type="button" data-i18n="chip.today">Today</button>
     <button class="ctrl-chip" id="chip-upcoming" type="button" data-i18n="chip.upcoming">Upcoming</button>
+    <button class="ctrl-chip" id="chip-all" type="button" data-i18n="chip.all">Full schedule</button>
     <span class="ctrl-counter"><b id="count">0</b> <span data-i18n="ctrl.shown">shown</span></span>
   </div>
 </div>
@@ -334,6 +335,7 @@ const I18N = {
     "round.final": "Final",
     "chip.today": "Today",
     "chip.upcoming": "Upcoming",
+    "chip.all": "Full schedule",
     "day.today": "Today",
     "day.match": "match",
     "day.matches": "matches",
@@ -379,6 +381,7 @@ const I18N = {
     "round.final": "Final",
     "chip.today": "Hoy",
     "chip.upcoming": "Próximos",
+    "chip.all": "Calendario completo",
     "day.today": "Hoy",
     "day.match": "partido",
     "day.matches": "partidos",
@@ -424,6 +427,7 @@ const I18N = {
     "round.final": "Final",
     "chip.today": "Bugün",
     "chip.upcoming": "Yaklaşan",
+    "chip.all": "Tüm takvim",
     "day.today": "Bugün",
     "day.match": "maç",
     "day.matches": "maç",
@@ -581,6 +585,7 @@ async function loadSchedule(){
   });
   populateFilters();
   render();
+  loadEspnScores();   // now that MATCHES exists, resolve the known knockout matchups + live scores
 }
 
 function populateFilters(){
@@ -619,6 +624,7 @@ const state = {
   team: "all",
   todayOnly: false,
   upcomingOnly: false,
+  showAll: false,   /* default view = from today onwards; this reveals past matches too */
 };
 
 function statusOf(dt){
@@ -693,6 +699,10 @@ function applyFilters(){
     if (state.team !== "all"){
       if (m.team1 !== state.team && m.team2 !== state.team) return false;
     }
+    /* From today onwards — the default. Hide past days unless "Full schedule" is on, or the
+       user has narrowed by team/round/group (then show that filter's full range). */
+    if (!state.showAll && state.team === "all" && state.round === "all" && state.group === "all"
+        && dayKey(m.datetime, tz) < dayKey(new Date(), tz)) return false;
     /* Today only */
     if (state.todayOnly && !sameLocalDay(m.datetime, tz)) return false;
     /* Upcoming only */
@@ -784,22 +794,23 @@ tzSel.addEventListener("change", e => { state.tz = e.target.value; render(); });
 document.getElementById("round-select").addEventListener("change", e => { state.round = e.target.value; render(); });
 document.getElementById("group-select").addEventListener("change", e => { state.group = e.target.value; render(); });
 document.getElementById("team-select").addEventListener("change", e => { state.team = e.target.value; render(); });
+function clearChip(id){ const el = document.getElementById(id); if (el) el.classList.remove("active"); }
 document.getElementById("chip-today").addEventListener("click", e => {
   state.todayOnly = !state.todayOnly;
   e.currentTarget.classList.toggle("active", state.todayOnly);
-  if (state.todayOnly) {
-    state.upcomingOnly = false;
-    document.getElementById("chip-upcoming").classList.remove("active");
-  }
+  if (state.todayOnly) { state.upcomingOnly = false; state.showAll = false; clearChip("chip-upcoming"); clearChip("chip-all"); }
   render();
 });
 document.getElementById("chip-upcoming").addEventListener("click", e => {
   state.upcomingOnly = !state.upcomingOnly;
   e.currentTarget.classList.toggle("active", state.upcomingOnly);
-  if (state.upcomingOnly) {
-    state.todayOnly = false;
-    document.getElementById("chip-today").classList.remove("active");
-  }
+  if (state.upcomingOnly) { state.todayOnly = false; state.showAll = false; clearChip("chip-today"); clearChip("chip-all"); }
+  render();
+});
+document.getElementById("chip-all").addEventListener("click", e => {
+  state.showAll = !state.showAll;
+  e.currentTarget.classList.toggle("active", state.showAll);
+  if (state.showAll) { state.todayOnly = false; state.upcomingOnly = false; clearChip("chip-today"); clearChip("chip-upcoming"); }
   render();
 });
 
@@ -1031,7 +1042,6 @@ document.querySelectorAll(".view-toggle button").forEach(b =>
 
 loadResults();
 loadEspnStandings();
-loadEspnScores();
 setInterval(loadEspnStandings, 60000);   /* keep standings live as matches finish */
 setInterval(loadEspnScores, 60000);      /* keep schedule scores live */
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ loadEspnStandings(); loadEspnScores(); } });  /* refresh on tab return */
