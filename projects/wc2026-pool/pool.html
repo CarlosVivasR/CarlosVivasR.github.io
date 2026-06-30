@@ -963,6 +963,9 @@
   .lb-refresh:hover{background:rgba(255,255,255,.06)}
   .lb-compare-btn{background:#35e0d8;color:#03040c}
   .lb-compare-btn:hover{box-shadow:0 4px 12px rgba(53,224,216,.3)}
+  /* derived-metric badges + gap-to-leader */
+  .lb-badge{display:inline-block;margin-left:4px;font-size:.92em;vertical-align:middle;cursor:default}
+  .lb-gap{display:inline-block;margin-left:7px;font-size:.66em;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;vertical-align:middle}
   /* podium */
   .lb-podium{display:flex;align-items:flex-end;justify-content:center;gap:12px;margin:2px 0 20px;padding:0 6px}
   .pod{flex:1;max-width:176px;display:flex;flex-direction:column;align-items:center;text-align:center}
@@ -2956,6 +2959,20 @@ function computeScore(picks, official){
   if (official.goldenBoot && picks.goldenBoot && gbKey(official.goldenBoot) && gbKey(official.goldenBoot) === gbKey(picks.goldenBoot)) pts += POINTS.goldenBoot;
   return pts;
 }
+/* derived metric: group-stage positions a player nailed, and whether any group was fully correct (4/4) */
+function groupStats(picks, official){
+  const out = {hits:0, full:0};
+  if(!official || !official.positions || !picks || !picks.positions) return out;
+  const offPos = {}; Object.entries(official.positions).forEach(([k,v]) => { offPos[normPosKey(k)] = v; });
+  const byG = {};
+  Object.entries(picks.positions).forEach(([key,pos]) => {
+    const i = key.indexOf('-'); const g = i>0 ? key.slice(0,i) : key;
+    (byG[g] = byG[g] || {c:0,t:0}); byG[g].t++;
+    if(offPos[normPosKey(key)] === pos){ out.hits++; byG[g].c++; }
+  });
+  Object.values(byG).forEach(v => { if(v.t>=4 && v.c===v.t) out.full++; });
+  return out;
+}
 
 /* ============================================================
    LEADERBOARD
@@ -3376,6 +3393,29 @@ async function loadLeaderboard(){
       ranked.sort((a,b) => b.score - a.score || (a.submittedAt||'').localeCompare(b.submittedAt||''));
     }
 
+    /* ── derived metrics + badges (real data, read-only) — the "data lab" + the banter ── */
+    const BADGE_LBL = {
+      es:{leader:'Líder', maverick:'Anti-favoritos · campeón único', prophet:'Profeta · más grupos clavados enteros', groupAce:'As del grupo · más aciertos en fase de grupos', gap:'a {n} del líder'},
+      en:{leader:'Leader', maverick:'Maverick · only one on this champion', prophet:'Prophet · most groups nailed in full', groupAce:'Group ace · most group-stage hits', gap:'{n} behind the leader'},
+      tr:{leader:'Lider', maverick:'Aykırı · bu şampiyonu tek o seçti', prophet:'Kâhin · en çok grubu tam bildi', groupAce:'Grup ası · en çok grup isabeti', gap:'liderden {n} geride'}
+    };
+    const BL = BADGE_LBL[LANG] || BADGE_LBL.es;
+    const leadScore = ranked.length ? ranked[0].score : 0;
+    let bestGH = -1, bestFull = -1;
+    ranked.forEach(r => { const gs = groupStats(r.picks, official); r.__gh = gs.hits; r.__full = gs.full;
+      if(gs.hits > bestGH) bestGH = gs.hits; if(gs.full > bestFull) bestFull = gs.full; });
+    ranked.forEach((r,i) => {
+      r.__gap = leadScore - r.score;
+      const champN = r.champion ? r.champion.name : null;
+      const champPop = (champN && champCounts[champN]) ? champCounts[champN].n : 0;
+      const b = [];
+      if(hasResults && i===0) b.push(['👑', BL.leader]);
+      if(champPop===1) b.push(['🐴', BL.maverick]);
+      if(bestGH>0 && r.__gh===bestGH) b.push(['🧮', BL.groupAce]);
+      if(bestFull>0 && r.__full===bestFull) b.push(['🎯', BL.prophet]);
+      r.__badges = b.slice(0,2);
+    });
+
     document.getElementById("lb-count").textContent = `(${humanCount})`;
 
     if (ranked.length === 0){
@@ -3418,9 +3458,9 @@ async function loadLeaderboard(){
               return `
                 <tr class="lb-row ${r.isMe?'me':''} ${isModel?'model':''}" data-idx="${i}">
                   <td class="rank ${rankClass}">${hasResults && i<3 ? ['🥇','🥈','🥉'][i] : (i+1)}</td>
-                  <td class="name">${isModel?'🤖 ':''}${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}<span class="expand-icon">▸</span></td>
+                  <td class="name">${isModel?'🤖 ':''}${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}${(r.__badges&&r.__badges.length)?' '+r.__badges.map(function(b){return '<span class="lb-badge" title="'+b[1]+'">'+b[0]+'</span>';}).join(''):''}<span class="expand-icon">▸</span></td>
                   <td class="champ">${r.champion ? `<img src="https://flagcdn.com/w40/${r.champion.code}.png" alt=""><span>${escapeHtml(r.champion.name)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
-                  ${hasResults ? `<td class="num">${r.score}</td>` : ''}
+                  ${hasResults ? `<td class="num"><span class="lb-sc">${r.score}</span>${r.__gap>0?`<span class="lb-gap" title="${BL.gap.replace('{n}',r.__gap)}">−${r.__gap}</span>`:''}</td>` : ''}
                   <td style="color:#6b7280;font-size:.86em">${isModel?'🔮':tsStr}</td>
                 </tr>
                 <tr class="lb-detail-row hidden" data-detail="${i}">
@@ -3437,11 +3477,11 @@ async function loadLeaderboard(){
       if(hasResults && !window.__lbCounted){
         window.__lbCounted = 1;
         var __rm = matchMedia("(prefers-reduced-motion:reduce)").matches;
-        contentEl.querySelectorAll("td.num").forEach(function(td){
-          var to = parseInt(td.textContent,10); if(isNaN(to)) return;
-          if(__rm){ td.textContent = to; return; }
-          td.textContent = "0"; var s = null;
-          requestAnimationFrame(function tick(t){ if(!s)s=t; var p=Math.min((t-s)/900,1); td.textContent=Math.round(to*(1-Math.pow(1-p,3))); if(p<1)requestAnimationFrame(tick); });
+        contentEl.querySelectorAll("td.num .lb-sc").forEach(function(sc){
+          var to = parseInt(sc.textContent,10); if(isNaN(to)) return;
+          if(__rm){ sc.textContent = to; return; }
+          sc.textContent = "0"; var s = null;
+          requestAnimationFrame(function tick(t){ if(!s)s=t; var p=Math.min((t-s)/900,1); sc.textContent=Math.round(to*(1-Math.pow(1-p,3))); if(p<1)requestAnimationFrame(tick); });
         });
       }
       /* premium entrance — anime.js stagger: podium pedestals rise, rows cascade in. Reduced-motion safe. */
