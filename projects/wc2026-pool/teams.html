@@ -15,24 +15,39 @@
   .legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;font-size:.78em;color:var(--muted)}
   .legend span{display:inline-flex;align-items:center;gap:6px}
   .legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
-  .groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
-  .group{padding:14px 14px 10px}
-  .group h2{font-size:.78em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  .group{padding:13px 13px 12px}
+  .group h2{display:flex;align-items:center;gap:8px;font-size:.78em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:9px}
+  .group h2 .gstatus{margin-left:auto;font-size:.8em;font-weight:700;letter-spacing:.02em;text-transform:none;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+  .group h2 .gstatus.done{color:#7fe0ad;background:rgba(46,194,126,.12);border-color:rgba(46,194,126,.32)}
+  .group h2 .gstatus.live{color:var(--cyan);background:rgba(53,224,216,.12);border-color:rgba(53,224,216,.32)}
   table.st{width:100%;border-collapse:collapse;font-size:.84em}
-  table.st th{font-size:.66em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:6px 4px;text-align:center}
+  table.st th{font-size:.66em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:5px 4px;text-align:center}
   table.st th.lt{text-align:left;padding-left:6px}
-  table.st td{padding:6px 4px;text-align:center;border-top:1px solid var(--line);color:var(--ink-2);font-variant-numeric:tabular-nums}
-  table.st td.pos{width:22px;color:var(--muted);font-weight:700;font-family:var(--mono)}
+  table.st td{padding:7px 4px;text-align:center;border-top:1px solid var(--line);color:var(--ink-2);font-variant-numeric:tabular-nums}
+  table.st tr.q1 td{background:rgba(46,194,126,.08)}
+  table.st tr.q2 td{background:rgba(53,224,216,.07);border-bottom:1.5px dashed rgba(244,215,107,.42)}
+  table.st tr.q3 td{background:rgba(244,215,107,.06);border-top:0}
+  table.st tr.dim{opacity:.45}
+  table.st td.pos{width:28px;padding-left:5px}
+  table.st td.pos .rk{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:6px;font-family:var(--mono);font-size:.82em;font-weight:800;color:#03040c;background:rgba(255,255,255,.16)}
+  table.st tr.q1 td.pos .rk{background:#2ec27e}
+  table.st tr.q2 td.pos .rk{background:#35e0d8}
+  table.st tr.q3 td.pos .rk{background:#f4d76b}
+  table.st tr.q4 td.pos .rk{background:rgba(255,255,255,.12);color:var(--muted)}
   table.st td.team{text-align:left;padding-left:2px}
   table.st td.team a{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:600;white-space:nowrap}
   table.st td.team a:hover{color:var(--cyan)}
   table.st td.team .fifa{font-family:var(--mono);font-size:.7em;font-weight:700;color:var(--muted);background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:6px;padding:1px 5px;margin-left:7px}
   table.st td.team img{width:24px;height:17px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.18);flex:none}
-  table.st td.pts{font-weight:800;color:var(--ink);font-family:var(--mono)}
-  table.st tr.q1 td.pos{box-shadow:inset 3px 0 0 #2ec27e}
-  table.st tr.q2 td.pos{box-shadow:inset 3px 0 0 #35e0d8}
-  table.st tr.q3 td.pos{box-shadow:inset 3px 0 0 #f4d76b}
-  table.st td.qpct{font-weight:800;font-family:var(--mono);color:var(--ink);border-radius:6px;font-size:.92em}
+  table.st td.pts{font-weight:800;color:var(--ink);font-family:var(--mono);font-size:1.14em}
+  table.st td.qpct{width:56px;padding:6px 7px}
+  table.st td.qpct .qbar{height:5px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden}
+  table.st td.qpct .qbar i{display:block;height:100%;border-radius:99px;background:rgba(255,255,255,.32);transition:width .6s cubic-bezier(.16,1,.3,1)}
+  table.st tr.q1 td.qpct .qbar i{background:#2ec27e}
+  table.st tr.q2 td.qpct .qbar i{background:#35e0d8}
+  table.st tr.q3 td.qpct .qbar i{background:#f4d76b}
+  table.st td.qpct .qpv{display:block;margin-top:3px;font-size:.72em;font-family:var(--mono);font-weight:700;color:var(--muted);text-align:center}
   /* #3 title favourites */
   .champ{margin-top:22px;padding:16px 16px 12px}
   .champ h2{font-size:1.05em;font-weight:800;margin-bottom:3px}
@@ -97,9 +112,9 @@
 <script src="assets/i18n.js"></script>
 <script>
 const T={
-  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 8.000 mundiales)',champTitle:'Favoritos al título',champSub:'Simulación del torneo completo con el modelo (8.000 mundiales): grupos + cuadro de eliminatorias.',cSF:'Semis',cFin:'Final',cChamp:'Campeón',cardTitle:'¿Cómo de fiable es el modelo?',cardBt:'Validado sin asomarse al futuro en {n} partidos internacionales: RPS {rps} (vs {base} prediciendo a ciegas) · acierta el {acc}% del 1X2 · calibración ECE {ece}.',cardEce:'Calibración: cuando el modelo dice 60%, ocurre ~60% de las veces (error medio ≈{ece} puntos).',cardLive:'En este Mundial: {n} partidos · acertó {hits} ({acc}%) · RPS {rps}',cardSmall:'muestra pequeña, se afina con el torneo',cardNone:'En este Mundial: aún sin partidos jugados.',reliTitle:'Diagrama de fiabilidad',reliCap:'Puntos sobre la diagonal = bien calibrado (lo que dice = lo que pasa). Tamaño = nº de partidos.',reliX:'predicho %',reliY:'observado %',brkTitle:'Cuadro',brkSub:'Eliminatorias en vivo: los cruces ya definidos muestran el % del modelo para cada equipo; los que dependen de partidos por jugar se irán completando según avanza el torneo.',brWinner:'Ganador',brR32:'Dieciseisavos',brR16:'Octavos',brQF:'Cuartos',brSF:'Semis',brFinal:'Final'},
-  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 8,000 World Cups)',champTitle:'Title favourites',champSub:'Full-tournament model simulation (8,000 World Cups): groups + knockout bracket.',cSF:'Semis',cFin:'Final',cChamp:'Champion',cardTitle:'How reliable is the model?',cardBt:'Validated with no future peeking on {n} internationals: RPS {rps} (vs {base} guessing blindly) · calls the 1X2 right {acc}% of the time · calibration ECE {ece}.',cardEce:'Calibration: when the model says 60%, it happens ~60% of the time (avg error ≈{ece} points).',cardLive:'This World Cup: {n} matches · {hits} correct ({acc}%) · RPS {rps}',cardSmall:'small sample, sharpens as the tournament goes',cardNone:'This World Cup: no matches played yet.',reliTitle:'Reliability diagram',reliCap:'Dots on the diagonal = well calibrated (what it says = what happens). Size = number of matches.',reliX:'predicted %',reliY:'observed %',brkTitle:'Bracket',brkSub:'Live knockout: decided ties show the model win % for each team; ties that depend on unplayed matches fill in as the tournament goes.',brWinner:'Winner',brR32:'Round of 32',brR16:'Round of 16',brQF:'Quarters',brSF:'Semis',brFinal:'Final'},
-  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 8.000 Dünya Kupası)',champTitle:'Şampiyonluk favorileri',champSub:'Tüm turnuvanın model simülasyonu (8.000 Dünya Kupası): gruplar + eleme turu.',cSF:'Yarı',cFin:'Final',cChamp:'Şampiyon',cardTitle:'Model ne kadar güvenilir?',cardBt:'Geleceğe bakmadan {n} milli maçta doğrulandı: RPS {rps} (körlemesine tahminde {base}) · 1X2\'yi %{acc} doğru biliyor · kalibrasyon ECE {ece}.',cardEce:'Kalibrasyon: model %60 dediğinde, ~%60 gerçekleşir (ortalama hata ≈{ece} puan).',cardLive:'Bu Dünya Kupası: {n} maç · {hits} doğru (%{acc}) · RPS {rps}',cardSmall:'küçük örneklem, turnuvayla netleşir',cardNone:'Bu Dünya Kupası: henüz maç oynanmadı.',reliTitle:'Güvenilirlik diyagramı',reliCap:'Köşegen üzerindeki noktalar = iyi kalibre (söylediği = olan). Boyut = maç sayısı.',reliX:'tahmin %',reliY:'gözlenen %',brkTitle:'Eşleşme',brkSub:'Canlı eleme: belli olan eşleşmeler her takım için modelin kazanma %sini gösterir; oynanmamış maçlara bağlı olanlar turnuva ilerledikçe dolar.',brWinner:'Galip',brR32:'Son 32',brR16:'Son 16',brQF:'Çeyrek',brSF:'Yarı',brFinal:'Final'}
+  es:{title:'Clasificación',sub:'<b>12</b> grupos · se actualiza con los resultados. Clica una selección para ver su plantilla.',q1:'1.º clasifica',q2:'2.º clasifica',q3:'3.º (mejores 8 pasan)',team:'Equipo',grp:'Grupo',fail:'No se pudo cargar.',cG:'G',cE:'E',cP:'P',cGF:'GF',cGC:'GC',cPts:'Pts',cQual:'Clasif.',qualSub:'= prob. de pasar (simulación del modelo, 8.000 mundiales)',champTitle:'Favoritos al título',champSub:'Simulación del torneo completo con el modelo (8.000 mundiales): grupos + cuadro de eliminatorias.',cSF:'Semis',cFin:'Final',cChamp:'Campeón',cardTitle:'¿Cómo de fiable es el modelo?',cardBt:'Validado sin asomarse al futuro en {n} partidos internacionales: RPS {rps} (vs {base} prediciendo a ciegas) · acierta el {acc}% del 1X2 · calibración ECE {ece}.',cardEce:'Calibración: cuando el modelo dice 60%, ocurre ~60% de las veces (error medio ≈{ece} puntos).',cardLive:'En este Mundial: {n} partidos · acertó {hits} ({acc}%) · RPS {rps}',cardSmall:'muestra pequeña, se afina con el torneo',cardNone:'En este Mundial: aún sin partidos jugados.',reliTitle:'Diagrama de fiabilidad',reliCap:'Puntos sobre la diagonal = bien calibrado (lo que dice = lo que pasa). Tamaño = nº de partidos.',reliX:'predicho %',reliY:'observado %',brkTitle:'Cuadro',brkSub:'Eliminatorias en vivo: los cruces ya definidos muestran el % del modelo para cada equipo; los que dependen de partidos por jugar se irán completando según avanza el torneo.',brWinner:'Ganador',brR32:'Dieciseisavos',brR16:'Octavos',brQF:'Cuartos',brSF:'Semis',brFinal:'Final',gsDone:'Decidido',gsLive:'En juego',gsSoon:'Por jugar'},
+  en:{title:'Standings',sub:'<b>12</b> groups · updates with results. Tap a team to see its squad.',q1:'1st qualifies',q2:'2nd qualifies',q3:'3rd (best 8 advance)',team:'Team',grp:'Group',fail:'Could not load.',cG:'W',cE:'D',cP:'L',cGF:'GF',cGC:'GA',cPts:'Pts',cQual:'Adv.',qualSub:'= chance to advance (model simulation, 8,000 World Cups)',champTitle:'Title favourites',champSub:'Full-tournament model simulation (8,000 World Cups): groups + knockout bracket.',cSF:'Semis',cFin:'Final',cChamp:'Champion',cardTitle:'How reliable is the model?',cardBt:'Validated with no future peeking on {n} internationals: RPS {rps} (vs {base} guessing blindly) · calls the 1X2 right {acc}% of the time · calibration ECE {ece}.',cardEce:'Calibration: when the model says 60%, it happens ~60% of the time (avg error ≈{ece} points).',cardLive:'This World Cup: {n} matches · {hits} correct ({acc}%) · RPS {rps}',cardSmall:'small sample, sharpens as the tournament goes',cardNone:'This World Cup: no matches played yet.',reliTitle:'Reliability diagram',reliCap:'Dots on the diagonal = well calibrated (what it says = what happens). Size = number of matches.',reliX:'predicted %',reliY:'observed %',brkTitle:'Bracket',brkSub:'Live knockout: decided ties show the model win % for each team; ties that depend on unplayed matches fill in as the tournament goes.',brWinner:'Winner',brR32:'Round of 32',brR16:'Round of 16',brQF:'Quarters',brSF:'Semis',brFinal:'Final',gsDone:'Decided',gsLive:'In play',gsSoon:'Upcoming'},
+  tr:{title:'Puan durumu',sub:'<b>12</b> grup · sonuçlarla güncellenir. Kadrosunu görmek için bir takıma dokun.',q1:'1. geçer',q2:'2. geçer',q3:'3. (en iyi 8 geçer)',team:'Takım',grp:'Grup',fail:'Yüklenemedi.',cG:'G',cE:'B',cP:'M',cGF:'AG',cGC:'YG',cPts:'P',cQual:'Geçer',qualSub:'= geçme olasılığı (model simülasyonu, 8.000 Dünya Kupası)',champTitle:'Şampiyonluk favorileri',champSub:'Tüm turnuvanın model simülasyonu (8.000 Dünya Kupası): gruplar + eleme turu.',cSF:'Yarı',cFin:'Final',cChamp:'Şampiyon',cardTitle:'Model ne kadar güvenilir?',cardBt:'Geleceğe bakmadan {n} milli maçta doğrulandı: RPS {rps} (körlemesine tahminde {base}) · 1X2\'yi %{acc} doğru biliyor · kalibrasyon ECE {ece}.',cardEce:'Kalibrasyon: model %60 dediğinde, ~%60 gerçekleşir (ortalama hata ≈{ece} puan).',cardLive:'Bu Dünya Kupası: {n} maç · {hits} doğru (%{acc}) · RPS {rps}',cardSmall:'küçük örneklem, turnuvayla netleşir',cardNone:'Bu Dünya Kupası: henüz maç oynanmadı.',reliTitle:'Güvenilirlik diyagramı',reliCap:'Köşegen üzerindeki noktalar = iyi kalibre (söylediği = olan). Boyut = maç sayısı.',reliX:'tahmin %',reliY:'gözlenen %',brkTitle:'Eşleşme',brkSub:'Canlı eleme: belli olan eşleşmeler her takım için modelin kazanma %sini gösterir; oynanmamış maçlara bağlı olanlar turnuva ilerledikçe dolar.',brWinner:'Galip',brR32:'Son 32',brR16:'Son 16',brQF:'Çeyrek',brSF:'Yarı',brFinal:'Final',gsDone:'Belli',gsLive:'Oynanıyor',gsSoon:'Yakında'}
 };
 const L=k=>wcT(T,k);
 const isPh=n=>/^([12][A-L]|W\d+|L\d+|3[A-L])/i.test(n||'');
@@ -436,22 +451,26 @@ async function render(){
     const haveRank=rows.length && rows.every(r=>r.rank!=null && !isNaN(r.rank));
     rows.sort(haveRank ? (x,y)=>x.rank-y.rank : (x,y)=>y.pts-x.pts||y.dg-x.dg||y.gf-x.gf||x.name.localeCompare(y.name));
     let body='';
+    const played = rows.reduce((s,r)=>s+(r.pj||0),0)/2;
     rows.forEach((r,i)=>{
       const m=meta[r.key]||{flag:'',code:'',name:r.name};
       const flag=m.flag?`<img src="https://flagcdn.com/w40/${m.flag}.png" alt="">`:'';
       const link=m.code?`team.html?code=${m.code}`:'#';
-      const cls=i===0?'q1':i===1?'q2':i===2?'q3':'';
+      const cls=i===0?'q1':i===1?'q2':i===2?'q3':'q4';
       const q=qual?qual[r.key]:null, qv=q?q.q:0;
-      const qtxt=!q?'':qv>=0.995?'✓':qv<=0.005?'·':Math.round(qv*100)+'%';
-      const qcell=qCol?`<td class="qpct" style="background:rgba(46,194,126,${(qv*0.5).toFixed(3)})" title="${q?'P(1º) '+Math.round(q.p1*100)+'% · P(2º) '+Math.round(q.p2*100)+'%':''}">${qtxt}</td>`:'';
-      body+=`<tr class="${cls}">
-        <td class="pos">${i+1}</td>
+      const dim=qCol?(qv<=0.05):(i===3);            // dim the eliminated (4th, or a 3rd that missed the best-thirds cut)
+      const qpv=!q?'':qv>=0.995?'✓':qv<=0.005?'·':Math.round(qv*100)+'%';
+      const qcell=qCol?`<td class="qpct" title="${q?'P(1º) '+Math.round(q.p1*100)+'% · P(2º) '+Math.round(q.p2*100)+'%':''}"><div class="qbar"><i style="width:${Math.round(qv*100)}%"></i></div><span class="qpv">${qpv}</span></td>`:'';
+      body+=`<tr class="${cls}${dim?' dim':''}">
+        <td class="pos"><span class="rk">${i+1}</span></td>
         <td class="team"><a href="${link}">${flag}<span>${m.name}</span>${m.code&&fifa[m.code]?`<span class="fifa" title="Ranking FIFA">#${fifa[m.code]}</span>`:''}</a></td>
         <td class="opt">${r.w}</td><td class="opt">${r.d}</td><td class="opt">${r.l}</td>
         <td class="opt">${r.gf}</td><td class="opt">${r.ga}</td>
         <td class="pts">${r.pts}</td>${qcell}</tr>`;
     });
-    html+=`<div class="group glass glass-hover"><h2>${L('grp')} ${g}</h2>
+    const gst = played>=6 ? 'done' : played>0 ? 'live' : 'soon';
+    const chip = gst==='soon' ? '' : `<span class="gstatus ${gst}">${L(gst==='done'?'gsDone':'gsLive')}</span>`;
+    html+=`<div class="group glass glass-hover"><h2>${L('grp')} ${g}${chip}</h2>
       <table class="st"><thead><tr>
         <th></th><th class="lt">${L('team')}</th>
         <th class="opt">${L('cG')}</th><th class="opt">${L('cE')}</th><th class="opt">${L('cP')}</th>
