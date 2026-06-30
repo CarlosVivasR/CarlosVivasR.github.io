@@ -963,9 +963,28 @@
   .lb-refresh:hover{background:rgba(255,255,255,.06)}
   .lb-compare-btn{background:#35e0d8;color:#03040c}
   .lb-compare-btn:hover{box-shadow:0 4px 12px rgba(53,224,216,.3)}
-  /* derived-metric badges + gap-to-leader */
-  .lb-badge{display:inline-block;margin-left:4px;font-size:.92em;vertical-align:middle;cursor:default}
+  /* gap-to-leader on each row */
   .lb-gap{display:inline-block;margin-left:7px;font-size:.66em;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;vertical-align:middle}
+  /* ── Hall of Fame (collapsible awards) ── */
+  .hall-of-fame{margin:0 24px 22px;border-radius:12px;background:var(--surface);border:1px solid var(--line);overflow:hidden;box-shadow:0 10px 34px rgba(0,0,0,.32)}
+  .hall-of-fame > summary{list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;user-select:none}
+  .hall-of-fame > summary::-webkit-details-marker{display:none}
+  .hall-of-fame > summary:hover{background:rgba(255,255,255,.03)}
+  .hof-head{display:flex;align-items:center;gap:12px;flex:1}
+  .hof-hicon{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#03040c;display:flex;align-items:center;justify-content:center;font-size:1.05em;flex-shrink:0}
+  .hof-head h3{font-size:.98em;font-weight:800;color:var(--ink);margin:0}
+  .hof-head p{color:var(--muted);font-size:.84em;margin-top:1px}
+  .hall-of-fame .chevron{width:20px;height:20px;color:var(--muted);transition:transform .2s ease;flex-shrink:0}
+  .hall-of-fame[open] .chevron{transform:rotate(180deg)}
+  .hof-bodywrap{padding:2px 16px 16px}
+  .hof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .hof-card{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-radius:11px;background:var(--surface-2);border:1px solid var(--line)}
+  .hof-card.me{border-color:rgba(232,194,71,.5);background:rgba(232,194,71,.08)}
+  .hof-ico{font-size:1.5em;line-height:1;flex-shrink:0}
+  .hof-title{font-size:.72em;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-2);margin-bottom:3px}
+  .hof-win{font-size:1.02em;font-weight:800;color:var(--ink);line-height:1.15}
+  .hof-you{font-size:.62em;font-weight:700;color:#03040c;background:var(--gold);border-radius:99px;padding:1px 6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.04em}
+  .hof-stat{font-size:.82em;color:var(--muted);margin-top:2px;line-height:1.3}
   /* podium */
   .lb-podium{display:flex;align-items:flex-end;justify-content:center;gap:12px;margin:2px 0 20px;padding:0 6px}
   .pod{flex:1;max-width:176px;display:flex;flex-direction:column;align-items:center;text-align:center}
@@ -1025,6 +1044,20 @@
     </div>
     <div id="lb-content"></div>
   </div>
+</details>
+
+<details class="hall-of-fame" id="hall-of-fame" style="display:none">
+  <summary>
+    <div class="hof-head">
+      <div class="hof-hicon">🏅</div>
+      <div>
+        <h3 id="hof-title-h">Salón de la fama</h3>
+        <p id="hof-sub">Premios de la quiniela — clica para abrir</p>
+      </div>
+    </div>
+    <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>
+  </summary>
+  <div class="hof-bodywrap"><div id="hof-content"></div></div>
 </details>
 
 <div class="info-cards">
@@ -3393,28 +3426,54 @@ async function loadLeaderboard(){
       ranked.sort((a,b) => b.score - a.score || (a.submittedAt||'').localeCompare(b.submittedAt||''));
     }
 
-    /* ── derived metrics + badges (real data, read-only) — the "data lab" + the banter ── */
-    const BADGE_LBL = {
-      es:{leader:'Líder', maverick:'Anti-favoritos · campeón único', prophet:'Profeta · más grupos clavados enteros', groupAce:'As del grupo · más aciertos en fase de grupos', gap:'a {n} del líder'},
-      en:{leader:'Leader', maverick:'Maverick · only one on this champion', prophet:'Prophet · most groups nailed in full', groupAce:'Group ace · most group-stage hits', gap:'{n} behind the leader'},
-      tr:{leader:'Lider', maverick:'Aykırı · bu şampiyonu tek o seçti', prophet:'Kâhin · en çok grubu tam bildi', groupAce:'Grup ası · en çok grup isabeti', gap:'liderden {n} geride'}
-    };
-    const BL = BADGE_LBL[LANG] || BADGE_LBL.es;
+    /* ── derived metrics (real data, read-only): gap-to-leader, group accuracy, "lone correct" ── */
     const leadScore = ranked.length ? ranked[0].score : 0;
-    let bestGH = -1, bestFull = -1;
-    ranked.forEach(r => { const gs = groupStats(r.picks, official); r.__gh = gs.hits; r.__full = gs.full;
-      if(gs.hits > bestGH) bestGH = gs.hits; if(gs.full > bestFull) bestFull = gs.full; });
-    ranked.forEach((r,i) => {
-      r.__gap = leadScore - r.score;
-      const champN = r.champion ? r.champion.name : null;
-      const champPop = (champN && champCounts[champN]) ? champCounts[champN].n : 0;
-      const b = [];
-      if(hasResults && i===0) b.push(['👑', BL.leader]);
-      if(champPop===1) b.push(['🐴', BL.maverick]);
-      if(bestGH>0 && r.__gh===bestGH) b.push(['🧮', BL.groupAce]);
-      if(bestFull>0 && r.__full===bestFull) b.push(['🎯', BL.prophet]);
-      r.__badges = b.slice(0,2);
-    });
+    ranked.forEach(r => { const gs = groupStats(r.picks, official); r.__gh = gs.hits; r.__full = gs.full; r.__gap = leadScore - r.score; });
+    /* "lone correct": group positions + knockout winners that ONLY one player got right */
+    const lone = new Array(ranked.length).fill(0);
+    if(hasResults){
+      const itemBy = {};
+      if(official.positions){
+        const offPos = {}; Object.entries(official.positions).forEach(([k,v]) => { offPos[normPosKey(k)] = v; });
+        ranked.forEach((r,pi) => { Object.entries(r.picks.positions||{}).forEach(([key,pos]) => {
+          if(offPos[normPosKey(key)] === pos){ const it = 'p'+normPosKey(key)+'='+pos; (itemBy[it] = itemBy[it]||[]).push(pi); }
+        }); });
+      }
+      if(official.winners && Object.keys(official.winners).length){
+        ranked.forEach((r,pi) => { const uw = userMatchWinners(r.picks); Object.entries(official.winners).forEach(([mid,team]) => {
+          const ut = uw[mid]; if(ut && lbnorm(ut.name) === lbnorm(team)){ const it = 'k'+mid; (itemBy[it] = itemBy[it]||[]).push(pi); }
+        }); });
+      }
+      Object.values(itemBy).forEach(arr => { if(arr.length === 1) lone[arr[0]]++; });
+    }
+    ranked.forEach((r,i) => { r.__lone = lone[i]; });
+    /* ── Hall of Fame awards ── */
+    const HOF_LBL = {
+      es:{gap:'a {v} del líder', leaderS:'manda con {v} pts', visionary:'Esto solo lo viste tú', visionaryS:'{v} aciertos que nadie más tuvo', leader:'El líder', ace:'As de los grupos', aceS:'{v} posiciones de grupo clavadas', prophet:'El profeta', prophetS:'{v} grupos enteros bordados', maverick:'El valiente', maverickS:'el único que se la jugó por {c}', herd:'Favorito del grupo', herdS:'{v} eligieron a {c} campeón', red:'Farolillo rojo', redS:'a {v} del líder… alguien tenía que ir último'},
+      en:{gap:'{v} behind the leader', leaderS:'on top with {v} pts', visionary:'Only you saw this', visionaryS:'{v} picks nobody else got right', leader:'The leader', ace:'Group-stage ace', aceS:'{v} group positions nailed', prophet:'The prophet', prophetS:'{v} full groups predicted', maverick:'The brave one', maverickS:'the only one to back {c}', herd:'Crowd favourite', herdS:'{v} picked {c} as champion', red:'Red lantern', redS:'{v} behind the leader… someone had to be last'},
+      tr:{gap:'liderden {v} geride', leaderS:'{v} puanla zirvede', visionary:'Bunu sadece sen gördün', visionaryS:'kimsenin bilemediği {v} isabet', leader:'Lider', ace:'Grup ası', aceS:'{v} grup sırası tam', prophet:'Kâhin', prophetS:'{v} grubu tam bildi', maverick:'Cesur', maverickS:'{c} diyen tek kişi', herd:'Kalabalığın favorisi', herdS:'{v} kişi {c} dedi', red:'Kırmızı fener', redS:'liderden {v} geride… biri sonuncu olmalıydı'}
+    };
+    const HL = HOF_LBL[LANG] || HOF_LBL.es;
+    { const _ht=document.getElementById('hof-title-h'); if(_ht) _ht.textContent={es:'Salón de la fama',en:'Hall of fame',tr:'Şöhretler galerisi'}[LANG]||'Salón de la fama';
+      const _hs=document.getElementById('hof-sub'); if(_hs) _hs.textContent={es:'Premios de la quiniela — clica para abrir',en:'Pool awards — click to open',tr:'Tahmin ödülleri — açmak için tıkla'}[LANG]||''; }
+    const hofEl = document.getElementById('hof-content');
+    const hofSec = document.getElementById('hall-of-fame');
+    if(hasResults && hofEl){
+      const topBy = fn => ranked.reduce((best,r) => (fn(r) > (best?fn(best):-1)) ? r : best, null);
+      const win = (r,tpl,v,c) => r ? '<div class="hof-win">'+escapeHtml(r.name)+(r.isMe?' <span class="hof-you">tú</span>':'')+'</div><div class="hof-stat">'+tpl.replace('{v}',v).replace('{c}',c||'')+'</div>' : '';
+      const cards = [];
+      const leader = ranked[0];
+      cards.push(['👑', HL.leader, win(leader, HL.leaderS, leader.score), leader.isMe]);
+      const vis = topBy(r=>r.__lone); if(vis && vis.__lone>0) cards.push(['🔮', HL.visionary, win(vis, HL.visionaryS, vis.__lone), vis.isMe]);
+      const ace = topBy(r=>r.__gh); if(ace && ace.__gh>0) cards.push(['🧮', HL.ace, win(ace, HL.aceS, ace.__gh), ace.isMe]);
+      const prophet = topBy(r=>r.__full); if(prophet && prophet.__full>0) cards.push(['🎯', HL.prophet, win(prophet, HL.prophetS, prophet.__full), prophet.isMe]);
+      let mav = null; ranked.forEach(r => { if(!mav){ const cn = r.champion?r.champion.name:null; if(cn && champCounts[cn] && champCounts[cn].n===1) mav = r; } });
+      if(mav) cards.push(['🐴', HL.maverick, win(mav, HL.maverickS, '', mav.champion?mav.champion.name:''), mav.isMe]);
+      const pop = champTop[0]; if(pop) cards.push(['🏰', HL.herd, '<div class="hof-stat">'+HL.herdS.replace('{v}',pop.n).replace('{c}',escapeHtml(pop.name))+'</div>', false]);
+      const last = ranked[ranked.length-1]; if(last && last.__gap>0) cards.push(['🧊', HL.red, win(last, HL.redS, last.__gap), last.isMe]);
+      hofEl.innerHTML = '<div class="hof-grid">' + cards.map(c => '<div class="hof-card'+(c[3]?' me':'')+'"><div class="hof-ico">'+c[0]+'</div><div class="hof-b"><div class="hof-title">'+c[1]+'</div>'+c[2]+'</div></div>').join('') + '</div>';
+      if(hofSec) hofSec.style.display = '';
+    } else if(hofSec){ hofSec.style.display = 'none'; }
 
     document.getElementById("lb-count").textContent = `(${humanCount})`;
 
@@ -3458,9 +3517,9 @@ async function loadLeaderboard(){
               return `
                 <tr class="lb-row ${r.isMe?'me':''} ${isModel?'model':''}" data-idx="${i}">
                   <td class="rank ${rankClass}">${hasResults && i<3 ? ['🥇','🥈','🥉'][i] : (i+1)}</td>
-                  <td class="name">${isModel?'🤖 ':''}${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}${(r.__badges&&r.__badges.length)?' '+r.__badges.map(function(b){return '<span class="lb-badge" title="'+b[1]+'">'+b[0]+'</span>';}).join(''):''}<span class="expand-icon">▸</span></td>
+                  <td class="name">${isModel?'🤖 ':''}${escapeHtml(r.name)}${r.isMe?t("lb.you"):""}<span class="expand-icon">▸</span></td>
                   <td class="champ">${r.champion ? `<img src="https://flagcdn.com/w40/${r.champion.code}.png" alt=""><span>${escapeHtml(r.champion.name)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
-                  ${hasResults ? `<td class="num"><span class="lb-sc">${r.score}</span>${r.__gap>0?`<span class="lb-gap" title="${BL.gap.replace('{n}',r.__gap)}">−${r.__gap}</span>`:''}</td>` : ''}
+                  ${hasResults ? `<td class="num"><span class="lb-sc">${r.score}</span>${r.__gap>0?`<span class="lb-gap" title="${HL.gap.replace('{v}',r.__gap)}">−${r.__gap}</span>`:''}</td>` : ''}
                   <td style="color:#6b7280;font-size:.86em">${isModel?'🔮':tsStr}</td>
                 </tr>
                 <tr class="lb-detail-row hidden" data-detail="${i}">
