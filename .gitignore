@@ -1,4 +1,5 @@
 .claude/
+.DS_Store
 
 # WC2026 model: downloaded public dataset (re-fetched in CI)
 projects/wc2026-pool/scripts/results.csv
