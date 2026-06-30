@@ -3368,6 +3368,17 @@ async function loadLeaderboard(){
           </tbody>
         </table>
       `;
+      /* count up the points once on first load — alive leaderboard, reduced-motion safe */
+      if(hasResults && !window.__lbCounted){
+        window.__lbCounted = 1;
+        var __rm = matchMedia("(prefers-reduced-motion:reduce)").matches;
+        contentEl.querySelectorAll("td.num").forEach(function(td){
+          var to = parseInt(td.textContent,10); if(isNaN(to)) return;
+          if(__rm){ td.textContent = to; return; }
+          td.textContent = "0"; var s = null;
+          requestAnimationFrame(function tick(t){ if(!s)s=t; var p=Math.min((t-s)/900,1); td.textContent=Math.round(to*(1-Math.pow(1-p,3))); if(p<1)requestAnimationFrame(tick); });
+        });
+      }
       /* Wire expand handlers */
       contentEl.querySelectorAll(".lb-row").forEach(row => {
         row.addEventListener("click",()=>{

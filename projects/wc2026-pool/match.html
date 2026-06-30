@@ -103,8 +103,10 @@
   .lv-pen{font-size:.4em;font-weight:800;color:var(--gold-2,#f4d76b);letter-spacing:.02em}
   .lv-block{margin-top:14px;background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
   .lv-block h4{margin:0 0 12px;font-size:.7em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .pred{display:flex;height:26px;border-radius:7px;overflow:hidden;font-size:.76em;font-weight:800}
-  .pred .pb{display:flex;align-items:center;justify-content:center;min-width:18px;color:#06121a}
+  .pred{display:flex;height:26px;border-radius:7px;overflow:hidden;font-size:.76em;font-weight:800;animation:predWipe .8s cubic-bezier(.16,1,.3,1) both}
+  @keyframes predWipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+  @media(prefers-reduced-motion:reduce){.pred{animation:none}}
+  .pred .pb{display:flex;align-items:center;justify-content:center;min-width:18px;color:#06121a;transition:width .6s cubic-bezier(.16,1,.3,1)}
   .pred .t1{background:var(--gold)} .pred .dr{background:#5b6472;color:#fff} .pred .t2{background:#35e0d8}
   .pred-lbl{display:flex;justify-content:space-between;font-size:.74em;color:var(--muted);margin-top:6px}
   .pred-lbl span:nth-child(2){text-align:center} .pred-lbl span:last-child{text-align:right}
@@ -408,6 +410,31 @@ function parseKick(date,time){
 }
 function isPlaceholder(n){ return !n || /^([12][A-L]|W\d+|L\d+|RU|3[A-L])/i.test(n) || /\bB$/.test(n); }
 
+/* Knockout fixtures in schedule.json are placeholders ("1F","2C","3A/B/C/D/F"). ESPN lists
+   them with the real teams once the bracket resolves → match the placeholder match to its
+   ESPN event by kickoff time and fill in the real teams, so the prediction, flag and squad
+   all work. ratings.json already carries every spelling, so the model needs no canonical name;
+   we still canonicalize to the index name (via nrmt aliases) so flag/squad lookups resolve. */
+const __espnReal=n=>!!n&&!/round of|winner|loser|runner|tbd|to be|quarter-?final|semi-?final|\bfinal\b|third place|group [a-l]\b/i.test(n);
+async function resolveKoMatch(m, teams){
+  if(!m || (!isPlaceholder(m.team1) && !isPlaceholder(m.team2))) return;
+  const k=parseKick(m.date,m.time); if(!k) return;
+  let sb; try{ sb=await fetch(ESPN_SB+'?dates=20260611-20260719',{cache:'no-store'}).then(r=>r.json()); }catch(e){ return; }
+  const kt=k.getTime(), day=new Date(kt).toISOString().slice(0,10);
+  let best=null, bestD=Infinity;
+  (sb&&sb.events||[]).forEach(e=>{
+    if(!e.date) return; const ts=+new Date(e.date);
+    if(new Date(ts).toISOString().slice(0,10)!==day) return;
+    const cs=((e.competitions||[])[0]||{}).competitors||[];
+    const h=cs.find(c=>c.homeAway==='home'), a=cs.find(c=>c.homeAway==='away'); if(!h||!a) return;
+    const d=Math.abs(ts-kt); if(d<bestD){ bestD=d; best={h:h.team.displayName,a:a.team.displayName}; }
+  });
+  if(!best || bestD>=4*3600*1000 || !__espnReal(best.h) || !__espnReal(best.a)) return;
+  const byNrmt={}; (teams.teams||[]).forEach(t=>{ byNrmt[nrmt(t.name)]=t.name; });
+  const canon=x=>byNrmt[nrmt(x)]||x;
+  m.team1=canon(best.h); m.team2=canon(best.a); m.__resolved=true;
+}
+
 async function main(){
   let sched,teams,maps,agg,prev,txi,xov;
   try{
@@ -435,6 +462,7 @@ async function main(){
   teams.teams.forEach(t=>{ teamByName[t.name]=t; teamByNorm[tnorm(t.name)]=t; });
   function teamOf(name){ if(!name) return null; if(teamByName[name]) return teamByName[name]; const n=tnorm(name); return teamByNorm[n]||teamByNorm[NAME_ALIAS[n]]||null; }
   window.__teamOf=teamOf;
+  await resolveKoMatch(m, teams);
   window.__agg=agg||{}; window.__prev=(prev.previews||[])[MIDX]||null;
   // venue lookup
   let venue=null, vcountry=null;
