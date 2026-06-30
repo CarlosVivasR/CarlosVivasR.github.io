@@ -855,8 +855,35 @@ async function loadEspnScores(){
       const key = Object.keys(byTeam).sort().join('|');
       out[key] = { byTeam, pen, state: st.state||'pre', detail: st.shortDetail||'', clock:(e.status||{}).displayClock||'' };
     });
-    if(Object.keys(out).length){ __espnScores = out; render(); }
+    resolveKoCal(d.events);
+    if(Object.keys(out).length){ __espnScores = out; }
+    render();
   }catch(e){ /* ESPN unavailable → schedule shows times only */ }
+}
+/* Knockout fixtures in schedule.json are placeholders ("1E","2C","3A/B/C/D/F"). ESPN lists
+   them with the real teams once the bracket resolves → match each placeholder match to its
+   ESPN event by kickoff time and fill in real teams (FLAG already maps every spelling). */
+function resolveKoCal(events){
+  const realName=n=>!!n&&!/round of|winner|loser|runner|tbd|to be|quarter-?final|semi-?final|\bfinal\b|third place|group [a-l]\b/i.test(n);
+  const evs=(events||[]).map(e=>{
+    const c=(e.competitions||[])[0]; if(!c||!e.date) return null;
+    const cs=c.competitors||[]; const h=cs.find(x=>x.homeAway==='home'), a=cs.find(x=>x.homeAway==='away');
+    if(!h||!a) return null;
+    return { ts:+new Date(e.date), h:(h.team||{}).displayName, a:(a.team||{}).displayName };
+  }).filter(Boolean);
+  if(!evs.length) return;
+  /* ESPN's spelling → the FLAG key (via snrm aliases), so e.g. "Bosnia-Herzegovina" or
+     "Congo DR" land on the canonical name the flag + score lookups expect. */
+  const bySnrm={}; Object.keys(FLAG).forEach(function(n){ const k=snrm(n); if(!(k in bySnrm)) bySnrm[k]=n; });
+  const canon=x=>bySnrm[snrm(x)]||x;
+  MATCHES.forEach(m=>{
+    if(m.__resolved || !m.datetime) return;
+    if(!isPlaceholderTeam(m.team1) && !isPlaceholderTeam(m.team2)) return;
+    const k=m.datetime.getTime(), day=new Date(k).toISOString().slice(0,10);
+    let best=null, bestD=Infinity;
+    evs.forEach(ev=>{ if(new Date(ev.ts).toISOString().slice(0,10)!==day) return; const dd=Math.abs(ev.ts-k); if(dd<bestD){ bestD=dd; best=ev; } });
+    if(best && bestD<4*3600*1000 && realName(best.h) && realName(best.a)){ m.team1=canon(best.h); m.team2=canon(best.a); m.__resolved=true; }
+  });
 }
 function scoreFor(m){
   if(!__espnScores || !m.team1 || !m.team2 || isPlaceholderTeam(m.team1) || isPlaceholderTeam(m.team2)) return null;

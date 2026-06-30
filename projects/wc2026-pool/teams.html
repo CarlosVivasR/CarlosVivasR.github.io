@@ -49,25 +49,39 @@
   .champ.card .reli-svg{width:200px;height:200px;max-width:60vw}
   .champ.card .reli-cap{font-size:.72em;color:var(--muted);margin-top:4px;max-width:220px;line-height:1.4}
   .champ.card .card-livewrap{flex:1;min-width:180px}
-  /* knockout bracket (cuadro) — above the groups */
-  .brk-wrap{margin:4px 0 26px;padding:14px 14px 10px}
+  /* knockout bracket (cuadro) — split left/right with the trophy in the middle */
+  .brk-wrap{margin:4px 0 26px;padding:16px 14px 12px;position:relative;left:50%;transform:translateX(-50%);width:min(96vw,1280px)}   /* break out wider than the 1100px page so the whole cuadro fits */
   .brk-wrap h2{font-size:1.05em;font-weight:800;margin-bottom:3px}
-  .brk-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
-  .brk-grid{display:flex;gap:12px;min-width:max-content;align-items:stretch}
-  .brk-col{display:flex;flex-direction:column;justify-content:space-around;gap:8px;min-width:164px}
-  .brk-rh{font-size:.68em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;padding:4px 0}
-  .brk-tie{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;overflow:hidden;text-decoration:none;position:relative}
+  .brk-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 2px 12px}
+  .brk-split{position:relative;display:flex;align-items:stretch;min-width:max-content;margin:0 auto}
+  .brk-side{display:flex;align-items:stretch;gap:12px}
+  .brk-grid{display:flex;gap:12px;min-width:max-content;align-items:stretch}   /* fallback: linear */
+  .brk-grid .brk-col .brk-cells{justify-content:space-around}
+  .brk-lines{position:absolute;left:0;top:0;pointer-events:none;z-index:0;overflow:visible}
+  .brk-lines path{fill:none;stroke:rgba(255,255,255,.15);stroke-width:1.5;stroke-linejoin:round}
+  .brk-lines path.dec{stroke:rgba(53,224,216,.5)}
+  .brk-col{display:flex;flex-direction:column;flex:0 0 112px;width:112px;position:relative;z-index:1}
+  .brk-cells{flex:1;display:flex;flex-direction:column;justify-content:space-around;gap:5px}
+  .brk-rh{font-size:.6em;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);text-align:center;padding:1px 0 7px;white-space:nowrap}
+  .brk-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-width:124px;padding:0 13px;position:relative;z-index:2}
+  .brk-trophy{font-size:2.3em;line-height:1;filter:drop-shadow(0 5px 16px rgba(232,194,71,.55))}
+  .brk-center .brk-rh{color:var(--gold);font-size:.66em;padding:0}
+  .brk-center .brk-tie{min-width:124px;border-color:rgba(232,194,71,.45);box-shadow:0 0 0 1px rgba(232,194,71,.14),0 10px 34px rgba(0,0,0,.45)}
+  .brk-champ{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:.82em;color:#0a0a0a;background:linear-gradient(90deg,#e8c247,#f4d76b);border-radius:99px;padding:5px 12px;box-shadow:0 4px 16px rgba(232,194,71,.3)}
+  .brk-champ img{width:19px;height:13px;object-fit:cover;border-radius:2px}
+  .brk-champ.tbd{color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);box-shadow:none}
+  .brk-tie{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:9px;overflow:hidden;text-decoration:none;position:relative}
   .brk-tie:hover{border-color:var(--cyan)}
-  .brk-slot{display:flex;align-items:center;gap:7px;padding:7px 9px;font-size:.82em;color:var(--ink)}
+  .brk-slot{display:flex;align-items:center;gap:5px;padding:4px 6px;font-size:.75em;color:var(--ink)}
   .brk-slot+.brk-slot{border-top:1px solid var(--line)}
-  .brk-slot img{width:20px;height:14px;object-fit:cover;border-radius:2px;flex:none}
-  .brk-slot .brk-dot{width:20px;height:14px;border-radius:2px;background:rgba(255,255,255,.06);flex:none}
+  .brk-slot img{width:16px;height:11px;object-fit:cover;border-radius:2px;flex:none}
+  .brk-slot .brk-dot{width:16px;height:11px;border-radius:2px;background:rgba(255,255,255,.06);flex:none}
   .brk-slot .brk-nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
   .brk-slot.ph .brk-nm{color:var(--muted);font-weight:500}
-  .brk-slot .brk-wp{font-family:var(--mono);font-size:.84em;color:var(--muted);font-weight:700}
+  .brk-slot .brk-wp{font-family:var(--mono);font-size:.72em;color:var(--muted);font-weight:700}
   .brk-slot.win{background:rgba(46,194,126,.14)} .brk-slot.win .brk-nm{color:#7fe0ad}
   .brk-slot.pwin{box-shadow:inset 3px 0 0 var(--gold)} .brk-slot.pwin .brk-nm{color:var(--gold)} .brk-slot.pwin .brk-wp{color:var(--gold)}
-  .brk-sc{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-weight:800;font-size:.8em;color:var(--ink);background:#0b0e16;padding:2px 6px;border-radius:6px;border:1px solid var(--line)}
+  .brk-sc{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-weight:800;font-size:.72em;color:var(--ink);background:#0b0e16;padding:1px 5px;border-radius:5px;border:1px solid var(--line)}
   @media(max-width:560px){ table.st .opt{display:none} }
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
@@ -300,11 +314,39 @@ async function render(){
     const tieHTML=t=>{ const w1=t.sc&&t.wn&&t.t1&&t.wn.name===t.t1.name, w2=t.sc&&t.wn&&t.t2&&t.wn.name===t.t2.name;
       const known=t.t1&&t.t2&&!t.sc, wp1=(known&&t.wp)?t.wp[0]:null, wp2=(known&&t.wp)?t.wp[1]:null;
       const scTx=t.sc?`<span class="brk-sc">${t.sc[0]}–${t.sc[1]}</span>`:'';
-      return `<a class="brk-tie" href="match.html?m=${t.i}">${slot(t.t1,t.ref1,wp1,w1)}${slot(t.t2,t.ref2,wp2,w2)}${scTx}</a>`; };
-    const cols=[['Round of 32',L('brR32')],['Round of 16',L('brR16')],['Quarter-final',L('brQF')],['Semi-final',L('brSF')],['Final',L('brFinal')]];
-    const grid=cols.map(([rd,lab])=>{ const ms=ties.filter(t=>rn(t.round)===rn(rd)); if(!ms.length) return '';
-      return `<div class="brk-col"><div class="brk-rh">${lab}</div>${ms.map(tieHTML).join('')}</div>`; }).join('');
-    if(grid) brkHTML=`<div class="brk-wrap glass"><h2>🏆 ${L('brkTitle')}</h2><div class="champ-sub">${L('brkSub')}</div><div class="brk-scroll"><div class="brk-grid">${grid}</div></div></div>`;
+      return `<a class="brk-tie" data-bk="${t.num}" data-half="${t.__half||''}"${t.sc?' data-dec="1"':''} href="match.html?m=${t.i}">${slot(t.t1,t.ref1,wp1,w1)}${slot(t.t2,t.ref2,wp2,w2)}${scTx}</a>`; };
+    /* Build the bracket tree from the "W{num}" references (each later-round tie points at the
+       winners of two earlier ties) → split it into a left and right half around the final. */
+    ties.forEach((t,ix)=>{ t.num=(ko[ix].m.num!=null)?ko[ix].m.num:('x'+ix); });   // the final carries no num in the schedule → give it a stable id so its connectors resolve
+    const byNum={}; ties.forEach(t=>byNum[t.num]=t);
+    const childOf=ref=>{ const mm=String(ref||'').match(/^W(\d+)$/i); return mm?byNum[+mm[1]]:null; };
+    const kids=t=>[childOf(t.ref1),childOf(t.ref2)];
+    const finalT=ties.find(t=>rn(t.round)===rn('Final'));
+    window.__brkParent=null; let built=false;
+    if(finalT){
+      const roots=kids(finalT);
+      if(roots[0]&&roots[1]){
+        const cnt={L:0,R:0};
+        const dfs=(t,half)=>{ if(!t) return; const ch=kids(t); if(!ch[0]&&!ch[1]){ t.__half=half; t.__leaf=cnt[half]++; return; } dfs(ch[0],half); dfs(ch[1],half); t.__half=half; t.__leaf=Math.min(ch[0]?ch[0].__leaf:1e9,ch[1]?ch[1].__leaf:1e9); };
+        dfs(roots[0],'L'); dfs(roots[1],'R'); finalT.__half='C';
+        const pmap={}; ties.forEach(t=>kids(t).forEach(c=>{ if(c) pmap[c.num]=t.num; })); window.__brkParent=pmap;
+        const rounds=[['Round of 32',L('brR32')],['Round of 16',L('brR16')],['Quarter-final',L('brQF')],['Semi-final',L('brSF')]];
+        const colFor=(rd,half)=>{ const ms=ties.filter(t=>rn(t.round)===rn(rd[0])&&t.__half===half).sort((a,b)=>a.__leaf-b.__leaf); if(!ms.length) return ''; return `<div class="brk-col"><div class="brk-rh">${rd[1]}</div><div class="brk-cells">${ms.map(tieHTML).join('')}</div></div>`; };
+        const leftHTML=rounds.map(rd=>colFor(rd,'L')).join('');
+        const rightHTML=rounds.slice().reverse().map(rd=>colFor(rd,'R')).join('');
+        const champ=finalT.wn;
+        const champHTML2=champ?`<div class="brk-champ">${champ.code?`<img src="https://flagcdn.com/w40/${champ.code}.png" alt="">`:''}${champ.name}</div>`:`<div class="brk-champ tbd">${L('brWinner')}</div>`;
+        const centerHTML=`<div class="brk-center"><div class="brk-trophy">🏆</div><div class="brk-rh">${L('brFinal')}</div>${tieHTML(finalT)}${champHTML2}</div>`;
+        brkHTML=`<div class="brk-wrap glass"><h2>🏆 ${L('brkTitle')}</h2><div class="champ-sub">${L('brkSub')}</div><div class="brk-scroll"><div class="brk-split"><svg class="brk-lines" preserveAspectRatio="none"></svg><div class="brk-side left">${leftHTML}</div>${centerHTML}<div class="brk-side right">${rightHTML}</div></div></div></div>`;
+        built=true;
+      }
+    }
+    if(!built){
+      const cols=[['Round of 32',L('brR32')],['Round of 16',L('brR16')],['Quarter-final',L('brQF')],['Semi-final',L('brSF')],['Final',L('brFinal')]];
+      const grid=cols.map(([rd,lab])=>{ const ms=ties.filter(t=>rn(t.round)===rn(rd)); if(!ms.length) return '';
+        return `<div class="brk-col"><div class="brk-rh">${lab}</div><div class="brk-cells">${ms.map(tieHTML).join('')}</div></div>`; }).join('');
+      if(grid) brkHTML=`<div class="brk-wrap glass"><h2>🏆 ${L('brkTitle')}</h2><div class="champ-sub">${L('brkSub')}</div><div class="brk-scroll"><div class="brk-grid">${grid}</div></div></div>`;
+    }
   }
   }catch(e){ brkHTML=''; }
   const qCol = !!qual;
@@ -376,7 +418,38 @@ async function render(){
       </tr></thead><tbody>${body}</tbody></table></div>`;
   });
   document.getElementById('wrap').innerHTML=html+`</div>`+champHTML+cardHTML;
+  if(window.__brkParent){
+    const kick=()=>{ drawBrkLines();
+      const sc=document.querySelector('.brk-scroll');                       // open centred on the trophy
+      if(sc&&!sc.__centered&&sc.scrollWidth>sc.clientWidth){ sc.scrollLeft=(sc.scrollWidth-sc.clientWidth)/2; sc.__centered=1; }
+    };
+    requestAnimationFrame(()=>requestAnimationFrame(kick));   // after layout+paint when visible
+    setTimeout(kick,120); setTimeout(kick,400);               // fires even when the tab is hidden / fonts+flags settle late
+    const split=document.querySelector('.brk-split');
+    if(split&&'ResizeObserver'in window){ new ResizeObserver(()=>drawBrkLines()).observe(split); }
+  }
 }
+/* Draw the elbow connectors between each tie and its next-round parent, measured from the
+   real rendered positions (so they line up exactly however the columns space out). */
+function drawBrkLines(){
+  const split=document.querySelector('.brk-split'); if(!split) return;
+  const svg=split.querySelector('svg.brk-lines'); if(!svg) return;
+  const sr=split.getBoundingClientRect(), W=split.scrollWidth, H=split.scrollHeight;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.style.width=W+'px'; svg.style.height=H+'px';
+  const pm=window.__brkParent||{}, rel=el=>{ const r=el.getBoundingClientRect(); return {l:r.left-sr.left,r:r.right-sr.left,cy:r.top-sr.top+r.height/2}; };
+  let d='';
+  split.querySelectorAll('.brk-tie[data-bk]').forEach(el=>{
+    const pNum=pm[el.getAttribute('data-bk')]; if(pNum==null) return;
+    const pEl=split.querySelector('.brk-tie[data-bk="'+pNum+'"]'); if(!pEl) return;
+    const c=rel(el), p=rel(pEl), dec=el.getAttribute('data-dec')==='1';
+    let cx,px; if(el.getAttribute('data-half')==='R'){ cx=c.l; px=p.r; } else { cx=c.r; px=p.l; }
+    const mx=(cx+px)/2;
+    d+=`<path class="${dec?'dec':''}" d="M${cx.toFixed(1)} ${c.cy.toFixed(1)} H${mx.toFixed(1)} V${p.cy.toFixed(1)} H${px.toFixed(1)}"/>`;
+  });
+  svg.innerHTML=d;
+}
+let __brkRz; addEventListener('resize',()=>{ clearTimeout(__brkRz); __brkRz=setTimeout(drawBrkLines,150); });
+addEventListener('load',()=>{ if(window.__brkParent) drawBrkLines(); });
 main();
 </script>
 <script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>

@@ -316,6 +316,7 @@ async function fetchLiveScores(){
         og:(((x.type||{}).text||'').toLowerCase().includes('own')), pen:(((x.type||{}).text||'').toLowerCase().includes('penalty'))
       }));
       recs.push({ hName:home.team.displayName, aName:away.team.displayName, hId:String(home.team.id), aId:String(away.team.id),
+        ts:(e.date? +new Date(e.date) : null),
         hs:home.score, as:away.score, hsh:home.shootoutScore, ash:away.shootoutScore, state:st.state, clock:(e.status||{}).displayClock||'', short:st.shortDetail||'', goals });
     });
     window.__liveData=recs;
@@ -327,6 +328,26 @@ function liveFor(m){
   const recs=window.__liveData||[]; const t1=nrmTeam(m.team1), t2=nrmTeam(m.team2);
   for(const r of recs){ const s=[nrmTeam(r.hName),nrmTeam(r.aName)]; if(s.includes(t1)&&s.includes(t2)) return r; }
   return null;
+}
+/* Knockout fixtures in schedule.json are placeholders ("1F", "2C", "3A/B/C/D/F").
+   ESPN lists them with the real teams once the bracket resolves → match each placeholder
+   match to its ESPN event by kickoff time and fill in the real teams. */
+function isKoPlaceholder(n){ return /^([12][A-L]|W\d+|L\d+|RU|3[A-L])/i.test(n||''); }
+/* ESPN names an undetermined slot "Round of 32 N Winner" / "TBD" etc. — only accept a
+   resolution when BOTH sides are actual teams, so we never trade "W73" for an uglier
+   placeholder. Once a R32 match finishes, ESPN fills the next round and it resolves then. */
+function isRealEspnTeam(n){ return !!n && !/round of|winner|loser|runner|tbd|to be|quarter-?final|semi-?final|\bfinal\b|third place|group [a-l]\b/i.test(n); }
+function resolveKoTeams(){
+  const recs=window.__liveData||[]; if(!recs.length) return;
+  (window.__matchesAll||[]).forEach(m=>{
+    if(m.__resolved) return;
+    if(!isKoPlaceholder(m.team1) && !isKoPlaceholder(m.team2)) return;
+    const k=matchStart(m); if(k==null) return;
+    const day=new Date(k).toISOString().slice(0,10);
+    let best=null, bestD=Infinity;
+    recs.forEach(r=>{ if(r.ts==null) return; if(new Date(r.ts).toISOString().slice(0,10)!==day) return; const d=Math.abs(r.ts-k); if(d<bestD){ bestD=d; best=r; } });
+    if(best && bestD<4*3600*1000 && isRealEspnTeam(best.hName) && isRealEspnTeam(best.aName)){ m.team1=best.hName; m.team2=best.aName; m.__resolved=true; }
+  });
 }
 /* A cached "in" record is only trusted as live within a sane window around kickoff —
    otherwise it's stale (match already finished while the tab was closed) → treat as 'post'. */
@@ -340,7 +361,7 @@ let __pollBusy=false;
 async function pollLive(){
   if(__pollBusy||document.hidden) return;                 // skip overlap + work while tab hidden
   __pollBusy=true;
-  try{ await fetchLiveScores(); if(typeof renderHomeCards==='function') renderHomeCards(); if(typeof renderSpotlight==='function') renderSpotlight(true); }
+  try{ await fetchLiveScores(); resolveKoTeams(); if(typeof renderHomeCards==='function') renderHomeCards(); if(typeof renderSpotlight==='function') renderSpotlight(true); }
   finally{ __pollBusy=false; }
 }
 setInterval(pollLive, 45000);
@@ -373,6 +394,8 @@ async function buildHome(){
   const titleEl=document.getElementById('homeMatchesTitle');
   if(titleEl) titleEl.textContent=isToday?tt('home.today'):tt('home.upcoming');
   window.__homeList=list; window.__homeFlags=flagByName;
+  await fetchLiveScores();
+  resolveKoTeams();
   renderHomeCards();
   if(typeof renderSpotlight==='function') renderSpotlight(true);
   pollLive();
