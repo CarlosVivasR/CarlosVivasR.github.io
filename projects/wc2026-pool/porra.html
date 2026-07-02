@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>La Porra · España – Austria</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#03040c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+<style>
+  :root{
+    --bg:#03040c; --surface:rgba(255,255,255,.045); --surface-2:rgba(255,255,255,.07);
+    --line:rgba(255,255,255,.12); --line-2:rgba(255,255,255,.2);
+    --ink:#fff; --ink-2:rgba(255,255,255,.9); --muted:rgba(255,255,255,.6);
+    --gold:#e8c247; --gold-2:#f4d76b; --cyan:#35e0d8; --green:#2ec27e; --red:#ff5a5f;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{min-height:100vh}
+  a{color:var(--cyan);text-decoration:none}
+  /* ambient */
+  .orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px)}
+  .orb1{width:480px;height:480px;background:#8a1f1f;opacity:.18;top:-160px;left:-120px}
+  .orb2{width:420px;height:420px;background:#0a6e8e;opacity:.16;bottom:-160px;right:-100px}
+  .pitch{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:46px 46px}
+  .wrap{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:26px 18px 90px}
+
+  /* ═════ password gate ═════ */
+  #gate{position:fixed;inset:0;z-index:100;background:#03040c;display:flex;align-items:center;justify-content:center;padding:20px}
+  #gate.hide{display:none}
+  .gate-card{width:100%;max-width:380px;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:34px 26px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .gate-emoji{font-size:2.6em;line-height:1}
+  .gate-card h1{font-size:1.7em;font-weight:900;letter-spacing:-.02em;margin:10px 0 2px}
+  .gate-card p{color:var(--muted);font-size:.9em;margin-bottom:22px}
+  .gate-card input{width:100%;text-align:center;font:600 1.05em 'Inter',sans-serif;color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:13px 14px;outline:none;letter-spacing:.02em}
+  .gate-card input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,194,71,.16)}
+  .gate-card button{width:100%;margin-top:12px;font:800 1em 'Inter',sans-serif;color:#03040c;background:linear-gradient(90deg,var(--gold),var(--gold-2));border:none;border-radius:12px;padding:13px;cursor:pointer;transition:transform .12s}
+  .gate-card button:active{transform:scale(.98)}
+  #gate-err{color:var(--red);font-size:.86em;font-weight:600;margin-top:12px;min-height:1.2em;opacity:0;transition:opacity .2s}
+  #gate-err.show{opacity:1}
+  .gate-shake{animation:shake .38s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+  /* ═════ header ═════ */
+  .topline{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font-size:.82em}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.02em;color:var(--ink)}
+  .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+  .topline a{color:var(--muted);font-weight:600}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:.72em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .hero{text-align:center;margin-bottom:20px}
+  .hero .vs-teams{display:flex;align-items:center;justify-content:center;gap:16px;margin:6px 0 10px}
+  .hero .vs-teams img{width:56px;height:40px;object-fit:cover;border-radius:5px;box-shadow:0 4px 16px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.15)}
+  .hero .vs-teams .vs{font-family:var(--mono);font-weight:800;color:var(--muted);font-size:1.1em}
+  .hero h1{font-size:clamp(1.8em,7vw,2.5em);font-weight:900;letter-spacing:-.03em;line-height:1}
+  .hero .meta{color:var(--muted);font-size:.9em;margin-top:8px;font-weight:600}
+  .cd{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-weight:800;color:var(--cyan)}
+  .cd.live{color:var(--red)}
+  .cd .lh{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* ═════ cards ═════ */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-bottom:16px;box-shadow:0 10px 34px rgba(0,0,0,.3)}
+  .card h2{font-size:1.05em;font-weight:800;margin-bottom:3px}
+  .card .sub{color:var(--muted);font-size:.86em;margin-bottom:16px}
+
+  /* form */
+  .fld{margin-bottom:14px}
+  .fld label{display:block;font-size:.74em;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .fld input[type=text]{width:100%;font:600 1em 'Inter',sans-serif;color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:11px;padding:12px 13px;outline:none}
+  .fld input[type=text]:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,194,71,.14)}
+  .score-row{display:flex;align-items:center;justify-content:center;gap:12px}
+  .score-team{display:flex;flex-direction:column;align-items:center;gap:7px;flex:1;max-width:140px}
+  .score-team img{width:40px;height:29px;object-fit:cover;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.18)}
+  .score-team .tn{font-weight:800;font-size:.9em}
+  .score-team input{width:100%;text-align:center;font:800 2em var(--mono);color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:13px;padding:8px 0;outline:none;-moz-appearance:textfield}
+  .score-team input::-webkit-outer-spin-button,.score-team input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .score-team input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,194,71,.14)}
+  .score-dash{font-family:var(--mono);font-weight:800;font-size:1.6em;color:var(--muted);align-self:center;margin-top:24px}
+  .adv-row{display:flex;gap:10px}
+  .adv-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:.94em;color:var(--ink-2);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:11px;padding:11px;cursor:pointer;transition:all .14s}
+  .adv-btn img{width:22px;height:16px;object-fit:cover;border-radius:2px}
+  .adv-btn:hover{border-color:var(--line-2)}
+  .adv-btn.on{background:rgba(46,194,126,.16);border-color:var(--green);color:#7fe0ad}
+  .submit-btn{width:100%;margin-top:8px;font:800 1.05em 'Inter',sans-serif;color:#03040c;background:linear-gradient(90deg,var(--gold),var(--gold-2));border:none;border-radius:12px;padding:14px;cursor:pointer;transition:transform .12s,filter .12s}
+  .submit-btn:hover{filter:brightness(1.05)}
+  .submit-btn:active{transform:scale(.985)}
+  .submit-btn:disabled{opacity:.5;cursor:not-allowed}
+  .form-msg{text-align:center;font-size:.88em;font-weight:600;margin-top:12px;min-height:1.1em}
+  .form-msg.ok{color:var(--green)}
+  .form-msg.err{color:var(--red)}
+
+  .pending{text-align:center;color:var(--muted);font-size:.94em;font-weight:600;padding:16px}
+  .pending b{color:var(--gold-2);font-family:var(--mono);font-size:1.15em}
+
+  /* live score */
+  .live-card{text-align:center}
+  .live-score{display:flex;align-items:center;justify-content:center;gap:18px;margin:6px 0}
+  .live-score img{width:46px;height:33px;object-fit:cover;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.18)}
+  .live-score .sc{font-family:var(--mono);font-weight:800;font-size:2.6em;line-height:1}
+  .live-state{font-size:.8em;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .live-state.playing{color:var(--red)}
+  .live-state.done{color:var(--green)}
+  .pens{font-size:.82em;color:var(--muted);margin-top:4px}
+
+  /* winner banner */
+  .winner{margin:0 0 16px;text-align:center;padding:20px;border-radius:16px;background:linear-gradient(160deg,rgba(232,194,71,.16),rgba(232,194,71,.04));border:1px solid rgba(232,194,71,.4)}
+  .winner .lbl{font-size:.72em;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2);margin-bottom:6px}
+  .winner .names{font-size:1.4em;font-weight:900}
+  .winner .note{color:var(--muted);font-size:.86em;margin-top:6px}
+  .winner.none{background:var(--surface);border-color:var(--line)}
+  .winner.none .lbl{color:var(--muted)}
+
+  /* predictions table */
+  .plist{width:100%;border-collapse:collapse;font-size:.9em}
+  .plist th{font-size:.66em;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 8px;border-bottom:1px solid var(--line)}
+  .plist th.c,.plist td.c{text-align:center}
+  .plist td{padding:10px 8px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+  .plist tbody tr:last-child td{border-bottom:none}
+  .plist td.nm{font-weight:700;color:var(--ink)}
+  .plist td.sc{font-family:var(--mono);font-weight:800;color:var(--ink);text-align:center;white-space:nowrap}
+  .plist td.gs{color:var(--muted);font-size:.92em}
+  .plist td.pa img{width:20px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle}
+  .plist tr.hit{background:rgba(46,194,126,.14)}
+  .plist tr.hit td.sc{color:#7fe0ad}
+  .plist tr.hit td.nm::after{content:' 🎯'}
+  .plist tr.me td.nm{color:var(--gold-2)}
+  .empty{text-align:center;color:var(--muted);padding:22px;font-size:.92em}
+  .foot{text-align:center;color:var(--muted);font-size:.76em;margin-top:20px;line-height:1.6}
+  @media(max-width:420px){ .score-team input{font-size:1.6em} .hero .vs-teams img{width:46px;height:33px} }
+</style>
+</head>
+<body>
+<div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div></div>
+<div class="pitch"></div>
+
+<!-- ═════ password gate ═════ -->
+<div id="gate">
+  <div class="gate-card" id="gate-card">
+    <div class="gate-emoji">🔒⚽</div>
+    <h1>La Porra</h1>
+    <p>España – Austria · privada entre amigos</p>
+    <input id="gate-pw" type="password" placeholder="Contraseña" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button id="gate-btn">Entrar</button>
+    <div id="gate-err"></div>
+  </div>
+</div>
+
+<!-- ═════ porra ═════ -->
+<div class="wrap" id="app" style="display:none">
+  <div class="topline">
+    <span class="brand"><span class="dot"></span> La Porra</span>
+    <a href="index.html">← WC 26</a>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">● Porra privada · un solo partido</div>
+    <div class="vs-teams">
+      <img src="https://flagcdn.com/w80/es.png" alt="España">
+      <span class="vs">VS</span>
+      <img src="https://flagcdn.com/w80/at.png" alt="Austria">
+    </div>
+    <h1>España – Austria</h1>
+    <div class="meta">Dieciseisavos · 2 jul · 21:00 (hora peninsular) · <span id="cd-wrap"></span></div>
+  </div>
+
+  <div id="content"></div>
+
+  <div class="foot">Gana quien clave el <b>marcador exacto</b> (a 90 min). Si nadie acierta, bote y a llorar.<br>Las porras se revelan al pitido inicial. Marcador en vivo vía ESPN.</div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   LA PORRA — España vs Austria (un solo partido, clave "pelupajero")
+   Almacén: tabla `porra` en Supabase (match_id = MATCH.id).
+   ══════════════════════════════════════════════════════════════ */
+const PASSWORD = "pelupajero";
+const MATCH = {
+  id: "es-at-2026",
+  home:"España", away:"Austria", homeCode:"es", awayCode:"at",
+  espnHome:"Spain", espnAway:"Austria",
+  kickoff: "2026-07-02T19:00:00Z"          /* UTC */
+};
+const KO = new Date(MATCH.kickoff).getTime();
+const SUPABASE_URL = "https://mdiijmvjzjqnhvvjqqht.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kaWlqbXZqempxbmh2dmpxcWh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MTExNjgsImV4cCI6MjA5NDA4NzE2OH0.UmPVhth3Xr5sPUyJAib-ms2kWC30FBvWBMoKsyylP90";
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const flag = (code,w) => `https://flagcdn.com/w${w||40}/${code}.png`;
+const now = () => Date.now();
+const locked = () => now() >= KO;
+
+/* ─────────── gate ─────────── */
+const gate = document.getElementById("gate");
+const app = document.getElementById("app");
+function unlock(){ gate.classList.add("hide"); app.style.display=""; try{ sessionStorage.setItem("porra-ok","1"); }catch(e){} init(); }
+function tryPw(){
+  const v = document.getElementById("gate-pw").value.trim().toLowerCase();
+  const err = document.getElementById("gate-err");
+  if(v === PASSWORD){ unlock(); }
+  else {
+    err.textContent = "Contraseña incorrecta. Pregunta al grupo 👀";
+    err.classList.add("show");
+    const c = document.getElementById("gate-card"); c.classList.remove("gate-shake"); void c.offsetWidth; c.classList.add("gate-shake");
+  }
+}
+document.getElementById("gate-btn").addEventListener("click", tryPw);
+document.getElementById("gate-pw").addEventListener("keydown", e => { if(e.key==="Enter") tryPw(); });
+try{ if(sessionStorage.getItem("porra-ok")==="1"){ unlock(); } }catch(e){}
+
+/* ─────────── countdown ─────────── */
+function fmtCountdown(){
+  const el = document.getElementById("cd-wrap"); if(!el) return;
+  const diff = KO - now();
+  if(diff > 0){
+    const d = Math.floor(diff/86400000), h = Math.floor(diff%86400000/3600000), m = Math.floor(diff%3600000/60000), s = Math.floor(diff%60000/1000);
+    const parts = d>0 ? `${d}d ${h}h ${m}m` : (h>0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`);
+    el.innerHTML = `<span class="cd"><span class="lh"></span>empieza en ${parts}</span>`;
+  } else {
+    el.innerHTML = `<span class="cd live"><span class="lh"></span>¡EN JUEGO!</span>`;
+  }
+}
+setInterval(fmtCountdown, 1000);
+
+/* ─────────── ESPN live score ─────────── */
+const ESPN_SB = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260629-20260706";
+const nrm = s => (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z]/g,"");
+let __espn = null;
+async function fetchEspn(){
+  try{
+    const d = await fetch(ESPN_SB,{cache:"no-store"}).then(r=>r.json());
+    const want = [nrm(MATCH.espnHome), nrm(MATCH.espnAway)].sort().join("|");
+    const ev = (d.events||[]).find(e=>{
+      const cs = (((e.competitions||[])[0])||{}).competitors||[];
+      return cs.map(c=>nrm((c.team||{}).displayName)).sort().join("|") === want;
+    });
+    if(!ev) return null;
+    const c = (ev.competitions||[])[0]||{}; const cs = c.competitors||[];
+    const h = cs.find(x=>nrm((x.team||{}).displayName)===nrm(MATCH.espnHome));
+    const a = cs.find(x=>nrm((x.team||{}).displayName)===nrm(MATCH.espnAway));
+    const st = ((ev.status||{}).type||{});
+    return {
+      hs: h&&h.score!=null?+h.score:null, as: a&&a.score!=null?+a.score:null,
+      hp: h&&h.shootoutScore!=null?+h.shootoutScore:null, ap: a&&a.shootoutScore!=null?+a.shootoutScore:null,
+      state: st.state||"pre", detail: st.shortDetail||"", clock:(ev.status||{}).displayClock||""
+    };
+  }catch(e){ return null; }
+}
+
+/* ─────────── data ─────────── */
+let __entries = [], __submittedName = null, __tableMissing = false;
+async function loadEntries(){
+  const { data, error } = await sb.from("porra").select("*").eq("match_id", MATCH.id).order("created_at",{ascending:true});
+  if(error){ __entries = []; __tableMissing = true; return; }   /* table not created yet → still show the form, fail only on submit */
+  __tableMissing = false; __entries = data || [];
+}
+
+/* ─────────── render ─────────── */
+const content = () => document.getElementById("content");
+
+function renderForm(count){
+  const saved = __submittedName ? __entries.find(e=>e.name===__submittedName) : null;
+  content().innerHTML = `
+    <div class="card">
+      <h2>${saved ? "✏️ Edita tu porra" : "🎯 Echa tu porra"}</h2>
+      <div class="sub">Marcador a 90 minutos. Se bloquea al empezar el partido.</div>
+      <div class="fld">
+        <label>Tu nombre</label>
+        <input type="text" id="p-name" maxlength="28" placeholder="¿Quién eres?" value="${saved?esc(saved.name):''}">
+      </div>
+      <div class="fld">
+        <label>Marcador</label>
+        <div class="score-row">
+          <div class="score-team">
+            <img src="${flag('es',40)}" alt=""><span class="tn">España</span>
+            <input type="number" id="p-es" min="0" max="20" inputmode="numeric" placeholder="0" value="${saved&&saved.es!=null?saved.es:''}">
+          </div>
+          <div class="score-dash">–</div>
+          <div class="score-team">
+            <img src="${flag('at',40)}" alt=""><span class="tn">Austria</span>
+            <input type="number" id="p-at" min="0" max="20" inputmode="numeric" placeholder="0" value="${saved&&saved.rival!=null?saved.rival:''}">
+          </div>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Primer goleador <span style="text-transform:none;font-weight:600">(opcional)</span></label>
+        <input type="text" id="p-scorer" maxlength="40" placeholder="¿Quién marca primero?" value="${saved?esc(saved.scorer||''):''}">
+      </div>
+      <div class="fld">
+        <label>¿Quién pasa?</label>
+        <div class="adv-row">
+          <button type="button" class="adv-btn ${saved&&saved.advances==='ES'?'on':''}" data-adv="ES"><img src="${flag('es',20)}" alt="">España</button>
+          <button type="button" class="adv-btn ${saved&&saved.advances==='AT'?'on':''}" data-adv="AT"><img src="${flag('at',20)}" alt="">Austria</button>
+        </div>
+      </div>
+      <button class="submit-btn" id="p-submit">${saved?"Guardar cambios":"Enviar mi porra"}</button>
+      <div class="form-msg" id="p-msg"></div>
+    </div>
+    <div class="pending">🙈 <b>${count}</b> ${count===1?'porra echada':'porras echadas'}. Se revelan al pitido inicial.</div>`;
+  wireForm();
+}
+
+function renderRevealed(espn){
+  const state = espn ? espn.state : "pre";
+  const playing = state==="in", done = state==="post";
+  const hs = espn&&espn.hs!=null?espn.hs:null, as = espn&&espn.as!=null?espn.as:null;
+  const haveScore = hs!=null && as!=null && (playing||done);
+
+  /* live scoreboard */
+  const stateLbl = done ? "Final" : playing ? (espn.clock||espn.detail||"En juego") : "Por empezar";
+  const penTxt = (done && espn.hp!=null && espn.ap!=null) ? `<div class="pens">Penaltis: ${espn.hp}–${espn.ap}</div>` : "";
+  const liveHtml = `
+    <div class="card live-card">
+      <div class="live-score">
+        <img src="${flag('es',40)}" alt="">
+        <span class="sc">${haveScore?hs:'–'} <span style="color:var(--muted)">:</span> ${haveScore?as:'–'}</span>
+        <img src="${flag('at',40)}" alt="">
+      </div>
+      <div class="live-state ${done?'done':playing?'playing':''}">${playing?'● ':''}${stateLbl}</div>
+      ${penTxt}
+    </div>`;
+
+  /* winner (only exact score, once finished) */
+  let winnerHtml = "";
+  if(done && haveScore){
+    const plenos = __entries.filter(e=>e.es===hs && e.rival===as);
+    if(plenos.length){
+      winnerHtml = `<div class="winner"><div class="lbl">🏆 ${plenos.length===1?'Ganador de la porra':'Ganadores de la porra'}</div>
+        <div class="names">${plenos.map(p=>esc(p.name)).join(' · ')}</div>
+        <div class="note">Clavaron el ${hs}–${as}. ${plenos.length>1?'Empate técnico: a repartir o desempatad por el goleador.':'¡Pleno!'}</div></div>`;
+      celebrate();
+    } else {
+      winnerHtml = `<div class="winner none"><div class="lbl">🫗 Bote</div>
+        <div class="names">Nadie clavó el ${hs}–${as}</div>
+        <div class="note">La porra queda desierta. El fútbol es así.</div></div>`;
+    }
+  }
+
+  /* everyone's predictions */
+  let rows = "";
+  const sorted = __entries.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  sorted.forEach(e=>{
+    const hit = haveScore && e.es===hs && e.rival===as;
+    const mine = __submittedName && e.name===__submittedName;
+    const advCode = e.advances==='AT' ? 'at' : e.advances==='ES' ? 'es' : null;
+    rows += `<tr class="${hit?'hit':''} ${mine?'me':''}">
+      <td class="nm">${esc(e.name)}</td>
+      <td class="sc">${e.es}–${e.rival}</td>
+      <td class="gs">${e.scorer?esc(e.scorer):'—'}</td>
+      <td class="pa c">${advCode?`<img src="${flag(advCode,20)}" alt="${e.advances}">`:'—'}</td>
+    </tr>`;
+  });
+  const tableHtml = __entries.length ? `
+    <div class="card">
+      <h2>Las porras (${__entries.length})</h2>
+      <div class="sub">Marcador a 90 min · 🎯 = pleno</div>
+      <table class="plist">
+        <thead><tr><th>Quién</th><th class="c">Marcador</th><th>1er gol</th><th class="c">Pasa</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>` : `<div class="card"><div class="empty">Nadie echó porra 😅</div></div>`;
+
+  content().innerHTML = liveHtml + winnerHtml + tableHtml;
+}
+
+function renderNotReady(){
+  content().innerHTML = `<div class="card"><div class="empty">⚙️ La porra aún no está activada en el servidor.<br><span style="font-size:.9em">(Falta crear la tabla en Supabase — avisa a Carlos.)</span></div></div>`;
+}
+
+/* ─────────── form wiring ─────────── */
+let __adv = null;
+function wireForm(){
+  const saved = __submittedName ? __entries.find(e=>e.name===__submittedName) : null;
+  __adv = saved ? saved.advances : null;
+  document.querySelectorAll(".adv-btn").forEach(b=>{
+    b.addEventListener("click",()=>{
+      __adv = b.dataset.adv;
+      document.querySelectorAll(".adv-btn").forEach(x=>x.classList.toggle("on", x.dataset.adv===__adv));
+    });
+  });
+  document.getElementById("p-submit").addEventListener("click", submitPorra);
+}
+async function submitPorra(){
+  const msg = document.getElementById("p-msg");
+  const btn = document.getElementById("p-submit");
+  msg.className = "form-msg"; msg.textContent = "";
+  if(locked()){ msg.className="form-msg err"; msg.textContent="El partido ya empezó — porra cerrada."; return; }
+  const name = document.getElementById("p-name").value.trim();
+  const es = parseInt(document.getElementById("p-es").value,10);
+  const rival = parseInt(document.getElementById("p-at").value,10);
+  if(!name){ msg.className="form-msg err"; msg.textContent="Pon tu nombre."; return; }
+  if(isNaN(es)||isNaN(rival)||es<0||rival<0){ msg.className="form-msg err"; msg.textContent="Pon un marcador (ej. 2 y 1)."; return; }
+  if(!__adv){ msg.className="form-msg err"; msg.textContent="Marca quién pasa."; return; }
+  const scorer = document.getElementById("p-scorer").value.trim();
+  btn.disabled = true; msg.textContent = "Enviando…";
+  try{
+    const { error } = await sb.from("porra").upsert(
+      { match_id: MATCH.id, name, es, rival, scorer: scorer||null, advances: __adv },
+      { onConflict: "match_id,name" }
+    );
+    if(error) throw error;
+    __submittedName = name;
+    try{ localStorage.setItem("porra-name", name); }catch(e){}
+    msg.className="form-msg ok"; msg.textContent = "¡Porra echada! 🤞 Suerte.";
+    confetti({particleCount:70,spread:65,origin:{y:.7},colors:['#e8c247','#f4d76b','#35e0d8','#fff']});
+    await loadEntries(); refresh();
+  }catch(err){
+    btn.disabled = false;
+    msg.className="form-msg err";
+    msg.textContent = /relation .* does not exist|schema cache/i.test(err.message||'') ? "La porra no está montada todavía (avisa a Carlos)." : ("Error: "+(err.message||err));
+  }
+}
+
+/* ─────────── celebration ─────────── */
+let __celebrated = false;
+function celebrate(){
+  if(__celebrated) return; __celebrated = true;
+  const fire = (x)=>confetti({particleCount:90,spread:75,origin:{x,y:.6},colors:['#e8c247','#f4d76b','#ff5a5f','#fff']});
+  fire(.25); setTimeout(()=>fire(.75),200); setTimeout(()=>fire(.5),400);
+}
+
+/* ─────────── main flow ─────────── */
+async function refresh(){
+  if(!locked()){
+    renderForm(__entries.length);
+  } else {
+    if(__tableMissing){ renderNotReady(); return; }
+    const espn = await fetchEspn();
+    renderRevealed(espn);
+  }
+  if(window.anime && !matchMedia("(prefers-reduced-motion:reduce)").matches){
+    anime.suspendWhenDocumentHidden = false;
+    anime({targets:"#content .card, #content .winner, #content .pending", translateY:[14,0], opacity:[0,1], delay:anime.stagger(80), duration:520, easing:"easeOutCubic"});
+    setTimeout(()=>document.querySelectorAll("#content .card,#content .winner,#content .pending").forEach(el=>{el.style.opacity="";el.style.transform="";}),1400);
+  }
+}
+async function init(){
+  fmtCountdown();
+  try{ __submittedName = localStorage.getItem("porra-name") || null; }catch(e){}
+  await loadEntries();
+  refresh();
+  /* keep it alive: poll while the match is on / near kickoff */
+  setInterval(async ()=>{ if(document.hidden) return; await loadEntries(); refresh(); }, 30000);
+}
+</script>
+</body>
+</html>
