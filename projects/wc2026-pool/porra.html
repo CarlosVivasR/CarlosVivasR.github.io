@@ -32,22 +32,6 @@
     background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:46px 46px}
   .wrap{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:26px 18px 90px}
 
-  /* ═════ password gate ═════ */
-  #gate{position:fixed;inset:0;z-index:100;background:#03040c;display:flex;align-items:center;justify-content:center;padding:20px}
-  #gate.hide{display:none}
-  .gate-card{width:100%;max-width:380px;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:34px 26px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-  .gate-emoji{font-size:2.6em;line-height:1}
-  .gate-card h1{font-size:1.7em;font-weight:900;letter-spacing:-.02em;margin:10px 0 2px}
-  .gate-card p{color:var(--muted);font-size:.9em;margin-bottom:22px}
-  .gate-card input{width:100%;text-align:center;font:600 1.05em 'Inter',sans-serif;color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:13px 14px;outline:none;letter-spacing:.02em}
-  .gate-card input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,194,71,.16)}
-  .gate-card button{width:100%;margin-top:12px;font:800 1em 'Inter',sans-serif;color:#03040c;background:linear-gradient(90deg,var(--gold),var(--gold-2));border:none;border-radius:12px;padding:13px;cursor:pointer;transition:transform .12s}
-  .gate-card button:active{transform:scale(.98)}
-  #gate-err{color:var(--red);font-size:.86em;font-weight:600;margin-top:12px;min-height:1.2em;opacity:0;transition:opacity .2s}
-  #gate-err.show{opacity:1}
-  .gate-shake{animation:shake .38s}
-  @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
-
   /* ═════ header ═════ */
   .topline{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font-size:.82em}
   .brand{display:inline-flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.02em;color:var(--ink)}
@@ -140,20 +124,8 @@
 <div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div></div>
 <div class="pitch"></div>
 
-<!-- ═════ password gate ═════ -->
-<div id="gate">
-  <div class="gate-card" id="gate-card">
-    <div class="gate-emoji">🔒⚽</div>
-    <h1>La Porra</h1>
-    <p>España – Austria · privada entre amigos</p>
-    <input id="gate-pw" type="password" placeholder="Contraseña" autocomplete="off" autocapitalize="off" spellcheck="false">
-    <button id="gate-btn">Entrar</button>
-    <div id="gate-err"></div>
-  </div>
-</div>
-
-<!-- ═════ porra ═════ -->
-<div class="wrap" id="app" style="display:none">
+<!-- ═════ porra (access = the private link itself; no password) ═════ -->
+<div class="wrap" id="app">
   <div class="topline">
     <span class="brand"><span class="dot"></span> La Porra</span>
     <a href="index.html">← WC 26</a>
@@ -180,7 +152,6 @@
    LA PORRA — España vs Austria (un solo partido, clave "pelupajero")
    Almacén: tabla `porra` en Supabase (match_id = MATCH.id).
    ══════════════════════════════════════════════════════════════ */
-const PASSWORD = "pelupajero";
 const MATCH = {
   id: "es-at-2026",
   home:"España", away:"Austria", homeCode:"es", awayCode:"at",
@@ -196,23 +167,7 @@ const flag = (code,w) => `https://flagcdn.com/w${w||40}/${code}.png`;
 const now = () => Date.now();
 const locked = () => now() >= KO;
 
-/* ─────────── gate ─────────── */
-const gate = document.getElementById("gate");
-const app = document.getElementById("app");
-function unlock(){ gate.classList.add("hide"); app.style.display=""; try{ sessionStorage.setItem("porra-ok","1"); }catch(e){} init(); }
-function tryPw(){
-  const v = document.getElementById("gate-pw").value.trim().toLowerCase();
-  const err = document.getElementById("gate-err");
-  if(v === PASSWORD){ unlock(); }
-  else {
-    err.textContent = "Contraseña incorrecta. Pregunta al grupo 👀";
-    err.classList.add("show");
-    const c = document.getElementById("gate-card"); c.classList.remove("gate-shake"); void c.offsetWidth; c.classList.add("gate-shake");
-  }
-}
-document.getElementById("gate-btn").addEventListener("click", tryPw);
-document.getElementById("gate-pw").addEventListener("keydown", e => { if(e.key==="Enter") tryPw(); });
-try{ if(sessionStorage.getItem("porra-ok")==="1"){ unlock(); } }catch(e){}
+/* No password gate — access is the private (unlisted) link itself. */
 
 /* ─────────── countdown ─────────── */
 function fmtCountdown(){
@@ -448,6 +403,7 @@ async function init(){
   /* keep it alive: poll while the match is on / near kickoff */
   setInterval(async ()=>{ if(document.hidden) return; await loadEntries(); refresh(); }, 30000);
 }
+init();
 </script>
 </body>
 </html>
