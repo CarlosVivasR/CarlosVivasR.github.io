@@ -79,6 +79,15 @@
   .form-msg{text-align:center;font-size:.88em;font-weight:600;margin-top:12px;min-height:1.1em}
   .form-msg.ok{color:var(--green)}
   .form-msg.err{color:var(--red)}
+  /* dynamic goalscorers (fields depend on the predicted score) */
+  .scg{margin-bottom:10px}
+  .scg-h{display:flex;align-items:center;gap:6px;font-size:.74em;font-weight:800;color:var(--muted);margin:2px 0 6px}
+  .scg-h img{width:18px;height:13px;object-fit:cover;border-radius:2px}
+  .sc-in{width:100%;font:600 .94em 'Inter',sans-serif;color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:9px;padding:9px 11px;outline:none;margin-bottom:6px}
+  .sc-in:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,194,71,.13)}
+  .noscorers{color:var(--muted);font-size:.9em;padding:6px 2px}
+  .scm{display:inline-flex;align-items:center;gap:5px;margin-right:9px;white-space:nowrap}
+  .scm img{width:16px;height:11px;object-fit:cover;border-radius:2px}
 
   .pending{text-align:center;color:var(--muted);font-size:.94em;font-weight:600;padding:16px}
   .pending b{color:var(--gold-2);font-family:var(--mono);font-size:1.15em}
@@ -243,16 +252,13 @@ function renderForm(count){
           </div>
         </div>
       </div>
-      <div class="fld">
-        <label>Primer goleador <span style="text-transform:none;font-weight:600">(opcional)</span></label>
-        <input type="text" id="p-scorer" maxlength="40" placeholder="¿Quién marca primero?" value="${saved?esc(saved.scorer||''):''}">
+      <div class="fld" id="scorers-fld">
+        <label>Goleadores <span style="text-transform:none;font-weight:600">(según tu marcador · opcional)</span></label>
+        <div id="p-scorers"></div>
       </div>
-      <div class="fld">
-        <label>¿Quién pasa?</label>
-        <div class="adv-row">
-          <button type="button" class="adv-btn ${saved&&saved.advances==='ES'?'on':''}" data-adv="ES"><img src="${flag('es',20)}" alt="">España</button>
-          <button type="button" class="adv-btn ${saved&&saved.advances==='AT'?'on':''}" data-adv="AT"><img src="${flag('at',20)}" alt="">Austria</button>
-        </div>
+      <div class="fld" id="min-fld">
+        <label>Minuto del primer gol <span style="text-transform:none;font-weight:600">(opcional)</span></label>
+        <input type="number" id="p-min" min="1" max="120" inputmode="numeric" placeholder="ej. 23" value="${saved&&saved.first_min!=null?saved.first_min:''}">
       </div>
       <button class="submit-btn" id="p-submit">${saved?"Guardar cambios":"Enviar mi porra"}</button>
       <div class="form-msg" id="p-msg"></div>
@@ -303,12 +309,13 @@ function renderRevealed(espn){
   sorted.forEach(e=>{
     const hit = haveScore && e.es===hs && e.rival===as;
     const mine = __submittedName && e.name===__submittedName;
-    const advCode = e.advances==='AT' ? 'at' : e.advances==='ES' ? 'es' : null;
+    const scm = (team,code)=>{ const arr=(e.scorers&&e.scorers[team])||[]; return arr.length?`<span class="scm"><img src="${flag(code,20)}" alt="">${arr.map(esc).join(', ')}</span>`:''; };
+    const scStr = [scm('es','es'), scm('at','at')].filter(Boolean).join(' ') || '—';
     rows += `<tr class="${hit?'hit':''} ${mine?'me':''}">
       <td class="nm">${esc(e.name)}</td>
       <td class="sc">${e.es}–${e.rival}</td>
-      <td class="gs">${e.scorer?esc(e.scorer):'—'}</td>
-      <td class="pa c">${advCode?`<img src="${flag(advCode,20)}" alt="${e.advances}">`:'—'}</td>
+      <td class="gs">${scStr}</td>
+      <td class="c" style="font-family:var(--mono);color:var(--muted);white-space:nowrap">${e.first_min!=null?e.first_min+"'":'—'}</td>
     </tr>`;
   });
   const tableHtml = __entries.length ? `
@@ -316,7 +323,7 @@ function renderRevealed(espn){
       <h2>Las porras (${__entries.length})</h2>
       <div class="sub">Marcador a 90 min · 🎯 = pleno</div>
       <table class="plist">
-        <thead><tr><th>Quién</th><th class="c">Marcador</th><th>1er gol</th><th class="c">Pasa</th></tr></thead>
+        <thead><tr><th>Quién</th><th class="c">Marcador</th><th>Goleadores</th><th class="c">1er gol</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>` : `<div class="card"><div class="empty">Nadie echó porra 😅</div></div>`;
@@ -329,17 +336,32 @@ function renderNotReady(){
 }
 
 /* ─────────── form wiring ─────────── */
-let __adv = null;
 function wireForm(){
   const saved = __submittedName ? __entries.find(e=>e.name===__submittedName) : null;
-  __adv = saved ? saved.advances : null;
-  document.querySelectorAll(".adv-btn").forEach(b=>{
-    b.addEventListener("click",()=>{
-      __adv = b.dataset.adv;
-      document.querySelectorAll(".adv-btn").forEach(x=>x.classList.toggle("on", x.dataset.adv===__adv));
-    });
-  });
+  const rs = () => renderScorers();
+  document.getElementById("p-es").addEventListener("input", rs);
+  document.getElementById("p-at").addEventListener("input", rs);
+  renderScorers(saved);
   document.getElementById("p-submit").addEventListener("click", submitPorra);
+}
+/* Goalscorer inputs follow the predicted score: N for España, M for Austria.
+   Preserves whatever's already typed; pre-fills from a saved entry on first render. */
+function renderScorers(saved){
+  const es = Math.max(0, Math.min(20, parseInt(document.getElementById('p-es').value,10)||0));
+  const at = Math.max(0, Math.min(20, parseInt(document.getElementById('p-at').value,10)||0));
+  const box = document.getElementById('p-scorers');
+  const minFld = document.getElementById('min-fld');
+  const cur = {es:[], at:[]};
+  box.querySelectorAll('input[data-team]').forEach(i=>{ cur[i.dataset.team][+i.dataset.i]=i.value; });
+  const sv = (saved && saved.scorers) ? saved.scorers : null;
+  const val = (team,i)=> cur[team][i]!=null ? cur[team][i] : (sv&&sv[team]&&sv[team][i]!=null ? sv[team][i] : '');
+  if(es+at===0){ box.innerHTML='<div class="noscorers">0–0… porra tranquila 🥱 (sin goleadores)</div>'; if(minFld) minFld.style.display='none'; return; }
+  if(minFld) minFld.style.display='';
+  const grp=(team,code,label,n)=>{ let g='<div class="scg"><div class="scg-h"><img src="'+flag(code,20)+'" alt=""> '+label+'</div>';
+    for(let i=0;i<n;i++) g+='<input type="text" class="sc-in" data-team="'+team+'" data-i="'+i+'" maxlength="34" placeholder="Goleador '+(i+1)+'" value="'+esc(val(team,i))+'">';
+    return g+'</div>'; };
+  let h=''; if(es>0) h+=grp('es','es','España',es); if(at>0) h+=grp('at','at','Austria',at);
+  box.innerHTML=h;
 }
 async function submitPorra(){
   const msg = document.getElementById("p-msg");
@@ -351,12 +373,14 @@ async function submitPorra(){
   const rival = parseInt(document.getElementById("p-at").value,10);
   if(!name){ msg.className="form-msg err"; msg.textContent="Pon tu nombre."; return; }
   if(isNaN(es)||isNaN(rival)||es<0||rival<0){ msg.className="form-msg err"; msg.textContent="Pon un marcador (ej. 2 y 1)."; return; }
-  if(!__adv){ msg.className="form-msg err"; msg.textContent="Marca quién pasa."; return; }
-  const scorer = document.getElementById("p-scorer").value.trim();
+  const scorers = {es:[], at:[]};
+  document.querySelectorAll('#p-scorers input[data-team]').forEach(i=>{ const v=i.value.trim(); if(v) scorers[i.dataset.team].push(v); });
+  const fm = parseInt((document.getElementById("p-min")||{}).value,10);
+  const first_min = (!isNaN(fm) && fm>=1 && fm<=130) ? fm : null;
   btn.disabled = true; msg.textContent = "Enviando…";
   try{
     const { error } = await sb.from("porra").upsert(
-      { match_id: MATCH.id, name, es, rival, scorer: scorer||null, advances: __adv },
+      { match_id: MATCH.id, name, es, rival, scorers: (scorers.es.length||scorers.at.length)?scorers:null, first_min },
       { onConflict: "match_id,name" }
     );
     if(error) throw error;
