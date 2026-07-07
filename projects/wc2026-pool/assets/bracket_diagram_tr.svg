@@ -1,0 +1,252 @@
+<svg lang="tr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560"
+     font-family="Inter, system-ui, sans-serif" role="img"
+     aria-labelledby="bd-title bd-desc">
+  <title id="bd-title">İspanya ve Fransa finalde neden karşılaşamaz</title>
+  <desc id="bd-desc">İki fikstürün karşılaştırması. Solda, sitenin çizdiği bozuk fikstür: İspanya ve Fransa karşı yarılardan çıkıp bir final kutusunda buluşuyor, aralarında final varmış gibi görünüyor. Sağda, FIFA'nın gerçek fikstürü: İspanya ve Fransa aynı yarıyı paylaşıyor ve yarı final 1'de karşılaşıyor, final ise diğer yarıdan bir takımla oynanıyor.</desc>
+
+  <!-- Paleta del sitio WC2026 (pool.html): valores reales inlineados como fallback
+       para que el SVG sea autónomo, y como variables CSS para heredar si se incrusta. -->
+  <style>
+    svg{
+      --bg:#03040c; --bg-2:#0a0e22;
+      --surface:rgba(255,255,255,.05); --surface-2:rgba(255,255,255,.08);
+      --line:rgba(255,255,255,.14); --line-strong:rgba(255,255,255,.24);
+      --ink:#ffffff; --ink-2:rgba(255,255,255,.9); --muted:rgba(255,255,255,.6);
+      --gold:#e8c247; --gold-2:#f4d76b;
+      --red:#ff5a5f; --green:#2ec27e; --cyan:#35e0d8;
+      --conn:rgba(255,255,255,.22);
+    }
+    .panel{fill:var(--bg-2)}
+    .cell{fill:var(--surface)}
+    .conn{stroke:var(--conn);stroke-width:1.5;fill:none}
+    .conn-real{stroke:var(--gold);stroke-width:2;fill:none}
+    .lbl-round{fill:var(--muted);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+    .team{font-size:12.5px;font-weight:700;fill:var(--ink)}
+    .meta{font-size:9px;fill:var(--muted);font-weight:600;letter-spacing:.04em}
+    .neutral{font-size:11px;font-weight:600;fill:var(--muted)}
+    .slot-num{font-size:8px;fill:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .verdict{font-size:12px;font-weight:800}
+    .num{font-variant-numeric:tabular-nums}
+  </style>
+
+  <rect x="0" y="0" width="900" height="560" fill="#03040c"/>
+
+  <!-- ============ TÍTULO ============ -->
+  <text x="450" y="34" text-anchor="middle" fill="#ffffff" font-size="19" font-weight="900"
+        letter-spacing="-.01em">İspanya ve Fransa finalde neden karşılaşamaz?</text>
+  <text x="450" y="55" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="12" font-weight="500">
+    Fikstür onları karşı yarılarda gösterdi. Gerçek fikstürde aynı yarıdalar — yarıda karşılaşıyorlar.
+  </text>
+
+  <!-- ================================================================= -->
+  <!-- ============ PANEL IZQUIERDO — CUADRO ROTO (web) ============ -->
+  <!-- ================================================================= -->
+  <g>
+    <rect class="panel" x="24" y="78" width="410" height="440" rx="14" fill="#0a0e22"/>
+    <rect x="24" y="78" width="410" height="440" rx="14" fill="none" stroke="#ff5a5f" stroke-opacity=".55" stroke-width="1.5"/>
+
+    <!-- etiqueta de panel -->
+    <g transform="translate(44,102)">
+      <circle cx="9" cy="0" r="9" fill="#ff5a5f"/>
+      <path d="M9 -4.2 L9 1.2 M9 4 L9 4.6" stroke="#03040c" stroke-width="2" stroke-linecap="round"/>
+      <text x="26" y="4" fill="#ff5a5f" font-size="12.5" font-weight="800" letter-spacing=".02em">Sitenin çizdiği</text>
+    </g>
+    <text x="44" y="127" fill="rgba(255,255,255,.6)" font-size="10.5" font-weight="600">
+      Komşu çiftler → karşı yarılar → İspanya–Fransa FİNALİ mümkün görünüyordu
+    </text>
+
+    <!-- cabeceras de ronda -->
+    <text class="lbl-round" x="66"  y="152">Son 16</text>
+    <text class="lbl-round" x="176" y="152">Çeyrek</text>
+    <text class="lbl-round" x="286" y="152">Yarı</text>
+    <text class="lbl-round" x="372" y="152" text-anchor="middle">Final</text>
+
+    <!-- MITAD SUPERIOR: Francia (rama alta, cae en SF-1) -->
+    <!-- R32-5 Francia -->
+    <g transform="translate(44,166)">
+      <rect class="cell" x="0" y="0" width="112" height="34" rx="7" fill="rgba(255,255,255,.05)"/>
+      <rect x="0" y="0" width="112" height="34" rx="7" fill="none" stroke="#5b9bff" stroke-opacity=".9" stroke-width="1.5"/>
+      <text class="slot-num" x="8" y="13" fill="rgba(255,255,255,.55)">R32-5 · m77</text>
+      <text class="team" x="8" y="27" fill="#ffffff">🇫🇷 Fransa</text>
+    </g>
+    <!-- rival superior -->
+    <g transform="translate(44,206)">
+      <rect class="cell" x="0" y="0" width="112" height="26" rx="7" fill="rgba(255,255,255,.05)"/>
+      <text class="neutral" x="8" y="17" fill="rgba(255,255,255,.55)">…üst kol son 16</text>
+    </g>
+
+    <!-- conectores octavos->cuartos (arriba) -->
+    <path class="conn" d="M156 183 H166 V222 H176" />
+    <path class="conn" d="M156 219 H166 V222" />
+    <!-- cuartos arriba -->
+    <g transform="translate(176,209)">
+      <rect class="cell" x="0" y="0" width="100" height="26" rx="7" fill="rgba(255,255,255,.05)"/>
+      <text class="neutral" x="8" y="17" fill="rgba(255,255,255,.6)">Çeyrek ①</text>
+    </g>
+    <!-- segundo cuarto (para formar SF-1) -->
+    <g transform="translate(176,249)">
+      <rect class="cell" x="0" y="0" width="100" height="26" rx="7" fill="rgba(255,255,255,.05)"/>
+      <text class="neutral" x="8" y="17" fill="rgba(255,255,255,.6)">Çeyrek ②</text>
+    </g>
+    <path class="conn" d="M276 222 H286 V262 H296" />
+    <path class="conn" d="M276 262 H286" />
+    <!-- YARI FİNAL 1 (Francia) -->
+    <g transform="translate(296,249)">
+      <rect x="0" y="0" width="60" height="26" rx="7" fill="rgba(91,155,255,.14)" stroke="#5b9bff" stroke-opacity=".7" stroke-width="1.2"/>
+      <text x="30" y="13" text-anchor="middle" fill="#5b9bff" font-size="9" font-weight="800" letter-spacing=".08em">YARI 1</text>
+      <text x="30" y="22" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="8.5" font-weight="700">→ FRA</text>
+    </g>
+
+    <!-- MITAD INFERIOR: España (rama baja, cae en SF-2) -->
+    <g transform="translate(44,300)">
+      <rect class="cell" x="0" y="0" width="112" height="34" rx="7" fill="rgba(255,255,255,.05)"/>
+      <rect x="0" y="0" width="112" height="34" rx="7" fill="none" stroke="#e8c247" stroke-width="1.5"/>
+      <text class="slot-num" x="8" y="13" fill="rgba(255,255,255,.55)">R32-12 · m84</text>
+      <text class="team" x="8" y="27" fill="#ffffff">🇪🇸 İspanya</text>
+    </g>
+    <g transform="translate(44,340)">
+      <rect class="cell" x="0" y="0" width="112" height="26" rx="7" fill="rgba(255,255,255,.05)"/>
+      <text class="neutral" x="8" y="17" fill="rgba(255,255,255,.55)">…alt kol son 16</text>
+    </g>
+    <path class="conn" d="M156 317 H166 V356 H176" />
+    <path class="conn" d="M156 353 H166 V356" />
+    <g transform="translate(176,343)">
+      <rect class="cell" x="0" y="0" width="100" height="26" rx="7" fill="rgba(255,255,255,.05)"/>
+      <text class="neutral" x="8" y="17" fill="rgba(255,255,255,.6)">Çeyrek ③</text>
+    </g>
+    <g transform="translate(176,383)">
+      <rect class="cell" x="0" y="0" width="100" height="26" rx="7" fill="rgba(255,255,255,.05)"/>
+      <text class="neutral" x="8" y="17" fill="rgba(255,255,255,.6)">Çeyrek ④</text>
+    </g>
+    <path class="conn" d="M276 356 H286 V396 H296" />
+    <path class="conn" d="M276 396 H286" />
+    <!-- SEMIFINAL 2 (España) -->
+    <g transform="translate(296,383)">
+      <rect x="0" y="0" width="60" height="26" rx="7" fill="rgba(232,194,71,.14)" stroke="#e8c247" stroke-opacity=".8" stroke-width="1.2"/>
+      <text x="30" y="13" text-anchor="middle" fill="#e8c247" font-size="9" font-weight="800" letter-spacing=".08em">YARI 2</text>
+      <text x="30" y="22" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="8.5" font-weight="700">→ ESP</text>
+    </g>
+
+    <!-- FINAL (converge FRA + ESP) -->
+    <path class="conn" d="M356 262 H366 V322 H376" stroke="#ff5a5f" stroke-opacity=".8" stroke-width="1.8"/>
+    <path class="conn" d="M356 396 H366 V322" stroke="#ff5a5f" stroke-opacity=".8" stroke-width="1.8"/>
+    <g transform="translate(340,300)">
+      <rect x="0" y="0" width="72" height="44" rx="9" fill="rgba(255,90,95,.12)" stroke="#ff5a5f" stroke-width="1.6"/>
+      <text x="36" y="15" text-anchor="middle" fill="#ff5a5f" font-size="9" font-weight="800" letter-spacing=".1em">FINAL</text>
+      <text x="36" y="28" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="800">🇪🇸 vs 🇫🇷</text>
+      <text x="36" y="39" text-anchor="middle" fill="#ff5a5f" font-size="8" font-weight="700">imkânsız</text>
+    </g>
+
+    <!-- veredicto panel roto -->
+    <g transform="translate(44,470)">
+      <text x="0" y="0" class="verdict" fill="#ff5a5f">✗ Serap:</text>
+      <text x="0" y="17" fill="rgba(255,255,255,.7)" font-size="11" font-weight="500">
+        <tspan>KARŞI yarılara düşüyorlardı, site onları eşleştirdi</tspan>
+      </text>
+      <text x="0" y="32" fill="rgba(255,255,255,.7)" font-size="11" font-weight="500">finalde. O eşleşme gerçek fikstürde yok.</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- ============ PANEL DERECHO — CUADRO REAL (FIFA) ============ -->
+  <!-- ================================================================= -->
+  <g>
+    <rect class="panel" x="466" y="78" width="410" height="440" rx="14" fill="#0a0e22"/>
+    <rect x="466" y="78" width="410" height="440" rx="14" fill="none" stroke="#2ec27e" stroke-opacity=".55" stroke-width="1.5"/>
+
+    <g transform="translate(486,102)">
+      <circle cx="9" cy="0" r="9" fill="#2ec27e"/>
+      <path d="M5 0.2 L8 3.2 L13.5 -3" stroke="#03040c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="26" y="4" fill="#2ec27e" font-size="12.5" font-weight="800" letter-spacing=".02em">FIFA'nın gerçek fikstürü</text>
+    </g>
+    <text x="486" y="127" fill="rgba(255,255,255,.6)" font-size="10.5" font-weight="600">
+      İç içe yarılar → ikisi de AYNI yarıda → YARI FİNALDE karşılaşıyorlar
+    </text>
+
+    <text class="lbl-round" x="508" y="152">Son 16</text>
+    <text class="lbl-round" x="618" y="152">Çeyrek</text>
+    <text class="lbl-round" x="726" y="152" text-anchor="middle">Yarı final 1</text>
+    <text class="lbl-round" x="814" y="152" text-anchor="middle">Final</text>
+
+    <!-- Francia (R32-2 en orden de bracket, m77) -->
+    <g transform="translate(486,182)">
+      <rect class="cell" x="0" y="0" width="112" height="34" rx="7" fill="rgba(255,255,255,.05)"/>
+      <rect x="0" y="0" width="112" height="34" rx="7" fill="none" stroke="#5b9bff" stroke-opacity=".9" stroke-width="1.5"/>
+      <text class="slot-num" x="8" y="13" fill="rgba(255,255,255,.55)">m77 · YF-1 kolu</text>
+      <text class="team" x="8" y="27" fill="#ffffff">🇫🇷 Fransa</text>
+    </g>
+    <g transform="translate(486,222)">
+      <rect class="cell" x="0" y="0" width="112" height="26" rx="7" fill="rgba(255,255,255,.05)"/>
+      <text class="neutral" x="8" y="17" fill="rgba(255,255,255,.55)">…son 16 rakibi</text>
+    </g>
+    <!-- cuarto de Francia -->
+    <path class="conn-real" d="M598 199 H608 V238 H618" />
+    <path class="conn" d="M598 235 H608 V238" />
+    <g transform="translate(618,225)">
+      <rect x="0" y="0" width="100" height="26" rx="7" fill="rgba(91,155,255,.1)" stroke="#5b9bff" stroke-opacity=".55" stroke-width="1.2"/>
+      <text x="8" y="17" fill="rgba(255,255,255,.8)" font-size="11" font-weight="700">Çeyrek → 🇫🇷</text>
+    </g>
+
+    <!-- España (R32-6 en orden de bracket, m84) -->
+    <g transform="translate(486,300)">
+      <rect class="cell" x="0" y="0" width="112" height="34" rx="7" fill="rgba(255,255,255,.05)"/>
+      <rect x="0" y="0" width="112" height="34" rx="7" fill="none" stroke="#e8c247" stroke-width="1.5"/>
+      <text class="slot-num" x="8" y="13" fill="rgba(255,255,255,.55)">m84 · YF-1 kolu</text>
+      <text class="team" x="8" y="27" fill="#ffffff">🇪🇸 İspanya</text>
+    </g>
+    <g transform="translate(486,340)">
+      <rect class="cell" x="0" y="0" width="112" height="26" rx="7" fill="rgba(255,255,255,.05)"/>
+      <text class="neutral" x="8" y="17" fill="rgba(255,255,255,.55)">…son 16 rakibi</text>
+    </g>
+    <path class="conn-real" d="M598 317 H608 V356 H618" />
+    <path class="conn" d="M598 353 H608 V356" />
+    <g transform="translate(618,343)">
+      <rect x="0" y="0" width="100" height="26" rx="7" fill="rgba(232,194,71,.1)" stroke="#e8c247" stroke-opacity=".55" stroke-width="1.2"/>
+      <text x="8" y="17" fill="rgba(255,255,255,.8)" font-size="11" font-weight="700">Çeyrek → 🇪🇸</text>
+    </g>
+
+    <!-- YARI FİNAL 1 = el cruce ESP vs FRA (101. maç) -->
+    <path class="conn-real" d="M718 238 H730 V282 H742" />
+    <path class="conn-real" d="M718 356 H730 V282" />
+    <g transform="translate(742,258)">
+      <rect x="0" y="0" width="86" height="48" rx="10" fill="rgba(232,194,71,.16)" stroke="#e8c247" stroke-width="2"/>
+      <text x="43" y="15" text-anchor="middle" fill="#e8c247" font-size="9" font-weight="800" letter-spacing=".08em">YARI FİNAL 1</text>
+      <text x="43" y="30" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="800">🇪🇸 vs 🇫🇷</text>
+      <text x="43" y="42" text-anchor="middle" fill="#e8c247" font-size="8.5" font-weight="700" class="num">101. maç</text>
+    </g>
+
+    <!-- FINAL: sale UN finalista de esta semi + el diğer yarıdan -->
+    <path class="conn" d="M828 282 H840 V300" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+    <path class="conn" d="M840 380 V300" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+    <path class="conn" d="M840 380 H830" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <text x="826" y="392" text-anchor="end" fill="rgba(255,255,255,.5)" font-size="8.5" font-weight="600">diğer yarıdan</text>
+    <g transform="translate(838,282)">
+      <rect x="0" y="0" width="30" height="36" rx="8" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.28)" stroke-width="1.4"/>
+      <text x="15" y="15" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="8" font-weight="800" letter-spacing=".06em">FI</text>
+      <text x="15" y="25" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="8" font-weight="800" letter-spacing=".06em">NAL</text>
+    </g>
+
+    <!-- veredicto panel real -->
+    <g transform="translate(486,470)">
+      <text x="0" y="0" class="verdict" fill="#2ec27e">✓ Gerçek:</text>
+      <text x="0" y="17" fill="rgba(255,255,255,.7)" font-size="11" font-weight="500">
+        İspanya ve Fransa aynı yarıyı paylaşıyor. Karşılaşıyorlar
+      </text>
+      <text x="0" y="32" fill="rgba(255,255,255,.7)" font-size="11" font-weight="500">
+        <tspan fill="#e8c247" font-weight="700">yarı finalde</tspan>, biri elenir. Finale sadece diğeri gider.
+      </text>
+    </g>
+  </g>
+
+  <!-- ============ SEPARADOR CENTRAL ============ -->
+  <line x1="450" y1="90" x2="450" y2="506" stroke="rgba(255,255,255,.1)" stroke-width="1" stroke-dasharray="2 5"/>
+
+  <!-- ============ PIE / DATO DE IMPACTO ============ -->
+  <g transform="translate(0,532)">
+    <text x="450" y="0" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="11.5" font-weight="600">
+      <tspan fill="#e8c247" font-weight="800" class="num">16</tspan>/<tspan class="num">18</tspan> tahmin imkânsız final oynadı ·
+      <tspan fill="#e8c247" font-weight="800" class="num">10</tspan> tam İspanya–Fransa dedi ·
+      puanlama turlara göre, imkânsız eşleşme artık sayılmıyor
+    </text>
+  </g>
+</svg>

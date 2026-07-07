@@ -1023,6 +1023,170 @@
 </header>
 
 <section class="standings-section">
+<!-- WC2026-FIX:scoring — cómo se puntúa (por rondas) -->
+<style>
+  .sc2{
+    margin:0 0 22px;border-radius:12px;
+    background:#eceef4;
+    border:1px solid #c9ccd6;box-shadow:0 1px 2px rgba(0,0,0,.2);
+    overflow:hidden;
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sc2 > summary{
+    list-style:none;cursor:pointer;padding:14px 18px;
+    display:flex;align-items:center;gap:12px;user-select:none;
+  }
+  .sc2 > summary::-webkit-details-marker{display:none}
+  .sc2 > summary:hover{background:#e2e5ee}
+  .sc2-head{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+  .sc2-head .icon{
+    width:32px;height:32px;border-radius:50%;background:var(--gold,#e8c247);color:#03040c;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:1em;flex-shrink:0;
+  }
+  .sc2-head h3{font-size:.98em;font-weight:800;color:#1a1d2b;margin:0}
+  .sc2-head p{color:#1a1d2b;font-size:.86em;margin-top:1px}
+  .sc2-head p b{font-weight:800}
+  .sc2 .chevron{
+    width:20px;height:20px;color:var(--gold,#e8c247);
+    transition:transform .2s ease;flex-shrink:0;
+  }
+  .sc2[open] .chevron{transform:rotate(180deg)}
+
+  .sc2-body{padding:0 14px 16px}
+
+  /* Aviso clave: se puntúa por LLEGAR, no por el cruce */
+  .sc2-note{
+    background:var(--gold-soft,rgba(232,194,71,.14));
+    border:1px solid rgba(232,194,71,.45);
+    border-left:3px solid var(--gold,#e8c247);
+    border-radius:10px;padding:10px 12px;margin:2px 0 14px;
+    color:#3a3407;font-size:.84em;line-height:1.5;
+  }
+  .sc2-note b{color:#1a1d2b;font-weight:800}
+
+  .sc2-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:760px){ .sc2-cols{grid-template-columns:1fr} }
+
+  .sc2-block{
+    background:#f4f5f9;border:1px solid #c9ccd6;border-radius:10px;
+    padding:12px 12px 6px;
+  }
+  .sc2-block h4{
+    font-size:.72em;font-weight:800;color:#4b5060;margin:0 0 8px;
+    letter-spacing:.08em;text-transform:uppercase;
+  }
+
+  .sc2-table{width:100%;border-collapse:collapse;font-size:.82em;color:#2b2f3c}
+  .sc2-table th,.sc2-table td{padding:5px 6px;text-align:left;border-bottom:1px solid #dfe2ea}
+  .sc2-table tr:last-child td{border-bottom:none}
+  .sc2-table th{
+    font-weight:800;color:#1a1d2b;font-size:.72em;
+    letter-spacing:.05em;text-transform:uppercase;
+  }
+  .sc2-table td.pts{
+    text-align:right;font-variant-numeric:tabular-nums;
+    font-weight:800;color:#8a6d12;width:44px;white-space:nowrap;
+  }
+  .sc2-table .star{color:var(--gold,#e8c247);font-weight:900}
+
+  /* Escalera de rondas: el equipo que LLEGA suma */
+  .sc2-rounds{list-style:none;padding:0;margin:0;font-size:.82em;color:#2b2f3c}
+  .sc2-rounds li{
+    display:flex;align-items:center;gap:10px;
+    padding:6px 0;border-bottom:1px dashed #dfe2ea;
+  }
+  .sc2-rounds li:last-child{border-bottom:none}
+  .sc2-rounds .r-name{flex:1;font-weight:600;color:#1a1d2b}
+  .sc2-rounds .r-pts{
+    font-variant-numeric:tabular-nums;font-weight:800;color:#8a6d12;
+    min-width:34px;text-align:right;
+  }
+  .sc2-rounds li.champ .r-name{font-weight:800}
+  .sc2-rounds li.champ .r-pts{color:#1a1d2b}
+  .sc2-rounds .r-dot{
+    width:8px;height:8px;border-radius:50%;background:var(--gold,#e8c247);flex-shrink:0;
+  }
+  .sc2-rounds li.champ .r-dot{background:var(--green,#2ec27e)}
+
+  .sc2-foot{
+    margin-top:12px;font-size:.8em;color:#4b5060;line-height:1.55;
+  }
+  .sc2-foot b{color:#1a1d2b;font-weight:700}
+
+  @media (prefers-reduced-motion: reduce){
+    .sc2 .chevron{transition:none}
+  }
+</style>
+
+<details class="sc2" open>
+  <summary>
+    <div class="sc2-head">
+      <div class="icon">#</div>
+      <div>
+        <h3>Cómo se puntúa</h3>
+        <p>Por <b>rondas</b>: sumas si tu equipo <b>llega</b>, no por acertar el cruce.</p>
+      </div>
+    </div>
+    <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>
+  </summary>
+
+  <div class="sc2-body">
+
+    <p class="sc2-note">
+      La clave de esta edición: en las eliminatorias <b>puntúas por si tu equipo LLEGA a la
+      ronda</b>, no por adivinar contra quién juega. Da igual el cruce que dibujaras —
+      si el equipo que pusiste alcanzó de verdad esa ronda, suma. Así los emparejamientos
+      imposibles del cuadro dejan de importar.
+    </p>
+
+    <div class="sc2-cols">
+
+      <!-- Fase de grupos: por posición -->
+      <div class="sc2-block">
+        <h4>Fase de grupos · por posición</h4>
+        <table class="sc2-table">
+          <thead>
+            <tr><th>Acierto</th><th style="text-align:right">Puntos</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1º de grupo</td><td class="pts">4</td></tr>
+            <tr><td>2º de grupo</td><td class="pts">3</td></tr>
+            <tr><td>3º de grupo</td><td class="pts">2</td></tr>
+            <tr><td>4º de grupo</td><td class="pts">1</td></tr>
+            <tr><td><span class="star">★</span> Tercero que clasifica</td><td class="pts">2</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Eliminatorias: por equipo que LLEGA -->
+      <div class="sc2-block">
+        <h4>Eliminatorias · por equipo que llega</h4>
+        <ul class="sc2-rounds">
+          <li><span class="r-dot"></span><span class="r-name">Llega a octavos</span><span class="r-pts">2</span></li>
+          <li><span class="r-dot"></span><span class="r-name">Llega a cuartos</span><span class="r-pts">4</span></li>
+          <li><span class="r-dot"></span><span class="r-name">Llega a semis</span><span class="r-pts">6</span></li>
+          <li><span class="r-dot"></span><span class="r-name">Llega a la final</span><span class="r-pts">10</span></li>
+          <li class="champ"><span class="r-dot"></span><span class="r-name">Campeón</span><span class="r-pts">18</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;background:#f4f5f9;border:1px solid #c9ccd6;border-left:3px solid var(--gold,#e8c247);border-radius:10px;padding:10px 12px;margin:14px 0 2px;font-size:.84em;color:#2b2f3c;line-height:1.45">
+      <span style="font-size:1.2em">🥇</span>
+      <span><b style="color:#1a1d2b">Máximo goleador</b> (bota de oro) — <b style="color:#8a6d12">10 pts</b>. Se compara por apellido, así que valen las variantes (Mbappé / Mbappe). Se decide al acabar el Mundial.</span>
+    </div>
+    <p class="sc2-foot">
+      <b>Ejemplo:</b> si pusiste a un equipo llegando a semifinales y de verdad llega a
+      semifinales, te llevas los <b>6 puntos</b> de esa ronda aunque el rival con el que lo
+      cruzaste no coincida. Se puntúa la ronda alcanzada, no el emparejamiento.
+    </p>
+
+  </div>
+</details>
+
 <details class="leaderboard" id="leaderboard">
   <summary>
     <div class="leaderboard-head">
@@ -1953,7 +2117,315 @@ function applyI18n(){
   document.querySelectorAll(".lang-toggle button").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.lang === LANG);
   });
+  if (typeof renderFixI18n === "function") renderFixI18n();
 }
+
+/* ===== i18n del fix del bracket (es/en/tr) ===== */
+/* ============================================================================
+   FIX_I18N — i18n de las piezas añadidas por el fix del bracket (es/en/tr):
+   aviso de transparencia, bloque "Cómo se puntúa" (con bota de oro), premios
+   estáticos del Salón de la Fama, y el idioma del esquema SVG.
+   renderFixI18n() rellena los contenedores según LANG y se engancha a setLanguage().
+   Cero invención: cifras (16/18, 10/18, 2/18, 4/3/2/1, 2/4/6/10/18, 10 bota) ancladas.
+   ============================================================================ */
+window.FIX_I18N = {
+  es: {
+    noticeHead:
+      '<span class="tn-kicker">Aviso · Corregimos el cuadro</span>' +
+      '<span class="tn-title">El bracket dibujaba a algunos equipos por la rama equivocada</span>' +
+      '<span class="tn-sub">Tu quiniela está intacta. Te contamos qué pasó y por qué no cambia lo que puntúas.</span>',
+    noticeBody: `
+      <p class="tn-lede">
+        El fallo fue nuestro, del código, no de vuestros pronósticos. El cuadro de
+        eliminatorias se dibujó como un cuadro clásico simétrico, y el cuadro real de 48
+        equipos de la FIFA entrelaza las dos mitades. Resultado: algunos cruces de
+        octavos hacia la final que rellenasteis <b>no existen</b> en el cuadro de verdad.
+        El ejemplo claro: <b>España y Francia parecían ir por lados opuestos</b> (así que
+        una final entre ambas parecía posible), cuando en realidad <b>comparten mitad del
+        cuadro y se cruzan en semifinales</b>.
+      </p>
+      <div class="tn-steps">
+        <div class="tn-step"><span class="tn-step-num">1</span><div>
+          <div class="tn-step-title">Qué pasó</div>
+          <div class="tn-step-body">El cuadro estaba cableado juntando parejas contiguas
+            (<i>"parejas secuenciales avanzan a la siguiente ronda"</i>). En el cuadro
+            oficial las mitades van <b>entrelazadas</b>, no en pares seguidos, así que
+            algunos cruces que se pintaban camino de la final en realidad no se dan.</div>
+        </div></div>
+        <div class="tn-step"><span class="tn-step-num">2</span><div>
+          <div class="tn-step-title">A quién afectó</div>
+          <div class="tn-step-body">De las 18 quinielas, <span class="tn-num">16</span> apostaron una final que el
+            cuadro real no permite (los dos finalistas caían en la misma mitad).
+            <span class="tn-num">10</span> pusisteis exactamente <b>España–Francia</b>, que en el cuadro de verdad
+            se cruzan en <b>semifinales</b>: como mucho os veis ahí, no en la final.</div>
+        </div></div>
+        <div class="tn-step"><span class="tn-step-num">3</span><div>
+          <div class="tn-step-title">Qué hemos hecho</div>
+          <div class="tn-step-body"><b>No hemos tocado ni reescrito ninguna quiniela.</b> Puntuamos
+            <b>por rondas</b>: si tu equipo llegó de verdad a octavos, cuartos, semis,
+            final o quedó campeón, suma. Como se mira el equipo que llega y no el cruce
+            concreto, <span class="tn-num calm">el cruce imposible deja de importar</span>
+            y la regla es la misma para todos.</div>
+        </div></div>
+      </div>
+      <div class="tn-facts">
+        <div class="tn-fact"><span class="tn-fact-big">16<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">apostaron una final imposible</span></div>
+        <div class="tn-fact"><span class="tn-fact-big">10<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">pusieron España–Francia (se cruzan en semis)</span></div>
+        <div class="tn-fact calm"><span class="tn-fact-big">2<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">tenían una final aún posible: Metin Yazar y Fran Fernández</span></div>
+      </div>
+      <div class="tn-reassure"><span class="tn-check" aria-hidden="true">✓</span><span>
+        <b>Nadie sale perjudicado.</b> La fase de grupos no se ve afectada en absoluto,
+        y en las eliminatorias todos se puntúan con la misma vara: el equipo que
+        realmente avanzó.</span></div>
+      <p class="tn-foot">¿Cuándo se nota este cambio? Sobre todo en las <b>rondas altas</b> (cuartos, semis
+        y final), donde el líder de la tabla puede moverse conforme se juegue —incluida la
+        semifinal real <b>España–Francia</b>, que todavía no se ha disputado. Grupos y
+        dieciseisavos están completos; los octavos, casi.</p>`,
+    scoringHead:
+      '<div class="icon">#</div><div><h3>Cómo se puntúa</h3>' +
+      '<p>Por <b>rondas</b>: sumas si tu equipo <b>llega</b>, no por acertar el cruce.</p></div>',
+    scoringBody: `
+      <p class="sc2-note">La clave de esta edición: en las eliminatorias <b>puntúas por si tu equipo LLEGA a la
+        ronda</b>, no por adivinar contra quién juega. Da igual el cruce que dibujaras —
+        si el equipo que pusiste alcanzó de verdad esa ronda, suma. Así los emparejamientos
+        imposibles del cuadro dejan de importar.</p>
+      <div class="sc2-cols">
+        <div class="sc2-block"><h4>Fase de grupos · por posición</h4>
+          <table class="sc2-table"><thead><tr><th>Acierto</th><th style="text-align:right">Puntos</th></tr></thead><tbody>
+            <tr><td>1º de grupo</td><td class="pts">4</td></tr>
+            <tr><td>2º de grupo</td><td class="pts">3</td></tr>
+            <tr><td>3º de grupo</td><td class="pts">2</td></tr>
+            <tr><td>4º de grupo</td><td class="pts">1</td></tr>
+            <tr><td><span class="star">★</span> Tercero que clasifica</td><td class="pts">2</td></tr>
+          </tbody></table></div>
+        <div class="sc2-block"><h4>Eliminatorias · por equipo que llega</h4>
+          <ul class="sc2-rounds">
+            <li><span class="r-dot"></span><span class="r-name">Llega a octavos</span><span class="r-pts">2</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Llega a cuartos</span><span class="r-pts">4</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Llega a semis</span><span class="r-pts">6</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Llega a la final</span><span class="r-pts">10</span></li>
+            <li class="champ"><span class="r-dot"></span><span class="r-name">Campeón</span><span class="r-pts">18</span></li>
+          </ul></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#f4f5f9;border:1px solid #c9ccd6;border-left:3px solid var(--gold,#e8c247);border-radius:10px;padding:10px 12px;margin:14px 0 2px;font-size:.84em;color:#2b2f3c;line-height:1.45">
+        <span style="font-size:1.2em">🥇</span>
+        <span><b style="color:#1a1d2b">Máximo goleador</b> (bota de oro) — <b style="color:#8a6d12">10 pts</b>. Se compara por apellido, así que valen las variantes (Mbappé / Mbappe). Se decide al acabar el Mundial.</span>
+      </div>
+      <p class="sc2-foot"><b>Ejemplo:</b> si pusiste a un equipo llegando a semifinales y de verdad llega a
+        semifinales, te llevas los <b>6 puntos</b> de esa ronda aunque el rival con el que lo
+        cruzaste no coincida. Se puntúa la ronda alcanzada, no el emparejamiento.</p>`,
+    prizes: [
+      ['🎭','Final de fantasía','Los 10 de España–Francia', '{HL}10{/HL} firmasteis {ES}España–{FR}Francia en la final. Comparten mitad del cuadro: como mucho os cruzáis en <b>semis</b>, y ahí cae uno.'],
+      ['🧭','Los que sí leyeron el cuadro','Metin Yazar &amp; Fran Fernández', 'Los {HL}únicos 2{/HL} con una final que aún es posible: {ENG}Inglaterra–{ES}España. Mientras el resto soñabais cruces que no existen, ellos leyeron la letra pequeña.'],
+      ['🥇','Botas de autor','Pichichis de uno', 'Botas de oro que solo vio una persona: <b>Lamine Yamal</b> (Pelu), <b>Messi</b> (Cris), <b>Cristiano</b> (Bella)… y un <b>central</b>, Bardakcı (Latte). Ese último merece estudio aparte.'],
+      ['🛠️','El arquitecto pillado','Carlos Vivas', 'El que montó la porra cayó en su propio bug: firmó {ES}España–{FR}Francia, uno de esos diez. El fallo no perdona ni a quien lo escribió — el primero en tropezar es el de casa.','me'],
+    ],
+    fabLabel: 'Aviso del cuadro',
+    diagram: 'assets/bracket_diagram.svg',
+  },
+
+  en: {
+    noticeHead:
+      '<span class="tn-kicker">Notice · We fixed the bracket</span>' +
+      '<span class="tn-title">The bracket sent some teams down the wrong branch</span>' +
+      '<span class="tn-sub">Your entry is untouched. Here\'s what happened and why it doesn\'t change your points.</span>',
+    noticeBody: `
+      <p class="tn-lede">
+        The bug was ours — in the code, not in your predictions. The knockout bracket was
+        drawn like a classic symmetric bracket, but FIFA's real 48-team bracket interleaves
+        the two halves. The upshot: some round-of-16-to-final matchups you filled in
+        <b>don't exist</b> in the real bracket. The clear example:
+        <b>Spain and France looked like they were on opposite sides</b> (so a final between
+        them seemed possible), when in fact they <b>share the same half and meet in the
+        semi-finals</b>.
+      </p>
+      <div class="tn-steps">
+        <div class="tn-step"><span class="tn-step-num">1</span><div>
+          <div class="tn-step-title">What happened</div>
+          <div class="tn-step-body">The bracket was wired by pairing adjacent slots
+            (<i>"sequential pairs advance to the next round"</i>). In the official bracket
+            the halves are <b>interleaved</b>, not in consecutive pairs, so some matchups
+            drawn on the way to the final simply never happen.</div>
+        </div></div>
+        <div class="tn-step"><span class="tn-step-num">2</span><div>
+          <div class="tn-step-title">Who it affected</div>
+          <div class="tn-step-body">Of the 18 entries, <span class="tn-num">16</span> picked a final the real
+            bracket doesn't allow (both finalists landed in the same half).
+            <span class="tn-num">10</span> of you picked exactly <b>Spain–France</b>, who in the real bracket
+            meet in the <b>semi-finals</b>: at most you see them there, not in the final.</div>
+        </div></div>
+        <div class="tn-step"><span class="tn-step-num">3</span><div>
+          <div class="tn-step-title">What we did</div>
+          <div class="tn-step-body"><b>We haven't touched or rewritten a single entry.</b> We score
+            <b>by rounds</b>: if your team actually reached the round of 16, quarters, semis,
+            final or won it, it counts. Because we look at the team that gets there and not
+            the specific matchup, <span class="tn-num calm">the impossible matchup stops mattering</span>
+            and the rule is the same for everyone.</div>
+        </div></div>
+      </div>
+      <div class="tn-facts">
+        <div class="tn-fact"><span class="tn-fact-big">16<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">picked an impossible final</span></div>
+        <div class="tn-fact"><span class="tn-fact-big">10<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">picked Spain–France (they meet in the semis)</span></div>
+        <div class="tn-fact calm"><span class="tn-fact-big">2<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">had a final that's still possible: Metin Yazar and Fran Fernández</span></div>
+      </div>
+      <div class="tn-reassure"><span class="tn-check" aria-hidden="true">✓</span><span>
+        <b>No one loses out.</b> The group stage isn't affected at all, and in the knockouts
+        everyone is scored by the same yardstick: the team that actually advanced.</span></div>
+      <p class="tn-foot">When does this change show? Mostly in the <b>later rounds</b> (quarters, semis
+        and final), where the table leader can move as they're played — including the real
+        <b>Spain–France</b> semi-final, which hasn't been played yet. Groups and the round of
+        32 are complete; the round of 16 nearly so.</p>`,
+    scoringHead:
+      '<div class="icon">#</div><div><h3>How scoring works</h3>' +
+      '<p>By <b>rounds</b>: you score if your team <b>gets there</b>, not for guessing the matchup.</p></div>',
+    scoringBody: `
+      <p class="sc2-note">The key thing this edition: in the knockouts <b>you score for your team REACHING the
+        round</b>, not for guessing who it plays. Whatever matchup you drew doesn't matter —
+        if the team you picked actually reached that round, it counts. That's how the
+        impossible bracket pairings stop mattering.</p>
+      <div class="sc2-cols">
+        <div class="sc2-block"><h4>Group stage · by position</h4>
+          <table class="sc2-table"><thead><tr><th>Correct pick</th><th style="text-align:right">Points</th></tr></thead><tbody>
+            <tr><td>1st in group</td><td class="pts">4</td></tr>
+            <tr><td>2nd in group</td><td class="pts">3</td></tr>
+            <tr><td>3rd in group</td><td class="pts">2</td></tr>
+            <tr><td>4th in group</td><td class="pts">1</td></tr>
+            <tr><td><span class="star">★</span> Third that advances</td><td class="pts">2</td></tr>
+          </tbody></table></div>
+        <div class="sc2-block"><h4>Knockouts · by team that reaches</h4>
+          <ul class="sc2-rounds">
+            <li><span class="r-dot"></span><span class="r-name">Reaches round of 16</span><span class="r-pts">2</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Reaches quarters</span><span class="r-pts">4</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Reaches semis</span><span class="r-pts">6</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Reaches the final</span><span class="r-pts">10</span></li>
+            <li class="champ"><span class="r-dot"></span><span class="r-name">Champion</span><span class="r-pts">18</span></li>
+          </ul></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#f4f5f9;border:1px solid #c9ccd6;border-left:3px solid var(--gold,#e8c247);border-radius:10px;padding:10px 12px;margin:14px 0 2px;font-size:.84em;color:#2b2f3c;line-height:1.45">
+        <span style="font-size:1.2em">🥇</span>
+        <span><b style="color:#1a1d2b">Top scorer</b> (Golden Boot) — <b style="color:#8a6d12">10 pts</b>. Matched by surname, so spelling variants (Mbappé / Mbappe) all count. Decided when the World Cup ends.</span>
+      </div>
+      <p class="sc2-foot"><b>Example:</b> if you had a team reaching the semis and it really reaches the semis,
+        you get the <b>6 points</b> for that round even if the opponent you drew doesn't match.
+        The round reached is scored, not the pairing.</p>`,
+    prizes: [
+      ['🎭','Fantasy final','The 10 with Spain–France', '{HL}10{/HL} of you signed off a {ES}Spain–{FR}France final. They share a half of the bracket: at most you meet in the <b>semis</b>, and one of them goes out there.'],
+      ['🧭','The ones who read the bracket','Metin Yazar &amp; Fran Fernández', 'The {HL}only 2{/HL} with a final that\'s still on: {ENG}England–{ES}Spain. While everyone else dreamed up matchups that don\'t exist, these two read the fine print.'],
+      ['🥇','Boots of the auteur','Scorers of one', 'Golden Boot picks only one person saw: <b>Lamine Yamal</b> (Pelu), <b>Messi</b> (Cris), <b>Cristiano</b> (Bella)… and a <b>centre-back</b>, Bardakcı (Latte). That last one deserves its own study.'],
+      ['🛠️','The architect, caught','Carlos Vivas', 'The one who built the pool fell into his own bug: he signed a {ES}Spain–{FR}France final, one of those ten. The bug spares no one — not even the person who wrote it.','me'],
+    ],
+    fabLabel: 'Bracket notice',
+    diagram: 'assets/bracket_diagram_en.svg',
+  },
+
+  tr: {
+    noticeHead:
+      '<span class="tn-kicker">Duyuru · Fikstürü düzelttik</span>' +
+      '<span class="tn-title">Fikstür bazı takımları yanlış koldan ilerletiyordu</span>' +
+      '<span class="tn-sub">Tahminin olduğu gibi duruyor. Ne olduğunu ve puanını neden değiştirmediğini anlatıyoruz.</span>',
+    noticeBody: `
+      <p class="tn-lede">
+        Hata bizimdi, kodda — tahminlerinizde değil. Eleme fikstürü klasik simetrik bir
+        fikstür gibi çizilmişti, ama FIFA'nın gerçek 48 takımlı fikstürü iki yarıyı iç içe
+        geçiriyor. Sonuç: son 16'dan finale doğru işaretlediğiniz bazı eşleşmeler gerçek
+        fikstürde <b>yok</b>. Net örnek: <b>İspanya ve Fransa karşı yarılardaymış gibi
+        görünüyordu</b> (yani aralarında bir final mümkün sanılıyordu), oysa gerçekte
+        <b>aynı yarıyı paylaşıyorlar ve yarı finalde karşılaşıyorlar</b>.
+      </p>
+      <div class="tn-steps">
+        <div class="tn-step"><span class="tn-step-num">1</span><div>
+          <div class="tn-step-title">Ne oldu</div>
+          <div class="tn-step-body">Fikstür, komşu eşleşmeleri yan yana bağlayarak kurulmuştu
+            (<i>"ardışık çiftler bir sonraki tura çıkar"</i>). Resmî fikstürde yarılar
+            ardışık çiftler hâlinde değil, <b>iç içe</b> ilerliyor; bu yüzden finale giden
+            yolda çizilen bazı eşleşmeler aslında hiç oynanmıyor.</div>
+        </div></div>
+        <div class="tn-step"><span class="tn-step-num">2</span><div>
+          <div class="tn-step-title">Kimi etkiledi</div>
+          <div class="tn-step-body">18 tahminden <span class="tn-num">16</span>'sı gerçek fikstürün izin vermediği
+            bir final oynadı (iki finalist de aynı yarıya düşüyordu).
+            <span class="tn-num">10</span> kişi tam olarak <b>İspanya–Fransa</b> yazdı; onlar gerçek fikstürde
+            <b>yarı finalde</b> karşılaşıyor: en fazla orada görüşürsünüz, finalde değil.</div>
+        </div></div>
+        <div class="tn-step"><span class="tn-step-num">3</span><div>
+          <div class="tn-step-title">Ne yaptık</div>
+          <div class="tn-step-body"><b>Hiçbir tahmini elleşmedik, yeniden yazmadık.</b> Puanı
+            <b>turlara göre</b> veriyoruz: takımın gerçekten son 16'ya, çeyreğe, yarıya,
+            finale ulaştıysa ya da şampiyon olduysa, sayılır. Belirli eşleşmeye değil,
+            tura ulaşan takıma baktığımız için <span class="tn-num calm">imkânsız eşleşme önemini kaybediyor</span>
+            ve kural herkes için aynı.</div>
+        </div></div>
+      </div>
+      <div class="tn-facts">
+        <div class="tn-fact"><span class="tn-fact-big">16<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">imkânsız bir final oynadı</span></div>
+        <div class="tn-fact"><span class="tn-fact-big">10<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">İspanya–Fransa yazdı (yarıda karşılaşıyorlar)</span></div>
+        <div class="tn-fact calm"><span class="tn-fact-big">2<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span><span class="tn-fact-label">finali hâlâ mümkün olan: Metin Yazar ve Fran Fernández</span></div>
+      </div>
+      <div class="tn-reassure"><span class="tn-check" aria-hidden="true">✓</span><span>
+        <b>Kimse mağdur olmuyor.</b> Grup aşaması hiç etkilenmiyor ve elemelerde herkes aynı
+        ölçüyle puanlanıyor: gerçekten tur atlayan takım.</span></div>
+      <p class="tn-foot">Bu değişiklik ne zaman fark eder? Çoğunlukla <b>üst turlarda</b> (çeyrek, yarı
+        ve final), maçlar oynandıkça lider değişebilir — henüz oynanmayan gerçek
+        <b>İspanya–Fransa</b> yarı finali dâhil. Gruplar ve son 32 tamam; son 16 ise neredeyse.</p>`,
+    scoringHead:
+      '<div class="icon">#</div><div><h3>Puanlama nasıl işliyor</h3>' +
+      '<p><b>Turlara</b> göre: takımın <b>ulaşırsa</b> puan alırsın, eşleşmeyi bilmene gerek yok.</p></div>',
+    scoringBody: `
+      <p class="sc2-note">Bu sezonun püf noktası: elemelerde <b>takımın o TURA ULAŞIRSA</b> puan alırsın,
+        kime karşı oynadığını tahmin etmene gerek yok. Hangi eşleşmeyi çizdiğin fark etmez —
+        yazdığın takım o tura gerçekten ulaştıysa, sayılır. İmkânsız eşleşmeler böyle
+        önemini yitiriyor.</p>
+      <div class="sc2-cols">
+        <div class="sc2-block"><h4>Grup aşaması · sıraya göre</h4>
+          <table class="sc2-table"><thead><tr><th>Doğru tahmin</th><th style="text-align:right">Puan</th></tr></thead><tbody>
+            <tr><td>Grupta 1.</td><td class="pts">4</td></tr>
+            <tr><td>Grupta 2.</td><td class="pts">3</td></tr>
+            <tr><td>Grupta 3.</td><td class="pts">2</td></tr>
+            <tr><td>Grupta 4.</td><td class="pts">1</td></tr>
+            <tr><td><span class="star">★</span> Tur atlayan 3.</td><td class="pts">2</td></tr>
+          </tbody></table></div>
+        <div class="sc2-block"><h4>Elemeler · ulaşan takıma göre</h4>
+          <ul class="sc2-rounds">
+            <li><span class="r-dot"></span><span class="r-name">Son 16'ya ulaşır</span><span class="r-pts">2</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Çeyreğe ulaşır</span><span class="r-pts">4</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Yarıya ulaşır</span><span class="r-pts">6</span></li>
+            <li><span class="r-dot"></span><span class="r-name">Finale ulaşır</span><span class="r-pts">10</span></li>
+            <li class="champ"><span class="r-dot"></span><span class="r-name">Şampiyon</span><span class="r-pts">18</span></li>
+          </ul></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#f4f5f9;border:1px solid #c9ccd6;border-left:3px solid var(--gold,#e8c247);border-radius:10px;padding:10px 12px;margin:14px 0 2px;font-size:.84em;color:#2b2f3c;line-height:1.45">
+        <span style="font-size:1.2em">🥇</span>
+        <span><b style="color:#1a1d2b">Gol kralı</b> (Altın Ayakkabı) — <b style="color:#8a6d12">10 puan</b>. Soyadına göre eşleştirilir, yani yazım farkları (Mbappé / Mbappe) sayılır. Dünya Kupası bitince belli olur.</span>
+      </div>
+      <p class="sc2-foot"><b>Örnek:</b> bir takımı yarı finale koyduysan ve gerçekten yarıya ulaşırsa,
+        çizdiğin rakip tutmasa bile o turun <b>6 puanını</b> alırsın. Eşleşme değil, ulaşılan
+        tur puanlanır.</p>`,
+    prizes: [
+      ['🎭','Hayali final','İspanya–Fransa diyen 10 kişi', '{HL}10{/HL} kişi finale {ES}İspanya–{FR}Fransa yazdı. Aynı yarıyı paylaşıyorlar: en fazla <b>yarı finalde</b> karşılaşırsınız, biri orada elenir.'],
+      ['🧭','Fikstürü okuyanlar','Metin Yazar &amp; Fran Fernández', 'Finali hâlâ mümkün olan {HL}tek 2 kişi{/HL}: {ENG}İngiltere–{ES}İspanya. Herkes olmayan eşleşmeleri hayal ederken bu ikisi küçük yazıyı okumuş.'],
+      ['🥇','Auteur\'ün ayakkabıları','Tek kişinin golcüsü', 'Yalnızca bir kişinin gördüğü Altın Ayakkabı tahminleri: <b>Lamine Yamal</b> (Pelu), <b>Messi</b> (Cris), <b>Cristiano</b> (Bella)… ve bir <b>stoper</b>, Bardakcı (Latte). Sonuncusu ayrı bir inceleme hak ediyor.'],
+      ['🛠️','Suçüstü yakalanan mimar','Carlos Vivas', 'Porrayı kuran kişi kendi hatasına düştü: finale {ES}İspanya–{FR}Fransa yazdı, o on kişiden biri. Hata kimseyi affetmiyor — yazan kişiyi bile.','me'],
+    ],
+    fabLabel: 'Fikstür notu',
+    diagram: 'assets/bracket_diagram_tr.svg',
+  },
+};
+
+/* Rellena las piezas del fix según LANG y elige el idioma del esquema SVG.
+   Se llama al cargar y desde setLanguage(). Tokens {ES}/{FR}/{ENG}/{HL}{/HL} → banderas y realce. */
+function renderFixI18n(){
+  var d = window.FIX_I18N[LANG] || window.FIX_I18N.es;
+  var setHTML = function(sel, html){ var el = document.querySelector(sel); if (el && html != null) el.innerHTML = html; };
+  setHTML('.tn-notice .tn-head-text', d.noticeHead);
+  setHTML('.tn-notice .tn-body', d.noticeBody);
+  setHTML('.sc2 > summary .sc2-head', d.scoringHead);
+  setHTML('.sc2 .sc2-body', d.scoringBody);
+  var img = document.querySelector('.bd-wrap img');
+  if (img && d.diagram) img.setAttribute('src', d.diagram);
+  var fl = document.getElementById('fixFabLabel');
+  if (fl && d.fabLabel) fl.textContent = d.fabLabel;
+}
+
 function setLanguage(lang){
   if (!I18N[lang]) return;
   LANG = lang;
@@ -2948,6 +3420,27 @@ function userMatchWinners(picks){
   });
 }
 
+/* ROUND-REACHED DECODE — de un pick a los conjuntos de EQUIPOS por ronda, usando el árbol
+   ya decodificado con el bracket ORIGINAL (como se rellenó). Path-independent: no pregunta por
+   ningún cruce concreto, solo "qué equipos hiciste avanzar a cada ronda". Nombres normalizados
+   con lbnorm para casar ortografías. Espeja decode()/score_ahora() de live_compare.py. */
+function pickRoundSets(picks){
+  const w = userMatchWinners(picks);           // {slotId: {name,code,...}} con el árbol original
+  const collect = (prefix, n) => {
+    const s = new Set();
+    for (let i=1;i<=n;i++){ const tm = w[`${prefix}-${i}`]; if (tm && tm.name) s.add(lbnorm(tm.name)); }
+    return s;
+  };
+  const champObj = w["F-1"] || null;
+  return {
+    last16: collect("R32",16),
+    last8:  collect("R16",8),
+    last4:  collect("QF",4),
+    last2:  collect("SF",2),
+    champion: champObj && champObj.name ? lbnorm(champObj.name) : null,
+  };
+}
+
 function getChampionTeam(picks){
   const w = userMatchWinners(picks);
   return w["F-1"] || null;
@@ -2961,6 +3454,26 @@ function normPosKey(k){ const i = String(k).indexOf("-"); return i < 0 ? lbnorm(
 /* Reduce a scorer name to its surname key (last token, accent/space/punct-stripped) so the
    different spellings players typed ("Kylian Mbappé", "Kyliam Mbappe", "Mbappe") all match. */
 function gbKey(s){ const t = String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z ]/g,' ').trim().split(/\s+/).filter(Boolean); return t.length ? t[t.length-1] : ''; }
+/* ROUND-REACHED SCORE — puntúa un pick por CUÁNTOS de sus equipos por ronda llegaron DE VERDAD
+   a esa ronda. `reached` = conjuntos reales de nombres lbnorm: {last16,last8,last4,last2,champion}.
+   Puntos idénticos a POINTS.rounds (R32=2, R16=4, QF=6, SF=10, F=18). Espeja score_ahora(). */
+function scoreRoundReached(pickSets, reached){
+  if (!pickSets || !reached) return 0;
+  let pts = 0;
+  const inter = (setA, arrOrSetB) => {
+    if (!setA || !arrOrSetB) return 0;
+    const B = (arrOrSetB instanceof Set) ? arrOrSetB : new Set(arrOrSetB.map(lbnorm));
+    let n = 0; setA.forEach(x => { if (B.has(x)) n++; }); return n;
+  };
+  pts += POINTS.rounds.R32 * inter(pickSets.last16, reached.last16);
+  pts += POINTS.rounds.R16 * inter(pickSets.last8,  reached.last8);
+  pts += POINTS.rounds.QF  * inter(pickSets.last4,  reached.last4);
+  pts += POINTS.rounds.SF  * inter(pickSets.last2,  reached.last2);
+  if (pickSets.champion && reached.champion && pickSets.champion === lbnorm(reached.champion)) {
+    pts += POINTS.rounds.F;
+  }
+  return pts;
+}
 function computeScore(picks, official){
   if (!official) return 0;
   let pts = 0;
@@ -2978,8 +3491,16 @@ function computeScore(picks, official){
       if (official.starred.includes(g)) pts += POINTS.starredThird;
     });
   }
-  /* Match winners (1/2/3/4/13) — compare team names normalised */
-  if (official.winners){
+  /* Knockout scoring.
+     - Si `official.reached` está presente (scoring LIVE por rondas) → puntuación POR RONDAS
+       (round-reached): cada equipo puntúa por hasta dónde LLEGÓ de verdad, decodificando el
+       pick con el bracket ORIGINAL. Path-independent → inmune a los cruces imposibles del
+       bracket roto. Espeja score_ahora() de live_compare.py.
+     - Si NO hay `reached` (p.ej. resultados publicados por el admin en formato clásico) →
+       comportamiento antiguo por-slot, para no romper esa vía. */
+  if (official.reached){
+    pts += scoreRoundReached(pickRoundSets(picks), official.reached);
+  } else if (official.winners){
     const userWins = userMatchWinners(picks);
     Object.entries(official.winners).forEach(([matchId, officialTeamName]) => {
       const ut = userWins[matchId];
@@ -3268,6 +3789,40 @@ function lbKoWinners(positions, starredArr, scores, complete){
   [[R16_PAIRS,'R16'],[QF_PAIRS,'QF'],[SF_PAIRS,'SF'],[F_PAIRS,'F']].forEach(([pairs,pref])=>{ pairs.forEach((pr,i)=>{ const id=`${pref}-${i+1}`, a=wn(pr[0]), b=wn(pr[1]); decide(id,a,b); }); });
   return winners;
 }
+/* REACHED SETS (reales, desde ESPN) — deriva qué equipos alcanzaron cada ronda a partir del
+   ORDEN CRONOLÓGICO de los partidos de eliminatorias jugados ("post"), sin depender de la
+   asignación de terceros por backtracking (que en ~3 cruces no coincide con la FIFA). Un partido
+   es de eliminatorias si sus dos equipos son de GRUPOS distintos. Portado de real_reached() en
+   live_compare.py. Devuelve conjuntos de nombres lbnorm: {last16,last8,last4,last2,champion}. */
+const TEAM2GRP = {};
+Object.entries(GROUPS).forEach(([g,arr]) => arr.forEach(([name]) => { TEAM2GRP[lbnorm(name)] = g; }));
+function espnReachedSets(scores){
+  const empty = { last16:new Set(), last8:new Set(), last4:new Set(), last2:new Set(), champion:null };
+  if (!scores || !scores.events) return empty;
+  const evTeams = e => { const cs=((e.competitions||[])[0]||{}).competitors||[]; return [lbnorm(((cs[0]||{}).team||{}).displayName), lbnorm(((cs[1]||{}).team||{}).displayName)]; };
+  const evWinner = e => {
+    const cs=((e.competitions||[])[0]||{}).competitors||[]; if(cs.length!==2) return null;
+    const h=cs.find(x=>x.homeAway==='home')||cs[0], a=cs.find(x=>x.homeAway==='away')||cs[1];
+    const hn=lbnorm((h.team||{}).displayName), an=lbnorm((a.team||{}).displayName);
+    const hs=+h.score, as=+a.score, hsh=h.shootoutScore, ash=a.shootoutScore;
+    if (hs!==as) return hs>as?hn:an;
+    if (hsh!=null && ash!=null) return hsh>ash?hn:an;
+    return null;
+  };
+  const post = scores.events.filter(e => (((e.status||{}).type||{}).state)==='post');
+  post.sort((x,y) => String(x.date||'').localeCompare(String(y.date||'')));
+  const ko = post.filter(e => { const [a,b]=evTeams(e); return a && b && TEAM2GRP[a] !== undefined && TEAM2GRP[b] !== undefined && TEAM2GRP[a] !== TEAM2GRP[b]; });
+  const slice=(from,to)=>ko.slice(from,to);
+  const W = evs => { const s=new Set(); evs.forEach(e=>{ const w=evWinner(e); if(w) s.add(w); }); return s; };
+  const r32=slice(0,16), r16=slice(16,24), qf=slice(24,28), sf=slice(28,30), fin=slice(30,31);
+  return {
+    last16: W(r32),   // ganan en 1/16 -> llegan a octavos
+    last8:  W(r16),   // -> cuartos
+    last4:  W(qf),    // -> semis
+    last2:  W(sf),    // -> final
+    champion: fin.length ? evWinner(fin[0]) : null,
+  };
+}
 async function buildLiveOfficial(){
   let standings=null, scores=null;
   try{ standings=await fetch(ESPN_STAND,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
@@ -3292,7 +3847,7 @@ async function buildLiveOfficial(){
   if(allDone){ thirdsStats.sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf); starred=thirdsStats.slice(0,8).map(t=>t.g); }
   const winners=lbKoWinners(positions, starred, scores, allDone);
   const anyPlayed=Object.values(groupDone).length>0 && Object.entries(positions).length>0;
-  return {positions, starred, winners, _live:true, _provisional:!allDone, _hasData:anyPlayed};
+  return {positions, starred, winners, reached: espnReachedSets(scores), _live:true, _provisional:!allDone, _hasData:anyPlayed};
 }
 /* ============================================================
    THE MODEL AS A CONTESTANT — build the Dixon-Coles model's own bracket in the same
@@ -3451,13 +4006,13 @@ async function loadLeaderboard(){
     const pl = (n,s,p) => n===1 ? s : p;   // ES/EN pluralisation; TR strings stay singular by design
     const HOF = {
       es:{ gap:'a {v} del líder', title:'Salón de la fama', sub:'Los premios de la quiniela. El que se pique, que acierte.',
-        leader:{t:'El que va sobrado', s:v=>`Manda con ${v} ${pl(v,'punto','puntos')}. Os mira desde el palco.`},
+        leader:{t:'El que va sobrado', s:v=>`Manda con ${v} ${pl(v,'punto','puntos')} y os mira desde el palco. Que dure hasta la semi, campeón.`},
         visionary:{t:'Esto solo lo viste tú', s:v=>`${v} ${pl(v,'acierto','aciertos')} que NADIE más vio. ¿Crack o pájaro?`},
         ace:{t:'El empollón', s:v=>`${v} ${pl(v,'posición','posiciones')} de grupo ${pl(v,'clavada','clavadas')}. Se lo estudió.`},
         prophet:{t:'El profeta', s:v=>`${v} ${pl(v,'grupo','grupos')} ${pl(v,'entero','enteros')} ${pl(v,'bordado','bordados')}. Huele a bola de cristal.`},
-        maverick:{t:'El kamikaze', s:(v,c)=>`El único que se la jugó por ${c}. Si gana, os calláis todos.`},
-        herd:{t:'La oveja del rebaño', s:(v,c)=>`${v} os subisteis al carro de ${c}. Originalidad brillando por su ausencia.`},
-        red:{t:'El farolillo rojo', s:v=>`A ${v} del líder. Gracias por sujetar la tabla.`} },
+        maverick:{t:'El kamikaze', s:(v,c)=>`El único que se la jugó por ${c}. Si eso pasa, se compra la porra entera.`},
+        herd:{t:'La oveja del rebaño', s:(v,c)=>`${v} al carro de ${c}. La originalidad de este grupo se mide con un dedo.`},
+        red:{t:'El farolillo rojo', s:v=>`A ${v} del líder, pero presente. Alguien tiene que sujetar la tabla — gracias por el servicio.`} },
       en:{ gap:'{v} behind the leader', title:'Hall of fame', sub:"The pool awards. Don't get mad — get picking.",
         leader:{t:'Top dog', s:v=>`On top with ${v} ${pl(v,'point','points')}. Looking down on the rest of you.`},
         visionary:{t:'Only you saw this', s:v=>`${v} ${pl(v,'call','calls')} NOBODY else got right. Genius or fluke?`},
@@ -3495,6 +4050,20 @@ async function loadLeaderboard(){
       if(mav) add('🐴','maverick', mav, 0, escapeHtml(mav.champion?mav.champion.name:''));
       const pop = champTop[0]; if(pop && pop.n>=2) add('🏰','herd', null, pop.n, escapeHtml(pop.name));
       const last = ranked[ranked.length-1]; if(last && last.__gap>0 && ranked.length>3) add('🧊','red', last, last.__gap);
+      /* ── Premios ESTÁTICOS (picks bloqueados; i18n es/en/tr vía FIX_I18N.prizes) ── */
+      {
+        const flag = c => '<img src="https://flagcdn.com/w40/'+c+'.png" alt="" style="width:15px;height:11px;border-radius:2px;vertical-align:baseline;margin:0 1px;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,.15)">';
+        const expand = s => (s||'')
+          .replace(/\{HL\}/g,'<b style="color:var(--gold-2,#f4d76b);font-weight:800">').replace(/\{\/HL\}/g,'</b>')
+          .replace(/\{ES\}/g,flag('es')).replace(/\{FR\}/g,flag('fr')).replace(/\{ENG\}/g,flag('gb-eng'));
+        const youBadge = {es:'tú',en:'you',tr:'sen'}[LANG] || 'tú';
+        const meCarlos = ranked.some(r => r.isMe && /carlos\s*vivas/i.test(r.name||''));
+        const P = ((window.FIX_I18N && window.FIX_I18N[LANG]) || (window.FIX_I18N && window.FIX_I18N.es) || {}).prizes || [];
+        P.forEach(pz => {
+          const me = pz[4] === 'me' && meCarlos;
+          cards.push('<div class="hof-card'+(me?' me':'')+'"><div class="hof-ico">'+pz[0]+'</div><div class="hof-b"><div class="hof-title">'+pz[1]+'</div><div class="hof-win">'+pz[2]+(me?' <span class="hof-you">'+youBadge+'</span>':'')+'</div><div class="hof-stat">'+expand(pz[3])+'</div></div></div>');
+        });
+      }
       hofEl.innerHTML = '<div class="hof-grid">' + cards.join('') + '</div>';
       if(hofSec) hofSec.style.display = '';
     } else if(hofSec){ hofSec.style.display = 'none'; }
@@ -3983,5 +4552,288 @@ checkNewResults();
 <script>if("serviceWorker"in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").then(function(r){r&&r.update()}).catch(function(){})})}</script>
 <script>window.PAGE={active:"pool"};</script>
 <script src="assets/nav.js" defer></script>
+<!-- WC2026-FIX:fab — aviso del cuadro como boton flotante (rojo oscuro, fijo abajo-derecha) + modal -->
+<style>
+  .fix-fab{position:fixed;right:18px;bottom:140px;z-index:80;display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border-radius:999px;border:1px solid rgba(255,120,120,.28);background:linear-gradient(180deg,#8a2327 0%,#5f181c 100%);color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:.84em;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 1px rgba(120,20,24,.4);transition:transform .15s ease,box-shadow .15s ease}
+  @media(min-width:721px){.fix-fab{bottom:78px}}
+  .fix-fab:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.58)}
+  .fix-fab:focus-visible{outline:3px solid #e88;outline-offset:3px}
+  .fix-fab .fix-fab-ic{font-size:1.02em;line-height:1}
+  .fix-fab .fix-fab-dot{width:8px;height:8px;border-radius:50%;background:#ff6b6f;box-shadow:0 0 0 3px rgba(255,107,111,.25)}
+  .fix-modal{position:fixed;inset:0;z-index:1300;display:none;align-items:flex-start;justify-content:center;background:rgba(3,4,12,.68);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);padding:24px 16px;overflow:auto}
+  .fix-modal.open{display:flex}
+  .fix-modal-panel{position:relative;max-width:1000px;width:100%;margin:auto;background:var(--bg,#03040c);border:1px solid var(--line-strong,rgba(255,255,255,.24));border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.6);padding:16px 16px 4px}
+  .fix-modal-close{position:absolute;top:12px;right:12px;z-index:2;width:34px;height:34px;border-radius:50%;border:1px solid var(--line,rgba(255,255,255,.14));background:var(--surface,rgba(255,255,255,.06));color:var(--ink,#fff);font-size:17px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+  .fix-modal-close:hover{background:var(--surface-2,rgba(255,255,255,.1))}
+  @media(prefers-reduced-motion:reduce){.fix-fab{transition:none}}
+</style>
+<button class="fix-fab" id="fixFab" type="button" aria-haspopup="dialog" aria-controls="fixModal"><span class="fix-fab-ic" aria-hidden="true">🛠️</span><span class="fix-fab-label" id="fixFabLabel">Aviso del cuadro</span><span class="fix-fab-dot" aria-hidden="true"></span></button>
+<div class="fix-modal" id="fixModal" role="dialog" aria-modal="true" aria-label="Aviso del cuadro">
+  <div class="fix-modal-panel">
+    <button class="fix-modal-close" id="fixModalClose" type="button" aria-label="Cerrar">✕</button>
+<!-- WC2026-FIX:transparency — aviso de la errata del cuadro (equipo de agentes, 2026-07-07) -->
+<style>
+  .tn-notice{
+    /* hereda las variables del sitio (--gold, --cyan, --red, --ink, --muted, --line...) */
+    background:linear-gradient(180deg, rgba(232,194,71,.06) 0%, var(--surface) 100%);
+    border:1px solid var(--line-strong);
+    border-left:3px solid var(--gold);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    margin:0 0 20px;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+  }
+  .tn-summary{
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px 18px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .tn-summary::-webkit-details-marker{display:none}
+  .tn-icon{
+    flex:none;
+    width:32px;height:32px;border-radius:50%;
+    background:var(--gold);color:#03040c;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:16px;line-height:1;
+    box-shadow:0 0 0 4px var(--gold-soft);
+  }
+  .tn-head-text{flex:1;min-width:0}
+  .tn-kicker{
+    display:block;
+    font-size:.72em;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:3px;
+  }
+  .tn-title{
+    font-size:1.02em;font-weight:800;color:var(--ink);line-height:1.25;
+  }
+  .tn-sub{
+    display:block;font-size:.86em;color:var(--muted);font-weight:500;margin-top:2px;
+  }
+  .tn-chevron{
+    flex:none;width:20px;height:20px;color:var(--muted);
+    transition:transform .2s ease;
+  }
+  .tn-notice[open] .tn-chevron{transform:rotate(180deg)}
+
+  .tn-body{
+    padding:2px 18px 18px;
+    border-top:1px solid var(--line);
+  }
+  .tn-lede{
+    font-size:.95em;color:var(--ink-2);line-height:1.6;margin:14px 0 18px;
+  }
+
+  /* Los tres bloques del mini-postmortem */
+  .tn-steps{display:grid;gap:12px;margin:0 0 18px}
+  .tn-step{
+    display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;
+  }
+  .tn-step-num{
+    flex:none;width:26px;height:26px;border-radius:50%;
+    background:var(--surface-2);border:1px solid var(--line-strong);
+    color:var(--ink-2);font-weight:800;font-size:.82em;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-variant-numeric:tabular-nums;
+  }
+  .tn-step-title{
+    font-size:.72em;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:5px;
+  }
+  .tn-step-body{font-size:.92em;color:var(--ink-2);line-height:1.55}
+  .tn-step-body b{color:var(--ink);font-weight:700}
+
+  /* Cifras destacadas (patrón .status-pill .count) */
+  .tn-num{color:var(--gold);font-weight:800;font-variant-numeric:tabular-nums}
+  .tn-num.calm{color:var(--cyan)}
+
+  /* Fichas de datos duros (16/18, 10/18, 2/18) */
+  .tn-facts{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 4px;
+  }
+  .tn-fact{
+    text-align:center;
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:12px 8px;
+  }
+  .tn-fact-big{
+    font-size:1.5em;font-weight:900;color:var(--gold);line-height:1;
+    font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+  }
+  .tn-fact.calm .tn-fact-big{color:var(--cyan)}
+  .tn-fact-label{
+    display:block;font-size:.74em;color:var(--muted);font-weight:600;
+    margin-top:7px;line-height:1.35;
+  }
+
+  .tn-reassure{
+    display:flex;align-items:center;gap:10px;
+    background:var(--gold-soft);border:1px solid rgba(232,194,71,.3);
+    border-radius:12px;padding:12px 14px;margin:16px 0 0;
+    font-size:.92em;color:var(--ink-2);line-height:1.5;
+  }
+  .tn-reassure b{color:var(--ink);font-weight:700}
+  .tn-reassure .tn-check{
+    flex:none;width:22px;height:22px;border-radius:50%;
+    background:var(--green);color:#03040c;
+    display:inline-flex;align-items:center;justify-content:center;font-size:12px;
+  }
+
+  .tn-foot{
+    margin-top:14px;font-size:.8em;color:var(--muted);line-height:1.5;
+  }
+  .tn-foot code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    background:var(--surface-2);border:1px solid var(--line);border-radius:4px;
+    padding:1px 5px;font-size:.94em;color:var(--ink-2);
+  }
+
+  @media (max-width:560px){
+    .tn-facts{grid-template-columns:1fr}
+    .tn-fact{display:flex;align-items:baseline;justify-content:center;gap:10px}
+    .tn-fact-label{margin-top:0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .tn-chevron{transition:none}
+  }
+</style>
+
+<details class="tn-notice" open>
+  <summary class="tn-summary">
+    <span class="tn-icon" aria-hidden="true">🛠️</span>
+    <span class="tn-head-text">
+      <span class="tn-kicker">Aviso · Corregimos el cuadro</span>
+      <span class="tn-title">El bracket dibujaba a algunos equipos por la rama equivocada</span>
+      <span class="tn-sub">Tu quiniela está intacta. Te contamos qué pasó y por qué no cambia lo que puntúas.</span>
+    </span>
+    <svg class="tn-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="6 8 10 12 14 8"/>
+    </svg>
+  </summary>
+
+  <div class="tn-body">
+    <p class="tn-lede">
+      El fallo fue nuestro, del código, no de vuestros pronósticos. El cuadro de
+      eliminatorias se dibujó como un cuadro clásico simétrico, y el cuadro real de 48
+      equipos de la FIFA entrelaza las dos mitades. Resultado: algunos cruces de
+      octavos hacia la final que rellenasteis <b>no existen</b> en el cuadro de verdad.
+      El ejemplo claro: <b>España y Francia parecían ir por lados opuestos</b> (así que
+      una final entre ambas parecía posible), cuando en realidad <b>comparten mitad del
+      cuadro y se cruzan en semifinales</b>.
+    </p>
+
+    <div class="tn-steps">
+      <div class="tn-step">
+        <span class="tn-step-num">1</span>
+        <div>
+          <div class="tn-step-title">Qué pasó</div>
+          <div class="tn-step-body">
+            El cuadro estaba cableado juntando parejas contiguas
+            (<i>"parejas secuenciales avanzan a la siguiente ronda"</i>). En el cuadro
+            oficial las mitades van <b>entrelazadas</b>, no en pares seguidos, así que
+            algunos cruces que se pintaban camino de la final en realidad no se dan.
+          </div>
+        </div>
+      </div>
+
+      <div class="tn-step">
+        <span class="tn-step-num">2</span>
+        <div>
+          <div class="tn-step-title">A quién afectó</div>
+          <div class="tn-step-body">
+            De las 18 quinielas, <span class="tn-num">16</span> apostaron una final que el
+            cuadro real no permite (los dos finalistas caían en la misma mitad).
+            <span class="tn-num">10</span> pusisteis exactamente
+            <b>España–Francia</b>, que en el cuadro de verdad se cruzan en
+            <b>semifinales</b>: como mucho os veis ahí, no en la final.
+          </div>
+        </div>
+      </div>
+
+      <div class="tn-step">
+        <span class="tn-step-num">3</span>
+        <div>
+          <div class="tn-step-title">Qué hemos hecho</div>
+          <div class="tn-step-body">
+            <b>No hemos tocado ni reescrito ninguna quiniela.</b> Puntuamos
+            <b>por rondas</b>: si tu equipo llegó de verdad a octavos, cuartos, semis,
+            final o quedó campeón, suma. Como se mira el equipo que llega y no el cruce
+            concreto, <span class="tn-num calm">el cruce imposible deja de importar</span>
+            y la regla es la misma para todos.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tn-facts">
+      <div class="tn-fact">
+        <span class="tn-fact-big">16<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span>
+        <span class="tn-fact-label">apostaron una final imposible</span>
+      </div>
+      <div class="tn-fact">
+        <span class="tn-fact-big">10<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span>
+        <span class="tn-fact-label">pusieron España–Francia (se cruzan en semis)</span>
+      </div>
+      <div class="tn-fact calm">
+        <span class="tn-fact-big">2<span style="font-size:.55em;color:var(--muted);font-weight:700">/18</span></span>
+        <span class="tn-fact-label">tenían una final aún posible: Metin Yazar y Fran Fernández</span>
+      </div>
+    </div>
+
+    <div class="tn-reassure">
+      <span class="tn-check" aria-hidden="true">✓</span>
+      <span>
+        <b>Nadie sale perjudicado.</b> La fase de grupos no se ve afectada en absoluto,
+        y en las eliminatorias todos se puntúan con la misma vara: el equipo que
+        realmente avanzó.
+      </span>
+    </div>
+
+    <p class="tn-foot">
+      ¿Cuándo se nota este cambio? Sobre todo en las <b>rondas altas</b> (cuartos, semis
+      y final), donde el líder de la tabla puede moverse conforme se juegue —incluida la
+      semifinal real <b>España–Francia</b>, que todavía no se ha disputado. Grupos y
+      dieciseisavos están completos; los octavos, casi. El recuento es reproducible con el
+      motor <code>rescore.py</code> (tests <code>validate.py</code>: 4/4 OK). Si quieres
+      ver el detalle visual de por qué España y Francia comparten mitad, mira el esquema
+      del cuadro.
+    </p>
+  </div>
+</details>
+
+<!-- WC2026-FIX:diagram — esquema del cuadro, aislado como <img> para no filtrar CSS -->
+<style>
+  .bd-explainer{margin:0 0 22px;border:1px solid var(--line-strong);border-radius:14px;background:var(--surface);overflow:hidden}
+  .bd-explainer > summary{list-style:none;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;color:var(--ink-2);font-weight:700;font-size:.9em;user-select:none}
+  .bd-explainer > summary::-webkit-details-marker{display:none}
+  .bd-explainer .bd-chev{margin-left:auto;width:18px;height:18px;color:var(--muted);transition:transform .2s ease;flex:none}
+  .bd-explainer[open] .bd-chev{transform:rotate(180deg)}
+  .bd-wrap{padding:0 14px 16px;overflow-x:auto}
+  .bd-wrap img{width:100%;height:auto;max-width:940px;display:block;margin:0 auto}
+  @media (prefers-reduced-motion:reduce){.bd-explainer .bd-chev{transition:none}}
+</style>
+<details class="bd-explainer" open>
+  <summary>
+    <span aria-hidden="true">📊</span>
+    <span>El esquema del cuadro — por qué España y Francia se cruzan en semis</span>
+    <svg class="bd-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 8 10 12 14 8"/></svg>
+  </summary>
+  <div class="bd-wrap">
+    <img src="assets/bracket_diagram.svg" alt="Esquema: en el cuadro roto España y Francia salían por mitades opuestas (final imposible); en el cuadro real comparten mitad y se cruzan en la semifinal 1 (partido 101).">
+  </div>
+</details>
+  </div>
+</div>
+<script>
+(function(){var fab=document.getElementById("fixFab"),modal=document.getElementById("fixModal"),cls=document.getElementById("fixModalClose");if(!fab||!modal)return;var open=function(){modal.classList.add("open");document.body.style.overflow="hidden";var c=modal.querySelector(".fix-modal-close");if(c)c.focus();};var shut=function(){modal.classList.remove("open");document.body.style.overflow="";fab.focus();};fab.addEventListener("click",open);cls&&cls.addEventListener("click",shut);modal.addEventListener("click",function(e){if(e.target===modal)shut();});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&modal.classList.contains("open"))shut();});})();
+</script>
 </body>
 </html>
