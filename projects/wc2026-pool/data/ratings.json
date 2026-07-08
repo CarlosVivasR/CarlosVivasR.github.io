@@ -1,90 +1,90 @@
 {
-  "snapshot_date": "2026-07-06",
+  "snapshot_date": "2026-07-07",
   "dc": {
     "teams": {
       "abkhazia": {
-        "atk": -0.2399,
-        "def": 0.4495,
+        "atk": -0.2269,
+        "def": 0.4615,
         "name": "Abkhazia"
       },
       "afghanistan": {
-        "atk": -0.5915,
-        "def": -0.2802,
+        "atk": -0.5934,
+        "def": -0.2825,
         "name": "Afghanistan"
       },
       "albania": {
-        "atk": 0.5878,
-        "def": 1.2022,
+        "atk": 0.5823,
+        "def": 1.1985,
         "name": "Albania"
       },
       "alderney": {
-        "atk": -1.3023,
-        "def": -1.5291,
+        "atk": -1.3049,
+        "def": -1.5323,
         "name": "Alderney"
       },
       "algeria": {
-        "atk": 1.2588,
-        "def": 1.1061,
+        "atk": 1.2558,
+        "def": 1.1035,
         "name": "Algeria"
       },
       "ambazonia": {
-        "atk": -2.5495,
-        "def": -1.0723,
+        "atk": -2.4639,
+        "def": -1.0595,
         "name": "Ambazonia"
       },
       "americansamoa": {
-        "atk": -2.4539,
-        "def": -2.9258,
+        "atk": -2.4569,
+        "def": -2.9296,
         "name": "American Samoa"
       },
       "andalusia": {
-        "atk": 1.3237,
-        "def": 0.8615,
+        "atk": 1.3013,
+        "def": 0.8502,
         "name": "Andalusia"
       },
       "andorra": {
-        "atk": -0.6903,
-        "def": 0.4124,
+        "atk": -0.6963,
+        "def": 0.408,
         "name": "Andorra"
       },
       "angola": {
-        "atk": 0.5034,
-        "def": 0.9645,
+        "atk": 0.4997,
+        "def": 0.9631,
         "name": "Angola"
       },
       "anguilla": {
-        "atk": -1.8042,
-        "def": -1.4419,
+        "atk": -1.8078,
+        "def": -1.4458,
         "name": "Anguilla"
       },
       "antiguaandbarbuda": {
-        "atk": -0.6738,
-        "def": -0.6219,
+        "atk": -0.6782,
+        "def": -0.6259,
         "name": "Antigua and Barbuda"
       },
       "arameanssuryoye": {
-        "atk": 0.0935,
-        "def": 0.0651,
+        "atk": 0.1089,
+        "def": 0.0918,
         "name": "Arameans Suryoye"
       },
       "argentina": {
-        "atk": 1.653,
-        "def": 1.9139,
+        "atk": 1.6595,
+        "def": 1.8693,
         "name": "Argentina"
       },
       "armenia": {
-        "atk": 0.6501,
-        "def": 0.4114,
+        "atk": 0.645,
+        "def": 0.4073,
         "name": "Armenia"
       },
       "artsakh": {
-        "atk": -0.0741,
-        "def": -0.2267,
+        "atk": -0.0617,
+        "def": -0.2134,
         "name": "Artsakh"
       },
       "aruba": {
-        "atk": -0.3752,
-        "def": -0.6694,
+        "atk": -0.3796,
+        "def": -0.6729,
         "name": "Aruba"
       },
       "asturias": {
@@ -93,188 +93,188 @@
         "name": "Asturias"
       },
       "australia": {
-        "atk": 1.0388,
-        "def": 1.2978,
+        "atk": 1.0347,
+        "def": 1.2939,
         "name": "Australia"
       },
       "austria": {
-        "atk": 1.2796,
-        "def": 1.2452,
+        "atk": 1.275,
+        "def": 1.2415,
         "name": "Austria"
       },
       "aymara": {
-        "atk": -1.0891,
-        "def": -0.9598,
+        "atk": -1.0828,
+        "def": -0.9504,
         "name": "Aymara"
       },
       "azerbaijan": {
-        "atk": 0.2986,
-        "def": 0.5766,
+        "atk": 0.2943,
+        "def": 0.5729,
         "name": "Azerbaijan"
       },
       "bahamas": {
-        "atk": -0.9988,
-        "def": -1.3583,
+        "atk": -1.0026,
+        "def": -1.3621,
         "name": "Bahamas"
       },
       "bahrain": {
-        "atk": 0.4084,
-        "def": 0.634,
+        "atk": 0.4047,
+        "def": 0.6312,
         "name": "Bahrain"
       },
       "bangladesh": {
-        "atk": -0.8377,
-        "def": -0.4433,
+        "atk": -0.84,
+        "def": -0.4451,
         "name": "Bangladesh"
       },
       "barawa": {
-        "atk": -0.9167,
-        "def": -1.4319,
+        "atk": -0.8981,
+        "def": -1.4155,
         "name": "Barawa"
       },
       "barbados": {
-        "atk": -0.4302,
-        "def": -0.7386,
+        "atk": -0.4345,
+        "def": -0.7428,
         "name": "Barbados"
       },
       "basquecountry": {
-        "atk": 1.3968,
-        "def": 1.511,
+        "atk": 1.3902,
+        "def": 1.4839,
         "name": "Basque Country"
       },
       "belarus": {
-        "atk": 0.6306,
-        "def": 0.7096,
+        "atk": 0.6258,
+        "def": 0.7056,
         "name": "Belarus"
       },
       "belgium": {
-        "atk": 1.6327,
-        "def": 1.4574,
+        "atk": 1.6276,
+        "def": 1.4541,
         "name": "Belgium"
       },
       "belize": {
-        "atk": -0.532,
-        "def": -0.3138,
+        "atk": -0.5355,
+        "def": -0.3171,
         "name": "Belize"
       },
       "benin": {
-        "atk": 0.5745,
-        "def": 0.6733,
+        "atk": 0.5705,
+        "def": 0.6714,
         "name": "Benin"
       },
       "bermuda": {
-        "atk": 0.1181,
-        "def": -0.446,
+        "atk": 0.1137,
+        "def": -0.4498,
         "name": "Bermuda"
       },
       "bhutan": {
-        "atk": -1.3786,
-        "def": -1.352,
+        "atk": -1.3813,
+        "def": -1.3536,
         "name": "Bhutan"
       },
       "biafra": {
-        "atk": -1.9767,
-        "def": -0.1931,
+        "atk": -1.9671,
+        "def": -0.1819,
         "name": "Biafra"
       },
       "bolivia": {
-        "atk": 0.8198,
-        "def": 0.6983,
+        "atk": 0.8139,
+        "def": 0.6928,
         "name": "Bolivia"
       },
       "bonaire": {
-        "atk": -0.8046,
-        "def": -0.9292,
+        "atk": -0.8073,
+        "def": -0.9323,
         "name": "Bonaire"
       },
       "bosniaandherzegovina": {
-        "atk": 0.8699,
-        "def": 0.9164,
+        "atk": 0.8651,
+        "def": 0.9122,
         "name": "Bosnia and Herzegovina"
       },
       "botswana": {
-        "atk": 0.1701,
-        "def": 0.5824,
+        "atk": 0.1665,
+        "def": 0.5797,
         "name": "Botswana"
       },
       "brazil": {
-        "atk": 1.7424,
-        "def": 1.7668,
+        "atk": 1.7366,
+        "def": 1.7622,
         "name": "Brazil"
       },
       "britishvirginislands": {
-        "atk": -1.0045,
-        "def": -1.1421,
+        "atk": -1.0084,
+        "def": -1.1459,
         "name": "British Virgin Islands"
       },
       "brittany": {
-        "atk": 0.4976,
-        "def": 0.8159,
+        "atk": 0.4932,
+        "def": 0.8157,
         "name": "Brittany"
       },
       "brunei": {
-        "atk": -1.1152,
-        "def": -1.2216,
+        "atk": -1.1186,
+        "def": -1.2241,
         "name": "Brunei"
       },
       "bulgaria": {
-        "atk": 0.6314,
-        "def": 0.7231,
+        "atk": 0.6268,
+        "def": 0.7187,
         "name": "Bulgaria"
       },
       "burkinafaso": {
-        "atk": 0.8691,
-        "def": 0.8666,
+        "atk": 0.8658,
+        "def": 0.8651,
         "name": "Burkina Faso"
       },
       "burundi": {
-        "atk": 0.3856,
-        "def": 0.4302,
+        "atk": 0.3828,
+        "def": 0.4278,
         "name": "Burundi"
       },
       "cambodia": {
-        "atk": -0.5229,
-        "def": -0.7489,
+        "atk": -0.5252,
+        "def": -0.7511,
         "name": "Cambodia"
       },
       "cameroon": {
-        "atk": 0.8184,
-        "def": 1.1908,
+        "atk": 0.8153,
+        "def": 1.1878,
         "name": "Cameroon"
       },
       "canada": {
-        "atk": 1.0083,
-        "def": 1.1458,
+        "atk": 1.0035,
+        "def": 1.1415,
         "name": "Canada"
       },
       "canaryislands": {
-        "atk": 1.284,
-        "def": 1.223,
+        "atk": 1.2358,
+        "def": 1.1748,
         "name": "Canary Islands"
       },
       "capeverde": {
-        "atk": 0.6449,
-        "def": 0.939,
+        "atk": 0.6404,
+        "def": 0.9376,
         "name": "Cape Verde"
       },
       "cascadia": {
-        "atk": 0.1527,
-        "def": -0.7443,
+        "atk": 0.167,
+        "def": -0.7235,
         "name": "Cascadia"
       },
       "catalonia": {
-        "atk": 1.4939,
-        "def": 1.1133,
+        "atk": 1.4643,
+        "def": 1.1045,
         "name": "Catalonia"
       },
       "caymanislands": {
-        "atk": -1.1757,
-        "def": -0.9125,
+        "atk": -1.182,
+        "def": -0.9168,
         "name": "Cayman Islands"
       },
       "centralafricanrepublic": {
-        "atk": 0.4458,
-        "def": 0.2087,
+        "atk": 0.4426,
+        "def": 0.2058,
         "name": "Central African Republic"
       },
       "centralspain": {
@@ -283,603 +283,603 @@
         "name": "Central Spain"
       },
       "chad": {
-        "atk": -0.1939,
-        "def": 0.191,
+        "atk": -0.1971,
+        "def": 0.189,
         "name": "Chad"
       },
       "chagosislands": {
-        "atk": -0.7209,
-        "def": -1.8458,
+        "atk": -0.7015,
+        "def": -1.8289,
         "name": "Chagos Islands"
       },
       "chameria": {
-        "atk": -0.0547,
-        "def": -0.288,
+        "atk": -0.0442,
+        "def": -0.2764,
         "name": "Chameria"
       },
       "chechnya": {
-        "atk": -1.13,
-        "def": -2.802,
+        "atk": -1.074,
+        "def": -2.7752,
         "name": "Chechnya"
       },
       "chile": {
-        "atk": 1.1707,
-        "def": 1.2119,
+        "atk": 1.1638,
+        "def": 1.2067,
         "name": "Chile"
       },
       "china": {
-        "atk": 0.4225,
-        "def": 0.6632,
+        "atk": 0.4196,
+        "def": 0.6603,
         "name": "China"
       },
       "cilento": {
-        "atk": -1.3049,
-        "def": -0.2098,
+        "atk": -1.2476,
+        "def": -0.1747,
         "name": "Cilento"
       },
       "colombia": {
-        "atk": 1.4747,
-        "def": 1.6616,
+        "atk": 1.4529,
+        "def": 1.6782,
         "name": "Colombia"
       },
       "comoros": {
-        "atk": 0.3919,
-        "def": 0.4542,
+        "atk": 0.3885,
+        "def": 0.4522,
         "name": "Comoros"
       },
       "congo": {
-        "atk": 0.3243,
-        "def": 0.2894,
+        "atk": 0.3212,
+        "def": 0.2872,
         "name": "Congo"
       },
       "cookislands": {
-        "atk": -2.616,
-        "def": -2.1192,
+        "atk": -2.6171,
+        "def": -2.1221,
         "name": "Cook Islands"
       },
       "corsica": {
-        "atk": 0.5685,
-        "def": 1.6255,
+        "atk": 0.5648,
+        "def": 1.6228,
         "name": "Corsica"
       },
       "costarica": {
-        "atk": 0.7779,
-        "def": 0.8595,
+        "atk": 0.7732,
+        "def": 0.8545,
         "name": "Costa Rica"
       },
       "countyofnice": {
-        "atk": 0.4138,
-        "def": -0.22,
+        "atk": 0.425,
+        "def": -0.209,
         "name": "County of Nice"
       },
       "crimea": {
-        "atk": -0.6003,
-        "def": -0.5526,
+        "atk": -0.5755,
+        "def": -0.5425,
         "name": "Crimea"
       },
       "croatia": {
-        "atk": 1.3918,
-        "def": 1.3882,
+        "atk": 1.3871,
+        "def": 1.3852,
         "name": "Croatia"
       },
       "cuba": {
-        "atk": -0.0701,
-        "def": 0.0086,
+        "atk": -0.075,
+        "def": 0.0046,
         "name": "Cuba"
       },
       "curacao": {
-        "atk": 0.3224,
-        "def": 0.3538,
+        "atk": 0.3179,
+        "def": 0.3499,
         "name": "Curaçao"
       },
       "cyprus": {
-        "atk": 0.4427,
-        "def": 0.4756,
+        "atk": 0.4378,
+        "def": 0.4716,
         "name": "Cyprus"
       },
       "czechrepublic": {
-        "atk": 1.1601,
-        "def": 1.0995,
+        "atk": 1.1553,
+        "def": 1.0955,
         "name": "Czech Republic"
       },
       "czechoslovakia": {
-        "atk": 1.3207,
-        "def": 1.5201,
+        "atk": 1.323,
+        "def": 1.5112,
         "name": "Czechoslovakia"
       },
       "drcongo": {
-        "atk": 0.7652,
-        "def": 1.147,
+        "atk": 0.7621,
+        "def": 1.1442,
         "name": "DR Congo"
       },
       "darfur": {
-        "atk": -3.1085,
-        "def": -2.8922,
+        "atk": -3.0601,
+        "def": -2.8791,
         "name": "Darfur"
       },
       "denmark": {
-        "atk": 1.3635,
-        "def": 1.4986,
+        "atk": 1.3597,
+        "def": 1.4946,
         "name": "Denmark"
       },
       "djibouti": {
-        "atk": -0.2001,
-        "def": -0.4477,
+        "atk": -0.2059,
+        "def": -0.4493,
         "name": "Djibouti"
       },
       "dominica": {
-        "atk": -0.8257,
-        "def": -0.5762,
+        "atk": -0.8304,
+        "def": -0.5799,
         "name": "Dominica"
       },
       "dominicanrepublic": {
-        "atk": 0.1863,
-        "def": 0.1104,
+        "atk": 0.1814,
+        "def": 0.1065,
         "name": "Dominican Republic"
       },
       "donetskpr": {
-        "atk": -0.1704,
-        "def": 0.0819,
+        "atk": -0.1569,
+        "def": 0.0958,
         "name": "Donetsk PR"
       },
       "delvidek": {
-        "atk": 0.0603,
-        "def": -0.5308,
+        "atk": 0.0753,
+        "def": -0.5178,
         "name": "Délvidék"
       },
       "eastturkestan": {
-        "atk": -0.6892,
-        "def": -2.0994,
+        "atk": -0.6734,
+        "def": -2.0876,
         "name": "East Turkestan"
       },
       "ecuador": {
-        "atk": 1.0881,
-        "def": 1.5676,
+        "atk": 1.0819,
+        "def": 1.5634,
         "name": "Ecuador"
       },
       "egypt": {
-        "atk": 0.9465,
-        "def": 1.297,
+        "atk": 0.9587,
+        "def": 1.268,
         "name": "Egypt"
       },
       "elsalvador": {
-        "atk": -0.0473,
-        "def": 0.5576,
+        "atk": -0.0525,
+        "def": 0.554,
         "name": "El Salvador"
       },
       "elbaisland": {
-        "atk": -0.5695,
-        "def": -1.4775,
+        "atk": -0.5609,
+        "def": -1.453,
         "name": "Elba Island"
       },
       "ellanvannin": {
-        "atk": 0.1516,
-        "def": -0.2185,
+        "atk": 0.1643,
+        "def": -0.205,
         "name": "Ellan Vannin"
       },
       "england": {
-        "atk": 1.5854,
-        "def": 1.7909,
+        "atk": 1.5802,
+        "def": 1.7866,
         "name": "England"
       },
       "equatorialguinea": {
-        "atk": 0.2897,
-        "def": 0.6397,
+        "atk": 0.2865,
+        "def": 0.6371,
         "name": "Equatorial Guinea"
       },
       "eritrea": {
-        "atk": -0.1636,
-        "def": -0.2131,
+        "atk": -0.1702,
+        "def": -0.2136,
         "name": "Eritrea"
       },
       "estonia": {
-        "atk": 0.3202,
-        "def": 0.6007,
+        "atk": 0.3153,
+        "def": 0.5972,
         "name": "Estonia"
       },
       "eswatini": {
-        "atk": 0.1563,
-        "def": 0.2628,
+        "atk": 0.1541,
+        "def": 0.2595,
         "name": "Eswatini"
       },
       "ethiopia": {
-        "atk": 0.3439,
-        "def": 0.4052,
+        "atk": 0.3404,
+        "def": 0.4041,
         "name": "Ethiopia"
       },
       "falklandislands": {
-        "atk": -1.2986,
-        "def": -1.5077,
+        "atk": -1.3048,
+        "def": -1.5135,
         "name": "Falkland Islands"
       },
       "faroeislands": {
-        "atk": 0.2252,
-        "def": 0.6125,
+        "atk": 0.2206,
+        "def": 0.6086,
         "name": "Faroe Islands"
       },
       "felvidek": {
-        "atk": -0.5119,
-        "def": -0.2179,
+        "atk": -0.5073,
+        "def": -0.2034,
         "name": "Felvidék"
       },
       "fiji": {
-        "atk": -0.5886,
-        "def": -0.7218,
+        "atk": -0.5927,
+        "def": -0.7247,
         "name": "Fiji"
       },
       "finland": {
-        "atk": 0.7628,
-        "def": 0.9863,
+        "atk": 0.758,
+        "def": 0.9822,
         "name": "Finland"
       },
       "france": {
-        "atk": 1.6556,
-        "def": 1.7064,
+        "atk": 1.6511,
+        "def": 1.7034,
         "name": "France"
       },
       "franconia": {
-        "atk": -1.1046,
-        "def": -2.8574,
+        "atk": -1.1076,
+        "def": -2.8757,
         "name": "Franconia"
       },
       "frenchguiana": {
-        "atk": 0.0206,
-        "def": -0.0087,
+        "atk": 0.0161,
+        "def": -0.0128,
         "name": "French Guiana"
       },
       "frya": {
-        "atk": -1.4643,
-        "def": -1.9525,
+        "atk": -1.4713,
+        "def": -1.9571,
         "name": "Frøya"
       },
       "gabon": {
-        "atk": 0.6861,
-        "def": 0.6109,
+        "atk": 0.6821,
+        "def": 0.6089,
         "name": "Gabon"
       },
       "galicia": {
-        "atk": -0.5638,
-        "def": 0.0612,
+        "atk": -0.5611,
+        "def": 0.0585,
         "name": "Galicia"
       },
       "gambia": {
-        "atk": 0.7289,
-        "def": 0.5374,
+        "atk": 0.7258,
+        "def": 0.5346,
         "name": "Gambia"
       },
       "georgia": {
-        "atk": 0.9415,
-        "def": 0.9696,
+        "atk": 0.9366,
+        "def": 0.9661,
         "name": "Georgia"
       },
       "germandr": {
-        "atk": 1.3482,
-        "def": 1.3297,
+        "atk": 1.3084,
+        "def": 1.3039,
         "name": "German DR"
       },
       "germany": {
-        "atk": 1.742,
-        "def": 1.3561,
+        "atk": 1.7374,
+        "def": 1.3519,
         "name": "Germany"
       },
       "ghana": {
-        "atk": 0.8023,
-        "def": 1.0346,
+        "atk": 0.7986,
+        "def": 1.0315,
         "name": "Ghana"
       },
       "gibraltar": {
-        "atk": -0.4342,
-        "def": -0.1025,
+        "atk": -0.4404,
+        "def": -0.1062,
         "name": "Gibraltar"
       },
       "gotland": {
-        "atk": -0.2334,
-        "def": -1.0637,
+        "atk": -0.2391,
+        "def": -1.068,
         "name": "Gotland"
       },
       "gozo": {
-        "atk": -0.9369,
-        "def": -0.3631,
+        "atk": -0.9417,
+        "def": -0.3658,
         "name": "Gozo"
       },
       "greece": {
-        "atk": 0.9993,
-        "def": 1.3696,
+        "atk": 0.9942,
+        "def": 1.366,
         "name": "Greece"
       },
       "greenland": {
-        "atk": -0.6659,
-        "def": -1.1319,
+        "atk": -0.6706,
+        "def": -1.1338,
         "name": "Greenland"
       },
       "grenada": {
-        "atk": -0.3683,
-        "def": -0.4129,
+        "atk": -0.3727,
+        "def": -0.417,
         "name": "Grenada"
       },
       "guadeloupe": {
-        "atk": 0.0364,
-        "def": 0.1307,
+        "atk": 0.0316,
+        "def": 0.1264,
         "name": "Guadeloupe"
       },
       "guam": {
-        "atk": -1.3503,
-        "def": -1.1802,
+        "atk": -1.3521,
+        "def": -1.1821,
         "name": "Guam"
       },
       "guatemala": {
-        "atk": 0.433,
-        "def": 0.495,
+        "atk": 0.4275,
+        "def": 0.4905,
         "name": "Guatemala"
       },
       "guernsey": {
-        "atk": -0.2795,
-        "def": -0.0129,
+        "atk": -0.2841,
+        "def": -0.0209,
         "name": "Guernsey"
       },
       "guinea": {
-        "atk": 0.7133,
-        "def": 0.7675,
+        "atk": 0.7095,
+        "def": 0.7656,
         "name": "Guinea"
       },
       "guineabissau": {
-        "atk": 0.1376,
-        "def": 0.5567,
+        "atk": 0.1349,
+        "def": 0.5552,
         "name": "Guinea-Bissau"
       },
       "guyana": {
-        "atk": 0.1856,
-        "def": -0.2449,
+        "atk": 0.1811,
+        "def": -0.2482,
         "name": "Guyana"
       },
       "gagauzia": {
-        "atk": -0.9824,
-        "def": -0.9195,
+        "atk": -0.9532,
+        "def": -0.9424,
         "name": "Găgăuzia"
       },
       "haiti": {
-        "atk": 0.6519,
-        "def": 0.4716,
+        "atk": 0.6468,
+        "def": 0.467,
         "name": "Haiti"
       },
       "hitra": {
-        "atk": -0.476,
-        "def": -1.4714,
+        "atk": -0.4808,
+        "def": -1.4775,
         "name": "Hitra"
       },
       "hmong": {
-        "atk": -0.8606,
-        "def": -2.0007,
+        "atk": -0.8492,
+        "def": -1.9932,
         "name": "Hmong"
       },
       "honduras": {
-        "atk": 0.519,
-        "def": 0.7178,
+        "atk": 0.5139,
+        "def": 0.7137,
         "name": "Honduras"
       },
       "hongkong": {
-        "atk": -0.2118,
-        "def": 0.0401,
+        "atk": -0.215,
+        "def": 0.0379,
         "name": "Hong Kong"
       },
       "hungary": {
-        "atk": 1.0002,
-        "def": 1.119,
+        "atk": 0.9956,
+        "def": 1.1151,
         "name": "Hungary"
       },
       "iceland": {
-        "atk": 0.9953,
-        "def": 0.8133,
+        "atk": 0.9905,
+        "def": 0.8099,
         "name": "Iceland"
       },
       "india": {
-        "atk": -0.2737,
-        "def": 0.1243,
+        "atk": -0.277,
+        "def": 0.1221,
         "name": "India"
       },
       "indonesia": {
-        "atk": 0.2045,
-        "def": 0.1452,
+        "atk": 0.2014,
+        "def": 0.143,
         "name": "Indonesia"
       },
       "iran": {
-        "atk": 1.0679,
-        "def": 1.2903,
+        "atk": 1.0637,
+        "def": 1.2874,
         "name": "Iran"
       },
       "iraq": {
-        "atk": 0.5644,
-        "def": 0.8389,
+        "atk": 0.5607,
+        "def": 0.836,
         "name": "Iraq"
       },
       "iraqikurdistan": {
-        "atk": 0.3091,
-        "def": 0.2317,
+        "atk": 0.3201,
+        "def": 0.257,
         "name": "Iraqi Kurdistan"
       },
       "isleofman": {
-        "atk": 0.2123,
-        "def": -0.6255,
+        "atk": 0.2068,
+        "def": -0.6316,
         "name": "Isle of Man"
       },
       "isleofwight": {
-        "atk": -0.279,
-        "def": -0.297,
+        "atk": -0.2813,
+        "def": -0.3008,
         "name": "Isle of Wight"
       },
       "israel": {
-        "atk": 1.1846,
-        "def": 0.7351,
+        "atk": 1.1809,
+        "def": 0.7311,
         "name": "Israel"
       },
       "italy": {
-        "atk": 1.3828,
-        "def": 1.5108,
+        "atk": 1.378,
+        "def": 1.5075,
         "name": "Italy"
       },
       "ivorycoast": {
-        "atk": 1.0348,
-        "def": 1.2971,
+        "atk": 1.0315,
+        "def": 1.2946,
         "name": "Ivory Coast"
       },
       "jamaica": {
-        "atk": 0.382,
-        "def": 0.7232,
+        "atk": 0.3765,
+        "def": 0.7193,
         "name": "Jamaica"
       },
       "japan": {
-        "atk": 1.3096,
-        "def": 1.3538,
+        "atk": 1.3053,
+        "def": 1.3497,
         "name": "Japan"
       },
       "jersey": {
-        "atk": 0.0124,
-        "def": -0.1722,
+        "atk": 0.007,
+        "def": -0.1748,
         "name": "Jersey"
       },
       "jordan": {
-        "atk": 0.7692,
-        "def": 0.7532,
+        "atk": 0.7655,
+        "def": 0.7504,
         "name": "Jordan"
       },
       "kabylia": {
-        "atk": -0.8171,
-        "def": -1.2755,
+        "atk": -0.8042,
+        "def": -1.2621,
         "name": "Kabylia"
       },
       "kazakhstan": {
-        "atk": 0.4667,
-        "def": 0.5862,
+        "atk": 0.4618,
+        "def": 0.5826,
         "name": "Kazakhstan"
       },
       "kenya": {
-        "atk": 0.3832,
-        "def": 0.5608,
+        "atk": 0.3793,
+        "def": 0.559,
         "name": "Kenya"
       },
       "kernow": {
-        "atk": -0.1983,
-        "def": 0.4312,
+        "atk": -0.1829,
+        "def": 0.4497,
         "name": "Kernow"
       },
       "kiribati": {
-        "atk": -2.1082,
-        "def": -3.3673,
+        "atk": -2.1253,
+        "def": -3.3838,
         "name": "Kiribati"
       },
       "kosovo": {
-        "atk": 0.9486,
-        "def": 0.993,
+        "atk": 0.9443,
+        "def": 0.9885,
         "name": "Kosovo"
       },
       "kurdistan": {
-        "atk": 0.1476,
-        "def": 1.4558,
+        "atk": 0.165,
+        "def": 1.4889,
         "name": "Kurdistan"
       },
       "kuwait": {
-        "atk": 0.3999,
-        "def": 0.3581,
+        "atk": 0.3957,
+        "def": 0.3558,
         "name": "Kuwait"
       },
       "kyrgyzstan": {
-        "atk": 0.1939,
-        "def": 0.2049,
+        "atk": 0.1904,
+        "def": 0.2018,
         "name": "Kyrgyzstan"
       },
       "karpatalja": {
-        "atk": 0.1308,
-        "def": -0.0156,
+        "atk": 0.1412,
+        "def": -0.0012,
         "name": "Kárpátalja"
       },
       "laos": {
-        "atk": -0.6749,
-        "def": -0.986,
+        "atk": -0.6773,
+        "def": -0.9877,
         "name": "Laos"
       },
       "latvia": {
-        "atk": 0.2586,
-        "def": 0.5806,
+        "atk": 0.2538,
+        "def": 0.577,
         "name": "Latvia"
       },
       "lebanon": {
-        "atk": -0.0554,
-        "def": 0.5558,
+        "atk": -0.0585,
+        "def": 0.5532,
         "name": "Lebanon"
       },
       "lesotho": {
-        "atk": 0.0139,
-        "def": 0.402,
+        "atk": 0.0116,
+        "def": 0.399,
         "name": "Lesotho"
       },
       "liberia": {
-        "atk": 0.2221,
-        "def": 0.4532,
+        "atk": 0.2196,
+        "def": 0.4509,
         "name": "Liberia"
       },
       "libya": {
-        "atk": 0.4771,
-        "def": 0.7346,
+        "atk": 0.4733,
+        "def": 0.7326,
         "name": "Libya"
       },
       "liechtenstein": {
-        "atk": -0.9453,
-        "def": -0.0083,
+        "atk": -0.9508,
+        "def": -0.0121,
         "name": "Liechtenstein"
       },
       "lithuania": {
-        "atk": 0.1046,
-        "def": 0.5776,
+        "atk": 0.1006,
+        "def": 0.5734,
         "name": "Lithuania"
       },
       "luhanskpr": {
-        "atk": -0.0466,
-        "def": -0.6042,
+        "atk": -0.0294,
+        "def": -0.5878,
         "name": "Luhansk PR"
       },
       "luxembourg": {
-        "atk": 0.2804,
-        "def": 0.671,
+        "atk": 0.2758,
+        "def": 0.6668,
         "name": "Luxembourg"
       },
       "macau": {
-        "atk": -1.538,
-        "def": -1.2482,
+        "atk": -1.5383,
+        "def": -1.2497,
         "name": "Macau"
       },
       "madagascar": {
-        "atk": 0.4868,
-        "def": 0.4172,
+        "atk": 0.4834,
+        "def": 0.4147,
         "name": "Madagascar"
       },
       "madrid": {
-        "atk": 0.3386,
-        "def": 0.772,
+        "atk": 0.3117,
+        "def": 0.731,
         "name": "Madrid"
       },
       "malawi": {
-        "atk": 0.1527,
-        "def": 0.6414,
+        "atk": 0.1494,
+        "def": 0.6397,
         "name": "Malawi"
       },
       "malaysia": {
-        "atk": 0.0645,
-        "def": 0.024,
+        "atk": 0.0609,
+        "def": 0.0216,
         "name": "Malaysia"
       },
       "maldives": {
-        "atk": -0.5611,
-        "def": -0.699,
+        "atk": -0.5637,
+        "def": -0.701,
         "name": "Maldives"
       },
       "mali": {
-        "atk": 0.8118,
-        "def": 1.2817,
+        "atk": 0.8087,
+        "def": 1.2792,
         "name": "Mali"
       },
       "malta": {
-        "atk": 0.1049,
-        "def": 0.4014,
+        "atk": 0.1006,
+        "def": 0.3977,
         "name": "Malta"
       },
       "manchukuo": {
@@ -888,849 +888,849 @@
         "name": "Manchukuo"
       },
       "mapuche": {
-        "atk": 0.0614,
-        "def": -0.8997,
+        "atk": 0.0638,
+        "def": -0.8968,
         "name": "Mapuche"
       },
       "marshallislands": {
-        "atk": -1.6964,
-        "def": -2.6016,
+        "atk": -1.6834,
+        "def": -2.6082,
         "name": "Marshall Islands"
       },
       "martinique": {
-        "atk": 0.0748,
-        "def": 0.2014,
+        "atk": 0.0702,
+        "def": 0.197,
         "name": "Martinique"
       },
       "matabeleland": {
-        "atk": -1.4685,
-        "def": -1.2778,
+        "atk": -1.4622,
+        "def": -1.2682,
         "name": "Matabeleland"
       },
       "maulesur": {
-        "atk": -1.1099,
-        "def": 3.9971,
+        "atk": -1.0917,
+        "def": 3.9579,
         "name": "Maule Sur"
       },
       "mauritania": {
-        "atk": 0.1585,
-        "def": 0.7363,
+        "atk": 0.1544,
+        "def": 0.7349,
         "name": "Mauritania"
       },
       "mauritius": {
-        "atk": -0.2802,
-        "def": 0.0841,
+        "atk": -0.2831,
+        "def": 0.0816,
         "name": "Mauritius"
       },
       "mayotte": {
-        "atk": -0.0662,
-        "def": 0.3895,
+        "atk": -0.0735,
+        "def": 0.3837,
         "name": "Mayotte"
       },
       "menorca": {
-        "atk": -0.5441,
-        "def": -0.7978,
+        "atk": -0.5478,
+        "def": -0.8027,
         "name": "Menorca"
       },
       "mexico": {
-        "atk": 1.1791,
-        "def": 1.3422,
+        "atk": 1.1744,
+        "def": 1.3377,
         "name": "Mexico"
       },
       "micronesia": {
-        "atk": -2.3033,
-        "def": -3.3584,
+        "atk": -2.2844,
+        "def": -3.3482,
         "name": "Micronesia"
       },
       "moldova": {
-        "atk": 0.1864,
-        "def": 0.381,
+        "atk": 0.1818,
+        "def": 0.3771,
         "name": "Moldova"
       },
       "monaco": {
-        "atk": -1.0307,
-        "def": -1.3888,
+        "atk": -1.0208,
+        "def": -1.3717,
         "name": "Monaco"
       },
       "mongolia": {
-        "atk": -1.0272,
-        "def": -0.7066,
+        "atk": -1.0303,
+        "def": -0.7085,
         "name": "Mongolia"
       },
       "montenegro": {
-        "atk": 0.6291,
-        "def": 0.7752,
+        "atk": 0.624,
+        "def": 0.7709,
         "name": "Montenegro"
       },
       "montserrat": {
-        "atk": -0.4222,
-        "def": -0.5253,
+        "atk": -0.4245,
+        "def": -0.5287,
         "name": "Montserrat"
       },
       "morocco": {
-        "atk": 1.1944,
-        "def": 1.7305,
+        "atk": 1.1914,
+        "def": 1.7278,
         "name": "Morocco"
       },
       "mozambique": {
-        "atk": 0.4549,
-        "def": 0.487,
+        "atk": 0.4513,
+        "def": 0.4847,
         "name": "Mozambique"
       },
       "myanmar": {
-        "atk": -0.4003,
-        "def": -0.6021,
+        "atk": -0.4029,
+        "def": -0.6041,
         "name": "Myanmar"
       },
       "namibia": {
-        "atk": 0.2277,
-        "def": 0.6164,
+        "atk": 0.2247,
+        "def": 0.614,
         "name": "Namibia"
       },
       "nepal": {
-        "atk": -0.9017,
-        "def": -0.3568,
+        "atk": -0.9051,
+        "def": -0.3593,
         "name": "Nepal"
       },
       "netherlands": {
-        "atk": 1.6616,
-        "def": 1.4488,
+        "atk": 1.6572,
+        "def": 1.4452,
         "name": "Netherlands"
       },
       "newcaledonia": {
-        "atk": -0.4342,
-        "def": -0.3901,
+        "atk": -0.4377,
+        "def": -0.3922,
         "name": "New Caledonia"
       },
       "newzealand": {
-        "atk": 0.4276,
-        "def": 0.7295,
+        "atk": 0.4231,
+        "def": 0.7257,
         "name": "New Zealand"
       },
       "nicaragua": {
-        "atk": 0.0102,
-        "def": 0.2867,
+        "atk": 0.0053,
+        "def": 0.283,
         "name": "Nicaragua"
       },
       "niger": {
-        "atk": 0.4845,
-        "def": 0.4731,
+        "atk": 0.4814,
+        "def": 0.4703,
         "name": "Niger"
       },
       "nigeria": {
-        "atk": 1.0574,
-        "def": 1.1298,
+        "atk": 1.054,
+        "def": 1.1283,
         "name": "Nigeria"
       },
       "niue": {
-        "atk": -0.1048,
-        "def": -0.7069,
+        "atk": -0.1005,
+        "def": -0.677,
         "name": "Niue"
       },
       "northkorea": {
-        "atk": 0.4502,
-        "def": 0.4308,
+        "atk": 0.4467,
+        "def": 0.4277,
         "name": "North Korea"
       },
       "northmacedonia": {
-        "atk": 0.7286,
-        "def": 0.9051,
+        "atk": 0.7233,
+        "def": 0.9008,
         "name": "North Macedonia"
       },
       "northvietnam": {
-        "atk": 0.0164,
-        "def": -0.0044,
+        "atk": 0.0156,
+        "def": -0.0042,
         "name": "North Vietnam"
       },
       "northerncyprus": {
-        "atk": 0.1225,
-        "def": 0.3502,
+        "atk": 0.1414,
+        "def": 0.3624,
         "name": "Northern Cyprus"
       },
       "northernireland": {
-        "atk": 0.6788,
-        "def": 1.114,
+        "atk": 0.6741,
+        "def": 1.1096,
         "name": "Northern Ireland"
       },
       "northernmarianaislands": {
         "atk": -1.692,
-        "def": -2.4867,
+        "def": -2.4897,
         "name": "Northern Mariana Islands"
       },
       "norway": {
-        "atk": 1.437,
-        "def": 1.2274,
+        "atk": 1.4321,
+        "def": 1.2235,
         "name": "Norway"
       },
       "occitania": {
-        "atk": 0.1788,
-        "def": 0.0253,
+        "atk": 0.1951,
+        "def": 0.0375,
         "name": "Occitania"
       },
       "oman": {
-        "atk": 0.3465,
-        "def": 0.8047,
+        "atk": 0.3428,
+        "def": 0.8016,
         "name": "Oman"
       },
       "orkney": {
-        "atk": -0.8673,
-        "def": -0.9275,
+        "atk": -0.8723,
+        "def": -0.9337,
         "name": "Orkney"
       },
       "padania": {
-        "atk": 0.084,
-        "def": 0.3277,
+        "atk": 0.0927,
+        "def": 0.3397,
         "name": "Padania"
       },
       "pakistan": {
-        "atk": -0.8567,
-        "def": -0.5265,
+        "atk": -0.8594,
+        "def": -0.5288,
         "name": "Pakistan"
       },
       "palau": {
-        "atk": -0.4156,
-        "def": -2.9702,
+        "atk": -0.4005,
+        "def": -2.8472,
         "name": "Palau"
       },
       "palestine": {
-        "atk": 0.3076,
-        "def": 0.5875,
+        "atk": 0.304,
+        "def": 0.5843,
         "name": "Palestine"
       },
       "panama": {
-        "atk": 0.7598,
-        "def": 0.8113,
+        "atk": 0.7549,
+        "def": 0.8067,
         "name": "Panama"
       },
       "panjab": {
-        "atk": 0.1607,
-        "def": -0.386,
+        "atk": 0.1718,
+        "def": -0.3699,
         "name": "Panjab"
       },
       "papuanewguinea": {
-        "atk": -0.7504,
-        "def": -0.8522,
+        "atk": -0.7546,
+        "def": -0.8563,
         "name": "Papua New Guinea"
       },
       "paraguay": {
-        "atk": 0.9361,
-        "def": 1.3398,
+        "atk": 0.9295,
+        "def": 1.3336,
         "name": "Paraguay"
       },
       "parishesofjersey": {
-        "atk": -0.0788,
-        "def": -0.1606,
+        "atk": -0.0628,
+        "def": -0.1405,
         "name": "Parishes of Jersey"
       },
       "peru": {
-        "atk": 0.8643,
-        "def": 1.3112,
+        "atk": 0.858,
+        "def": 1.3039,
         "name": "Peru"
       },
       "philippines": {
-        "atk": -0.1026,
-        "def": -0.1498,
+        "atk": -0.1059,
+        "def": -0.1522,
         "name": "Philippines"
       },
       "poland": {
-        "atk": 1.2066,
-        "def": 1.1184,
+        "atk": 1.2019,
+        "def": 1.1149,
         "name": "Poland"
       },
       "portugal": {
-        "atk": 1.6544,
-        "def": 1.66,
+        "atk": 1.6502,
+        "def": 1.6558,
         "name": "Portugal"
       },
       "provence": {
-        "atk": 0.309,
-        "def": -0.7161,
+        "atk": 0.3208,
+        "def": -0.7106,
         "name": "Provence"
       },
       "puertorico": {
-        "atk": -0.1303,
-        "def": -0.2416,
+        "atk": -0.1353,
+        "def": -0.2442,
         "name": "Puerto Rico"
       },
       "qatar": {
-        "atk": 0.7325,
-        "def": 0.5689,
+        "atk": 0.729,
+        "def": 0.5654,
         "name": "Qatar"
       },
       "quebec": {
-        "atk": 0.8744,
-        "def": 0.5926,
+        "atk": 0.8753,
+        "def": 0.6371,
         "name": "Quebec"
       },
       "raetia": {
-        "atk": -1.7853,
-        "def": -1.9249,
+        "atk": -1.7838,
+        "def": -1.9142,
         "name": "Raetia"
       },
       "republicofireland": {
-        "atk": 0.8082,
-        "def": 1.2865,
+        "atk": 0.8036,
+        "def": 1.2825,
         "name": "Republic of Ireland"
       },
       "republicofstpauli": {
-        "atk": -0.4372,
-        "def": -0.2885,
+        "atk": -0.4203,
+        "def": -0.2852,
         "name": "Republic of St. Pauli"
       },
       "rhodes": {
-        "atk": -0.5713,
-        "def": -0.1896,
+        "atk": -0.5733,
+        "def": -0.202,
         "name": "Rhodes"
       },
       "romanipeople": {
-        "atk": 0.0337,
-        "def": -1.1546,
+        "atk": 0.0493,
+        "def": -1.1402,
         "name": "Romani people"
       },
       "romania": {
-        "atk": 0.9792,
-        "def": 1.1831,
+        "atk": 0.9748,
+        "def": 1.1791,
         "name": "Romania"
       },
       "russia": {
-        "atk": 1.1299,
-        "def": 1.3449,
+        "atk": 1.1249,
+        "def": 1.3412,
         "name": "Russia"
       },
       "rwanda": {
-        "atk": 0.2062,
-        "def": 0.8341,
+        "atk": 0.2029,
+        "def": 0.8316,
         "name": "Rwanda"
       },
       "ryukyu": {
-        "atk": -2.0129,
-        "def": -3.4689,
+        "atk": -1.9309,
+        "def": -3.4445,
         "name": "Ryūkyū"
       },
       "reunion": {
-        "atk": 0.2025,
-        "def": 0.7986,
+        "atk": 0.1971,
+        "def": 0.796,
         "name": "Réunion"
       },
       "saarecounty": {
-        "atk": -0.6923,
-        "def": -1.3099,
+        "atk": -0.6984,
+        "def": -1.3145,
         "name": "Saare County"
       },
       "saarland": {
         "atk": 0.0003,
-        "def": 0.003,
+        "def": 0.0029,
         "name": "Saarland"
       },
       "saintbarthelemy": {
-        "atk": -0.1978,
-        "def": -1.1574,
+        "atk": -0.2037,
+        "def": -1.1705,
         "name": "Saint Barthélemy"
       },
       "sainthelena": {
-        "atk": -1.6394,
-        "def": -2.0618,
+        "atk": -1.646,
+        "def": -2.0654,
         "name": "Saint Helena"
       },
       "saintkittsandnevis": {
-        "atk": -0.365,
-        "def": -0.5326,
+        "atk": -0.37,
+        "def": -0.5363,
         "name": "Saint Kitts and Nevis"
       },
       "saintlucia": {
-        "atk": -0.5178,
-        "def": -0.5927,
+        "atk": -0.5221,
+        "def": -0.596,
         "name": "Saint Lucia"
       },
       "saintmartin": {
-        "atk": -0.265,
-        "def": -0.8444,
+        "atk": -0.2703,
+        "def": -0.8474,
         "name": "Saint Martin"
       },
       "saintpierreandmiquelon": {
-        "atk": -1.1519,
-        "def": -2.4879,
+        "atk": -1.1721,
+        "def": -2.4935,
         "name": "Saint Pierre and Miquelon"
       },
       "saintvincentandthegrenadines": {
-        "atk": -0.1139,
-        "def": -0.5618,
+        "atk": -0.1185,
+        "def": -0.5656,
         "name": "Saint Vincent and the Grenadines"
       },
       "samoa": {
-        "atk": -1.654,
-        "def": -1.793,
+        "atk": -1.657,
+        "def": -1.7968,
         "name": "Samoa"
       },
       "sanmarino": {
-        "atk": -1.0556,
-        "def": -0.3098,
+        "atk": -1.0653,
+        "def": -0.3139,
         "name": "San Marino"
       },
       "sark": {
-        "atk": -2.64,
-        "def": -3.5829,
+        "atk": -2.547,
+        "def": -3.5898,
         "name": "Sark"
       },
       "saudiarabia": {
-        "atk": 0.6225,
-        "def": 0.9505,
+        "atk": 0.6186,
+        "def": 0.9475,
         "name": "Saudi Arabia"
       },
       "saugeais": {
-        "atk": -2.3479,
-        "def": -1.3964,
+        "atk": -2.2871,
+        "def": -1.3276,
         "name": "Saugeais"
       },
       "scotland": {
-        "atk": 1.0722,
-        "def": 1.1612,
+        "atk": 1.0671,
+        "def": 1.1574,
         "name": "Scotland"
       },
       "sealand": {
-        "atk": -0.7579,
-        "def": -1.6443,
+        "atk": -0.7467,
+        "def": -1.6233,
         "name": "Sealand"
       },
       "seborga": {
-        "atk": -1.3463,
-        "def": -1.753,
+        "atk": -1.3102,
+        "def": -1.726,
         "name": "Seborga"
       },
       "senegal": {
-        "atk": 1.1884,
-        "def": 1.3131,
+        "atk": 1.1843,
+        "def": 1.3111,
         "name": "Senegal"
       },
       "serbia": {
-        "atk": 1.1636,
-        "def": 1.1881,
+        "atk": 1.1594,
+        "def": 1.1842,
         "name": "Serbia"
       },
       "seychelles": {
-        "atk": -0.6979,
-        "def": -0.5756,
+        "atk": -0.7022,
+        "def": -0.5785,
         "name": "Seychelles"
       },
       "shetland": {
-        "atk": -0.2779,
-        "def": -0.8936,
+        "atk": -0.2839,
+        "def": -0.9001,
         "name": "Shetland"
       },
       "sierraleone": {
-        "atk": 0.3532,
-        "def": 0.4774,
+        "atk": 0.3505,
+        "def": 0.4757,
         "name": "Sierra Leone"
       },
       "silesia": {
-        "atk": 0.327,
-        "def": 1.0163,
+        "atk": 0.3124,
+        "def": 0.9749,
         "name": "Silesia"
       },
       "singapore": {
-        "atk": -0.1903,
-        "def": -0.229,
+        "atk": -0.1938,
+        "def": -0.2316,
         "name": "Singapore"
       },
       "sintmaarten": {
-        "atk": -0.4296,
-        "def": -1.0857,
+        "atk": -0.4329,
+        "def": -1.0895,
         "name": "Sint Maarten"
       },
       "slovakia": {
-        "atk": 0.9449,
-        "def": 1.1206,
+        "atk": 0.9404,
+        "def": 1.1173,
         "name": "Slovakia"
       },
       "slovenia": {
-        "atk": 0.7997,
-        "def": 1.2868,
+        "atk": 0.7947,
+        "def": 1.2827,
         "name": "Slovenia"
       },
       "solomonislands": {
-        "atk": -0.6013,
-        "def": -0.8527,
+        "atk": -0.6054,
+        "def": -0.8561,
         "name": "Solomon Islands"
       },
       "somalia": {
-        "atk": -0.6175,
-        "def": -0.0305,
+        "atk": -0.6255,
+        "def": -0.0319,
         "name": "Somalia"
       },
       "somaliland": {
-        "atk": -0.2674,
-        "def": -1.1961,
+        "atk": -0.2424,
+        "def": -1.1782,
         "name": "Somaliland"
       },
       "southafrica": {
-        "atk": 0.6941,
-        "def": 1.0819,
+        "atk": 0.6906,
+        "def": 1.0802,
         "name": "South Africa"
       },
       "southkorea": {
-        "atk": 1.0351,
-        "def": 1.1716,
+        "atk": 1.0314,
+        "def": 1.168,
         "name": "South Korea"
       },
       "southossetia": {
-        "atk": -0.0881,
-        "def": -0.6025,
+        "atk": -0.0758,
+        "def": -0.5892,
         "name": "South Ossetia"
       },
       "southsudan": {
-        "atk": -0.2184,
-        "def": 0.1561,
+        "atk": -0.2212,
+        "def": 0.1537,
         "name": "South Sudan"
       },
       "southyemen": {
-        "atk": -0.0042,
-        "def": 0.0281,
+        "atk": -0.0041,
+        "def": 0.0266,
         "name": "South Yemen"
       },
       "spain": {
-        "atk": 1.7947,
-        "def": 1.8448,
+        "atk": 1.7902,
+        "def": 1.8404,
         "name": "Spain"
       },
       "srilanka": {
-        "atk": -1.019,
-        "def": -0.5813,
+        "atk": -1.0208,
+        "def": -0.5834,
         "name": "Sri Lanka"
       },
       "sudan": {
-        "atk": 0.1636,
-        "def": 0.6051,
+        "atk": 0.1602,
+        "def": 0.6028,
         "name": "Sudan"
       },
       "suriname": {
-        "atk": 0.2225,
-        "def": 0.4225,
+        "atk": 0.2177,
+        "def": 0.4183,
         "name": "Suriname"
       },
       "surrey": {
-        "atk": -0.4017,
-        "def": -0.579,
+        "atk": -0.3878,
+        "def": -0.5312,
         "name": "Surrey"
       },
       "sweden": {
-        "atk": 1.3322,
-        "def": 1.1128,
+        "atk": 1.328,
+        "def": 1.1084,
         "name": "Sweden"
       },
       "switzerland": {
-        "atk": 1.4241,
-        "def": 1.3677,
+        "atk": 1.4106,
+        "def": 1.3849,
         "name": "Switzerland"
       },
       "syria": {
-        "atk": 0.4978,
-        "def": 0.5789,
+        "atk": 0.4943,
+        "def": 0.5761,
         "name": "Syria"
       },
       "szekelyland": {
-        "atk": -0.0696,
-        "def": -0.7379,
+        "atk": -0.0594,
+        "def": -0.7245,
         "name": "Székely Land"
       },
       "sapmi": {
-        "atk": 0.1818,
-        "def": -0.6613,
+        "atk": 0.1918,
+        "def": -0.6457,
         "name": "Sápmi"
       },
       "saotomeandprincipe": {
-        "atk": -0.1006,
-        "def": -0.3419,
+        "atk": -0.1055,
+        "def": -0.3446,
         "name": "São Tomé and Príncipe"
       },
       "tahiti": {
-        "atk": -0.7582,
-        "def": -0.6124,
+        "atk": -0.7622,
+        "def": -0.6156,
         "name": "Tahiti"
       },
       "taiwan": {
-        "atk": -0.3249,
-        "def": -0.6559,
+        "atk": -0.3276,
+        "def": -0.6588,
         "name": "Taiwan"
       },
       "tajikistan": {
-        "atk": 0.0844,
-        "def": 0.3459,
+        "atk": 0.0817,
+        "def": 0.3433,
         "name": "Tajikistan"
       },
       "tamileelam": {
-        "atk": -0.8886,
-        "def": -0.8026,
+        "atk": -0.878,
+        "def": -0.7888,
         "name": "Tamil Eelam"
       },
       "tanzania": {
-        "atk": 0.1689,
-        "def": 0.7418,
+        "atk": 0.1656,
+        "def": 0.7397,
         "name": "Tanzania"
       },
       "thailand": {
-        "atk": 0.3394,
-        "def": 0.3673,
+        "atk": 0.336,
+        "def": 0.3648,
         "name": "Thailand"
       },
       "tibet": {
-        "atk": -0.7997,
-        "def": -2.1411,
+        "atk": -0.7931,
+        "def": -2.1272,
         "name": "Tibet"
       },
       "ticino": {
-        "atk": -2.2764,
-        "def": -3.5773,
+        "atk": -2.2907,
+        "def": -3.5753,
         "name": "Ticino"
       },
       "timorleste": {
-        "atk": -1.0228,
-        "def": -1.1344,
+        "atk": -1.0258,
+        "def": -1.1368,
         "name": "Timor-Leste"
       },
       "togo": {
-        "atk": 0.455,
-        "def": 0.6701,
+        "atk": 0.4515,
+        "def": 0.668,
         "name": "Togo"
       },
       "tonga": {
-        "atk": -2.0353,
-        "def": -2.5535,
+        "atk": -2.0404,
+        "def": -2.5562,
         "name": "Tonga"
       },
       "trinidadandtobago": {
-        "atk": 0.281,
-        "def": 0.2412,
+        "atk": 0.276,
+        "def": 0.237,
         "name": "Trinidad and Tobago"
       },
       "tunisia": {
-        "atk": 0.8779,
-        "def": 1.1256,
+        "atk": 0.8744,
+        "def": 1.1235,
         "name": "Tunisia"
       },
       "turkey": {
-        "atk": 1.3109,
-        "def": 1.1033,
+        "atk": 1.3063,
+        "def": 1.0993,
         "name": "Turkey"
       },
       "turkmenistan": {
-        "atk": 0.0039,
-        "def": 0.0447,
+        "atk": 0.0017,
+        "def": 0.0421,
         "name": "Turkmenistan"
       },
       "turksandcaicosislands": {
-        "atk": -1.3147,
-        "def": -1.6715,
+        "atk": -1.3215,
+        "def": -1.6749,
         "name": "Turks and Caicos Islands"
       },
       "tuvalu": {
-        "atk": -1.5628,
-        "def": -2.3743,
+        "atk": -1.5659,
+        "def": -2.3741,
         "name": "Tuvalu"
       },
       "twosicilies": {
-        "atk": -1.4252,
-        "def": -1.3618,
+        "atk": -1.4238,
+        "def": -1.3479,
         "name": "Two Sicilies"
       },
       "uganda": {
-        "atk": 0.4198,
-        "def": 0.8131,
+        "atk": 0.4167,
+        "def": 0.8116,
         "name": "Uganda"
       },
       "ukraine": {
-        "atk": 1.2081,
-        "def": 1.1757,
+        "atk": 1.2038,
+        "def": 1.1718,
         "name": "Ukraine"
       },
       "unitedarabemirates": {
-        "atk": 0.6796,
-        "def": 0.7363,
+        "atk": 0.6759,
+        "def": 0.734,
         "name": "United Arab Emirates"
       },
       "unitedkoreansinjapan": {
-        "atk": -1.252,
-        "def": 0.1054,
+        "atk": -1.2406,
+        "def": 0.1189,
         "name": "United Koreans in Japan"
       },
       "unitedstates": {
-        "atk": 1.1426,
-        "def": 1.112,
+        "atk": 1.1392,
+        "def": 1.1075,
         "name": "United States"
       },
       "unitedstatesvirginislands": {
-        "atk": -1.5084,
-        "def": -1.3122,
+        "atk": -1.5162,
+        "def": -1.3156,
         "name": "United States Virgin Islands"
       },
       "uruguay": {
-        "atk": 1.2804,
-        "def": 1.583,
+        "atk": 1.2742,
+        "def": 1.5788,
         "name": "Uruguay"
       },
       "uzbekistan": {
-        "atk": 0.7673,
-        "def": 0.9762,
+        "atk": 0.7637,
+        "def": 0.9723,
         "name": "Uzbekistan"
       },
       "vanuatu": {
-        "atk": -0.6491,
-        "def": -0.9274,
+        "atk": -0.6529,
+        "def": -0.9311,
         "name": "Vanuatu"
       },
       "vaticancity": {
-        "atk": -1.5916,
-        "def": -1.5868,
+        "atk": -1.5697,
+        "def": -1.5769,
         "name": "Vatican City"
       },
       "venezuela": {
-        "atk": 1.0521,
-        "def": 1.0874,
+        "atk": 1.0457,
+        "def": 1.0818,
         "name": "Venezuela"
       },
       "vietnam": {
-        "atk": 0.2012,
-        "def": 0.3637,
+        "atk": 0.1973,
+        "def": 0.3619,
         "name": "Vietnam"
       },
       "vietnamrepublic": {
-        "atk": 0.0246,
-        "def": -0.0872,
+        "atk": 0.0227,
+        "def": -0.0843,
         "name": "Vietnam Republic"
       },
       "wales": {
-        "atk": 0.9301,
-        "def": 1.2153,
+        "atk": 0.9251,
+        "def": 1.2107,
         "name": "Wales"
       },
       "wallisislandsandfutuna": {
-        "atk": -1.5188,
-        "def": -2.4544,
+        "atk": -1.4806,
+        "def": -2.4669,
         "name": "Wallis Islands and Futuna"
       },
       "westpapua": {
-        "atk": -1.831,
-        "def": -2.4902,
+        "atk": -1.8416,
+        "def": -2.4646,
         "name": "West Papua"
       },
       "westernarmenia": {
-        "atk": -0.0656,
-        "def": -0.1626,
+        "atk": -0.0538,
+        "def": -0.1473,
         "name": "Western Armenia"
       },
       "westernaustralia": {
-        "atk": -0.0015,
-        "def": -0.0646,
+        "atk": -0.0017,
+        "def": -0.062,
         "name": "Western Australia"
       },
       "westernisles": {
-        "atk": -0.8268,
-        "def": -1.0766,
+        "atk": -0.8301,
+        "def": -1.0817,
         "name": "Western Isles"
       },
       "westernsahara": {
-        "atk": -1.0553,
-        "def": -1.7169,
+        "atk": -1.0474,
+        "def": -1.7,
         "name": "Western Sahara"
       },
       "yemen": {
-        "atk": 0.0103,
-        "def": -0.064,
+        "atk": 0.0075,
+        "def": -0.0673,
         "name": "Yemen"
       },
       "yemendpr": {
-        "atk": 0.0504,
-        "def": -0.1062,
+        "atk": 0.0477,
+        "def": -0.1035,
         "name": "Yemen DPR"
       },
       "ynysmon": {
-        "atk": -0.3584,
-        "def": -0.3915,
+        "atk": -0.365,
+        "def": -0.3965,
         "name": "Ynys Môn"
       },
       "yorkshire": {
-        "atk": 0.1231,
-        "def": -0.3541,
+        "atk": 0.1391,
+        "def": -0.3422,
         "name": "Yorkshire"
       },
       "yorubanation": {
-        "atk": -1.7814,
-        "def": -1.517,
+        "atk": -1.7729,
+        "def": -1.5026,
         "name": "Yoruba Nation"
       },
       "yugoslavia": {
-        "atk": 1.5167,
-        "def": 1.4182,
+        "atk": 1.4983,
+        "def": 1.4016,
         "name": "Yugoslavia"
       },
       "zambia": {
-        "atk": 0.6762,
-        "def": 0.6759,
+        "atk": 0.6732,
+        "def": 0.6733,
         "name": "Zambia"
       },
       "zanzibar": {
-        "atk": 0.3853,
-        "def": 0.6419,
+        "atk": 0.3843,
+        "def": 0.6382,
         "name": "Zanzibar"
       },
       "zimbabwe": {
-        "atk": 0.5077,
-        "def": 0.6774,
+        "atk": 0.5041,
+        "def": 0.6754,
         "name": "Zimbabwe"
       },
       "alandislands": {
-        "atk": -1.1579,
-        "def": -0.89,
+        "atk": -1.1627,
+        "def": -0.8958,
         "name": "Åland Islands"
       },
       "usa": {
-        "atk": 1.1426,
-        "def": 1.112,
+        "atk": 1.1392,
+        "def": 1.1075,
         "name": "United States"
       },
       "bosniaherzegovina": {
-        "atk": 0.8699,
-        "def": 0.9164,
+        "atk": 0.8651,
+        "def": 0.9122,
         "name": "Bosnia and Herzegovina"
       },
       "czechia": {
-        "atk": 1.1601,
-        "def": 1.0995,
+        "atk": 1.1553,
+        "def": 1.0955,
         "name": "Czech Republic"
       },
       "turkiye": {
-        "atk": 1.3109,
-        "def": 1.1033,
+        "atk": 1.3063,
+        "def": 1.0993,
         "name": "Turkey"
       },
       "congodr": {
-        "atk": 0.7652,
-        "def": 1.147,
+        "atk": 0.7621,
+        "def": 1.1442,
         "name": "DR Congo"
       },
       "caboverde": {
-        "atk": 0.6449,
-        "def": 0.939,
+        "atk": 0.6404,
+        "def": 0.9376,
         "name": "Cape Verde"
       },
       "korearepublic": {
-        "atk": 1.0351,
-        "def": 1.1716,
+        "atk": 1.0314,
+        "def": 1.168,
         "name": "South Korea"
       },
       "republicofkorea": {
-        "atk": 1.0351,
-        "def": 1.1716,
+        "atk": 1.0314,
+        "def": 1.168,
         "name": "South Korea"
       },
       "unitedstatesofamerica": {
-        "atk": 1.1426,
-        "def": 1.112,
+        "atk": 1.1392,
+        "def": 1.1075,
         "name": "United States"
       }
     },
-    "mu": 0.1639,
-    "gamma": 0.2484,
-    "rho": -0.0476,
+    "mu": 0.1644,
+    "gamma": 0.2487,
+    "rho": -0.0479,
     "half_life_days": 1460,
     "friendly_weight": 0.7,
     "ridge": 0.03,
@@ -1768,7 +1768,7 @@
         "name": "Uruguay"
       },
       "argentina": {
-        "r": 2170.3,
+        "r": 2177.1,
         "name": "Argentina"
       },
       "austria": {
@@ -1792,7 +1792,7 @@
         "name": "France"
       },
       "switzerland": {
-        "r": 1989.0,
+        "r": 1994.1,
         "name": "Switzerland"
       },
       "guernsey": {
@@ -1904,7 +1904,7 @@
         "name": "Spain"
       },
       "egypt": {
-        "r": 1839.3,
+        "r": 1832.6,
         "name": "Egypt"
       },
       "estonia": {
@@ -2080,7 +2080,7 @@
         "name": "Saint Lucia"
       },
       "colombia": {
-        "r": 2049.3,
+        "r": 2044.2,
         "name": "Colombia"
       },
       "panama": {
@@ -2584,7 +2584,7 @@
         "name": "Azerbaijan"
       },
       "kazakhstan": {
-        "r": 1521.0,
+        "r": 1521.1,
         "name": "Kazakhstan"
       },
       "comoros": {
@@ -2839,13 +2839,13 @@
         "r": 1482.2,
         "name": "Republic of St. Pauli"
       },
-      "crimea": {
-        "r": 1504.6,
-        "name": "Crimea"
-      },
       "gagauzia": {
         "r": 1417.4,
         "name": "Găgăuzia"
+      },
+      "crimea": {
+        "r": 1504.6,
+        "name": "Crimea"
       },
       "sapmi": {
         "r": 1485.2,
@@ -3329,60 +3329,60 @@
     }
   },
   "backtest": {
-    "rps": 0.16835,
-    "rps_major": 0.16331,
-    "acc": 0.60232,
-    "n": 4662,
-    "baseline_climatology_rps": 0.22831,
-    "ece": 0.02845,
+    "rps": 0.16832,
+    "rps_major": 0.16326,
+    "acc": 0.60249,
+    "n": 4664,
+    "baseline_climatology_rps": 0.22828,
+    "ece": 0.02857,
     "brier": 0.50602,
     "reliability": [
       {
         "lo": 0.333,
         "hi": 0.4,
-        "pred": 0.3725,
-        "obs": 0.356,
-        "n": 604
+        "pred": 0.3724,
+        "obs": 0.3516,
+        "n": 603
       },
       {
         "lo": 0.4,
         "hi": 0.5,
-        "pred": 0.4483,
-        "obs": 0.4558,
-        "n": 950
+        "pred": 0.4484,
+        "obs": 0.4607,
+        "n": 955
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "pred": 0.5496,
-        "obs": 0.5129,
-        "n": 856
+        "pred": 0.5497,
+        "obs": 0.5099,
+        "n": 855
       },
       {
         "lo": 0.6,
         "hi": 0.7,
-        "pred": 0.6491,
-        "obs": 0.6411,
-        "n": 744
+        "pred": 0.6494,
+        "obs": 0.6448,
+        "n": 746
       },
       {
         "lo": 0.7,
         "hi": 0.8,
-        "pred": 0.7471,
-        "obs": 0.7536,
-        "n": 625
+        "pred": 0.7473,
+        "obs": 0.754,
+        "n": 626
       },
       {
         "lo": 0.8,
         "hi": 1.0,
-        "pred": 0.8991,
-        "obs": 0.8754,
-        "n": 883
+        "pred": 0.8995,
+        "obs": 0.8749,
+        "n": 879
       }
     ]
   },
   "_meta": {
-    "generated_utc": "2026-07-07T09:26:01.971525Z",
+    "generated_utc": "2026-07-08T08:10:16.512820Z",
     "fitter": "fit_ratings.py",
     "key_scheme": "lowercase, NFD accent-stripped, non-letters removed; aliases applied",
     "aliases": {
@@ -3399,12 +3399,12 @@
     "wc2026_teams_total": 48,
     "wc2026_shrunk_or_missing": [],
     "backtest_major": {
-      "rps": 0.16331,
-      "brier": 0.49266,
-      "logloss": 0.84081,
-      "acc": 0.61517,
-      "ece": 0.02158,
-      "n": 2835
+      "rps": 0.16326,
+      "brier": 0.49263,
+      "logloss": 0.84077,
+      "acc": 0.61473,
+      "ece": 0.02135,
+      "n": 2837
     },
     "backtest_protocol": "no-leakage expanding-origin walk-forward, DC refit every 90d on data < origin; test era from 2022-01-01; ordered-logit s,tau fit on calibration era 2018-01-01..2022-01-01"
   }
