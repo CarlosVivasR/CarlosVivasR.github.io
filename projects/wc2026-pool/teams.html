@@ -126,12 +126,27 @@ const norm=n=>(n||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z]/g,'').re
 const T_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',unitedstatesofamerica:'unitedstates',usa:'unitedstates',bosniaandherzegovina:'bosniaherzegovina',cotedivoire:'ivorycoast',caboverde:'capeverde'};
 const nrm2=n=>{ const x=norm(n); return T_ALIAS[x]||x; };
 const ESPN_SB='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719';
+/* La API de ESPN devuelve como MAXIMO 100 eventos y el Mundial tiene 104: pedir el rango
+   completo truncaba los 4 ultimos (2 semifinales, 3er puesto y FINAL). Se pide por tramos
+   y se fusiona deduplicando por id. */
+const ESPN_SCORE_BASE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=';
+const ESPN_SCORE_RANGES=['20260611-20260622','20260623-20260704','20260705-20260719'];
+async function fetchEspnScoresAll(){
+  const parts=await Promise.all(ESPN_SCORE_RANGES.map(r=>
+    fetch(ESPN_SCORE_BASE+r,{cache:'no-store'}).then(x=>x.json()).catch(()=>null)));
+  const seen=new Set(), events=[];
+  parts.forEach(pt=>{ ((pt&&pt.events)||[]).forEach(e=>{
+    const id=e.id||(((e.competitions||[])[0]||{}).id)||((e.date||'')+'|'+(e.name||''));
+    if(!seen.has(id)){ seen.add(id); events.push(e); }
+  }); });
+  return {events};
+}
 /* Pull FINISHED results live from ESPN and key them by the pair of teams, so the table
    updates itself during the tournament instead of waiting on the static results.json. */
 async function fetchEspnResults(){
   const byPair={}; const pk=(a,b)=>[nrm2(a),nrm2(b)].sort().join('__');
   try{
-    const sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json());
+    const sb=await fetchEspnScoresAll();
     (sb.events||[]).forEach(ev=>{
       const cs=(((ev.competitions||[])[0])||{}).competitors||[];
       const st=(((ev.status||{}).type||{}).state)||'';
@@ -157,7 +172,7 @@ function parseKick(date,time){
 async function fetchEspnKo(matches){
   const out={}; const real=n=>!!n&&!/round of|winner|loser|runner|tbd|to be|quarter-?final|semi-?final|\bfinal\b|third place|group [a-l]\b/i.test(n);
   try{
-    const sb=await fetch(ESPN_SB,{cache:'no-store'}).then(r=>r.json());
+    const sb=await fetchEspnScoresAll();
     const evs=(sb.events||[]).map(e=>{ const c=(e.competitions||[])[0]; if(!c||!e.date) return null;
       const cs=c.competitors||[]; const h=cs.find(x=>x.homeAway==='home')||cs[0], a=cs.find(x=>x.homeAway==='away')||cs[1]; if(!h||!a) return null;
       const st=(((e.status||{}).type||{}).state)||'';

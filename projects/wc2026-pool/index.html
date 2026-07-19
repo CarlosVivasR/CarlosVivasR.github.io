@@ -298,13 +298,27 @@ function isLive(m){ const s=matchStart(m); if(s==null) return false; const n=Dat
 /* Whole-tournament scoreboard: real states for ALL matches (finished results, live, upcoming)
    in one call — so the home never gets stuck on a stale cached "live" match. */
 const ESPN_LIVE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719';
+/* La API de ESPN devuelve como MAXIMO 100 eventos y el Mundial tiene 104: pedir el rango
+   completo truncaba los 4 ultimos (2 semifinales, 3er puesto y FINAL). Se pide por tramos
+   y se fusiona deduplicando por id. */
+const ESPN_SCORE_BASE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=';
+const ESPN_SCORE_RANGES=['20260611-20260622','20260623-20260704','20260705-20260719'];
+async function fetchEspnScoresAll(){
+  const parts=await Promise.all(ESPN_SCORE_RANGES.map(r=>
+    fetch(ESPN_SCORE_BASE+r,{cache:'no-store'}).then(x=>x.json()).catch(()=>null)));
+  const seen=new Set(), events=[];
+  parts.forEach(pt=>{ ((pt&&pt.events)||[]).forEach(e=>{
+    const id=e.id||(((e.competitions||[])[0]||{}).id)||((e.date||'')+'|'+(e.name||''));
+    if(!seen.has(id)){ seen.add(id); events.push(e); }
+  }); });
+  return {events};
+}
 const TEAM_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
 function nrmTeam(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return TEAM_ALIAS[x]||x; }
 async function fetchLiveScores(){
   try{
-    const r=await fetch(ESPN_LIVE,{cache:'no-store'});
-    if(!r.ok) return;
-    const d=await r.json();
+    const d=await fetchEspnScoresAll();
+    if(!d||!d.events) return;
     const recs=[];
     (d.events||[]).forEach(e=>{
       const c=(e.competitions||[])[0]||{}; const cs=c.competitors||[];
