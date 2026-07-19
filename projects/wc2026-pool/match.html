@@ -419,7 +419,7 @@ const __espnReal=n=>!!n&&!/round of|winner|loser|runner|tbd|to be|quarter-?final
 async function resolveKoMatch(m, teams){
   if(!m || (!isPlaceholder(m.team1) && !isPlaceholder(m.team2))) return;
   const k=parseKick(m.date,m.time); if(!k) return;
-  let sb; try{ sb=await fetch(ESPN_SB+'?dates=20260611-20260719',{cache:'no-store'}).then(r=>r.json()); }catch(e){ return; }
+  let sb; try{ sb=await fetchEspnScoresAll(); }catch(e){ return; }
   const kt=k.getTime(), day=new Date(kt).toISOString().slice(0,10);
   let best=null, bestD=Infinity;
   (sb&&sb.events||[]).forEach(e=>{
@@ -709,6 +709,20 @@ function last2(l){ return `${esc(l.home)} ${l.hs}-${l.as} ${esc(l.away)}`; }
 
 /* ===== LIVE match data from ESPN (free, CORS-enabled) ===== */
 const ESPN_SB='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+/* La API de ESPN devuelve como MAXIMO 100 eventos y el Mundial tiene 104: pedir el rango
+   completo truncaba los 4 ultimos (2 semifinales, 3er puesto y FINAL), asi que las paginas
+   de esos partidos no resolvian sus equipos. Se pide por tramos y se fusiona. */
+const ESPN_SCORE_RANGES=['20260611-20260622','20260623-20260704','20260705-20260719'];
+async function fetchEspnScoresAll(){
+  const parts=await Promise.all(ESPN_SCORE_RANGES.map(r=>
+    fetch(ESPN_SB+'?dates='+r,{cache:'no-store'}).then(x=>x.json()).catch(()=>null)));
+  const seen=new Set(), events=[];
+  parts.forEach(pt=>{ ((pt&&pt.events)||[]).forEach(e=>{
+    const id=e.id||(((e.competitions||[])[0]||{}).id)||((e.date||'')+'|'+(e.name||''));
+    if(!seen.has(id)){ seen.add(id); events.push(e); }
+  }); });
+  return {events};
+}
 const ESPN_SUM='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=';
 const TEAM_ALIAS={czechrepublic:'czechia',drcongo:'congodr',turkey:'turkiye',usa:'unitedstates'};
 function nrmt(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return TEAM_ALIAS[x]||x; }
