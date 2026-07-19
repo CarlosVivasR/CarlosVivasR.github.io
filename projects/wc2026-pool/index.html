@@ -183,6 +183,18 @@
     .cd-unit{padding:9px 13px;min-width:62px}
   }
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
+
+/* Final del Mundial: titular + barra de probabilidad del modelo */
+.sp-final-title{display:block;font-size:.72em;font-weight:900;letter-spacing:.16em;text-transform:uppercase;
+  color:#f4d76b;margin:0 0 8px;text-shadow:0 0 18px rgba(232,194,71,.35)}
+.sp-card.wcfinal{border-color:rgba(232,194,71,.55);box-shadow:0 0 0 1px rgba(232,194,71,.18),0 14px 40px rgba(0,0,0,.45)}
+.sp-prob{margin:12px 0 4px}
+.sp-prob-h{font-size:.64em;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:5px}
+.sp-prob-bar{display:flex;height:7px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.1)}
+.sp-prob-bar i{background:linear-gradient(90deg,#f4d76b,#e8c247)}
+.sp-prob-bar u{background:rgba(255,255,255,.28)}
+.sp-prob-l{display:flex;justify-content:space-between;margin-top:5px;font-size:.72em;color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums}
+.sp-prob-l b{color:#fff;font-weight:800}
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#03040c">
 </head>
@@ -486,6 +498,42 @@ function spDate(m){ const st=matchStart(m); return st==null?'':new Date(st).toLo
 function spIsToday(m){ const st=matchStart(m); return st!=null && new Date(st).toLocaleDateString('en-CA')===new Date().toLocaleDateString('en-CA'); }
 function spReal(m){ const ph=n=>!n||/^([12][A-L]|W\d+|L\d+|RU|3[A-L])/i.test(n)||/\bB$/.test(n); return !ph(m&&m.team1)&&!ph(m&&m.team2); }
 function spScore(m,lv){ const h1=nrmTeam(lv.hName)===nrmTeam(m.team1); return [h1?lv.hs:lv.as, h1?lv.as:lv.hs, h1?lv.hsh:lv.ash, h1?lv.ash:lv.hsh]; }
+/* ===== Probabilidad de ganar (modelo propio del sitio) =====
+   Mismo motor que usa la quiniela (modelLambdas/modelAdvance de pool.html): Dixon-Coles en
+   cancha neutral + ajuste por valor de plantilla, y el empate se reparte por fuerza relativa
+   (prorroga/penaltis). Se lee de data/ratings.json, que el cron refresca -> nunca queda fijo. */
+let __homeRatings=null;
+async function loadHomeRatings(){
+  if(__homeRatings!==null) return __homeRatings;
+  try{ __homeRatings=await fetch('data/ratings.json',{cache:'no-store'}).then(r=>r.json()); }
+  catch(e){ __homeRatings=false; }
+  return __homeRatings;
+}
+function spModelProb(aName,bName){
+  const R=__homeRatings, dc=R&&R.dc;
+  if(!dc||!dc.teams||!aName||!bName) return null;
+  const ka=nrmTeam(aName), kb=nrmTeam(bName);
+  const a=dc.teams[ka], b=dc.teams[kb];
+  if(!a||!b) return null;
+  const mu=dc.mu||0; let tilt=0; const v=R.value;
+  if(v&&v.logV){ const la=v.logV[ka], lb=v.logV[kb]; if(la!=null&&lb!=null) tilt=(v.beta||0)*(la-lb)*0.5; }
+  const L=[Math.exp(mu+a.atk-b.def+tilt), Math.exp(mu+b.atk-a.def-tilt)];
+  const pois=l=>{ const o=[]; let q=Math.exp(-Math.max(0,l)); for(let k=0;k<=10;k++){ o.push(q); q*=Math.max(0,l)/(k+1); } return o; };
+  const A=pois(L[0]), B=pois(L[1]); let h=0,d=0,w=0;
+  for(let i=0;i<11;i++)for(let j=0;j<11;j++){ const q=A[i]*B[j]; if(i>j)h+=q; else if(i===j)d+=q; else w+=q; }
+  const s=h+d+w||1; h/=s; d/=s; w/=s; const hw=h+w||1;
+  const pa=h+d*h/hw;
+  return {pa:pa, pb:1-pa};
+}
+function spProbBar(m){
+  const P=spModelProb(m.team1,m.team2); if(!P) return '';
+  const a=Math.round(P.pa*100), b=100-a;
+  return '<div class="sp-prob"><div class="sp-prob-h">'+spL('sp.winProb')+'</div>'
+    +'<div class="sp-prob-bar"><i style="width:'+a+'%"></i><u style="width:'+b+'%"></u></div>'
+    +'<div class="sp-prob-l"><span>'+spEsc(m.team1)+' <b>'+a+'%</b></span>'
+    +'<span><b>'+b+'%</b> '+spEsc(m.team2)+'</span></div></div>';
+}
+function spIsWcFinal(m){ return /^final$/i.test(String((m&&m.round)||'').trim()); }
 function spotlightCard(m){
   const lv=(typeof liveFor==='function')?liveFor(m):null; const stt=effState(m);
   const inPlay=stt==='in', done=stt==='post';
@@ -505,11 +553,15 @@ function spotlightCard(m){
       ? `<span class="sp-min soon" data-start="${st}">⏱ ${spL('sp.starts')} ${spFmt(st-Date.now())}</span>`
       : `<span class="sp-min">${spKick(m)}${st!=null?' · '+spDate(m):''}</span>`;
   }
-  return `<a class="sp-card ${inPlay?'live':''}" href="match.html?m=${m.idx}">
-    <span class="sp-pill ${pillCls}">${pillTx}</span>
+  const __wcFinal = spIsWcFinal(m);
+  const __done = (typeof effState==='function') && effState(m)==='post';
+  const __title = __wcFinal ? `<div class="sp-final-title">🏆 ${spL('sp.wcFinal')}</div>` : '';
+  const __prob  = (!__done && __homeRatings) ? spProbBar(m) : '';
+  return `<a class="sp-card ${inPlay?'live':''}${__wcFinal?' wcfinal':''}" href="match.html?m=${m.idx}">
+    ${__title}<span class="sp-pill ${pillCls}">${pillTx}</span>
     <div class="sp-teams"><div class="sp-team">${spFlagBig(m.team1)}<span>${spEsc(m.team1)}</span></div>${mid}<div class="sp-team">${spFlagBig(m.team2)}<span>${spEsc(m.team2)}</span></div></div>
     <div class="sp-status">${status}</div>${scorers}
-    <div class="sp-cta">${ctaTx} →</div></a>`;
+    ${__prob}<div class="sp-cta">${ctaTx} →</div></a>`;
 }
 function spotlightChip(m){
   const lv=(typeof liveFor==='function')?liveFor(m):null; const stt=effState(m); const inPlay=stt==='in',done=stt==='post';
@@ -518,6 +570,7 @@ function spotlightChip(m){
   else midd=`<span class="sc">${spKick(m)}</span>`;
   return `<a class="sp-chip" href="match.html?m=${m.idx}" title="${spEsc(m.team1)} – ${spEsc(m.team2)}">${spFlagSm(m.team1)}${midd}${spFlagSm(m.team2)}</a>`;
 }
+loadHomeRatings().then(()=>{ if(typeof renderSpotlight==='function') renderSpotlight(true); });
 let __spSig=null;
 function renderSpotlight(force){
   const el=document.getElementById('spotlight'); if(!el) return;
@@ -579,7 +632,7 @@ const i18n={
     'hero.ctaPool':'🏆 Join the Pool','hero.ctaCal':'📅 Match Calendar','hero.ctaNews':'📰 News',
     'cd.days':'Days','cd.hours':'Hours','cd.mins':'Min','cd.secs':'Sec',
     'cd.cap':'Until kick-off · Mexico 🇲🇽 vs South Africa 🇿🇦 · Estadio Azteca',
-    'sp.live':'LIVE','sp.today':'TODAY','sp.next':'UP NEXT','sp.final':'FULL TIME','sp.ht':'HALF-TIME','sp.watchLive':'Watch live','sp.watch':'Match details','sp.summary':'Match summary','sp.starts':'Starts in','sp.alsoToday':'Also today','sp.alsoLive':'Also live',
+    'sp.live':'LIVE','sp.wcFinal':'WORLD CUP FINAL','sp.winProb':'Win probability · model','sp.today':'TODAY','sp.next':'UP NEXT','sp.final':'FULL TIME','sp.ht':'HALF-TIME','sp.watchLive':'Watch live','sp.watch':'Match details','sp.summary':'Match summary','sp.starts':'Starts in','sp.alsoToday':'Also today','sp.alsoLive':'Also live',
     'mt.title':'Model accuracy this World Cup','mt.hits':'correct','mt.hist':'Backtest: {acc}% · RPS {rps}','mt.none':'No matches played yet — backtest below','mt.small':'small sample',
     'home.upcoming':'Upcoming matches','home.today':"Today's matches",'home.all104':'See all 104 →','home.explore':'Explore',
     'home.qStand':'Standings','home.qStandSub':'group tables','home.qTeams':'Squads','home.qTeamsSub':'48 teams & players','home.qSedes':'16 venues','home.qSedesSub':'stadiums & maps',
@@ -589,7 +642,7 @@ const i18n={
     'hero.ctaPool':'🏆 Entrar a la quiniela','hero.ctaCal':'📅 Ver calendario','hero.ctaNews':'📰 Noticias',
     'cd.days':'Días','cd.hours':'Horas','cd.mins':'Min','cd.secs':'Seg',
     'cd.cap':'Para el pitido inicial · México 🇲🇽 vs Sudáfrica 🇿🇦 · Estadio Azteca',
-    'sp.live':'EN VIVO','sp.today':'HOY','sp.next':'PRÓXIMO','sp.final':'FINAL','sp.ht':'DESCANSO','sp.watchLive':'Ver en directo','sp.watch':'Ver partido','sp.summary':'Ver resumen','sp.starts':'Empieza en','sp.alsoToday':'También hoy','sp.alsoLive':'También en vivo',
+    'sp.live':'EN VIVO','sp.wcFinal':'FINAL DEL MUNDIAL','sp.winProb':'Probabilidad de ganar · modelo','sp.today':'HOY','sp.next':'PRÓXIMO','sp.final':'FINAL','sp.ht':'DESCANSO','sp.watchLive':'Ver en directo','sp.watch':'Ver partido','sp.summary':'Ver resumen','sp.starts':'Empieza en','sp.alsoToday':'También hoy','sp.alsoLive':'También en vivo',
     'mt.title':'Precisión del modelo en el Mundial','mt.hits':'aciertos','mt.hist':'Histórico (backtest): {acc}% · RPS {rps}','mt.none':'Aún sin partidos jugados — abajo el histórico','mt.small':'muestra pequeña',
     'home.upcoming':'Próximos partidos','home.today':'Partidos de hoy','home.all104':'Ver los 104 →','home.explore':'Explora',
     'home.qStand':'Clasificación','home.qStandSub':'tablas de grupo','home.qTeams':'Plantillas','home.qTeamsSub':'48 selecciones y jugadores','home.qSedes':'16 sedes','home.qSedesSub':'estadios y mapas',
@@ -599,7 +652,7 @@ const i18n={
     'hero.ctaPool':'🏆 Tahmin havuzu','hero.ctaCal':'📅 Maç takvimi','hero.ctaNews':'📰 Haberler',
     'cd.days':'Gün','cd.hours':'Saat','cd.mins':'Dk','cd.secs':'Sn',
     'cd.cap':'Açılış maçına · Meksika 🇲🇽 vs Güney Afrika 🇿🇦 · Estadio Azteca',
-    'sp.live':'CANLI','sp.today':'BUGÜN','sp.next':'SIRADAKİ','sp.final':'MAÇ SONU','sp.ht':'DEVRE','sp.watchLive':'Canlı izle','sp.watch':'Maç detayı','sp.summary':'Maç özeti','sp.starts':'Başlıyor','sp.alsoToday':'Bugün ayrıca','sp.alsoLive':'Ayrıca canlı',
+    'sp.live':'CANLI','sp.wcFinal':'DÜNYA KUPASI FİNALİ','sp.winProb':'Kazanma olasılığı · model','sp.today':'BUGÜN','sp.next':'SIRADAKİ','sp.final':'MAÇ SONU','sp.ht':'DEVRE','sp.watchLive':'Canlı izle','sp.watch':'Maç detayı','sp.summary':'Maç özeti','sp.starts':'Başlıyor','sp.alsoToday':'Bugün ayrıca','sp.alsoLive':'Ayrıca canlı',
     'mt.title':'Modelin Dünya Kupası isabeti','mt.hits':'doğru','mt.hist':'Backtest: %{acc} · RPS {rps}','mt.none':'Henüz maç yok — altta backtest','mt.small':'küçük örneklem',
     'home.upcoming':'Yaklaşan maçlar','home.today':'Bugünkü maçlar','home.all104':'104 maçın tümü →','home.explore':'Keşfet',
     'home.qStand':'Puan durumu','home.qStandSub':'grup tabloları','home.qTeams':'Kadrolar','home.qTeamsSub':'48 takım & oyuncu','home.qSedes':'16 saha','home.qSedesSub':'stadyumlar & haritalar',
