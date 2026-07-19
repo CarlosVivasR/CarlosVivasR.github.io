@@ -1537,11 +1537,11 @@ const I18N = {
     "scoring.row3": "3rd place in group",
     "scoring.row4": "4th place in group",
     "scoring.starRow": "Advancing third",
-    "scoring.r32": "R32 match winner",
-    "scoring.r16": "R16 match winner",
-    "scoring.qf": "QF match winner",
-    "scoring.sf": "SF match winner",
-    "scoring.final": "Final winner / Champion",
+    "scoring.r32": "Team reaches round of 16",
+    "scoring.r16": "Team reaches quarter-finals",
+    "scoring.qf": "Team reaches semi-finals",
+    "scoring.sf": "Team reaches the final",
+    "scoring.final": "Champion",
     "scoring.maxRow": "Maximum possible",
     "scoring.exampleTitle": "Worked example — Maria's bracket",
     "scoring.ex1": "8 / 12 group winners correct",
@@ -1737,11 +1737,11 @@ const I18N = {
     "scoring.row3": "3º del grupo",
     "scoring.row4": "4º del grupo",
     "scoring.starRow": "Tercero que pasa",
-    "scoring.r32": "Ganador partido R32",
-    "scoring.r16": "Ganador partido R16",
-    "scoring.qf": "Ganador partido Cuartos",
-    "scoring.sf": "Ganador partido Semis",
-    "scoring.final": "Ganador Final / Campeón",
+    "scoring.r32": "Equipo que llega a octavos",
+    "scoring.r16": "Equipo que llega a cuartos",
+    "scoring.qf": "Equipo que llega a semis",
+    "scoring.sf": "Equipo que llega a la final",
+    "scoring.final": "Campeón",
     "scoring.maxRow": "Máximo posible",
     "scoring.exampleTitle": "Ejemplo — bracket de María",
     "scoring.ex1": "8 / 12 ganadores de grupo acertados",
@@ -1937,11 +1937,11 @@ const I18N = {
     "scoring.row3": "Grup 3.sü",
     "scoring.row4": "Grup 4.sü",
     "scoring.starRow": "Geçen üçüncü",
-    "scoring.r32": "Son 32 maç galibi",
-    "scoring.r16": "Son 16 maç galibi",
-    "scoring.qf": "Çeyrek final galibi",
-    "scoring.sf": "Yarı final galibi",
-    "scoring.final": "Final galibi / Şampiyon",
+    "scoring.r32": "Son 16'ya ulaşan takım",
+    "scoring.r16": "Çeyreğe ulaşan takım",
+    "scoring.qf": "Yarıya ulaşan takım",
+    "scoring.sf": "Finale ulaşan takım",
+    "scoring.final": "Şampiyon",
     "scoring.maxRow": "Mümkün olan en yüksek",
     "scoring.exampleTitle": "Örnek — María'nın tablosu",
     "scoring.ex1": "12 grup birincisinden 8'i doğru",
@@ -3772,6 +3772,22 @@ const LB_ALIAS={czechrepublic:'czechia',turkey:'turkiye',usa:'unitedstates',unit
 function lbnorm(s){ let x=(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,''); return LB_ALIAS[x]||x; }
 const ESPN_STAND='https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings';
 const ESPN_SCORE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719';
+/* La API de ESPN devuelve como MAXIMO 100 eventos por respuesta. El Mundial tiene 104
+   partidos, asi que pedir el rango completo truncaba los 4 ultimos (2 semis, 3er puesto y
+   FINAL): ni el calendario los resolvia ni la pool repartia sus puntos. Se pide por tramos
+   y se fusiona deduplicando por id. */
+const ESPN_SCORE_BASE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=';
+const ESPN_SCORE_RANGES=['20260611-20260622','20260623-20260704','20260705-20260719'];
+async function fetchEspnScoresAll(){
+  const parts=await Promise.all(ESPN_SCORE_RANGES.map(r=>
+    fetch(ESPN_SCORE_BASE+r,{cache:'no-store'}).then(x=>x.json()).catch(()=>null)));
+  const seen=new Set(), events=[];
+  parts.forEach(pt=>{ ((pt&&pt.events)||[]).forEach(e=>{
+    const id=e.id||(((e.competitions||[])[0]||{}).id)||((e.date||'')+'|'+(e.name||''));
+    if(!seen.has(id)){ seen.add(id); events.push(e); }
+  }); });
+  return {events};
+}
 function lbKoWinners(positions, starredArr, scores, complete){
   const winners={}; if(!complete||!scores) return winners;
   const posTeam=(g,p)=>{ const e=Object.entries(positions).find(([k,v])=>k.startsWith(g+'-')&&v===p); return e?e[0].slice(g.length+1):null; };
@@ -3814,19 +3830,29 @@ function espnReachedSets(scores){
   const ko = post.filter(e => { const [a,b]=evTeams(e); return a && b && TEAM2GRP[a] !== undefined && TEAM2GRP[b] !== undefined && TEAM2GRP[a] !== TEAM2GRP[b]; });
   const slice=(from,to)=>ko.slice(from,to);
   const W = evs => { const s=new Set(); evs.forEach(e=>{ const w=evWinner(e); if(w) s.add(w); }); return s; };
-  const r32=slice(0,16), r16=slice(16,24), qf=slice(24,28), sf=slice(28,30), fin=slice(30,31);
+  const r32=slice(0,16), r16=slice(16,24), qf=slice(24,28), sf=slice(28,30);
+  const last2 = W(sf);
+  /* OJO: tras las semis se juega el 3er puesto ANTES de la final, asi que el indice 30 es el
+     3er puesto, no la final. Identificamos la final de forma robusta: el partido entre los
+     DOS ganadores de semifinal. */
+  let champion=null;
+  if (last2.size===2){
+    const pr=[...last2];
+    const fg = ko.slice(28).find(e=>{ const t=evTeams(e); return (t[0]===pr[0]&&t[1]===pr[1])||(t[0]===pr[1]&&t[1]===pr[0]); });
+    if (fg) champion = evWinner(fg);
+  }
   return {
     last16: W(r32),   // ganan en 1/16 -> llegan a octavos
     last8:  W(r16),   // -> cuartos
     last4:  W(qf),    // -> semis
-    last2:  W(sf),    // -> final
-    champion: fin.length ? evWinner(fin[0]) : null,
+    last2:  last2,    // -> final
+    champion: champion,
   };
 }
 async function buildLiveOfficial(){
   let standings=null, scores=null;
   try{ standings=await fetch(ESPN_STAND,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
-  try{ scores=await fetch(ESPN_SCORE,{cache:'no-store'}).then(r=>r.json()); }catch(e){}
+  try{ scores=await fetchEspnScoresAll(); }catch(e){}
   if(!standings) return null;
   const positions={}, groupDone={}, thirdsStats=[];
   (standings.children||[]).forEach(grp=>{
