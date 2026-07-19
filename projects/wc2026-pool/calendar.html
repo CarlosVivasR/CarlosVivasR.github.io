@@ -852,10 +852,25 @@ async function loadEspnStandings(){
 
 /* Live per-match scores straight from ESPN scoreboard (full tournament range in one call) */
 let __espnScores = null;
+const ESPN_SCORE_BASE='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=';
+const ESPN_SCORE_RANGES=['20260611-20260622','20260623-20260704','20260705-20260719'];
+async function fetchEspnScoresAll(){
+  const parts=await Promise.all(ESPN_SCORE_RANGES.map(r=>
+    fetch(ESPN_SCORE_BASE+r,{cache:'no-store'}).then(x=>x.json()).catch(()=>null)));
+  const seen=new Set(), events=[];
+  parts.forEach(pt=>{ ((pt&&pt.events)||[]).forEach(e=>{
+    const id=e.id||(((e.competitions||[])[0]||{}).id)||((e.date||'')+'|'+(e.name||''));
+    if(!seen.has(id)){ seen.add(id); events.push(e); }
+  }); });
+  return {events};
+}
 async function loadEspnScores(){
   if(document.hidden) return;            // don't poll while tab is hidden
   try{
-    const d = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719',{cache:'no-store'}).then(r=>r.json());
+    /* La API de ESPN devuelve como MAXIMO 100 eventos. El Mundial tiene 104 partidos, asi que
+       el rango completo truncaba los 4 ultimos (2 semis, 3er puesto y FINAL) y esos cruces
+       nunca se resolvian. Se pide por tramos y se fusiona. */
+    const d = await fetchEspnScoresAll();
     const out = {};
     (d.events||[]).forEach(e=>{
       const c = (e.competitions||[])[0]; if(!c) return;
