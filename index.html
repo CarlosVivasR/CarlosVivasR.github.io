@@ -120,9 +120,8 @@
       <ul>
         <li><a href="#research">Research</a></li>
         <li><a href="#publications">Publications</a></li>
-        <li><a href="#talks">Talks</a></li>
+        <li><a href="#about">Background</a></li>
         <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
       </ul>
     </div>
   </nav>
@@ -245,10 +244,13 @@
     </div>
   </section>
 
-  <!-- PUBLICATIONS & SOFTWARE -->
+  <!-- PUBLICATIONS & TALKS -->
   <section id="publications" class="fade-in">
     <div class="container">
-      <h2>Publications &amp; software</h2>
+      <h2>Publications &amp; talks</h2>
+
+      <h3 class="sub-head">Peer-reviewed &amp; software</h3>
+
 
       <article class="pub-entry">
         <p class="pub-authors">
@@ -299,17 +301,8 @@
           </div>
         </div>
       </article>
-    </div>
-  </section>
 
-  <!-- TALKS -->
-  <section id="talks" class="section-alt fade-in">
-    <div class="container">
-      <h2>Talks &amp; posters</h2>
-      <p class="section-intro">
-        Selected presentations from my PhD research.
-      </p>
-
+      <h3 class="sub-head">Presented</h3>
       <div class="conference-grid">
         <div class="conference-card">
           <div class="conference-img">
@@ -384,35 +377,8 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="fade-in">
-    <div class="container">
-      <h2>Projects</h2>
-      <p class="section-intro">
-        Things I build outside the thesis, mostly to think about data in a
-        different domain.
-      </p>
-
-      <div class="project-grid">
-        <a class="project-card" href="projects/football-analytics/index.html" target="_blank" rel="noopener">
-          <p class="project-kind">Interactive dashboard</p>
-          <h3>Beyond Goals &amp; Assists</h3>
-          <p>
-            A football analytics dashboard built from match event data, looking at
-            what a player contributes beyond the two numbers everyone quotes.
-            Python for the pipeline, plain JavaScript for the front end.
-          </p>
-          <p class="project-go">Open the dashboard &rarr;</p>
-        </a>
-      </div>
-
-      <!-- WC 2026 Pool sigue oculto de la home (decisión del 2026-05-13);
-           la página continúa viva en /projects/wc2026-pool/ para quien tenga el enlace. -->
-    </div>
-  </section>
-
   <!-- BACKGROUND -->
-  <section id="about" class="section-alt fade-in">
+  <section id="about" class="fade-in">
     <div class="container">
       <h2>Background</h2>
       <p class="section-intro">
@@ -494,6 +460,41 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section-alt fade-in">
+    <div class="container">
+      <h2>Projects</h2>
+      <p class="section-intro">
+        Things I build outside the thesis, mostly as an excuse to think about
+        data in a domain where I have no expertise to defend.
+      </p>
+
+      <div class="project-grid">
+        <a class="project-card" href="projects/football-analytics/index.html" target="_blank" rel="noopener">
+          <p class="project-kind">Interactive dashboard</p>
+          <h3>Beyond Goals &amp; Assists</h3>
+          <p>
+            A football analytics dashboard built from match event data, looking at
+            what a player contributes beyond the two numbers everyone quotes.
+            Python for the pipeline, plain JavaScript for the front end.
+          </p>
+          <p class="project-go">Open the dashboard &rarr;</p>
+        </a>
+
+        <a class="project-card" href="projects/wc2026-pool/index.html" target="_blank" rel="noopener">
+          <p class="project-kind">Rating model &amp; prediction pool</p>
+          <h3>World Cup 2026</h3>
+          <p>
+            Fixtures, squads and venues for all 48 teams, a prediction pool, and a
+            team rating model whose win probabilities refresh automatically from
+            each round of results through a scheduled job.
+          </p>
+          <p class="project-go">Open the site &rarr;</p>
+        </a>
       </div>
     </div>
   </section>
