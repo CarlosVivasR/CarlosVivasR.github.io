@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Perder una copia se tolera; perder las dos mata a la célula">
+  <style>
+    .disc{fill:#12203a}
+    .cellw{fill:#182a47;stroke:#e8a33d;stroke-width:2.4;animation:cellDie 7s linear infinite}
+    .gA{fill:#e8a33d;animation:gAoff 7s linear infinite}
+    .gB{fill:#e8a33d;animation:gBoff 7s linear infinite}
+    .koA{stroke:#c9d3e6;stroke-width:2.6;stroke-linecap:round;opacity:0;animation:koAin 7s ease-out infinite}
+    .koB{stroke:#c9d3e6;stroke-width:2.6;stroke-linecap:round;opacity:0;animation:koBin 7s ease-out infinite}
+    @keyframes gAoff{ 0%,14%{fill:#e8a33d} 26%,100%{fill:#39465c} }
+    @keyframes gBoff{ 0%,54%{fill:#e8a33d} 66%,100%{fill:#39465c} }
+    @keyframes koAin{ 0%,12%{opacity:0} 22%,100%{opacity:1} }
+    @keyframes koBin{ 0%,52%{opacity:0} 62%,100%{opacity:1} }
+    @keyframes cellDie{ 0%,62%{stroke:#e8a33d;fill:#182a47} 78%,100%{stroke:#3d4b63;fill:#141f33} }
+    @media (prefers-reduced-motion:reduce){
+      .gA,.gB{animation:none;fill:#39465c}
+      .koA,.koB{animation:none;opacity:1}
+      .cellw{animation:none;stroke:#3d4b63;fill:#141f33}
+    }
+  </style>
+  <circle class="disc" cx="100" cy="100" r="100"/>
+
+  <ellipse class="cellw" cx="100" cy="106" rx="62" ry="46"/>
+
+  <rect class="gA" x="60"  y="96" width="34" height="20" rx="5"/>
+  <rect class="gB" x="106" y="96" width="34" height="20" rx="5"/>
+
+  <g class="koA">
+    <line x1="65"  y1="99" x2="89"  y2="113"/>
+    <line x1="89"  y1="99" x2="65"  y2="113"/>
+  </g>
+  <g class="koB">
+    <line x1="111" y1="99" x2="135" y2="113"/>
+    <line x1="135" y1="99" x2="111" y2="113"/>
+  </g>
+</svg>

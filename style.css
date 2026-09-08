@@ -12,6 +12,10 @@
   --bg-alt:  #f2f0ec;
   --white:   #ffffff;
   --border:  #e2ddd8;
+  --band:    #12203a;
+  --band-tx: #dde5f2;
+  --band-mu: #93a3bd;
+  --amber:   #e8a33d;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-serif: 'Lora', Georgia, serif;
 }
@@ -298,7 +302,6 @@ section { padding: 2rem 0; }
 .pub-entry {
   background: var(--white);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
   border-radius: 8px;
   padding: 1.8rem 2rem;
   margin-bottom: 1.5rem;
@@ -594,10 +597,207 @@ footer p { font-size: 0.85rem; color: var(--light); margin: 0; }
 }
 
 /* Stagger sections */
-#about       { animation-delay: 0.1s; }
-#research    { animation-delay: 0.15s; }
-#publications { animation-delay: 0.2s; }
-#software    { animation-delay: 0.25s; }
-#conferences { animation-delay: 0.3s; }
-#interests   { animation-delay: 0.35s; }
-#contact     { animation-delay: 0.4s; }
+#publications { animation-delay: 0.1s; }
+#talks       { animation-delay: 0.15s; }
+#projects    { animation-delay: 0.2s; }
+#about       { animation-delay: 0.25s; }
+#contact     { animation-delay: 0.3s; }
+
+
+/* ═══ Banda de investigación (el "medio" de la web) ═══════════════ */
+#hero { border-bottom: none; }
+
+.band {
+  background: var(--band);
+  color: var(--band-tx);
+  padding: 4.5rem 0 4rem;
+}
+
+.band-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.9rem;
+}
+
+.band-h2 {
+  color: #ffffff;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  max-width: 20ch;
+  margin-bottom: 1.1rem;
+}
+
+.band-intro {
+  color: var(--band-mu);
+  max-width: 62ch;
+  font-size: 1.02rem;
+  margin: 0;
+}
+
+.steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3.4rem;
+  margin: 3.6rem 0 0;
+  padding: 0;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2.8rem;
+  align-items: center;
+}
+
+.step .step-art  { grid-column: 1; grid-row: 1; }
+.step .step-text { grid-column: 2; grid-row: 1; max-width: 58ch; margin-right: auto; }
+
+.step.flip { grid-template-columns: 1fr 320px; }
+.step.flip .step-art  { grid-column: 2; grid-row: 1; }
+.step.flip .step-text {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: right;
+  max-width: 58ch;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.step-art {
+  display: flex;
+  gap: 1.1rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.step-art img {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 168px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(232, 163, 61, 0.22);
+}
+
+.step-n {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  margin-bottom: 0.4rem;
+}
+
+.step-text h3 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.step-text p:not(.step-n) {
+  color: var(--band-mu);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.band-foot {
+  margin-top: 3.6rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(221, 229, 242, 0.16);
+}
+
+.band-foot-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.5rem;
+}
+
+.band-foot p { color: var(--band-mu); margin: 0; max-width: 68ch; }
+.band-foot strong { color: #ffffff; font-weight: 600; }
+
+@media (max-width: 780px) {
+  .band { padding: 3rem 0 2.6rem; }
+  .step,
+  .step.flip { grid-template-columns: 1fr; gap: 1.4rem; }
+  .step .step-art,  .step.flip .step-art  { grid-column: 1; grid-row: 1; }
+  .step .step-text, .step.flip .step-text { grid-column: 1; grid-row: 2; text-align: left; }
+  .step-art { justify-content: flex-start; margin: 0; max-width: 260px; }
+  .step-art img { max-width: 124px; }
+}
+
+/* ═══ Publicaciones: resumen y métricas ═══════════════════════════ */
+.pub-abstract {
+  font-size: 0.95rem;
+  margin: 0.9rem 0 0;
+}
+
+.pub-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+}
+
+.pub-metrics {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 44px;
+}
+
+/* ═══ Proyectos ═══════════════════════════════════════════════════ */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  display: block;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.8rem;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  color: inherit;
+}
+
+.project-kind {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--light);
+  margin-bottom: 0.6rem;
+}
+
+.project-card h3 { margin-bottom: 0.6rem; }
+.project-card p  { font-size: 0.92rem; }
+
+.project-go {
+  margin: 1.1rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in { animation: none; }
+  .project-card:hover { transform: none; }
+}

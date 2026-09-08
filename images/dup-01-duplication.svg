@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Un gen de un cromosoma se duplica en tándem">
+  <style>
+    .disc{fill:#12203a}
+    .arm{fill:#28405f}
+    .band{fill:#1b2c48}
+    .gene{fill:#e8a33d}
+    .copy{fill:#e8a33d;opacity:1}
+    .halo{fill:none;stroke:#e8a33d;stroke-width:2;opacity:0}
+    .copy,.halo{transform-box:fill-box}
+    .copy{animation:dupMove 4.6s cubic-bezier(.45,.05,.35,1) infinite}
+    .halo{transform-origin:center;animation:dupHalo 4.6s ease-out infinite}
+    @keyframes dupMove{
+      0%,12%   {transform:translate(0px,0px);opacity:0}
+      20%      {transform:translate(2px,-6px);opacity:1}
+      46%      {transform:translate(17px,-30px);opacity:1}
+      72%,100% {transform:translate(34px,0px);opacity:1}
+    }
+    @keyframes dupHalo{
+      0%,10%  {transform:scale(1);opacity:0}
+      16%     {transform:scale(1);opacity:.85}
+      34%,100%{transform:scale(1.6);opacity:0}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .copy{animation:none;transform:translate(34px,0px);opacity:1}
+      .halo{animation:none;opacity:0}
+    }
+  </style>
+  <circle class="disc" cx="100" cy="100" r="100"/>
+  <g>
+    <rect class="arm" x="26" y="92" width="148" height="16" rx="8"/>
+    <rect class="band" x="140" y="92" width="9" height="16"/>
+    <rect class="band" x="155" y="92" width="5" height="16"/>
+    <rect class="halo" x="50" y="90" width="32" height="20" rx="4"/>
+    <rect class="gene" x="50" y="90" width="32" height="20" rx="4"/>
+    <rect class="copy" x="50" y="90" width="32" height="20" rx="4"/>
+  </g>
+</svg>

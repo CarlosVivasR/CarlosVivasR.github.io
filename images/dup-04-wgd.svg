@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="El genoma entero se duplica: un juego de cromosomas pasa a estar por duplicado">
+  <style>
+    .disc{fill:#12203a}
+    .arm{fill:#e8a33d}
+    .cen{fill:#12203a}
+    .setA{animation:up 5s cubic-bezier(.45,.05,.3,1) infinite}
+    .setB{opacity:1;animation:down 5s cubic-bezier(.45,.05,.3,1) infinite}
+    .flash{fill:none;stroke:#c9d3e6;stroke-width:1.5;opacity:0;animation:flash 5s ease-out infinite}
+    @keyframes up{   0%,18%{transform:translateY(0)}    52%,100%{transform:translateY(-27px)} }
+    @keyframes down{ 0%,14%{transform:translateY(0);opacity:0} 22%{opacity:1} 52%,100%{transform:translateY(27px);opacity:1} }
+    @keyframes flash{0%,12%{opacity:0} 20%{opacity:.7} 46%,100%{opacity:0} }
+    @media (prefers-reduced-motion:reduce){
+      .setA{animation:none;transform:translateY(-27px)}
+      .setB{animation:none;transform:translateY(27px);opacity:1}
+      .flash{animation:none;opacity:0}
+    }
+  </style>
+  <circle class="disc" cx="100" cy="100" r="100"/>
+
+  <g class="setA">
+    <g><rect class="arm" x="55"  y="77" width="13" height="46" rx="6.5"/><rect class="cen" x="55"  y="94" width="13" height="3"/></g>
+    <g><rect class="arm" x="80"  y="72" width="13" height="56" rx="6.5"/><rect class="cen" x="80"  y="96" width="13" height="3"/></g>
+    <g><rect class="arm" x="105" y="80" width="13" height="40" rx="6.5"/><rect class="cen" x="105" y="93" width="13" height="3"/></g>
+    <g><rect class="arm" x="130" y="75" width="13" height="50" rx="6.5"/><rect class="cen" x="130" y="97" width="13" height="3"/></g>
+  </g>
+
+  <g class="setB">
+    <g><rect class="arm" x="55"  y="77" width="13" height="46" rx="6.5"/><rect class="cen" x="55"  y="94" width="13" height="3"/></g>
+    <g><rect class="arm" x="80"  y="72" width="13" height="56" rx="6.5"/><rect class="cen" x="80"  y="96" width="13" height="3"/></g>
+    <g><rect class="arm" x="105" y="80" width="13" height="40" rx="6.5"/><rect class="cen" x="105" y="93" width="13" height="3"/></g>
+    <g><rect class="arm" x="130" y="75" width="13" height="50" rx="6.5"/><rect class="cen" x="130" y="97" width="13" height="3"/></g>
+  </g>
+
+  <rect class="flash" x="47" y="64" width="104" height="72" rx="10"/>
+</svg>

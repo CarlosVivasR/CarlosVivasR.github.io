@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Una persona sana lleva las dos copias de un gen inactivadas y sigue estando sana">
+  <style>
+    .disc{fill:#12203a}
+    .body{fill:#e8a33d}
+    .gene{fill:#e8a33d}
+    .off{fill:#e8a33d;animation:offFill 5.2s linear infinite}
+    .ko{stroke:#c9d3e6;stroke-width:2.6;stroke-linecap:round;opacity:0;animation:koIn 5.2s ease-out infinite}
+    .pulse{fill:none;stroke:#e8a33d;stroke-width:1.6;opacity:0;animation:pulse 5.2s ease-out infinite}
+    @keyframes offFill{ 0%,26%{fill:#e8a33d} 44%,100%{fill:#39465c} }
+    @keyframes koIn{ 0%,24%{opacity:0} 36%,100%{opacity:1} }
+    @keyframes pulse{ 0%,50%{opacity:0;transform:scale(1)} 62%{opacity:.8;transform:scale(1)} 88%,100%{opacity:0;transform:scale(1.12)} }
+    .pulse{transform-box:fill-box;transform-origin:center}
+    @media (prefers-reduced-motion:reduce){
+      .off{animation:none;fill:#39465c}
+      .ko{animation:none;opacity:1}
+      .pulse{animation:none;opacity:0}
+    }
+  </style>
+  <circle class="disc" cx="100" cy="100" r="100"/>
+
+  <g class="body">
+    <circle cx="55"  cy="86" r="8"/><rect x="46"  y="98" width="18" height="30" rx="9"/>
+    <circle cx="85"  cy="86" r="8"/><rect x="76"  y="98" width="18" height="30" rx="9"/>
+    <circle cx="145" cy="86" r="8"/><rect x="136" y="98" width="18" height="30" rx="9"/>
+  </g>
+  <g class="body">
+    <circle cx="115" cy="86" r="8"/><rect x="106" y="98" width="18" height="30" rx="9"/>
+  </g>
+  <rect class="pulse" x="102" y="74" width="26" height="58" rx="13"/>
+
+  <g>
+    <rect class="gene" x="46"  y="140" width="18" height="7" rx="3.5"/>
+    <rect class="gene" x="46"  y="151" width="18" height="7" rx="3.5"/>
+    <rect class="gene" x="76"  y="140" width="18" height="7" rx="3.5"/>
+    <rect class="gene" x="76"  y="151" width="18" height="7" rx="3.5"/>
+    <rect class="off"  x="106" y="140" width="18" height="7" rx="3.5"/>
+    <rect class="off"  x="106" y="151" width="18" height="7" rx="3.5"/>
+    <rect class="gene" x="136" y="140" width="18" height="7" rx="3.5"/>
+    <rect class="gene" x="136" y="151" width="18" height="7" rx="3.5"/>
+  </g>
+
+  <g class="ko">
+    <line x1="108" y1="141" x2="122" y2="157"/>
+    <line x1="122" y1="141" x2="108" y2="157"/>
+  </g>
+</svg>

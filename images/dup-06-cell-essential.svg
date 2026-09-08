@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="En cultivo, apagar el mismo gen mata a las células">
+  <style>
+    .disc{fill:#12203a}
+    .dish{fill:#182a47;stroke:#3d5378;stroke-width:2}
+    .gene{fill:#e8a33d;animation:offFill 5.6s linear infinite}
+    .ko{stroke:#c9d3e6;stroke-width:2.8;stroke-linecap:round;opacity:0;animation:koIn 5.6s ease-out infinite}
+    .cell{fill:#e8a33d}
+    .c1{animation:die 5.6s linear infinite}
+    .c2{animation:die2 5.6s linear infinite}
+    .c3{animation:die3 5.6s linear infinite}
+    @keyframes offFill{ 0%,20%{fill:#e8a33d} 36%,100%{fill:#39465c} }
+    @keyframes koIn{ 0%,18%{opacity:0} 30%,100%{opacity:1} }
+    @keyframes die { 0%,34%{opacity:1} 52%,100%{opacity:.08} }
+    @keyframes die2{ 0%,40%{opacity:1} 60%,100%{opacity:.08} }
+    @keyframes die3{ 0%,46%{opacity:1} 68%,100%{opacity:.08} }
+    @media (prefers-reduced-motion:reduce){
+      .gene{animation:none;fill:#39465c}
+      .ko{animation:none;opacity:1}
+      .c1,.c2,.c3{animation:none;opacity:.08}
+    }
+  </style>
+  <circle class="disc" cx="100" cy="100" r="100"/>
+
+  <rect class="gene" x="76" y="40" width="22" height="9" rx="4.5"/>
+  <rect class="gene" x="104" y="40" width="22" height="9" rx="4.5"/>
+  <g class="ko">
+    <line x1="82" y1="36" x2="120" y2="53"/>
+    <line x1="120" y1="36" x2="82" y2="53"/>
+  </g>
+
+  <circle class="dish" cx="100" cy="118" r="48"/>
+  <g class="cell">
+    <circle class="c1" cx="83"  cy="102" r="7"/>
+    <circle class="c2" cx="105" cy="98"  r="6"/>
+    <circle class="c3" cx="121" cy="112" r="7"/>
+    <circle class="c2" cx="76"  cy="123" r="6"/>
+    <circle class="c1" cx="98"  cy="119" r="8"/>
+    <circle class="c3" cx="118" cy="133" r="6"/>
+    <circle class="c2" cx="88"  cy="140" r="7"/>
+    <circle class="c1" cx="108" cy="146" r="6"/>
+  </g>
+</svg>

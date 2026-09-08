@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Un complejo proteico ensamblado se desmonta cuando una subunidad llega en dosis de más">
+  <style>
+    .disc{fill:#12203a}
+    .ring{fill:none;stroke:#3d5378;stroke-width:1.3;stroke-dasharray:4 6;opacity:.7}
+    .su{transform-box:fill-box;transform-origin:center;fill:#e8a33d;animation:fade 6s linear infinite}
+    .s1{animation:move1 6s cubic-bezier(.4,0,.28,1) infinite,fade 6s linear infinite}
+    .s2{animation:move2 6s cubic-bezier(.4,0,.28,1) infinite,fade 6s linear infinite}
+    .s3{animation:move3 6s cubic-bezier(.4,0,.28,1) infinite,fade 6s linear infinite}
+    .sx{fill:#e8a33d;opacity:1;transform-box:fill-box;transform-origin:center;
+        animation:extra 6s cubic-bezier(.4,0,.28,1) infinite}
+    @keyframes move1{ 0%,32%{transform:translate(0,0)}      64%,100%{transform:translate(0,-26px)} }
+    @keyframes move2{ 0%,32%{transform:translate(0,0)}      64%,100%{transform:translate(-23px,13px)} }
+    @keyframes move3{ 0%,32%{transform:translate(0,0)}      64%,100%{transform:translate(23px,13px)} }
+    @keyframes fade { 0%,44%{fill:#e8a33d}                  70%,100%{fill:#46536b} }
+    @keyframes extra{
+      0%,20%  {opacity:0;transform:translate(0,0) scale(.5)}
+      36%     {opacity:1;transform:translate(0,0) scale(1)}
+      64%,100%{opacity:1;transform:translate(0,34px) scale(1)}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .s1{animation:none;transform:translate(0,-26px);fill:#46536b}
+      .s2{animation:none;transform:translate(-23px,13px);fill:#46536b}
+      .s3{animation:none;transform:translate(23px,13px);fill:#46536b}
+      .sx{animation:none;transform:translate(0,34px);opacity:1}
+    }
+  </style>
+  <circle class="disc" cx="100" cy="100" r="100"/>
+  <circle class="ring" cx="100" cy="100" r="54"/>
+
+  <circle class="su s2" cx="83"  cy="110" r="21"/>
+  <circle class="su s3" cx="117" cy="110" r="21"/>
+  <circle class="su s1" cx="100" cy="81"  r="21"/>
+  <circle class="sx"    cx="100" cy="81"  r="21"/>
+</svg>
