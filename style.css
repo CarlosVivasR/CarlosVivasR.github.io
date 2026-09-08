@@ -15,7 +15,8 @@
   --band:    #12203a;
   --band-tx: #dde5f2;
   --band-mu: #93a3bd;
-  --amber:   #e8a33d;
+  --amber:   #e8a33d;   /* solo sobre la banda oscura */
+  --amber-ink: #8f6212; /* mismo acento, legible sobre fondo claro */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-serif: 'Lora', Georgia, serif;
 }
@@ -33,7 +34,13 @@ body {
 /* ─── Typography ────────────────────────────────────────────────── */
 h1, h2, h3 { font-family: var(--font-serif); color: var(--navy); line-height: 1.25; }
 h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; letter-spacing: -0.01em; }
-h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; margin-bottom: 1.2rem; }
+h2 {
+  font-size: clamp(1.7rem, 3.4vw, 2.35rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.4rem;
+  text-wrap: balance;
+}
 h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
 p  { color: var(--mid); margin-bottom: 1rem; }
 p:last-child { margin-bottom: 0; }
@@ -158,8 +165,7 @@ nav ul a.active { color: var(--navy); font-weight: 600; }
   height: 280px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 @media (max-width: 680px) {
@@ -178,7 +184,7 @@ nav ul a.active { color: var(--navy); font-weight: 600; }
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--amber-ink);
   margin-bottom: 1rem;
 }
 
@@ -220,11 +226,11 @@ nav ul a.active { color: var(--navy); font-weight: 600; }
 .btn-ghost:hover { background: var(--bg-alt); color: var(--navy); }
 
 /* ─── Sections ───────────────────────────────────────────────────── */
-section { padding: 2rem 0; }
+section { padding: 5rem 0; }
 .section-alt { background: var(--bg-alt); }
 
 @media (max-width: 680px) {
-  section { padding: 2rem 0; }
+  section { padding: 3.25rem 0; }
 }
 
 .section-intro {
@@ -253,7 +259,7 @@ section { padding: 2rem 0; }
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--amber-ink);
   margin-bottom: 0.75rem;
 }
 
@@ -720,3 +726,78 @@ footer p { font-size: 0.85rem; color: var(--light); margin: 0; }
 
 #publications .conference-grid { margin-top: 0; }
 #publications .sub-head:nth-of-type(2) { margin-top: 3rem; }
+
+
+/* ═══ Pase de diseño ══════════════════════════════════════════════ */
+
+/* Una sola voz para las etiquetas pequeñas, en toda la página */
+.sub-head,
+.project-kind { color: var(--amber-ink); }
+
+.path-what h3 {
+  color: var(--amber-ink);
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  letter-spacing: 0.11em;
+}
+
+/* La banda respira igual que el resto */
+.band { padding: 5.5rem 0 5rem; }
+@media (max-width: 780px) { .band { padding: 3.5rem 0 3rem; } }
+
+/* Las charlas dejan de ser cajas y pasan a ser una lista editorial.
+   Cuatro tarjetas idénticas debajo de la publicación aplanaban la jerarquía:
+   ahora la publicación es el único objeto con caja. */
+.conference-grid { gap: 0; }
+
+.conference-card {
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  grid-template-columns: 260px 1fr;
+  gap: 2rem;
+  padding: 2.2rem 0;
+  overflow: visible;
+}
+
+.conference-grid .conference-card:last-child { border-bottom: 1px solid var(--border); }
+
+.conference-img img {
+  height: 168px;
+  border-radius: 4px;
+}
+
+.conference-info { padding: 0; }
+.conference-info h3 { font-size: 1.05rem; }
+
+@media (max-width: 680px) {
+  .conference-card { grid-template-columns: 1fr; gap: 1.1rem; padding: 1.8rem 0; }
+  .conference-img img { height: 200px; }
+  .conference-info { padding: 0; }
+}
+
+/* Contacto: mismo eje que el resto de la página, sin glifos de relleno */
+.contact-container { text-align: left; }
+.contact-container > p { max-width: 52ch; margin: 0 0 2rem; }
+
+.contact-links {
+  justify-content: flex-start;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+
+.contact-link {
+  border-bottom: 0;
+  border-right: 1px solid var(--border);
+  padding: 1rem 1.6rem 1rem 0;
+  margin-right: 1.6rem;
+}
+
+.contact-links a:last-child { border-right: 0; margin-right: 0; }
+
+footer { text-align: left; }
+
+/* La publicación es la pieza principal de su sección: se le nota */
+.pub-entry { padding: 2.2rem 2.4rem; }
+.pub-title { font-size: 1.2rem; line-height: 1.35; }
