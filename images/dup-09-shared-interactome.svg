@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Two paralog copies, tied by a dashed line, reach two interaction partners in common and one partner each on their own">
+  <style>
+    .f9-disc{fill:#12203a}
+    .f9-tie{stroke:#5b6d8c;stroke-width:2;stroke-dasharray:4 3;stroke-linecap:round}
+    .f9-own{stroke:#5b6d8c;stroke-width:2;fill:none}
+    .f9-share{stroke:#e8a33d;stroke-width:2.2;fill:none;stroke-dasharray:95;stroke-dashoffset:95;
+              animation:fgDraw 3s ease-out infinite}
+    .f9-node{fill:#12203a;stroke:#5b6d8c;stroke-width:2}
+    .f9-lit{fill:#12203a;stroke:#5b6d8c;stroke-width:2;animation:fgLight 3s ease-out infinite}
+    .f9-cap{fill:#e8a33d}
+    @keyframes fgDraw { 0%,12%{stroke-dashoffset:95} 66%,100%{stroke-dashoffset:0} }
+    @keyframes fgLight{ 0%,40%{fill:#12203a} 74%,100%{fill:#e8a33d} }
+    @media (prefers-reduced-motion:reduce){
+      .f9-share{animation:none;stroke-dashoffset:0}
+      .f9-lit{animation:none;fill:#e8a33d}
+    }
+  </style>
+  <circle class="f9-disc" cx="100" cy="100" r="100"/>
+
+  <line class="f9-tie" x1="41" y1="90" x2="41" y2="110"/>
+
+  <line class="f9-own" x1="62" y1="84"  x2="148" y2="46"/>
+  <line class="f9-own" x1="62" y1="116" x2="148" y2="154"/>
+
+  <line class="f9-share" x1="62" y1="84"  x2="148" y2="84"/>
+  <line class="f9-share" x1="62" y1="84"  x2="148" y2="116"/>
+  <line class="f9-share" x1="62" y1="116" x2="148" y2="84"/>
+  <line class="f9-share" x1="62" y1="116" x2="148" y2="116"/>
+
+  <circle class="f9-node" cx="148" cy="46"  r="8.5"/>
+  <circle class="f9-node" cx="148" cy="154" r="8.5"/>
+  <circle class="f9-lit"  cx="148" cy="84"  r="8.5"/>
+  <circle class="f9-lit"  cx="148" cy="116" r="8.5"/>
+
+  <rect class="f9-cap" x="20" y="78"  width="42" height="12" rx="3.4"/>
+  <rect class="f9-cap" x="20" y="110" width="42" height="12" rx="3.4"/>
+</svg>

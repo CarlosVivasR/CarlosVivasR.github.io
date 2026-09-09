@@ -110,7 +110,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
 </head>
 <body>
-
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
@@ -119,13 +118,10 @@
         <span></span><span></span><span></span>
       </button>
       <ul>
-        <li><a href="#about">About</a></li>
         <li><a href="#research">Research</a></li>
         <li><a href="#publications">Publications</a></li>
-        <li><a href="#software">Software</a></li>
-        <li><a href="#conferences">Conferences</a></li>
-        <li><a href="#interests">Beyond</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">Background</a></li>
+        <li><a href="#projects">Projects</a></li>
       </ul>
     </div>
   </nav>
@@ -137,13 +133,13 @@
         <p class="label">PhD Researcher</p>
         <h1>Carlos Vivas Rodriguez</h1>
         <p class="subtitle">
-          Computational Biology &amp; Genomics &middot;
-          University College Dublin
+          PhD Researcher in the
+          <a href="https://cancerdata.ucd.ie" target="_blank" rel="noopener">UCD Cancer Data Lab</a>
+          at University College Dublin
         </p>
         <p class="hero-desc">
-          I study why some genes can be lost without consequence while others,
-          when mutated, cause severe disease &mdash; focusing on the role of
-          paralogs as buffers of genetic variation in humans.
+          Most human genes carry a backup copy. In around 80% of disease genes
+          the backup fails &mdash; I work out why.
         </p>
         <div class="hero-links">
           <a href="#research" class="btn">Research</a>
@@ -156,149 +152,159 @@
     </div>
   </header>
 
-  <!-- ABOUT -->
-  <section id="about" class="fade-in">
+  <!-- RESEARCH — banda oscura, el "medio" de la web -->
+  <section id="research" class="band">
     <div class="container">
-      <h2>About</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            I am a PhD researcher at the <strong>Conway Institute, University
-            College Dublin</strong>, working in the
-            <a href="https://cancerdata.ucd.ie" target="_blank" rel="noopener">UCD Cancer Data Lab</a>
-            under the supervision of
-            <strong>Prof. Colm J. Ryan</strong>. The lab uses large-scale
-            genomic data to study how genetic variation shapes molecular
-            interaction networks, with a particular focus on paralog biology,
-            synthetic lethality, and gene essentiality in cancer. My PhD builds
-            on this work, asking why some genes can be completely lost without
-            consequence in healthy individuals while others, when mutated,
-            cause severe inherited disease.
-          </p>
-          <p>
-            Before starting my PhD, I completed a Master's in
-            <strong>Bioinformatics and Data Science in Personalised Precision
-            Medicine and Health</strong> at the
-            <strong>Escuela Nacional de Sanidad (ISCIII)</strong>, Madrid,
-            run in partnership with CNIO and the Barcelona Supercomputing
-            Center. As part of the programme I undertook a research
-            internship at the Conway Institute, funded through a grant obtained
-            by <strong>Dr. Joanna Drabinska</strong> within
-            Prof. Siobh&aacute;n McClean's Vaccine and Infection Group. The
-            computational side of the project was co-supervised by
-            Prof. Ryan, and it was during this period &mdash; working at the
-            interface of proteomics, orthology inference, and evolutionary
-            genomics &mdash; that I developed the skills and interests that
-            now define my research.
-          </p>
-          <p>
-            I hold a degree in <strong>Biotechnology</strong> from the
-            <strong>Universidad de Extremadura (UEX)</strong>, where I
-            completed an extracurricular internship at
-            <strong>Systems Biology Ireland</strong> under
-            <strong>Prof. David Gomez Matallanas</strong> &mdash; my first
-            exposure to academic research, and the experience that directed
-            me towards computational biology.
-          </p>
-        </div>
-        <div class="about-facts">
-          <div class="fact">
-            <span class="fact-label">Institution</span>
-            <span>University College Dublin</span>
-          </div>
-          <div class="fact">
-            <span class="fact-label">Group</span>
-            <span><a href="https://cancerdata.ucd.ie" target="_blank" rel="noopener">UCD Cancer Data Lab</a></span>
-          </div>
-          <div class="fact">
-            <span class="fact-label">Supervisor</span>
-            <span>Prof. Colm J. Ryan</span>
-          </div>
-          <div class="fact">
-            <span class="fact-label">Field</span>
-            <span>Computational Biology</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESEARCH -->
-  <section id="research" class="section-alt fade-in">
-    <div class="container">
-      <h2>Research</h2>
-      <p class="section-intro">
-        My PhD project investigates paralog compensation in humans &mdash;
-        specifically, why paralogs (duplicated genes) sometimes buffer
-        against gene loss and sometimes fail to do so.
+      <p class="band-eyebrow">Research</p>
+      <h2 class="band-h2">Duplicated genes, and when the duplicate stops helping</h2>
+      <p class="band-intro">
+        Most human genes have at least one paralog &mdash; a duplicate copy retained
+        in the genome after a duplication event. These copies have long been treated
+        as functional backups. My PhD asks when that is actually true.
       </p>
 
-      <div class="research-card main-project">
-        <div class="tag">PhD Project &middot; ongoing</div>
-        <h3>Determinants of Paralog Compensation in Humans</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-art">
+            <img src="images/dup-04-wgd.svg" alt="The whole set of chromosomes doubles at once" loading="lazy" width="200" height="200" />
+            <img src="images/dup-01-duplication.svg" alt="A single gene is copied next to the original" loading="lazy" width="200" height="200" />
+          </div>
+          <div class="step-text">
+            <p class="step-n">01</p>
+            <h3>Where the copy came from</h3>
+            <p>
+              Duplicates arise in two very different ways: an entire genome doubled
+              at once, or a single gene copied on its own. Both leave a paralog
+              behind, but they leave it under different constraints. I ask whether
+              that origin still shapes how tolerable the loss of a gene is today.
+            </p>
+          </div>
+        </li>
+
+        <li class="step flip">
+          <div class="step-art">
+            <img src="images/dup-02-divergence.svg" alt="Two copies drift apart as mutations accumulate in one of them" loading="lazy" width="200" height="200" />
+          </div>
+          <div class="step-text">
+            <p class="step-n">02</p>
+            <h3>What time does to a pair</h3>
+            <p>
+              From the moment they separate, two copies drift apart. Sequence
+              identity is the record of that drift &mdash; a rate multiplied by a
+              time. I use it to ask when a duplicate is still similar enough to
+              stand in for its partner, and when it has quietly become something else.
+            </p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-art">
+            <img src="images/dup-05-natural-ko.svg" alt="A healthy person carries both copies of a gene inactivated" loading="lazy" width="200" height="200" />
+            <img src="images/dup-06-cell-essential.svg" alt="The same gene switched off in culture kills the cells" loading="lazy" width="200" height="200" />
+          </div>
+          <div class="step-text">
+            <p class="step-n">03</p>
+            <h3>Two ways to ask whether a gene matters</h3>
+            <p>
+              Switch the same gene off and you can get two different verdicts. Some
+              people walk around perfectly healthy with both copies inactivated;
+              in culture, the same gene can be one a cell cannot live without.
+              Reconciling the two readouts is where the interesting cases live.
+            </p>
+          </div>
+        </li>
+
+        <li class="step flip">
+          <div class="step-art">
+            <img src="images/dup-03-compensation.svg" alt="One copy is lost and its sibling rises to restore the combined dose" loading="lazy" width="200" height="200" />
+          </div>
+          <div class="step-text">
+            <p class="step-n">04</p>
+            <h3>When the backup fails</h3>
+            <p>
+              Most human genes carry a paralog, and yet the majority of inherited
+              disease genes have one that does not compensate. I work on what
+              separates a duplicate that buffers the loss of its partner from one
+              that merely exists &mdash; with the long-term goal of finding cases
+              where restoring paralog function could matter clinically.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+<figure class="ri-fig">
+      <div class="ri-stage" id="ri-stage">
+        <svg viewBox="0 0 360 200" role="img" aria-labelledby="ri-alt">
+          <title id="ri-alt">A pair of gene copies at five moments after a duplication.
+          Left to right is time since the duplication; the vertical gap is how far the two
+          copies have drifted apart. At the far left they sit exactly on top of each other
+          and read as one. The dashed pair at the far right is the state this project asks
+          about.</title>
+          <g style="--i:0">   <rect class="ri-a ri-up"   x="21"  y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="21"  y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:1">   <rect class="ri-a ri-up"   x="75"  y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="75"  y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:1.7"> <rect class="ri-a ri-up"   x="129" y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="129" y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:2.15"><rect class="ri-a ri-up"   x="183" y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="183" y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:2.45"><rect class="ri-a ri-up"   x="237" y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="237" y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:2.65"><rect class="ri-ask ri-up" x="303" y="94" width="42" height="12" rx="3.4"/><rect class="ri-ask ri-dn" x="303" y="94" width="42" height="12" rx="3.4"/></g>
+        </svg>
+      </div>
+
+      <div class="ri-ctrl">
+        <label for="ri-rate">how fast this pair is drifting</label>
+        <input id="ri-rate" type="range" min="1" max="6" step="1" value="4"
+               aria-valuetext="fast &mdash; the two no longer look interchangeable">
+      </div>
+
+      <figcaption class="ri-cap">
+        <p class="ri-say"><span id="ri-state" aria-live="off">Fast &mdash; the two no longer
+          look interchangeable.</span> <em>Does the second one still cover for the
+          first?</em></p>
+        <p class="ri-cite">Copies pick up changes at some rate, and how different they look
+          is that rate multiplied by the time since they split &mdash; the molecular clock
+          (Zuckerkandl &amp; Pauling, 1965). Changes also land on top of earlier ones, so the
+          visible difference grows fast at first and then slows (Jukes &amp; Cantor, 1969).
+          This control is a definition, not a measurement.</p>
+      </figcaption>
+    </figure>
+
+      <div class="band-foot">
+        <p class="band-foot-label">PhD project &middot; ongoing</p>
         <p>
-          Most human genes have at least one paralog &mdash; a duplicate copy
-          retained in the genome after duplication. These duplicates have
-          long been thought to act as functional backups, yet around 80%
-          of genes associated with inherited disease have a paralog that
-          fails to compensate their loss. My PhD investigates this paradox:
-          when does paralog compensation work, when does it fail, and why?
-        </p>
-        <p>
-          Using a computational approach that integrates large-scale
-          population genomics with evolutionary and expression data, I aim
-          to define the features that distinguish successful from failed
-          compensation &mdash; with the long-term goal of identifying cases
-          where restoring paralog function could have therapeutic relevance.
+          <strong>Determinants of Paralog Compensation in Humans</strong> &mdash;
+          a computational approach integrating large-scale population genomics with
+          evolutionary and expression data, supervised by
+          <strong>Prof. Colm J. Ryan</strong> at the Conway Institute.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- PUBLICATIONS -->
+  <!-- PUBLICATIONS & TALKS -->
   <section id="publications" class="fade-in">
     <div class="container">
-      <h2>Publications</h2>
+      <h2>Publications &amp; talks</h2>
 
-      <div class="pub-entry">
+      <h3 class="sub-head">Peer-reviewed &amp; software</h3>
+
+
+      <article class="pub-entry">
         <p class="pub-authors">
           <strong>Vivas-Rodr&iacute;guez, C.</strong>, Matallanas, D.,
           Ryan, C.J., McClean, S., Dennler, O. &amp; Drabinska, J.
         </p>
-        <p class="pub-title">
+        <h3 class="pub-title">
           OrthoGather: a local platform for orthology-based proteome and
           proteomics comparisons and Gene Ontology enrichment
-        </p>
+        </h3>
         <p class="pub-journal">
           <em>Oxford Bioinformatics</em> &mdash; In revision
         </p>
-        <div class="pub-badges">
-          <a href="https://www.biorxiv.org/content/10.64898/2026.01.30.702851v2"
-             target="_blank" rel="noopener" class="pub-badge">Preprint</a>
-          <a href="https://github.com/CarlosVivasR/OrthoGather"
-             target="_blank" rel="noopener" class="pub-badge">Code</a>
-          <a href="https://zenodo.org/records/18772015"
-             target="_blank" rel="noopener" class="pub-badge">Zenodo</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SOFTWARE -->
-  <section id="software" class="section-alt fade-in">
-    <div class="container">
-      <h2>Software</h2>
-
-      <div class="software-card">
-        <div class="software-header">
-          <h3>OrthoGather</h3>
-        </div>
-        <p>
+        <p class="pub-abstract">
           A locally hosted web application for comparative proteomic analysis.
-          OrthoGather integrates orthology inference (via OrthoFinder) with
-          Gene Ontology enrichment, enabling cross-species functional
-          comparison without cloud dependency. It leverages annotations from
-          any orthogroup member to bridge gaps in poorly annotated organisms.
+          OrthoGather integrates orthology inference (via OrthoFinder) with Gene
+          Ontology enrichment, enabling cross-species functional comparison without
+          cloud dependency. It leverages annotations from any orthogroup member to
+          bridge gaps in poorly annotated organisms.
         </p>
         <div class="software-tech">
           <span class="tech-tag">Python</span>
@@ -307,98 +313,98 @@
           <span class="tech-tag">GOATOOLS</span>
           <span class="tech-tag">GPL-3.0</span>
         </div>
-        <div class="software-links">
-          <a href="https://github.com/CarlosVivasR/OrthoGather"
-             target="_blank" rel="noopener">
-            GitHub &rarr;
-          </a>
-          <a href="https://zenodo.org/records/18772015"
-             target="_blank" rel="noopener">
-            Zenodo &rarr;
-          </a>
+        <div class="pub-row">
+          <div class="pub-badges">
+            <a href="https://www.biorxiv.org/content/10.64898/2026.01.30.702851v2"
+               target="_blank" rel="noopener" class="pub-badge">Preprint</a>
+            <a href="https://github.com/CarlosVivasR/OrthoGather"
+               target="_blank" rel="noopener" class="pub-badge">Code</a>
+            <a href="https://zenodo.org/records/18772015"
+               target="_blank" rel="noopener" class="pub-badge">Zenodo</a>
+          </div>
+          <!-- Insignias vivas: se rellenan solas con el DOI. -->
+          <div class="pub-metrics">
+            <span class="__dimensions_badge_embed__"
+                  data-doi="10.5281/zenodo.18772015"
+                  data-style="small_circle"
+                  data-legend="hover-left"></span>
+            <span class="altmetric-embed"
+                  data-doi="10.5281/zenodo.18772015"
+                  data-badge-type="donut"
+                  data-badge-popover="left"
+                  data-hide-no-mentions="true"></span>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </article>
 
-  <!-- CONFERENCES -->
-  <section id="conferences" class="fade-in">
-    <div class="container">
-      <h2>Conferences &amp; Talks</h2>
-      <p class="section-intro">
-        Selected presentations from my PhD research.
-      </p>
-
+      <h3 class="sub-head">Presented</h3>
       <div class="conference-grid">
         <div class="conference-card">
           <div class="conference-img">
-            <img src="images/genomics-england.jpeg" alt="Carlos presenting his poster at the Genomics England Research Summit 2026, London" style="height: auto; object-fit: contain;" />
+            <img src="images/genomics-england.jpeg" alt="Carlos presenting his poster at the Genomics England Research Summit 2026, London" loading="lazy" />
           </div>
           <div class="conference-info">
             <div class="tag">Poster &middot; June 2026</div>
             <h3>Genomics England Research Summit 2026 &mdash; London</h3>
             <p class="conference-title">"Duplication origin shapes paralog compensation in rare developmental disorders"</p>
             <p>
-              Poster on why losing some genes is harmless while losing
-              others causes severe developmental disorders, and how a
-              paralog's origin shapes that tolerance. Shared with the
-              Genomics England community working in clinical and
-              rare-disease genomics.
+              Poster on why losing some genes is harmless while losing others
+              causes severe developmental disorders, and how a paralog's origin
+              shapes that tolerance. Shared with the Genomics England community
+              working in clinical and rare-disease genomics.
             </p>
           </div>
         </div>
 
         <div class="conference-card">
           <div class="conference-img">
-            <img src="images/chas.jpeg" alt="Carlos presenting at the CHAS Graduate Research Student Symposium 2026, University College Dublin" />
+            <img src="images/chas.jpeg" alt="Carlos presenting at the CHAS Graduate Research Student Symposium 2026, University College Dublin" loading="lazy" />
           </div>
           <div class="conference-info">
-            <div class="tag">Oral Talk &middot; April 2026</div>
+            <div class="tag">Oral talk &middot; April 2026</div>
             <h3>CHAS Symposium 2026 &mdash; University College Dublin</h3>
             <p class="conference-title">"Duplication origin shapes loss-of-function tolerance in human paralog genes"</p>
             <p>
-              Why does the same kind of mutation cause severe disease in
-              one gene while passing unnoticed in another? In this talk I
-              argued that part of the answer lies in our paralogs &mdash;
-              and, in particular, in how those duplications first arose.
-              Being selected for an oral talk at the UCD College of Health
-              and Agricultural Sciences symposium was a chance to share
-              the work with researchers well outside my immediate field.
+              Why does the same kind of mutation cause severe disease in one gene
+              while passing unnoticed in another? In this talk I argued that part
+              of the answer lies in our paralogs &mdash; and, in particular, in how
+              those duplications first arose. Being selected for an oral talk at the
+              UCD College of Health and Agricultural Sciences symposium was a chance
+              to share the work with researchers well outside my immediate field.
             </p>
           </div>
         </div>
 
         <div class="conference-card">
           <div class="conference-img">
-            <img src="images/vibe.jpeg" alt="Carlos presenting at VIBE 2025, Trinity College Dublin" />
+            <img src="images/vibe.jpeg" alt="Carlos presenting at VIBE 2025, Trinity College Dublin" loading="lazy" />
           </div>
           <div class="conference-info">
-            <div class="tag">Flash Talk &middot; December 2025</div>
+            <div class="tag">Flash talk &middot; December 2025</div>
             <h3>VIBE 2025 &mdash; Trinity College Dublin</h3>
             <p class="conference-title">"Natural Knock-Outs of human genes are more frequently observed in genes with paralogs"</p>
             <p>
-              Talk on how functional compensation between paralogs may
-              contribute to the tolerance of loss-of-function genes in
-              healthy human populations. The conference brought together
-              researchers across genetics, evolutionary biology and
-              bioinformatics.
+              Talk on how functional compensation between paralogs may contribute
+              to the tolerance of loss-of-function genes in healthy human
+              populations. The conference brought together researchers across
+              genetics, evolutionary biology and bioinformatics.
             </p>
           </div>
         </div>
 
         <div class="conference-card">
           <div class="conference-img">
-            <img src="images/icsb.jpeg" alt="Carlos presenting poster at ICSB 2025, Dublin" />
+            <img src="images/icsb.jpeg" alt="Carlos presenting poster at ICSB 2025, Dublin" loading="lazy" />
           </div>
           <div class="conference-info">
             <div class="tag">Poster &middot; October 2025</div>
             <h3>ICSB 2025 &mdash; International Conference on Systems Biology</h3>
             <p class="conference-title">"Paralogs shape the tolerance of humans to natural knockout genes"</p>
             <p>
-              Poster exploring how paralog buffering influences the ability
-              of humans to tolerate loss-of-function mutations &mdash; at the
-              intersection of genomics and systems biology. First
-              international conference of my PhD.
+              Poster exploring how paralog buffering influences the ability of
+              humans to tolerate loss-of-function mutations &mdash; at the
+              intersection of genomics and systems biology. First international
+              conference of my PhD.
             </p>
           </div>
         </div>
@@ -406,99 +412,124 @@
     </div>
   </section>
 
-  <!-- BEYOND RESEARCH -->
-  <section id="interests" class="section-alt fade-in">
+  <!-- BACKGROUND -->
+  <section id="about" class="fade-in">
     <div class="container">
-      <h2>Beyond Research</h2>
+      <h2>Background</h2>
       <p class="section-intro">
-        Outside of my PhD, I am building complementary skills in areas
-        that I find intellectually stimulating and that I believe will
-        shape my future career.
+        I arrived at computational biology from the wet-lab side, through three
+        groups in two countries.
       </p>
-      <div class="interests-grid">
-        <div class="interest-card">
-          <div class="interest-icon">
-            <svg viewBox="0 0 64 64" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
-              <!-- Brain (left hemisphere) -->
-              <path d="M30 14c-4 0-7 2-8 5-3 0-5 2-5 5 0 1 0 2 1 3-2 1-3 3-3 5s1 4 3 5c-1 2-1 4 1 6 1 2 3 3 5 3 1 2 3 4 6 4V14z"
-                    fill="none" stroke="#2d6a9f" stroke-width="2.2" stroke-linejoin="round"/>
-              <!-- Brain internal fold -->
-              <path d="M24 24c2 1 3 3 3 5M22 36c2 0 4 1 5 3M27 18c-1 2-1 4 0 6"
-                    fill="none" stroke="#2d6a9f" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
-              <!-- Vertical divide -->
-              <line x1="30" y1="14" x2="30" y2="50" stroke="#2d6a9f" stroke-width="1.2" opacity="0.4"/>
-              <!-- Circuit lines to right -->
-              <line x1="30" y1="20" x2="44" y2="20" stroke="#2d6a9f" stroke-width="2"/>
-              <circle cx="48" cy="20" r="3" fill="#fafaf8" stroke="#2d6a9f" stroke-width="2"/>
-              <line x1="30" y1="27" x2="50" y2="27" stroke="#2d6a9f" stroke-width="2"/>
-              <circle cx="54" cy="27" r="3" fill="#fafaf8" stroke="#2d6a9f" stroke-width="2"/>
-              <line x1="30" y1="34" x2="46" y2="34" stroke="#2d6a9f" stroke-width="2"/>
-              <circle cx="50" cy="34" r="3" fill="#fafaf8" stroke="#2d6a9f" stroke-width="2"/>
-              <line x1="30" y1="41" x2="52" y2="41" stroke="#2d6a9f" stroke-width="2"/>
-              <circle cx="56" cy="41" r="3" fill="#fafaf8" stroke="#2d6a9f" stroke-width="2"/>
-              <line x1="30" y1="48" x2="44" y2="48" stroke="#2d6a9f" stroke-width="2"/>
-              <circle cx="48" cy="48" r="3" fill="#fafaf8" stroke="#2d6a9f" stroke-width="2"/>
-            </svg>
+
+      <div class="path">
+        <div class="path-item">
+          <div class="path-where">
+            <strong>University College Dublin</strong>
+            <span>Conway Institute &middot; Dublin</span>
           </div>
-          <h3>Machine Learning &amp; Deep Learning</h3>
-          <p>
-            Expanding my analytical toolkit beyond classical statistics
-            into ML and DL &mdash; from scikit-learn to PyTorch and large
-            language models. Particularly interested in their application
-            to biological and genomic data.
-          </p>
-        </div>
-        <div class="interest-card">
-          <div class="interest-icon">
-            <svg viewBox="0 0 64 64" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
-              <!-- Monitor frame -->
-              <rect x="4" y="8" width="40" height="32" rx="2" fill="#eef2f5" stroke="#5a6a7a" stroke-width="1.5"/>
-              <!-- Monitor stand -->
-              <path d="M20 40 L20 46 L28 46 L28 40 Z" fill="#5a6a7a"/>
-              <rect x="14" y="46" width="20" height="2" rx="1" fill="#5a6a7a"/>
-              <!-- Bars -->
-              <rect x="9" y="28" width="6" height="11" fill="#e74c3c"/>
-              <rect x="17" y="22" width="6" height="17" fill="#f39c12"/>
-              <rect x="25" y="16" width="6" height="23" fill="#3498db"/>
-              <!-- Trend line -->
-              <polyline points="12,24 20,18 28,12" fill="none" stroke="#2c3e50" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="12" cy="24" r="2" fill="#e74c3c"/>
-              <circle cx="20" cy="18" r="2" fill="#f39c12"/>
-              <circle cx="28" cy="12" r="2" fill="#3498db"/>
-              <!-- Horizontal text lines -->
-              <line x1="34" y1="14" x2="40" y2="14" stroke="#5a6a7a" stroke-width="1.2" stroke-linecap="round"/>
-              <line x1="34" y1="17" x2="40" y2="17" stroke="#5a6a7a" stroke-width="1.2" stroke-linecap="round"/>
-              <!-- Pie chart -->
-              <circle cx="52" cy="30" r="10" fill="#f1c40f"/>
-              <path d="M52 30 L52 20 A10 10 0 0 1 60.66 25 Z" fill="#e74c3c"/>
-              <path d="M52 30 L60.66 25 A10 10 0 0 1 60 35 Z" fill="#3498db"/>
-            </svg>
+          <div class="path-what">
+            <h3>PhD in Computational Biology</h3>
+            <p>
+              Paralog compensation in humans, in the UCD Cancer Data Lab. The lab
+              studies how genetic variation shapes molecular interaction networks,
+              with a focus on paralog biology, synthetic lethality and gene
+              essentiality in cancer.
+            </p>
           </div>
-          <h3>Data Science &amp; Visualisation</h3>
-          <p>
-            Building tools and pipelines to extract insight from complex
-            datasets. Interested in reproducible research, clean analysis
-            workflows, and communicating data effectively across domains.
-          </p>
-          <a href="projects/football-analytics/index.html" class="project-inline-link" target="_blank" rel="noopener">
-            <span class="project-inline-icon">&#x26BD;</span>
-            <span class="project-inline-text">
-              <strong>Beyond Goals &amp; Assists</strong>
-              <span class="project-inline-sub">Football analytics dashboard &rarr;</span>
-            </span>
-          </a>
-          <!-- WC 2026 Pool card hidden from public homepage (Option D, 2026-05-13).
-               The page itself stays live at /projects/wc2026-pool/ for friends with the direct link. -->
-          <!--
-          <a href="projects/wc2026-pool/index.html" class="project-inline-link" target="_blank" rel="noopener">
-            <span class="project-inline-icon">&#x1F3C6;</span>
-            <span class="project-inline-text">
-              <strong>World Cup 2026 Pool</strong>
-              <span class="project-inline-sub">Private bracket prediction pool &rarr;</span>
-            </span>
-          </a>
-          -->
         </div>
+
+        <div class="path-item">
+          <div class="path-where">
+            <strong>Conway Institute, UCD</strong>
+            <span>Vaccine and Infection Group &middot; Dublin</span>
+          </div>
+          <div class="path-what">
+            <h3>Research internship</h3>
+            <p>
+              Proteomics and orthology inference in Prof. Siobh&aacute;n McClean's
+              group, funded through a grant obtained by
+              <strong>Dr. Joanna Drabinska</strong>, with the computational side
+              co-supervised by Prof. Ryan. This is where OrthoGather started, and
+              where my current interests took shape.
+            </p>
+          </div>
+        </div>
+
+        <div class="path-item">
+          <div class="path-where">
+            <strong>Escuela Nacional de Sanidad (ISCIII)</strong>
+            <span>Madrid</span>
+          </div>
+          <div class="path-what">
+            <h3>MSc Bioinformatics and Data Science in Personalised Precision Medicine and Health</h3>
+            <p>
+              Run in partnership with CNIO and the Barcelona Supercomputing Center.
+            </p>
+          </div>
+        </div>
+
+        <div class="path-item">
+          <div class="path-where">
+            <strong>Systems Biology Ireland</strong>
+            <span>Dublin</span>
+          </div>
+          <div class="path-what">
+            <h3>Extracurricular internship</h3>
+            <p>
+              With <strong>Prof. David Gomez Matallanas</strong>. My first exposure
+              to academic research, and the experience that pointed me towards
+              computational biology.
+            </p>
+          </div>
+        </div>
+
+        <div class="path-item">
+          <div class="path-where">
+            <strong>Universidad de Extremadura</strong>
+            <span>Badajoz, Spain</span>
+          </div>
+          <div class="path-what">
+            <h3>BSc Biotechnology</h3>
+            <p>
+              Where the bench, not the terminal, was still the default.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section-alt fade-in">
+    <div class="container">
+      <h2>Projects</h2>
+      <p class="section-intro">
+        Things I build outside the thesis, mostly as an excuse to think about
+        data in a domain where I have no expertise to defend.
+      </p>
+
+      <div class="project-grid">
+        <a class="project-card" href="projects/football-analytics/index.html" target="_blank" rel="noopener">
+          <p class="project-kind">Interactive dashboard</p>
+          <h3>Beyond Goals &amp; Assists</h3>
+          <p>
+            A football analytics dashboard built from match event data, looking at
+            what a player contributes beyond the two numbers everyone quotes.
+            Python for the pipeline, plain JavaScript for the front end.
+          </p>
+          <p class="project-go">Open the dashboard &rarr;</p>
+        </a>
+
+        <a class="project-card" href="projects/wc2026-pool/index.html" target="_blank" rel="noopener">
+          <p class="project-kind">Rating model &amp; prediction pool</p>
+          <h3>World Cup 2026</h3>
+          <p>
+            Fixtures, squads and venues for all 48 teams, a prediction pool, and a
+            team rating model whose win probabilities refresh automatically from
+            each round of results through a scheduled job.
+          </p>
+          <p class="project-go">Open the site &rarr;</p>
+        </a>
       </div>
     </div>
   </section>
@@ -513,22 +544,10 @@
         to reach out. I am always happy to connect.
       </p>
       <div class="contact-links">
-        <a href="mailto:carlos.vivas@ucdconnect.ie" class="contact-link">
-          <span class="contact-icon">&#x2709;</span>
-          Email
-        </a>
-        <a href="https://github.com/CarlosVivasR" class="contact-link" target="_blank" rel="noopener">
-          <span class="contact-icon">&#x2B22;</span>
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/carlos-vivas-rodr%C3%ADguez-739018188/" class="contact-link" target="_blank" rel="noopener">
-          <span class="contact-icon">&#x25A6;</span>
-          LinkedIn
-        </a>
-        <a href="https://orcid.org/0009-0008-0544-1776" class="contact-link" target="_blank" rel="noopener">
-          <span class="contact-icon">&#x29BE;</span>
-          ORCID
-        </a>
+        <a href="mailto:carlos.vivas@ucdconnect.ie" class="contact-link">Email</a>
+        <a href="https://github.com/CarlosVivasR" class="contact-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/carlos-vivas-rodr%C3%ADguez-739018188/" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://orcid.org/0009-0008-0544-1776" class="contact-link" target="_blank" rel="noopener">ORCID</a>
       </div>
     </div>
   </section>
@@ -540,5 +559,32 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+/* ─── El mando ─────────────────────────────────────────────────── */
+const riStage  = document.getElementById('ri-stage');
+const riSlider = document.getElementById('ri-rate');
+const riState  = document.getElementById('ri-state');
+
+if (riStage && riSlider && riState) {
+  const RI_WORDS = [
+    'very slow — after all this time the two copies still look almost the same',
+    'slow — the two copies are still close',
+    'moderate — the copies have clearly moved apart',
+    'fast — the two no longer look interchangeable',
+    'very fast — little of the original resemblance is left',
+    'extreme — the two copies barely resemble each other'
+  ];
+  const riSet = v => {
+    const w = RI_WORDS[v - 1];
+    riStage.style.setProperty('--rate', v);
+    riSlider.setAttribute('aria-valuetext', w);
+    riState.textContent = w.charAt(0).toUpperCase() + w.slice(1) + '.';
+  };
+  riSlider.addEventListener('input', () => riSet(+riSlider.value));
+}
+  </script>
+  <!-- Insignias de citas y atención: rellenan los data-doi de arriba. -->
+  <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
 </body>
 </html>
