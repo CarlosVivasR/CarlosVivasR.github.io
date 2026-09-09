@@ -232,6 +232,41 @@
         </li>
       </ol>
 
+<figure class="ri-fig">
+      <div class="ri-stage" id="ri-stage">
+        <svg viewBox="0 0 360 200" role="img" aria-labelledby="ri-alt">
+          <title id="ri-alt">A pair of gene copies at five moments after a duplication.
+          Left to right is time since the duplication; the vertical gap is how far the two
+          copies have drifted apart. At the far left they sit exactly on top of each other
+          and read as one. The dashed pair at the far right is the state this project asks
+          about.</title>
+          <g style="--i:0">   <rect class="ri-a ri-up"   x="21"  y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="21"  y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:1">   <rect class="ri-a ri-up"   x="75"  y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="75"  y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:1.7"> <rect class="ri-a ri-up"   x="129" y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="129" y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:2.15"><rect class="ri-a ri-up"   x="183" y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="183" y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:2.45"><rect class="ri-a ri-up"   x="237" y="94" width="42" height="12" rx="3.4"/><rect class="ri-b ri-dn"   x="237" y="94" width="42" height="12" rx="3.4"/></g>
+          <g style="--i:2.65"><rect class="ri-ask ri-up" x="303" y="94" width="42" height="12" rx="3.4"/><rect class="ri-ask ri-dn" x="303" y="94" width="42" height="12" rx="3.4"/></g>
+        </svg>
+      </div>
+
+      <div class="ri-ctrl">
+        <label for="ri-rate">how fast this pair is drifting</label>
+        <input id="ri-rate" type="range" min="1" max="6" step="1" value="4"
+               aria-valuetext="fast &mdash; the two no longer look interchangeable">
+      </div>
+
+      <figcaption class="ri-cap">
+        <p class="ri-say"><span id="ri-state" aria-live="off">Fast &mdash; the two no longer
+          look interchangeable.</span> <em>Does the second one still cover for the
+          first?</em></p>
+        <p class="ri-cite">Copies pick up changes at some rate, and how different they look
+          is that rate multiplied by the time since they split &mdash; the molecular clock
+          (Zuckerkandl &amp; Pauling, 1965). Changes also land on top of earlier ones, so the
+          visible difference grows fast at first and then slows (Jukes &amp; Cantor, 1969).
+          This control is a definition, not a measurement.</p>
+      </figcaption>
+    </figure>
+
       <div class="band-foot">
         <p class="band-foot-label">PhD project &middot; ongoing</p>
         <p>
@@ -524,6 +559,30 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+/* ─── El mando ─────────────────────────────────────────────────── */
+const riStage  = document.getElementById('ri-stage');
+const riSlider = document.getElementById('ri-rate');
+const riState  = document.getElementById('ri-state');
+
+if (riStage && riSlider && riState) {
+  const RI_WORDS = [
+    'very slow — after all this time the two copies still look almost the same',
+    'slow — the two copies are still close',
+    'moderate — the copies have clearly moved apart',
+    'fast — the two no longer look interchangeable',
+    'very fast — little of the original resemblance is left',
+    'extreme — the two copies barely resemble each other'
+  ];
+  const riSet = v => {
+    const w = RI_WORDS[v - 1];
+    riStage.style.setProperty('--rate', v);
+    riSlider.setAttribute('aria-valuetext', w);
+    riState.textContent = w.charAt(0).toUpperCase() + w.slice(1) + '.';
+  };
+  riSlider.addEventListener('input', () => riSet(+riSlider.value));
+}
+  </script>
   <!-- Insignias de citas y atención: rellenan los data-doi de arriba. -->
   <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
   <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>

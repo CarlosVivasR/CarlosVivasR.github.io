@@ -801,3 +801,44 @@ footer { text-align: left; }
 /* La publicación es la pieza principal de su sección: se le nota */
 .pub-entry { padding: 2.2rem 2.4rem; }
 .pub-title { font-size: 1.2rem; line-height: 1.35; }
+
+
+/* ══════ COMPONENTE · EL MANDO ══════════════════════════════════════
+   Pieza central: fija una TASA, nunca un resultado. El ultimo par va en
+   contorno discontinuo porque es la pregunta abierta. ══════════════ */
+/* ═══ EL MANDO ══════════════════════════════════════════════════ */
+/* Todas las clases prefijadas ri-. Un .open sin prefijar dentro de un
+   SVG inline romperia el menu movil: style.css L138 declara
+   nav ul.open{display:flex} y las clases de un SVG inline son globales.
+   prefers-reduced-motion: no hay nada que desactivar — el instrumento
+   no anima nada por su cuenta; solo se mueve cuando el lector lo mueve. */
+
+.ri-fig   { margin: 3.2rem 0 0; }
+.ri-stage { --rate: 4; max-width: 520px; }
+.ri-stage svg { display: block; width: 100%; height: auto; }
+
+/* SIN transition: ver el bloque de verificacion al final de este fichero. */
+.ri-up { transform: translateY(calc(var(--i) * var(--rate) * -2.6px)); }
+.ri-dn { transform: translateY(calc(var(--i) * var(--rate) *  2.6px)); }
+
+.ri-a   { fill: #e8a33d; }
+.ri-b   { fill: #e8a33d; stroke: #12203a; stroke-width: 1.6; }
+.ri-ask { fill: none; stroke: #e8a33d; stroke-width: 2; stroke-dasharray: 5 4; }
+
+.ri-ctrl { max-width: 520px; margin-top: 1.5rem; }
+.ri-ctrl label { display:block; font-size:.74rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:#e8a33d;
+  margin-bottom:.5rem; }
+.ri-ctrl input[type=range] { width:100%; margin:0; accent-color:#e8a33d; }
+.ri-ctrl input[type=range]:focus-visible { outline:2px solid #e8a33d;
+  outline-offset:4px; }
+
+.ri-cap  { margin-top: 1rem; }
+.ri-say  { font-family: var(--font-serif); font-size:1.05rem; color:#fff;
+  max-width:52ch; margin:0; }
+.ri-say em { color:#dde5f2; }
+.ri-cite { font-size:.82rem; color:#93a3bd; max-width:60ch; margin:.8rem 0 0; }
+
+@media (max-width:780px) { .ri-fig { margin-top:2.2rem; } }
+@media print { .ri-ctrl { display:none; } }
+/* En impresion la figura sale a --rate:4, que es una figura correcta. */

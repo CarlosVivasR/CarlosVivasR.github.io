@@ -1,34 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Un complejo proteico ensamblado se desmonta cuando una subunidad llega en dosis de más">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Three subunits fitted together in a fixed ratio come apart when a surplus copy of one of them arrives">
   <style>
-    .disc{fill:#12203a}
-    .ring{fill:none;stroke:#3d5378;stroke-width:1.3;stroke-dasharray:4 6;opacity:.7}
-    .su{transform-box:fill-box;transform-origin:center;fill:#e8a33d;animation:fade 6s linear infinite}
-    .s1{animation:move1 6s cubic-bezier(.4,0,.28,1) infinite,fade 6s linear infinite}
-    .s2{animation:move2 6s cubic-bezier(.4,0,.28,1) infinite,fade 6s linear infinite}
-    .s3{animation:move3 6s cubic-bezier(.4,0,.28,1) infinite,fade 6s linear infinite}
-    .sx{fill:#e8a33d;opacity:1;transform-box:fill-box;transform-origin:center;
-        animation:extra 6s cubic-bezier(.4,0,.28,1) infinite}
-    @keyframes move1{ 0%,32%{transform:translate(0,0)}      64%,100%{transform:translate(0,-26px)} }
-    @keyframes move2{ 0%,32%{transform:translate(0,0)}      64%,100%{transform:translate(-23px,13px)} }
-    @keyframes move3{ 0%,32%{transform:translate(0,0)}      64%,100%{transform:translate(23px,13px)} }
-    @keyframes fade { 0%,44%{fill:#e8a33d}                  70%,100%{fill:#46536b} }
-    @keyframes extra{
-      0%,20%  {opacity:0;transform:translate(0,0) scale(.5)}
-      36%     {opacity:1;transform:translate(0,0) scale(1)}
-      64%,100%{opacity:1;transform:translate(0,34px) scale(1)}
-    }
+    .f8-disc{fill:#12203a}
+    .f8-ring{fill:none;stroke:#5b6d8c;stroke-width:2;stroke-dasharray:4 6}
+    .f8-su{fill:#e8a33d;animation:fgGrey 3.4s linear infinite}
+    .f8-s1{animation:fgGrey 3.4s linear infinite, fgOut1 3.4s cubic-bezier(.4,0,.3,1) infinite}
+    .f8-s2{animation:fgGrey 3.4s linear infinite, fgOut2 3.4s cubic-bezier(.4,0,.3,1) infinite}
+    .f8-s3{animation:fgGrey 3.4s linear infinite, fgOut3 3.4s cubic-bezier(.4,0,.3,1) infinite}
+    .f8-extra{fill:#e8a33d;opacity:0;animation:fgArrive 3.4s cubic-bezier(.4,0,.3,1) infinite}
+    @keyframes fgGrey{ 0%,52%{fill:#e8a33d} 84%,100%{fill:#7a8aa6} }
+    @keyframes fgOut1{ 0%,40%{transform:translate(0,0)} 82%,100%{transform:translate(0,-22px)} }
+    @keyframes fgOut2{ 0%,40%{transform:translate(0,0)} 82%,100%{transform:translate(-20px,12px)} }
+    @keyframes fgOut3{ 0%,40%{transform:translate(0,0)} 82%,100%{transform:translate(20px,12px)} }
+    @keyframes fgArrive{ 0%,10%{transform:translateY(34px);opacity:0} 24%{opacity:1} 62%,100%{transform:translateY(0);opacity:1} }
     @media (prefers-reduced-motion:reduce){
-      .s1{animation:none;transform:translate(0,-26px);fill:#46536b}
-      .s2{animation:none;transform:translate(-23px,13px);fill:#46536b}
-      .s3{animation:none;transform:translate(23px,13px);fill:#46536b}
-      .sx{animation:none;transform:translate(0,34px);opacity:1}
+      .f8-s1{animation:none;fill:#7a8aa6;transform:translate(0,-22px)}
+      .f8-s2{animation:none;fill:#7a8aa6;transform:translate(-20px,12px)}
+      .f8-s3{animation:none;fill:#7a8aa6;transform:translate(20px,12px)}
+      .f8-extra{animation:none;transform:translateY(0);opacity:1}
     }
   </style>
-  <circle class="disc" cx="100" cy="100" r="100"/>
-  <circle class="ring" cx="100" cy="100" r="54"/>
+  <circle class="f8-disc" cx="100" cy="100" r="100"/>
+  <circle class="f8-ring" cx="100" cy="100" r="46"/>
 
-  <circle class="su s2" cx="83"  cy="110" r="21"/>
-  <circle class="su s3" cx="117" cy="110" r="21"/>
-  <circle class="su s1" cx="100" cy="81"  r="21"/>
-  <circle class="sx"    cx="100" cy="81"  r="21"/>
+  <circle class="f8-su f8-s2" cx="82"  cy="110" r="20"/>
+  <circle class="f8-su f8-s3" cx="118" cy="110" r="20"/>
+  <circle class="f8-su f8-s1" cx="100" cy="78"  r="20"/>
+  <circle class="f8-extra"    cx="100" cy="150" r="20"/>
 </svg>

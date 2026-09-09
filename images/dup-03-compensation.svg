@@ -1,39 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Se pierde una copia y la copia hermana sube su expresión hasta restituir la dosis conjunta">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="One copy of a pair is switched off; the other copy is drawn as an open dashed outline because whether it covers is not known">
   <style>
-    .disc{fill:#12203a}
-    .axis{stroke:#28405f;stroke-width:2;stroke-linecap:round}
-    .level{stroke:#c9d3e6;stroke-width:1.2;stroke-dasharray:5 4;opacity:.4}
-    .gene{fill:#e8a33d}
-    .lost{fill:#e8a33d;animation:lostFill 5.4s linear infinite}
-    .bar{transform-box:fill-box;transform-origin:bottom}
-    .barL{fill:#e8a33d;animation:barDown 5.4s cubic-bezier(.4,0,.3,1) infinite}
-    .barR{fill:#e8a33d;animation:barUp 5.4s cubic-bezier(.4,0,.3,1) infinite}
-    .ko{stroke:#c9d3e6;stroke-width:3.5;stroke-linecap:round;opacity:0;animation:koIn 5.4s ease-out infinite}
-    @keyframes lostFill{ 0%,22%{fill:#e8a33d} 40%,100%{fill:#3d4b63} }
-    @keyframes barDown{ 0%,22%{transform:scaleY(1)} 44%,100%{transform:scaleY(.03)} }
-    @keyframes barUp{   0%,34%{transform:scaleY(1)} 62%,100%{transform:scaleY(2)} }
-    @keyframes koIn{    0%,20%{opacity:0} 30%,100%{opacity:1} }
+    .f6-disc{fill:#12203a}
+    .f6-cap{fill:#e8a33d;animation:fgOff 3.4s linear infinite}
+    .f6-case{stroke:#12203a;stroke-width:3.4;stroke-linecap:round}
+    .f6-core{stroke:#ffffff;stroke-width:2;stroke-linecap:round}
+    .f6-ko{opacity:0;animation:fgKo 3.4s ease-out infinite}
+    .f6-solid{fill:#e8a33d;animation:fgFade 3.4s linear infinite}
+    .f6-ask{fill:none;stroke:#e8a33d;stroke-width:2.6;stroke-dasharray:4.5 3.4;
+            opacity:0;animation:fgAsk 3.4s linear infinite}
+    @keyframes fgOff { 0%,18%{fill:#e8a33d} 38%,100%{fill:#7a8aa6} }
+    @keyframes fgKo  { 0%,16%{opacity:0} 36%,100%{opacity:1} }
+    @keyframes fgFade{ 0%,52%{opacity:1} 84%,100%{opacity:0} }
+    @keyframes fgAsk { 0%,56%{opacity:0} 88%,100%{opacity:1} }
     @media (prefers-reduced-motion:reduce){
-      .lost{animation:none;fill:#3d4b63}
-      .barL{animation:none;transform:scaleY(.03)}
-      .barR{animation:none;transform:scaleY(2)}
-      .ko{animation:none;opacity:1}
+      .f6-cap{animation:none;fill:#7a8aa6}
+      .f6-ko{animation:none;opacity:1}
+      .f6-solid{animation:none;opacity:0}
+      .f6-ask{animation:none;opacity:1}
     }
   </style>
-  <circle class="disc" cx="100" cy="100" r="100"/>
+  <circle class="f6-disc" cx="100" cy="100" r="100"/>
 
-  <line class="level" x1="40" y1="64" x2="160" y2="64"/>
-
-  <rect class="bar barL" x="60" y="98" width="22" height="34" rx="2"/>
-  <rect class="bar barR" x="118" y="98" width="22" height="34" rx="2"/>
-
-  <line class="axis" x1="46" y1="133" x2="154" y2="133"/>
-
-  <rect class="lost" x="56" y="142" width="30" height="18" rx="4"/>
-  <rect class="gene" x="114" y="142" width="30" height="18" rx="4"/>
-
-  <g class="ko">
-    <line x1="61" y1="146" x2="81" y2="156"/>
-    <line x1="81" y1="146" x2="61" y2="156"/>
+  <rect class="f6-cap" x="28" y="91" width="64" height="18" rx="5.1"/>
+  <g class="f6-ko">
+    <g class="f6-case"><line x1="43" y1="85" x2="77" y2="115"/><line x1="77" y1="85" x2="43" y2="115"/></g>
+    <g class="f6-core"><line x1="43" y1="85" x2="77" y2="115"/><line x1="77" y1="85" x2="43" y2="115"/></g>
   </g>
+
+  <rect class="f6-solid" x="108" y="91" width="64" height="18" rx="5.1"/>
+  <rect class="f6-ask"   x="108" y="91" width="64" height="18" rx="5.1"/>
 </svg>
