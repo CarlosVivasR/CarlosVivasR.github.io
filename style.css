@@ -494,71 +494,78 @@ footer p { font-size: 0.85rem; color: var(--light); margin: 0; }
 
 .steps {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 3.4rem;
-  margin: 3.6rem 0 0;
-  padding: 0;
-}
-
-.step {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 2.8rem;
-  align-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0 1.6rem;
+  margin: 3.4rem 0 0;
+  padding: 0;
+  position: relative;
 }
 
-.step .step-art  { grid-column: 1; grid-row: 1; }
-.step .step-text { grid-column: 2; grid-row: 1; max-width: 58ch; margin-right: auto; }
-
-.step.flip { grid-template-columns: 1fr 320px; }
-.step.flip .step-art  { grid-column: 2; grid-row: 1; }
-.step.flip .step-text {
-  grid-column: 1;
-  grid-row: 1;
-  text-align: right;
-  max-width: 58ch;
-  margin-left: auto;
-  margin-right: 0;
+/* El filete que une los discos: la sección ES una secuencia, y la línea lo dice. */
+.steps::before {
+  content: "";
+  position: absolute;
+  /* De centro a centro: el primer disco y el ultimo, no el borde del contenedor.
+     columna = (100% - 3 huecos) / 4; el ultimo disco arranca en la 4a columna. */
+  left: 56px;
+  right: calc((100% - 4.8rem) / 4 - 56px);
+  top: 56px;
+  height: 1px;
+  background: rgba(221, 229, 242, 0.16);
 }
+
+.step { position: relative; }
 
 .step-art {
   display: flex;
-  gap: 1.1rem;
-  justify-content: center;
+  gap: 0.5rem;
   align-items: center;
-  max-width: 320px;
-  margin: 0 auto;
+  margin: 0 0 1.2rem;
 }
 
 .step-art img {
   flex: 1 1 0;
   min-width: 0;
-  max-width: 168px;
+  max-width: 112px;
   height: auto;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
+  background: var(--band);
   box-shadow: 0 0 0 1px rgba(232, 163, 61, 0.22);
 }
 
 .step-n {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   color: var(--amber);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
 }
 
 .step-text h3 {
   color: #ffffff;
-  font-size: 1.25rem;
-  margin-bottom: 0.6rem;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+  text-wrap: balance;
 }
 
 .step-text p:not(.step-n) {
   color: var(--band-mu);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
   margin: 0;
+}
+
+@media (max-width: 980px) {
+  .steps { grid-template-columns: repeat(2, 1fr); gap: 2.6rem 1.6rem; }
+  .steps::before { display: none; }
+}
+
+@media (max-width: 620px) {
+  .steps { grid-template-columns: 1fr; gap: 2.2rem; }
+  .step-art img { max-width: 96px; }
 }
 
 .band-foot {
@@ -579,15 +586,6 @@ footer p { font-size: 0.85rem; color: var(--light); margin: 0; }
 .band-foot p { color: var(--band-mu); margin: 0; max-width: 68ch; }
 .band-foot strong { color: #ffffff; font-weight: 600; }
 
-@media (max-width: 780px) {
-  .band { padding: 3rem 0 2.6rem; }
-  .step,
-  .step.flip { grid-template-columns: 1fr; gap: 1.4rem; }
-  .step .step-art,  .step.flip .step-art  { grid-column: 1; grid-row: 1; }
-  .step .step-text, .step.flip .step-text { grid-column: 1; grid-row: 2; text-align: left; }
-  .step-art { justify-content: flex-start; margin: 0; max-width: 260px; }
-  .step-art img { max-width: 124px; }
-}
 
 /* ═══ Publicaciones: resumen y métricas ═══════════════════════════ */
 .pub-abstract {
@@ -842,3 +840,5 @@ footer { text-align: left; }
 @media (max-width:780px) { .ri-fig { margin-top:2.2rem; } }
 @media print { .ri-ctrl { display:none; } }
 /* En impresion la figura sale a --rate:4, que es una figura correcta. */
+
+@media (max-width: 780px) { .band { padding: 3rem 0 2.6rem; } }
