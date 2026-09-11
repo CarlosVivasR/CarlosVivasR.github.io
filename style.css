@@ -12,11 +12,6 @@
   --bg-alt:  #f2f0ec;
   --white:   #ffffff;
   --border:  #e2ddd8;
-  --band:    #12203a;
-  --band-tx: #dde5f2;
-  --band-mu: #93a3bd;
-  --amber:   #e8a33d;   /* solo sobre la banda oscura */
-  --amber-ink: #8f6212; /* mismo acento, legible sobre fondo claro */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-serif: 'Lora', Georgia, serif;
 }
@@ -34,13 +29,7 @@ body {
 /* ─── Typography ────────────────────────────────────────────────── */
 h1, h2, h3 { font-family: var(--font-serif); color: var(--navy); line-height: 1.25; }
 h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; letter-spacing: -0.01em; }
-h2 {
-  font-size: clamp(1.7rem, 3.4vw, 2.35rem);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  margin-bottom: 1.4rem;
-  text-wrap: balance;
-}
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; margin-bottom: 1.2rem; }
 h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
 p  { color: var(--mid); margin-bottom: 1rem; }
 p:last-child { margin-bottom: 0; }
@@ -165,7 +154,8 @@ nav ul a.active { color: var(--navy); font-weight: 600; }
   height: 280px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0 0 1px var(--border);
+  border: 3px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
 @media (max-width: 680px) {
@@ -184,7 +174,7 @@ nav ul a.active { color: var(--navy); font-weight: 600; }
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--amber-ink);
+  color: var(--accent);
   margin-bottom: 1rem;
 }
 
@@ -226,11 +216,11 @@ nav ul a.active { color: var(--navy); font-weight: 600; }
 .btn-ghost:hover { background: var(--bg-alt); color: var(--navy); }
 
 /* ─── Sections ───────────────────────────────────────────────────── */
-section { padding: 5rem 0; }
+section { padding: 2rem 0; }
 .section-alt { background: var(--bg-alt); }
 
 @media (max-width: 680px) {
-  section { padding: 3.25rem 0; }
+  section { padding: 2rem 0; }
 }
 
 .section-intro {
@@ -238,6 +228,47 @@ section { padding: 5rem 0; }
   max-width: 640px;
   margin-bottom: 2rem;
   color: var(--mid);
+}
+
+/* ─── About ──────────────────────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 680px) {
+  .about-grid { grid-template-columns: 1fr; }
+}
+
+.about-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.fact:last-child { border-bottom: none; }
+
+.fact-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--light);
+}
+
+.fact span:last-child {
+  font-size: 0.9rem;
+  color: var(--dark);
 }
 
 /* ─── Research ───────────────────────────────────────────────────── */
@@ -259,7 +290,7 @@ section { padding: 5rem 0; }
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--amber-ink);
+  color: var(--accent);
   margin-bottom: 0.75rem;
 }
 
@@ -267,6 +298,7 @@ section { padding: 5rem 0; }
 .pub-entry {
   background: var(--white);
   border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 8px;
   padding: 1.8rem 2rem;
   margin-bottom: 1.5rem;
@@ -319,7 +351,36 @@ section { padding: 5rem 0; }
   border-color: var(--accent);
 }
 
-/* ─── Tech tags (publication entry) ─────────────────────────────── */
+/* ─── Software ──────────────────────────────────────────────────── */
+.software-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.software-card:last-child { margin-bottom: 0; }
+
+.software-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.software-header h3 { margin-bottom: 0; }
+
+.software-version {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  background: var(--bg-alt);
+  color: var(--light);
+  border: 1px solid var(--border);
+}
+
 .software-tech {
   display: flex;
   gap: 0.5rem;
@@ -335,6 +396,17 @@ section { padding: 5rem 0; }
   border-radius: 3px;
   background: var(--navy);
   color: var(--white);
+}
+
+.software-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.software-links a {
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 /* ─── Conferences ───────────────────────────────────────────────── */
@@ -407,6 +479,74 @@ section { padding: 5rem 0; }
   }
 }
 
+/* ─── Interests ──────────────────────────────────────────────────── */
+.interests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.interest-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.8rem;
+}
+
+.interest-icon {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.interest-card h3 { font-size: 1rem; margin-bottom: 0.6rem; }
+.interest-card p  { font-size: 0.9rem; }
+
+/* ─── Interest Icons (SVG) ────────────────────────────────────────── */
+.interest-icon svg {
+  display: block;
+}
+
+/* ─── Project Inline Link (inside interest card) ──────────────────── */
+.project-inline-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.project-inline-link:hover {
+  border-color: var(--accent);
+  background: var(--white);
+  transform: translateX(2px);
+}
+.project-inline-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.project-inline-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.project-inline-text strong {
+  color: var(--navy);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.project-inline-sub {
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+.project-inline-link:hover .project-inline-sub {
+  color: var(--accent2);
+}
+
 /* ─── Contact ────────────────────────────────────────────────────── */
 .contact-container { text-align: center; }
 .contact-container h2 { margin-bottom: 0.75rem; }
@@ -454,391 +594,10 @@ footer p { font-size: 0.85rem; color: var(--light); margin: 0; }
 }
 
 /* Stagger sections */
-#publications { animation-delay: 0.1s; }
-#about       { animation-delay: 0.15s; }
-#projects    { animation-delay: 0.2s; }
-#contact     { animation-delay: 0.25s; }
-
-
-/* ═══ Banda de investigación (el "medio" de la web) ═══════════════ */
-#hero { border-bottom: none; }
-
-.band {
-  background: var(--band);
-  color: var(--band-tx);
-  padding: 4.5rem 0 4rem;
-}
-
-.band-eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--amber);
-  margin-bottom: 0.9rem;
-}
-
-.band-h2 {
-  color: #ffffff;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  max-width: 20ch;
-  margin-bottom: 1.1rem;
-}
-
-.band-intro {
-  color: var(--band-mu);
-  max-width: 62ch;
-  font-size: 1.02rem;
-  margin: 0;
-}
-
-.steps {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0 1.6rem;
-  margin: 3.4rem 0 0;
-  padding: 0;
-  position: relative;
-}
-
-/* El filete que une los discos: la sección ES una secuencia, y la línea lo dice. */
-.steps::before {
-  content: "";
-  position: absolute;
-  /* De centro a centro: el primer disco y el ultimo, no el borde del contenedor.
-     columna = (100% - 3 huecos) / 4; el ultimo disco arranca en la 4a columna. */
-  left: 56px;
-  right: calc((100% - 4.8rem) / 4 - 56px);
-  top: 56px;
-  height: 1px;
-  background: rgba(221, 229, 242, 0.16);
-}
-
-.step { position: relative; }
-
-.step-art {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin: 0 0 1.2rem;
-}
-
-.step-art img {
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 112px;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background: var(--band);
-  box-shadow: 0 0 0 1px rgba(232, 163, 61, 0.22);
-}
-
-.step-n {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  color: var(--amber);
-  margin-bottom: 0.35rem;
-}
-
-.step-text h3 {
-  color: #ffffff;
-  font-size: 1.05rem;
-  line-height: 1.25;
-  margin-bottom: 0.5rem;
-  text-wrap: balance;
-}
-
-.step-text p:not(.step-n) {
-  color: var(--band-mu);
-  font-size: 0.88rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-@media (max-width: 980px) {
-  .steps { grid-template-columns: repeat(2, 1fr); gap: 2.6rem 1.6rem; }
-  .steps::before { display: none; }
-}
-
-@media (max-width: 620px) {
-  .steps { grid-template-columns: 1fr; gap: 2.2rem; }
-  .step-art img { max-width: 96px; }
-}
-
-.band-foot {
-  margin-top: 3.6rem;
-  padding-top: 1.6rem;
-  border-top: 1px solid rgba(221, 229, 242, 0.16);
-}
-
-.band-foot-label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--amber);
-  margin-bottom: 0.5rem;
-}
-
-.band-foot p { color: var(--band-mu); margin: 0; max-width: 68ch; }
-.band-foot strong { color: #ffffff; font-weight: 600; }
-
-
-/* ═══ Publicaciones: resumen y métricas ═══════════════════════════ */
-.pub-abstract {
-  font-size: 0.95rem;
-  margin: 0.9rem 0 0;
-}
-
-.pub-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-top: 1.2rem;
-}
-
-.pub-metrics {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  min-height: 44px;
-}
-
-/* ═══ Proyectos ═══════════════════════════════════════════════════ */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.project-card {
-  display: block;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.8rem;
-  color: inherit;
-  transition: border-color 0.2s, transform 0.2s;
-}
-
-.project-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  color: inherit;
-}
-
-.project-kind {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--light);
-  margin-bottom: 0.6rem;
-}
-
-.project-card h3 { margin-bottom: 0.6rem; }
-.project-card p  { font-size: 0.92rem; }
-
-.project-go {
-  margin: 1.1rem 0 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fade-in { animation: none; }
-  .project-card:hover { transform: none; }
-}
-
-
-/* ═══ Background: la trayectoria ══════════════════════════════════ */
-.path { display: flex; flex-direction: column; }
-
-.path-item {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  gap: 2.4rem;
-  padding: 1.5rem 0;
-  border-top: 1px solid var(--border);
-}
-
-.path-item:last-child { border-bottom: 1px solid var(--border); }
-
-.path-where strong {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--navy);
-  line-height: 1.35;
-}
-
-.path-where span {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.78rem;
-  color: var(--light);
-}
-
-.path-what h3 {
-  font-family: var(--font-sans);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--accent);
-  margin-bottom: 0.45rem;
-}
-
-.path-what p { font-size: 0.93rem; margin: 0; }
-
-@media (max-width: 680px) {
-  .path-item { grid-template-columns: 1fr; gap: 0.7rem; }
-}
-
-/* Una sola tarjeta de proyecto no debe estirarse a todo el ancho */
-.project-grid { justify-content: start; }
-.project-card { max-width: 460px; }
-
-
-/* ═══ Subtítulo dentro de una sección ═════════════════════════════ */
-.sub-head {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--light);
-  margin: 0 0 1.1rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.sub-head + .pub-entry,
-.sub-head + .conference-grid { margin-top: 0; }
-
-#publications .conference-grid { margin-top: 0; }
-#publications .sub-head:nth-of-type(2) { margin-top: 3rem; }
-
-
-/* ═══ Pase de diseño ══════════════════════════════════════════════ */
-
-/* Una sola voz para las etiquetas pequeñas, en toda la página */
-.sub-head,
-.project-kind { color: var(--amber-ink); }
-
-.path-what h3 {
-  color: var(--amber-ink);
-  text-transform: uppercase;
-  font-size: 0.74rem;
-  letter-spacing: 0.11em;
-}
-
-/* La banda respira igual que el resto */
-.band { padding: 5.5rem 0 5rem; }
-@media (max-width: 780px) { .band { padding: 3.5rem 0 3rem; } }
-
-/* Las charlas dejan de ser cajas y pasan a ser una lista editorial.
-   Cuatro tarjetas idénticas debajo de la publicación aplanaban la jerarquía:
-   ahora la publicación es el único objeto con caja. */
-.conference-grid { gap: 0; }
-
-.conference-card {
-  background: none;
-  border: 0;
-  border-top: 1px solid var(--border);
-  border-radius: 0;
-  grid-template-columns: 260px 1fr;
-  gap: 2rem;
-  padding: 2.2rem 0;
-  overflow: visible;
-}
-
-.conference-grid .conference-card:last-child { border-bottom: 1px solid var(--border); }
-
-.conference-img img {
-  height: 168px;
-  border-radius: 4px;
-}
-
-.conference-info { padding: 0; }
-.conference-info h3 { font-size: 1.05rem; }
-
-@media (max-width: 680px) {
-  .conference-card { grid-template-columns: 1fr; gap: 1.1rem; padding: 1.8rem 0; }
-  .conference-img img { height: 200px; }
-  .conference-info { padding: 0; }
-}
-
-/* Contacto: mismo eje que el resto de la página, sin glifos de relleno */
-.contact-container { text-align: left; }
-.contact-container > p { max-width: 52ch; margin: 0 0 2rem; }
-
-.contact-links {
-  justify-content: flex-start;
-  gap: 0;
-  border-top: 1px solid var(--border);
-}
-
-.contact-link {
-  border-bottom: 0;
-  border-right: 1px solid var(--border);
-  padding: 1rem 1.6rem 1rem 0;
-  margin-right: 1.6rem;
-}
-
-.contact-links a:last-child { border-right: 0; margin-right: 0; }
-
-footer { text-align: left; }
-
-/* La publicación es la pieza principal de su sección: se le nota */
-.pub-entry { padding: 2.2rem 2.4rem; }
-.pub-title { font-size: 1.2rem; line-height: 1.35; }
-
-
-/* ══════ COMPONENTE · EL MANDO ══════════════════════════════════════
-   Pieza central: fija una TASA, nunca un resultado. El ultimo par va en
-   contorno discontinuo porque es la pregunta abierta. ══════════════ */
-/* ═══ EL MANDO ══════════════════════════════════════════════════ */
-/* Todas las clases prefijadas ri-. Un .open sin prefijar dentro de un
-   SVG inline romperia el menu movil: style.css L138 declara
-   nav ul.open{display:flex} y las clases de un SVG inline son globales.
-   prefers-reduced-motion: no hay nada que desactivar — el instrumento
-   no anima nada por su cuenta; solo se mueve cuando el lector lo mueve. */
-
-.ri-fig   { margin: 3.2rem 0 0; }
-.ri-stage { --rate: 4; max-width: 520px; }
-.ri-stage svg { display: block; width: 100%; height: auto; }
-
-/* SIN transition: ver el bloque de verificacion al final de este fichero. */
-.ri-up { transform: translateY(calc(var(--i) * var(--rate) * -2.6px)); }
-.ri-dn { transform: translateY(calc(var(--i) * var(--rate) *  2.6px)); }
-
-.ri-a   { fill: #e8a33d; }
-.ri-b   { fill: #e8a33d; stroke: #12203a; stroke-width: 1.6; }
-.ri-ask { fill: none; stroke: #e8a33d; stroke-width: 2; stroke-dasharray: 5 4; }
-
-.ri-ctrl { max-width: 520px; margin-top: 1.5rem; }
-.ri-ctrl label { display:block; font-size:.74rem; font-weight:600;
-  letter-spacing:.14em; text-transform:uppercase; color:#e8a33d;
-  margin-bottom:.5rem; }
-.ri-ctrl input[type=range] { width:100%; margin:0; accent-color:#e8a33d; }
-.ri-ctrl input[type=range]:focus-visible { outline:2px solid #e8a33d;
-  outline-offset:4px; }
-
-.ri-cap  { margin-top: 1rem; }
-.ri-say  { font-family: var(--font-serif); font-size:1.05rem; color:#fff;
-  max-width:52ch; margin:0; }
-.ri-say em { color:#dde5f2; }
-.ri-cite { font-size:.82rem; color:#93a3bd; max-width:60ch; margin:.8rem 0 0; }
-
-@media (max-width:780px) { .ri-fig { margin-top:2.2rem; } }
-@media print { .ri-ctrl { display:none; } }
-/* En impresion la figura sale a --rate:4, que es una figura correcta. */
-
-@media (max-width: 780px) { .band { padding: 3rem 0 2.6rem; } }
+#about       { animation-delay: 0.1s; }
+#research    { animation-delay: 0.15s; }
+#publications { animation-delay: 0.2s; }
+#software    { animation-delay: 0.25s; }
+#conferences { animation-delay: 0.3s; }
+#interests   { animation-delay: 0.35s; }
+#contact     { animation-delay: 0.4s; }
