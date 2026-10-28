@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-74Y2LM23FJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-74Y2LM23FJ');
+  </script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overuse Injuries in Summer Tournaments — Carlos Vivas Rodriguez</title>
+
+  <meta name="description" content="Can open pre-tournament data predict severe overuse injuries at summer international tournaments? A Cox survival model validated tournament by tournament: a weak, history-driven signal and a negative result for workload." />
+  <meta name="author" content="Carlos Vivas Rodriguez" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://carlosvivasr.github.io/football/injuries.html" />
+
+  <meta property="og:title" content="Overuse injuries in summer tournaments" />
+  <meta property="og:description" content="A well-validated weak signal: injury history predicts a little, workload predicts nothing." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://carlosvivasr.github.io/football/injuries.html" />
+  <meta property="og:site_name" content="Carlos Vivas Rodriguez" />
+  <meta property="og:image" content="https://carlosvivasr.github.io/football/img/injuries-loto-cindex.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26BD;</text></svg>" />
+
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-name">Carlos Vivas Rodriguez</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul>
+        <li><a href="../#about">About</a></li>
+        <li><a href="../#research">Research</a></li>
+        <li><a href="../#publications">Publications</a></li>
+        <li><a href="../#software">Software</a></li>
+        <li><a href="../#conferences">Conferences</a></li>
+        <li><a href="./" class="active">Football</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="hero">
+    <div class="container article">
+      <p class="label"><a href="./">&larr; Football analytics</a></p>
+      <h1>Overuse injuries in summer tournaments</h1>
+      <p class="subtitle">A well-validated weak signal &middot; Survival analysis on open data</p>
+      <p class="hero-desc">
+        Can information that is public before a tournament (workload, injury
+        history, age, position, market value) tell us which players are more
+        likely to suffer a severe overuse injury around it? Short answer:
+        injury history predicts a little, and minutes played predict nothing.
+      </p>
+    </div>
+  </header>
+
+  <section class="fade-in" id="study">
+    <div class="container article">
+
+      <h2>Why</h2>
+      <p>
+        Summer tournaments come straight after a full club season, and
+        &ldquo;too many minutes&rdquo; is the usual explanation when players
+        break down. I wanted to see whether that holds up in open data, and to
+        be clear about what open data can and cannot say about injury risk.
+      </p>
+
+      <h2>Data</h2>
+      <ul class="article-list">
+        <li><strong>Squads and club minutes:</strong> 15 tournaments from 2008
+          to 2025 (three World Cups, five Euros, six Copas Am&eacute;rica and
+          the 2025 Club World Cup), 7,499 player-tournament entries. Sources:
+          transfermarkt-datasets (CC0), the Fjelstul World Cup database
+          (CC BY-SA 4.0) and Wikipedia squad lists.</li>
+        <li><strong>Injuries:</strong> 31,528 records for 3,195 players,
+          collected from public Transfermarkt pages. These have no open
+          licence, so only aggregate results are shown here.</li>
+        <li><strong>Outcome:</strong> the first severe overuse injury (29+ days
+          out) between 30 days before kick-off and 14 days after the final.
+          Of 427 injuries in those windows, 237 were overuse, 66 contact and
+          124 ambiguous; the ambiguous ones were excluded.</li>
+      </ul>
+
+      <h2>Method</h2>
+      <p>
+        A Cox proportional-hazards model (lifelines, ridge penalty 0.05), with
+        one row per player per tournament and time counted from the start of
+        the window. The primary model uses 14 covariates: age, market value,
+        top-five league, club minutes in the previous 12 months, six
+        injury-history features, days since the last injury, and position. It
+        is fitted on 5,234 player-tournaments with 75 events.
+      </p>
+      <p>
+        I fixed this as the primary model and treat the other variants (by
+        position, archetype and workload dimension) as exploratory. Then I
+        validated it by <strong>leaving one tournament out</strong>: fit on 14
+        tournaments, score the 15th, repeat, and report the C-index with
+        bootstrap confidence intervals.
+      </p>
+
+      <h2>Results</h2>
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead>
+            <tr><th>Covariate (primary model)</th><th>Hazard ratio (95% CI)</th><th>p</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Recurrent injuries to the same body part</td><td>1.17 (0.98&ndash;1.39)</td><td>0.08</td></tr>
+            <tr><td>Prior severe injuries, 24 months</td><td>1.10 (0.97&ndash;1.25)</td><td>0.13</td></tr>
+            <tr><td>Club minutes, 12 months (per 1,000)</td><td>1.00 (0.93&ndash;1.08)</td><td>0.96</td></tr>
+            <tr><td>Goalkeeper vs defender</td><td>0.85 (0.60&ndash;1.20)</td><td>0.35</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="article-list">
+        <li><strong>Validated C-index: 0.63</strong> (95% CI 0.55&ndash;0.71),
+          against 0.66 in-sample on the same player pairs. Some optimism, as
+          expected, and the lower bound stays just above chance (0.5).</li>
+        <li>The model as a whole is not significant (likelihood-ratio test
+          p &asymp; 0.46), and results swing widely between tournaments
+          because most have only a handful of events.</li>
+      </ul>
+      <figure class="article-figure">
+        <img src="img/injuries-loto-cindex.png" alt="Forest plot of the C-index for each held-out tournament with 95% confidence intervals; the aggregate is 0.63 with an interval from 0.55 to 0.71" loading="lazy" />
+        <figcaption>C-index on each held-out tournament (KLUB2025 is the
+          2025 Club World Cup). Hollow points have fewer than three events and
+          no interval.</figcaption>
+      </figure>
+
+      <h2>What I learned</h2>
+      <ol class="article-list">
+        <li><strong>History predicts a little; workload predicts nothing.</strong>
+          Recurrence is the strongest signal, but it doesn't reach p&nbsp;&lt;&nbsp;0.05.
+          Club minutes sit at a hazard ratio of exactly 1.00 with a tight
+          interval. That could mean workload doesn't matter, or that public
+          data measures it badly.</li>
+        <li><strong>The goalkeeper &ldquo;effect&rdquo; was confounding.</strong>
+          Without injury history, goalkeepers looked protected (HR 0.57,
+          p = 0.08). With it, the effect shrinks to 0.85 (p = 0.35).</li>
+        <li><strong>Validate before you interpret.</strong> A C-index of 0.65
+          sounds respectable. Out of sample it is 0.63 and the overall test is
+          null, so the honest headline is a weak signal and a clear negative
+          result for workload, not a risk tool.</li>
+      </ol>
+
+      <h2>Limitations</h2>
+      <ul class="article-list">
+        <li>75 events for 14 covariates (about 5 per variable, below the usual
+          10), and no correction for the many model variants explored.</li>
+        <li>124 ambiguous injuries were excluded; classifying them by hand
+          could change the result.</li>
+        <li>18 of the 75 events come from the 2025 Club World Cup.</li>
+        <li>No real exposure measure: tournament minutes are missing for most
+          editions and club minutes are zero for 48% of players.</li>
+        <li>Transfermarkt records severe, high-profile injuries and star
+          players better than minor injuries and squad players.</li>
+      </ul>
+
+      <p class="article-back"><a href="./">&larr; Back to football analytics</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Carlos Vivas Rodriguez &middot; University College Dublin</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-74Y2LM23FJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-74Y2LM23FJ');
+  </script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Football Analytics — Carlos Vivas Rodriguez</title>
+
+  <!-- SEO & Open Graph -->
+  <meta name="description" content="Football analytics portfolio by Carlos Vivas Rodriguez: a World Cup match model validated against bookmakers, a La Liga hidden-value dashboard, and an injury-risk study — each with its question, method, data and honest results." />
+  <meta name="author" content="Carlos Vivas Rodriguez" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://carlosvivasr.github.io/football/" />
+
+  <meta property="og:title" content="Football Analytics — Carlos Vivas Rodriguez" />
+  <meta property="og:description" content="Match models, player profiling and injury risk: football analytics with a scientist's discipline." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://carlosvivasr.github.io/football/" />
+  <meta property="og:site_name" content="Carlos Vivas Rodriguez" />
+  <meta property="og:image" content="https://carlosvivasr.github.io/football/img/hidden-value-map.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Football Analytics — Carlos Vivas Rodriguez" />
+  <meta name="twitter:description" content="Match models, player profiling and injury risk: football analytics with a scientist's discipline." />
+  <meta name="twitter:image" content="https://carlosvivasr.github.io/football/img/hidden-value-map.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26BD;</text></svg>" />
+
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-name">Carlos Vivas Rodriguez</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul>
+        <li><a href="../#about">About</a></li>
+        <li><a href="../#research">Research</a></li>
+        <li><a href="../#publications">Publications</a></li>
+        <li><a href="../#software">Software</a></li>
+        <li><a href="../#conferences">Conferences</a></li>
+        <li><a href="./" class="active">Football</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="hero">
+    <div class="container">
+      <p class="label">Football Analytics</p>
+      <h1>Football, with a scientist's discipline</h1>
+      <p class="subtitle">
+        Analyst reports &middot; Match models &middot; Player profiling &middot; Injury risk
+      </p>
+      <p class="hero-desc">
+        I'm a PhD researcher in computational biology at University College
+        Dublin, where my day job is statistics on large, noisy datasets.
+        Outside the lab I apply the same habits to football: start from a
+        clear question, test models on data they have never seen, and report
+        what didn't work as plainly as what did. These are the projects,
+        with their goals, methods and results.
+      </p>
+      <div class="hero-links">
+        <a href="#projects" class="btn">See the projects</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- PRINCIPLES -->
+  <section id="principles" class="fade-in">
+    <div class="container">
+      <h2>How I work</h2>
+      <div class="interests-grid">
+        <div class="interest-card">
+          <h3>Validate out of sample</h3>
+          <p>
+            A model only counts if it predicts matches it was not fitted on.
+            Every model here is backtested walk-forward, with no information
+            from the future leaking into the past.
+          </p>
+        </div>
+        <div class="interest-card">
+          <h3>Report the negatives</h3>
+          <p>
+            When a model loses to the bookmaker, or a signal turns out weak,
+            that goes on the page too. Knowing where a method fails is what
+            makes it usable.
+          </p>
+        </div>
+        <div class="interest-card">
+          <h3>Respect the data</h3>
+          <p>
+            Open data for anything I model and publish; licensed or scraped
+            data only for private analysis. Every source is credited.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section-alt fade-in">
+    <div class="container">
+      <h2>Projects</h2>
+
+      <!-- 0. Analyst reports -->
+      <article class="software-card project-card main-project">
+        <p class="tag">Performance analysis &middot; Sample reports</p>
+        <h3>Individual and team reports</h3>
+        <dl class="project-facts">
+          <dt>What</dt>
+          <dd>Two one-page reports of the kind an analyst hands to coaching
+            staff, built from event data with every number computed in code.
+            One men's, one women's.</dd>
+          <dt>Individual</dt>
+          <dd>What does an academy graduate already do at senior international
+            level, and what still needs work? Lamine Yamal at Euro 2024 was the
+            top chance creator among 21 wide forwards (0.36 xG assisted per 90)
+            and in the 93rd percentile for pressing, but in the 17th for ball
+            security. Three strengths, two coaching points and timed clips to
+            review.</dd>
+          <dt>Team</dt>
+          <dd>What should England's staff take from a final they won on
+            penalties? In the Women's Euro 2025 final Spain created 2.14 xG to
+            England's 0.88 and dominated territory. The post-match report turns
+            that into five training takeaways, from a pressure-release pattern
+            to set-piece defending.</dd>
+          <dt>Data</dt>
+          <dd>StatsBomb Open Data. Small samples are flagged where they
+            matter (one match; 21 peers).</dd>
+        </dl>
+        <div class="software-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">mplsoccer</span>
+          <span class="tech-tag">Event data</span>
+          <span class="tech-tag">xG</span>
+        </div>
+        <div class="software-links">
+          <a href="reports/player-report.html">Individual report &rarr;</a>
+          <a href="reports/team-report.html">Team report &rarr;</a>
+        </div>
+      </article>
+
+      <!-- 1. WC model -->
+      <article class="software-card project-card">
+        <p class="tag">Match prediction &middot; June 2026</p>
+        <h3>World Cup 2026 match model</h3>
+        <dl class="project-facts">
+          <dt>Question</dt>
+          <dd>How well can a model built only on past international results
+            predict World Cup matches, and does it add anything to the
+            bookmakers' odds?</dd>
+          <dt>Why</dt>
+          <dd>The prediction pool I built for friends first just converted
+            betting odds into scorelines. It added no information of its own,
+            had never been tested, and went silent for knockout fixtures that
+            had no odds yet.</dd>
+          <dt>Method</dt>
+          <dd>Dixon-Coles Poisson model with time decay (four-year half-life)
+            and down-weighted friendlies; Elo ratings as a coverage layer;
+            blended with de-vigged odds through a logarithmic opinion pool.
+            Walk-forward backtest with no leakage, paired bootstrap tests, and
+            a bake-off against gradient boosting, a neural network and an
+            ordered logit.</dd>
+          <dt>Data</dt>
+          <dd>About 49,000 international results (martj42, CC0) and
+            international 1X2 odds from football-data.co.uk for the
+            head-to-head against the market.</dd>
+          <dt>Result</dt>
+          <dd>
+            <div class="table-wrap">
+              <table class="result-table">
+                <thead>
+                  <tr><th>Comparison</th><th>RPS &darr;</th><th>Matches</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Dixon-Coles backtest</td><td>0.168</td><td>4,007</td></tr>
+                  <tr><td>Climatology baseline (home/draw/away rates)</td><td>~0.228</td><td>&mdash;</td></tr>
+                  <tr><td>Major tournaments: Dixon-Coles vs Elo</td><td>0.179 vs 0.186</td><td>420</td></tr>
+                  <tr><td>Bookmaker vs model, historical qualifiers and finals</td><td>0.147 vs 0.153</td><td>1,587</td></tr>
+                  <tr><td><strong>World Cup 2026, live: model vs bookmaker</strong></td><td><strong>0.151 vs 0.150</strong></td><td>104</td></tr>
+                </tbody>
+              </table>
+            </div>
+            On historical matches the market was slightly but consistently
+            better (0.006 RPS, 95% CI 0.003&ndash;0.009), so in the app the
+            model became one input next to the odds, not the oracle. An earlier
+            version of this comparison showed a far larger gap; cleaning up the
+            code for publication exposed a sorting bug that paired forecasts
+            with the wrong matches. At the World Cup itself, scored
+            out of sample with the ratings that were live before each match
+            day, it was level with the bookmakers (difference inside the 95%
+            bootstrap interval), ahead of an Elo baseline (0.162) and far ahead
+            of base rates (0.226). It called 65% of 90-minute results. With
+            104 matches, &ldquo;level with the market&rdquo; is the claim the
+            data supports, not &ldquo;better&rdquo;.
+          </dd>
+          <dt>Status</dt>
+          <dd>Ran live through the tournament (June&ndash;July 2026);
+            evaluated on all 104 matches in October 2026.</dd>
+        </dl>
+        <div class="project-figures project-figures-wide">
+          <figure>
+            <img src="img/wc-model-tournament.png" alt="Left: ranked probability score with 95% intervals for bookmaker odds, model plus odds, model, Elo and base rates at World Cup 2026. Right: reliability curve of the model's probabilities close to the diagonal" loading="lazy" />
+            <figcaption>World Cup 2026 scored on the 90-minute result. Left:
+              accuracy of each forecaster (lower is better) against the
+              backtest levels. Right: the model's calibration.</figcaption>
+          </figure>
+        </div>
+        <div class="software-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Dixon-Coles</span>
+          <span class="tech-tag">Elo</span>
+          <span class="tech-tag">Bootstrap</span>
+          <span class="tech-tag">JavaScript</span>
+        </div>
+        <div class="software-links">
+          <a href="../projects/wc2026-pool/modelo.html" target="_blank" rel="noopener">
+            Model page and live self-test &rarr;
+          </a>
+        </div>
+      </article>
+
+      <!-- 2. La Liga dashboard -->
+      <article class="software-card project-card">
+        <p class="tag">Player profiling &middot; April 2026</p>
+        <h3>Beyond Goals &amp; Assists: La Liga 2025-26</h3>
+        <dl class="project-facts">
+          <dt>Question</dt>
+          <dd>Who creates danger in La Liga without getting the credit in
+            goals and assists?</dd>
+          <dt>Why</dt>
+          <dd>Goals and assists are what everyone sees, but much of a
+            midfielder's or forward's work is in key passes, chances created,
+            dribbles and defensive actions.</dd>
+          <dt>Method</dt>
+          <dd>Per-90 metrics, percentile-ranked. A Creative Score combining
+            11 metrics is set against Visibility (the goals-plus-assists
+            percentile); the gap is the player's &ldquo;hidden value&rdquo;.
+            Equivalent scores for defenders and goalkeepers, plus passing
+            networks and shot maps. An offline extension groups players into
+            six archetypes with k-means and finds similar profiles.</dd>
+          <dt>Data</dt>
+          <dd>Season statistics from FBref (powered by StatsBomb) and
+            Sofascore; StatsBomb Open Data for 294 historical La Liga matches
+            in the match-analysis tab.</dd>
+          <dt>Result</dt>
+          <dd>An interactive six-tab dashboard covering 194 midfielders and
+            forwards with at least eight full matches. Limits: season
+            aggregates only (no 2025-26 event data), score weights are a
+            judgement call, and it covers one league.</dd>
+          <dt>Status</dt>
+          <dd>Published April 2026.</dd>
+        </dl>
+        <div class="project-figures">
+          <figure>
+            <img src="img/hidden-value-map.png" alt="Scatter plot of La Liga midfielders and forwards: Creative Score against goals-and-assists percentile, highlighting players who create far more than their goals and assists show, and finishers who rely on scoring" loading="lazy" />
+            <figcaption>Players above the diagonal create more than their
+              goals and assists show; those far below rely on finishing
+              (175 players with complete data).</figcaption>
+          </figure>
+          <figure>
+            <img src="img/passing-network.png" alt="Barcelona passing network in the 2019 Clásico, with node size for passes per player and edge width for pass frequency" loading="lazy" />
+            <figcaption>Passing network from StatsBomb Open Data
+              (Real Madrid 0&ndash;1 Barcelona, March 2019).</figcaption>
+          </figure>
+        </div>
+        <div class="software-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">pandas</span>
+          <span class="tech-tag">scikit-learn</span>
+          <span class="tech-tag">Plotly</span>
+        </div>
+        <div class="software-links">
+          <a href="../projects/football-analytics/index.html" target="_blank" rel="noopener">
+            Open the dashboard &rarr;
+          </a>
+        </div>
+      </article>
+
+      <!-- 3. Injuries -->
+      <article class="software-card project-card" id="injuries">
+        <p class="tag">Injury risk &middot; May 2026</p>
+        <h3>Overuse injuries in summer tournaments</h3>
+        <dl class="project-facts">
+          <dt>Question</dt>
+          <dd>Which workload, injury-history and context patterns separate
+            players who suffer a serious overuse injury around a summer
+            international tournament?</dd>
+          <dt>Why</dt>
+          <dd>Summer tournaments come at the end of a long club season, and
+            &ldquo;too many minutes&rdquo; is the usual explanation for
+            injuries. I wanted to see whether the data supports it.</dd>
+          <dt>Method</dt>
+          <dd>Cox proportional-hazards survival models on player-tournament
+            entries across 15 tournaments, with severe overuse injury
+            (29+ days out) from a month before to two weeks after the
+            tournament as the outcome.</dd>
+          <dt>Data</dt>
+          <dd>Open tournament and squad datasets (Fjelstul World Cup database,
+            openfootball, transfermarkt-datasets) and injury records collected
+            from Transfermarkt.</dd>
+          <dt>Result</dt>
+          <dd>Validated by leaving one tournament out at a time: C-index 0.63
+            (95% CI 0.55&ndash;0.71), against 0.66 in-sample. Past injury
+            recurrence carries a modest signal; club minutes carry none
+            (hazard ratio 1.00). The apparent &ldquo;goalkeepers are
+            protected&rdquo; effect largely disappears once injury history is
+            taken into account. With 75 events, this is an honest weak-signal
+            result, not a risk tool.</dd>
+          <dt>Status</dt>
+          <dd>Written up October 2026.</dd>
+        </dl>
+        <div class="software-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">lifelines</span>
+          <span class="tech-tag">Survival analysis</span>
+        </div>
+        <div class="software-links">
+          <a href="injuries.html">Read the full study &rarr;</a>
+        </div>
+      </article>
+
+      <!-- 4. Pool app -->
+      <article class="software-card project-card">
+        <p class="tag">Product &middot; May&ndash;July 2026</p>
+        <h3>World Cup 2026 prediction pool</h3>
+        <dl class="project-facts">
+          <dt>What</dt>
+          <dd>A web app where 18 friends and family predicted the whole
+            tournament, with live results, a scoring engine, team and player
+            pages in Spanish, English and Turkish, and the match model above
+            competing as one more participant.</dd>
+          <dt>Why</dt>
+          <dd>To put the model in front of real users and see it hold up
+            day to day, not just in a backtest.</dd>
+          <dt>Lesson</dt>
+          <dd>Validate inputs where they are entered: a bracket rule gap let
+            16 of 18 players pick a final that could not happen, which had to
+            be fixed by re-scoring afterwards.</dd>
+          <dt>Status</dt>
+          <dd>Finished with the tournament; kept private for its
+            participants.</dd>
+        </dl>
+        <div class="software-tech">
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">PWA</span>
+          <span class="tech-tag">Supabase</span>
+          <span class="tech-tag">GitHub Actions</span>
+        </div>
+      </article>
+
+      <!-- 5. In development -->
+      <article class="software-card project-card">
+        <p class="tag">In development</p>
+        <h3>Designs and pipelines</h3>
+        <ul class="project-list">
+          <li>
+            <strong>Cross-league translation.</strong> How much of a
+            player's drop in expected goals after moving from the Championship
+            to the Premier League is league strength, and how much is team
+            style? A pre-registered Bayesian hierarchical design (April 2026),
+            not yet run.
+          </li>
+          <li>
+            <strong>FIFA match-data pipeline.</strong> Automated ingestion of
+            FIFA's World Cup 2026 player and team metrics into a database
+            behind an API. Kept private, because FIFA data cannot be
+            redistributed.
+          </li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="fade-in">
+    <div class="container contact-container">
+      <h2>Let's talk football</h2>
+      <p>
+        If you work in performance analysis or recruitment and think I could
+        help, I'd be glad to hear from you.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:carlos.vivas@ucdconnect.ie" class="contact-link">
+          <span class="contact-icon">&#x2709;</span>
+          Email
+        </a>
+        <a href="https://www.linkedin.com/in/carlos-vivas-rodr%C3%ADguez-739018188/" class="contact-link" target="_blank" rel="noopener">
+          <span class="contact-icon">&#x25A6;</span>
+          LinkedIn
+        </a>
+        <a href="https://github.com/CarlosVivasR" class="contact-link" target="_blank" rel="noopener">
+          <span class="contact-icon">&#x2B22;</span>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Carlos Vivas Rodriguez &middot; University College Dublin</p>
+      <p class="data-credit">
+        Match data: <a href="https://github.com/statsbomb/open-data" target="_blank" rel="noopener">StatsBomb Open Data</a>
+        <a href="https://github.com/statsbomb/open-data" target="_blank" rel="noopener"><img src="img/statsbomb-logo.png" alt="StatsBomb logo" height="20" /></a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

@@ -547,6 +547,124 @@ section { padding: 2rem 0; }
   color: var(--accent2);
 }
 
+/* ─── Football Portfolio ────────────────────────────────────────── */
+a.nav-name:hover { color: var(--accent2); }
+
+.project-card h3 { font-size: 1.3rem; margin-bottom: 1.2rem; }
+
+.project-facts {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0.9rem 1.5rem;
+  margin: 0;
+}
+
+.project-facts dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--light);
+  padding-top: 0.2rem;
+}
+
+.project-facts dd {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--mid);
+}
+
+.table-wrap { overflow-x: auto; margin: 0.25rem 0 0.9rem; }
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.result-table th,
+.result-table td {
+  text-align: left;
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.result-table th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--light);
+}
+
+.result-table td:not(:first-child),
+.result-table th:not(:first-child) { white-space: nowrap; }
+
+.result-table td { color: var(--dark); }
+
+.project-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.project-figures figure { margin: 0; }
+.project-figures-wide { grid-template-columns: 1fr; }
+
+.project-figures img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.project-figures figcaption {
+  font-size: 0.8rem;
+  color: var(--light);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+.project-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.project-list li { font-size: 0.95rem; color: var(--mid); }
+.project-list strong { color: var(--navy); font-weight: 600; }
+
+@media (max-width: 680px) {
+  .project-card { padding: 1.5rem 1.25rem; }
+  .result-table td:not(:first-child),
+  .result-table th:not(:first-child) { white-space: normal; }
+  .project-facts { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; }
+  .project-facts dd { margin-bottom: 0.8rem; }
+}
+
+.article { max-width: 780px; }
+.article h2 { font-size: 1.35rem; margin: 2.2rem 0 0.8rem; }
+.article h2:first-child { margin-top: 0; }
+.article-list { padding-left: 1.2rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.article-list li { color: var(--mid); }
+.article-list strong { color: var(--navy); font-weight: 600; }
+.article-figure { margin: 1.5rem 0; }
+.article-figure img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; }
+.article-figure figcaption { font-size: 0.8rem; color: var(--light); margin-top: 0.5rem; line-height: 1.5; }
+.article-back { margin-top: 2.5rem; font-weight: 500; }
+
+footer .data-credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+}
+footer .data-credit img { height: 20px; width: auto; display: block; }
+
+#study      { animation-delay: 0.1s; }
+#principles { animation-delay: 0.1s; }
+#projects   { animation-delay: 0.15s; }
+
 /* ─── Contact ────────────────────────────────────────────────────── */
 .contact-container { text-align: center; }
 .contact-container h2 { margin-bottom: 0.75rem; }

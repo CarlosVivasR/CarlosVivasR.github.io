@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-74Y2LM23FJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-74Y2LM23FJ');
+  </script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post-match report: England v Spain, Women&#x27;s Euro 2025 final — Carlos Vivas Rodriguez</title>
+
+  <meta name="description" content="One-page team post-match report on the Women&#x27;s Euro 2025 final: xG timeline, shot map, pass networks, field tilt, pressing zones and set pieces." />
+  <meta name="author" content="Carlos Vivas Rodriguez" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://carlosvivasr.github.io/football/reports/team-report.html" />
+
+  <meta property="og:title" content="Post-match report: England v Spain, Women&#x27;s Euro 2025 final" />
+  <meta property="og:description" content="One-page team post-match report on the Women&#x27;s Euro 2025 final: xG timeline, shot map, pass networks, field tilt, pressing zones and set pieces." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://carlosvivasr.github.io/football/reports/team-report.html" />
+  <meta property="og:site_name" content="Carlos Vivas Rodriguez" />
+  <meta property="og:image" content="https://carlosvivasr.github.io/football/reports/img/team-xg-shots.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26BD;</text></svg>" />
+
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="../../" class="nav-name">Carlos Vivas Rodriguez</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul>
+        <li><a href="../../#about">About</a></li>
+        <li><a href="../../#research">Research</a></li>
+        <li><a href="../../#publications">Publications</a></li>
+        <li><a href="../../#software">Software</a></li>
+        <li><a href="../../#conferences">Conferences</a></li>
+        <li><a href="../" class="active">Football</a></li>
+        <li><a href="../../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="hero">
+    <div class="container article">
+      <p class="label"><a href="../">&larr; Football analytics</a></p>
+      <h1>England 1-1 Spain: post-match report</h1>
+      <p class="subtitle">UEFA Women's Euro 2025 final &middot; 27 July 2025, St. Jakob-Park &middot; England win 3-1 on penalties &middot; Data: StatsBomb Open Data</p>
+      <p class="hero-desc">
+        A one-page team report written for England's staff: how the game was
+        played, where each side had the ball and won it back, set pieces, and
+        what to take into the next training week.
+      </p>
+    </div>
+  </header>
+
+  <section class="fade-in" id="report">
+    <div class="container article">
+
+      <h2>Why this match</h2>
+      <p>
+        It is the final of the most recent women's tournament in StatsBomb
+        Open Data, and the result and the
+        performance point in opposite directions. That is the situation where
+        a post-match report earns its keep: a staff that only looks at the
+        scoreline learns the wrong lessons, in either direction.
+      </p>
+
+      <h2>At a glance</h2>
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th></th><th>England</th><th>Spain</th></tr></thead>
+          <tbody>
+            <tr><td>Goals</td><td>1</td><td>1</td></tr>
+            <tr><td>xG (non-shoot-out)</td><td>0.88</td><td>2.14</td></tr>
+            <tr><td>Shots (on target)</td><td>8 (5)</td><td>23 (6)</td></tr>
+            <tr><td>xG per shot</td><td>0.11</td><td>0.09</td></tr>
+            <tr><td>Share of passes</td><td>36%</td><td>64%</td></tr>
+            <tr><td>Pass completion</td><td>72%</td><td>84%</td></tr>
+            <tr><td>Field tilt</td><td>20%</td><td>80%</td></tr>
+            <tr><td>Open-play passes into the box</td><td>6</td><td>41</td></tr>
+            <tr><td>PPDA (lower = more aggressive press)</td><td>20.5</td><td>12.8</td></tr>
+            <tr><td>High regains (shot within 15 s)</td><td>16 (4)</td><td>25 (5)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="article-figure">
+        <a href="img/team-xg-shots.png"><img src="img/team-xg-shots.png" alt="Cumulative xG over 120 minutes, with Spain pulling clear of England, especially in extra time, and a shot map of England's shots on the left and Spain's shots on the right" loading="lazy" /></a>
+        <figcaption>Shoot-out excluded. Field tilt is each team's share of
+          completed open-play passes into the final third. PPDA is opponent
+          passes in their own 60% of the pitch per tackle, interception or
+          foul there. Tap the image for full size. Data: StatsBomb Open Data.</figcaption>
+      </figure>
+
+      <h2>Pass networks</h2>
+      <figure class="article-figure">
+        <a href="img/team-pass-networks.png"><img src="img/team-pass-networks.png" alt="Pass networks for England and Spain over the first 70 minutes; England's links are concentrated between defenders, Spain's run through Aleixandri, Paredes, Batlle and Bonmati" loading="lazy" /></a>
+        <figcaption>First 70 minutes, before either side's
+          70th-minute substitutions. Data: StatsBomb Open Data.</figcaption>
+      </figure>
+      <ul class="article-list">
+        <li><strong>England</strong> completed 238 passes in this
+          window and the strongest link was Greenwood&ndash;Carter, 20 passes. Most of the
+          circulation stayed with the back four and the two holding midfielders.</li>
+        <li><strong>Spain</strong> completed 424. Their busiest link
+          (Bonmatí&ndash;Batlle, 40 passes) was down England's left side.</li>
+      </ul>
+
+      <h2>Territory and pressing</h2>
+      <figure class="article-figure">
+        <a href="img/team-territory.png"><img src="img/team-territory.png" alt="Field tilt by 15-minute window and two pitch grids showing where each team made its defensive actions" loading="lazy" /></a>
+        <figcaption>Bars: share of final-third passes per 15-minute window
+          (n = passes in the window). Grids: share of each team's defensive
+          actions by zone, each team attacking left to right. Data: StatsBomb
+          Open Data.</figcaption>
+      </figure>
+      <ul class="article-list">
+        <li>England made 40% of their 539
+          defensive actions in their own third; Spain made
+          30% of theirs in the attacking third.</li>
+        <li>Spain regained the ball in the attacking third 25 times,
+          and 5 of those were followed by a Spain shot within 15
+          seconds (England: 16 and 4).</li>
+      </ul>
+
+      <h2>Set pieces</h2>
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th></th><th>England</th><th>Spain</th></tr></thead>
+          <tbody>
+            <tr><td>Corners</td><td>3</td><td>7</td></tr>
+            <tr><td>Free kicks delivered into the box</td><td>0</td><td>2</td></tr>
+            <tr><td>Shots after corners / free kicks</td><td>0</td><td>7</td></tr>
+            <tr><td>xG after corners / free kicks</td><td>0.00</td><td>0.84</td></tr>
+            <tr><td>Goals after corners / free kicks</td><td>0</td><td>0</td></tr>
+            <tr><td>Shots after throw-ins (xG)</td><td>1 (0.21)</td><td>5 (0.32)</td></tr>
+            <tr><td>Penalty shoot-out</td><td>3 scored</td><td>1 scored</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Spain took 7 shots worth 0.84 xG after corners
+        and free kicks, 40% of their total. England had
+        3 corners and no shot from a corner or free kick.
+      </p>
+
+      <h2>Key takeaways for the coaching staff</h2>
+      <ol class="article-list">
+        <li><strong>We won the final, not the match.</strong> Spain created
+          2.14 xG from 23 shots against our 0.88 from
+          8. Replaying every shot as a coin flip with its xG gives
+          Spain 69%, a draw 19% and England 12% over
+          120 minutes. Take the trophy, not the tactical lessons, from the
+          score.</li>
+        <li><strong>No out-ball once Spain settled.</strong> Our field tilt
+          was 20% over the match and 10% in extra time
+          (97 final-third passes), with no shots in extra time
+          against Spain's 5 (0.70 xG). A PPDA of
+          20.5 says we sat off. Training focus: a rehearsed release
+          pattern for protecting a draw, so the block can step up.</li>
+        <li><strong>The goal came from wide delivery.</strong> Russo's header
+          (57', 0.21 xG) came from a Chloe Kelly
+          cross, in a possession that started from a throw-in.
+          Our best spell for territory was 75-90'
+          (52% field tilt). Keep a crossing threat on the pitch
+          when we need a goal.</li>
+        <li><strong>Check our left side on video.</strong> Spain's busiest
+          link (Bonmatí&ndash;Batlle, 40 passes) ran down our left, and their goal
+          (25', 0.40 xG) was a header from
+          Batlle's cross on that side. Meanwhile 45% of our
+          defensive actions were on our right. That is a hypothesis for the
+          video session, not a conclusion: event data cannot show who should
+          have tracked whom.</li>
+        <li><strong>Set-piece defending held, but conceded volume.</strong>
+          Conceding 7 shots and 0.84 xG from corners and
+          free kicks without a goal is partly luck. Our own set-piece threat was
+          absent.</li>
+      </ol>
+
+      <h2>Method and caveats</h2>
+      <ul class="article-list">
+        <li><strong>One match.</strong> Every number here describes this game
+          only. A 120-minute final with a lead to protect is an unusual game
+          state, so do not treat these as team tendencies.</li>
+        <li><strong>xG</strong> is StatsBomb's model. The replay treats shots
+          as independent, which overstates variance for rebounds in the same
+          attack.</li>
+        <li><strong>Event data only.</strong> No tracking data, so pressing is
+          measured by on-ball defensive actions, and pass-network positions are
+          averages that mix build-up and defending phases.</li>
+      </ul>
+
+      <p class="article-back"><a href="../">&larr; Back to football analytics</a></p>
+    </div>
+  </section>
+
+
+  <footer>
+    <div class="container">
+      <p>Carlos Vivas Rodriguez &middot; University College Dublin &middot; Data: StatsBomb Open Data</p>
+    </div>
+  </footer>
+
+  <script src="../../script.js"></script>
+</body>
+</html>

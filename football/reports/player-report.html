@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-74Y2LM23FJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-74Y2LM23FJ');
+  </script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Individual report: Lamine Yamal, Euro 2024 — Carlos Vivas Rodriguez</title>
+
+  <meta name="description" content="One-page individual analyst report on Lamine Yamal at UEFA Euro 2024: touches, passes, shots, defensive actions and per-90 percentiles against wide forwards." />
+  <meta name="author" content="Carlos Vivas Rodriguez" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://carlosvivasr.github.io/football/reports/player-report.html" />
+
+  <meta property="og:title" content="Individual report: Lamine Yamal, Euro 2024" />
+  <meta property="og:description" content="One-page individual analyst report on Lamine Yamal at UEFA Euro 2024: touches, passes, shots, defensive actions and per-90 percentiles against wide forwards." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://carlosvivasr.github.io/football/reports/player-report.html" />
+  <meta property="og:site_name" content="Carlos Vivas Rodriguez" />
+  <meta property="og:image" content="https://carlosvivasr.github.io/football/reports/img/player-maps.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26BD;</text></svg>" />
+
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="../../" class="nav-name">Carlos Vivas Rodriguez</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul>
+        <li><a href="../../#about">About</a></li>
+        <li><a href="../../#research">Research</a></li>
+        <li><a href="../../#publications">Publications</a></li>
+        <li><a href="../../#software">Software</a></li>
+        <li><a href="../../#conferences">Conferences</a></li>
+        <li><a href="../" class="active">Football</a></li>
+        <li><a href="../../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="hero">
+    <div class="container article">
+      <p class="label"><a href="../">&larr; Football analytics</a></p>
+      <h1>Lamine Yamal: individual report</h1>
+      <p class="subtitle">Spain &middot; UEFA Euro 2024 &middot; 7 matches, 531 minutes &middot; Data: StatsBomb Open Data</p>
+      <p class="hero-desc">
+        A one-page player report of the kind I would hand to an academy coach:
+        where the player gets on the ball, what he does with it, how he defends,
+        and how that compares with players in the same role at the same
+        tournament.
+      </p>
+    </div>
+  </header>
+
+  <section class="fade-in" id="report">
+    <div class="container article">
+
+      <h2>Why this player</h2>
+      <p>
+        He was the youngest player at the tournament and an academy graduate
+        playing a starting role against senior internationals, which is the
+        question an academy department cares about: what does a young player
+        already do at the top level, and what still needs work? The report uses
+        all 7 of Spain's matches rather than one game, because one
+        match is too small a sample for a wide forward who may only get a
+        handful of shots.
+      </p>
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Match</th><th>Score</th><th>Minutes</th></tr></thead>
+          <tbody>
+            <tr><td>Group v Croatia</td><td>3-0</td><td>88</td></tr>
+            <tr><td>Group v Italy</td><td>1-0</td><td>73</td></tr>
+            <tr><td>Group v Albania</td><td>1-0</td><td>24</td></tr>
+            <tr><td>Round of 16 v Georgia</td><td>4-1</td><td>96</td></tr>
+            <tr><td>Quarter-finals v Germany</td><td>2-1</td><td>65</td></tr>
+            <tr><td>Semi-finals v France</td><td>2-1</td><td>95</td></tr>
+            <tr><td>Final v England</td><td>2-1</td><td>91</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>On the pitch</h2>
+      <figure class="article-figure">
+        <a href="img/player-maps.png"><img src="img/player-maps.png" alt="Four pitch maps for Lamine Yamal at Euro 2024: a touch heat map concentrated on the right flank in the opposition half, an open-play pass map with progressive passes and shot assists highlighted, a shot map of 18 shots mostly from the right edge of the box, and a map of pressures, tackles, interceptions and recoveries" loading="lazy" /></a>
+        <figcaption>All 7 matches combined, Spain attacking left to right.
+          Progressive pass: completed open-play pass that moves the ball at
+          least 25% and 10 yards closer to goal, starting outside Spain's own
+          40% of the pitch. Tap the image for full size. Data: StatsBomb Open Data.</figcaption>
+      </figure>
+
+      <h2>Compared with his peers</h2>
+      <p>
+        Peers are the 21 wingers and wide midfielders (by main position)
+        with at least 270 minutes at Euro 2024. All numbers are per
+        90 minutes.
+      </p>
+      <figure class="article-figure">
+        <a href="img/player-percentiles.png"><img src="img/player-percentiles.png" alt="Percentile bars for eleven per-90 metrics against Euro 2024 wide forwards: xG assisted at percentile 98, pressures at 93 and turnovers at 17" loading="lazy" /></a>
+        <figcaption>With 21 peers each rank step is worth about five
+          percentile points, so read the bars as bands (top, middle, bottom),
+          not exact positions. Data: StatsBomb Open Data.</figcaption>
+      </figure>
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Metric (per 90)</th><th>Yamal</th><th>Peer median</th><th>Percentile</th></tr></thead>
+          <tbody>
+            <tr><td>Non-penalty xG</td><td>0.27</td><td>0.14</td><td>98</td></tr>
+            <tr><td>Non-penalty shots</td><td>3.05</td><td>1.94</td><td>93</td></tr>
+            <tr><td>xG assisted (xA)</td><td>0.36</td><td>0.11</td><td>98</td></tr>
+            <tr><td>Shot assists</td><td>3.05</td><td>1.26</td><td>93</td></tr>
+            <tr><td>Progressive passes</td><td>3.22</td><td>2.17</td><td>79</td></tr>
+            <tr><td>Progressive carries</td><td>6.61</td><td>3.41</td><td>83</td></tr>
+            <tr><td>Successful dribbles</td><td>2.03</td><td>1.44</td><td>69</td></tr>
+            <tr><td>Passes received in box</td><td>2.20</td><td>1.62</td><td>74</td></tr>
+            <tr><td>Pressures</td><td>18.99</td><td>12.95</td><td>93</td></tr>
+            <tr><td>Tackles + interceptions won</td><td>1.53</td><td>0.90</td><td>88</td></tr>
+            <tr><td>Turnovers (lost control)</td><td>4.07</td><td>3.00</td><td>17</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Strengths</h2>
+      <ol class="article-list">
+        <li><strong>Chance creation.</strong> 0.36 xG assisted per 90,
+          ranked 1 of 21 peers (percentile 98), from
+          18 shot assists and 4 assists. 72% of
+          those shot assists started in the right channel and 100%
+          were left-footed.</li>
+        <li><strong>Carrying the ball forward.</strong> 6.61
+          progressive carries per 90 (percentile 83).
+          86% of his touches were in the opposition half and
+          84% in the right channel: he is a reliable outlet who
+          takes the ball up the pitch himself.</li>
+        <li><strong>Work without the ball.</strong> 19.0 pressures
+          per 90 (percentile 93), 63% of them in the
+          opposition half, and percentile 88 for tackles plus
+          interceptions won.</li>
+      </ol>
+
+      <h2>Areas to improve</h2>
+      <ol class="article-list">
+        <li><strong>Ball security.</strong> 4.07 turnovers per 90
+          against a peer median of 3.00 (percentile
+          17, where higher means fewer). He completed
+          12 of 27 dribbles (44%, peer median
+          57%), and 7 of his 24
+          turnovers were in his own half. Coaching point: when to take the
+          defender on and when to recycle.</li>
+        <li><strong>A second option.</strong> All 18 of his shots
+          and all 4 assists were left-footed, and 91% of
+          his foot passes. Shot selection is not the issue (0.088 xG
+          per shot against a peer median of 0.068), and
+          1 goal from 1.59 non-penalty xG over 18 shots is well
+          within normal variation. The development point is being harder to
+          read: a right-foot finish or an outside run to the byline.</li>
+      </ol>
+
+      <h2>Clips to review</h2>
+      <p>No video is attached; these are the moments I would cut for the
+        player meeting, located from the event data (match clock).</p>
+      <ul class="article-list">
+        <li><strong>Semi-finals v France, 20:15</strong> &mdash; Goal, 0.03 xG from 28 yards. Technique study, but not a repeatable chance type.</li>
+        <li><strong>Group v Croatia, 46:53</strong> &mdash; Assist to Daniel Carvajal: left-footed cross from the right, in a possession that started from a corner.</li>
+        <li><strong>Round of 16 v Georgia, 50:38</strong> &mdash; Assist to Fabián Ruiz: left-footed pass from the right, in a possession that started from a free kick.</li>
+        <li><strong>Quarter-finals v Germany, 50:59</strong> &mdash; Assist to Daniel Olmo: left-footed pass from the right, in a possession that started from a free kick.</li>
+        <li><strong>Final v England, 46:08</strong> &mdash; Assist to Nico Williams: left-footed pass from the centre, in a possession that started from a throw-in.</li>
+        <li><strong>Round of 16 v Georgia, 79:58</strong> &mdash; Best unconverted chance, 0.29 xG (saved). Body shape and finish choice.</li>
+        <li><strong>Group v Croatia, 51:45</strong> &mdash; Best unconverted chance, 0.28 xG (saved). Body shape and finish choice.</li>
+        <li><strong>Quarter-finals v Germany, 59:28</strong> &mdash; Dispossessed in his own third; opponent shot 15 s later. Decision under pressure.</li>
+      </ul>
+
+      <h2>Method and caveats</h2>
+      <ul class="article-list">
+        <li><strong>Sample size.</strong> 531 minutes and 18
+          shots. Rates like xG per 90 are noisy at this volume, so the
+          strengths above rest on several metrics pointing the same way, not on
+          any single number.</li>
+        <li><strong>Team context.</strong> Spain dominated the ball, which
+          inflates attacking volume and lowers defensive volume for their
+          players. Per-90 numbers are not adjusted for possession.</li>
+        <li><strong>Definitions.</strong> xG is StatsBomb's model; penalties
+          are excluded from xG and shots. Minutes come from lineup
+          substitution times. Turnovers are dispossessions plus miscontrols.
+          Peer position is the one a player spent most minutes in.</li>
+      </ul>
+
+      <p class="article-back"><a href="../">&larr; Back to football analytics</a></p>
+    </div>
+  </section>
+
+
+  <footer>
+    <div class="container">
+      <p>Carlos Vivas Rodriguez &middot; University College Dublin &middot; Data: StatsBomb Open Data</p>
+    </div>
+  </footer>
+
+  <script src="../../script.js"></script>
+</body>
+</html>
